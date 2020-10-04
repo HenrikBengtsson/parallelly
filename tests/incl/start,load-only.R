@@ -35,12 +35,8 @@ isWin32 <- (.Platform$OS.type == "windows" && .Platform$r_arch == "i386")
 ## Private functions
 hpaste <- parallelly:::hpaste
 inRCmdCheck <- parallelly:::inRCmdCheck
-importParallel <- parallelly:::importParallel
-myExternalIP <- parallelly:::myExternalIP
-myInternalIP <- parallelly:::myInternalIP
 mdebug <- parallelly:::mdebug
 mdebugf <- parallelly:::mdebugf
-requirePackages <- parallelly:::requirePackages
 pid_exists <- parallelly:::pid_exists
 isFALSE <- parallelly:::isFALSE
 isNA <- parallelly:::isNA

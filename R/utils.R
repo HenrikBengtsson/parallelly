@@ -10,7 +10,6 @@ getOption <- local({
 }) ## getOption()
 
 
-
 #' Gets an R Option or an Environment Variable
 #'
 #' @param name (character string) The name of the \R option.
@@ -49,6 +48,11 @@ getOptionOrEnvVar <- function(name, default = NULL, envvar = NULL) {
   
   value
 }
+
+getDebugOption <- function() {
+  getOptionOrEnvVar("future.debug", FALSE)
+}
+
 
 isFALSE <- function(x) {
   is.logical(x) && length(x) == 1L && !is.na(x) && !x
@@ -128,31 +132,9 @@ hexpr <- function(expr, trim = TRUE, collapse = "; ", maxHead = 6L, maxTail = 3L
 } # hexpr()
 
 
-## From R.filesets
-asIEC <- function(size, digits = 2L) {
-  if (length(size) > 1L) return(sapply(size, FUN = asIEC, digits = digits))
-  units <- c("bytes", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB")
-  for (unit in units) {
-    if (size < 1000) break;
-    size <- size / 1024
-  }
-
-  if (unit == "bytes") {
-    fmt <- sprintf("%%.0f %s", unit)
-  } else {
-    fmt <- sprintf("%%.%df %s", digits, unit)
-  }
-  sprintf(fmt, size)
-} # asIEC()
-
-
 now <- function(x = Sys.time(), format = "[%H:%M:%OS3] ") {
   ## format(x, format = format) ## slower
   format(as.POSIXlt(x, tz = ""), format = format)
-}
-
-getDebugOption <- function() {
-  getOptionOrEnvVar("future.debug", FALSE)
 }
 
 mdebug <- function(..., debug = getDebugOption()) {
@@ -179,97 +161,6 @@ mstr <- function(..., appendLF = TRUE, debug = getDebugOption()) {
 }
 
 
-
-## Vectorized version of require() with bells and whistles
-requirePackages <- local(function(pkgs) {
-  requirePackage <- function(pkg) {
-    if (require(pkg, character.only = TRUE)) return()
-
-    ## Failed to attach package
-    msg <- sprintf("Failed to attach package %s in %s", sQuote(pkg), R.version$version.string)
-    data <- utils::installed.packages()
-
-    ## Installed, but fails to load/attach?
-    if (is.element(pkg, data[, "Package"])) {
-      keep <- (data[, "Package"] == pkg)
-      data <- data[keep, ,drop = FALSE]
-      pkgs <- sprintf("%s %s (in %s)", data[, "Package"], data[, "Version"], sQuote(data[, "LibPath"]))
-      msg <- sprintf("%s, although the package is installed: %s", msg, paste(pkgs, collapse = ", "))
-    } else {
-      paths <- .libPaths()
-      msg <- sprintf("%s, because the package is not installed in any of the libraries (%s), which contain %d installed packages.", msg, paste(sQuote(paths), collapse = ", "), nrow(data))
-    }
-
-    stop(msg)
-  } ## requirePackage()
-
-  ## require() all packages
-  pkgs <- unique(pkgs)
-  lapply(pkgs, FUN = requirePackage)
-}) ## requirePackages()
-
-
-
-## We are currently importing the following non-exported functions:
-## * cluster futures:
-##   - parallel:::defaultCluster()  ## non-critical / not really needed /
-##                                  ## can be dropped in R (>= 3.5.0)
-##   - parallel:::sendCall()        ## run()
-##   - parallel:::recvResult()      ## value()
-## * multicore futures:
-##   - parallel:::selectChildren()  ## resolved()
-##   - parallel:::rmChild()         ## value()
-## As well as the following ones (because they are not exported on Windows):
-## * multicore futures:
-##   - parallel::mcparallel()       ## run()
-##   - parallel::mccollect()        ## value()
-importParallel <- local({
-  ns <- NULL
-  cache <- list()
-  
-  function(name = NULL) {
-    res <- cache[[name]]
-    if (is.null(res)) {
-      ns <<- getNamespace("parallel")
-
-      ## SPECIAL: parallel::getDefaultCluster() was added in R devel r73712
-      ## (to become 3.5.0) on 2017-11-11.  The fallback in R (< 3.5.0) is
-      ## to use parallel:::defaultCluster(). /HB 2017-11-11
-      if (name == "getDefaultCluster") {
-        if (!exists(name, mode = "function", envir = ns, inherits = FALSE)) {
-          name <- "defaultCluster"
-        }
-      }
-
-      if (!exists(name, mode = "function", envir = ns, inherits = FALSE)) {
-        ## covr: skip=3
-        msg <- sprintf("This type of future processing is not supported on this system (%s), because parallel function %s() is not available", sQuote(.Platform$OS.type), name)
-        mdebug(msg)
-        stop(msg, call. = FALSE)
-      }
-
-      res <- get(name, mode = "function", envir = ns, inherits = FALSE)
-
-      if (name %in% c("mccollect", "selectChildren") &&
-          getRversion() >= "3.5.0" && getRversion() <= "3.5.1") {
-        ## Suppress warnings produced by parallel::mccollect() and
-        ## parallel::selectChildren() in R 3.5.0 and and R 3.5.1
-        ## (https://github.com/HenrikBengtsson/future/issues/218), e.g.
-        ##
-        ##  "Warning in selectChildren(pids[!fin], -1) :
-        ##   cannot wait for child 32193 as it does not exist"
-        ##
-        res_org <- res
-        res <- function(...) suppressWarnings(res_org(...))
-      }
-      
-      cache[[name]] <<- res
-    }
-    res
-  }
-})
-
-
 ## A version of base::sample() that does not change .Random.seed
 stealth_sample <- function(x, size = length(x), replace = FALSE, ...) {
   oseed <- .GlobalEnv$.Random.seed
@@ -282,196 +173,6 @@ stealth_sample <- function(x, size = length(x), replace = FALSE, ...) {
   })
   sample(x, size = size, replace = replace, ...)
 }
-
-
-myExternalIP <- local({
-  ip <- NULL
-  function(force = FALSE, random = TRUE, mustWork = TRUE) {
-    if (!force && !is.null(ip)) return(ip)
-
-    mdebug("myExternalIP() ...")
-    
-    ## FIXME: The identification of the external IP number relies on a
-    ## single third-party server.  This could be improved by falling back
-    ## to additional servers, cf. https://github.com/phoemur/ipgetter
-    urls <- c(
-      "https://httpbin.org/ip",
-      "https://myexternalip.com/raw",
-      "https://diagnostic.opendns.com/myip",
-      "https://api.ipify.org/",
-      "http://httpbin.org/ip",
-      "http://myexternalip.com/raw",
-      "http://diagnostic.opendns.com/myip",
-      "http://api.ipify.org/"
-    )
-
-    ## Randomize order of lookup URLs to lower the load on a specific
-    ## server.
-    if (random) urls <- stealth_sample(urls)
-
-    ## Only wait 5 seconds for server to respond
-    setTimeLimit(cpu = 5, elapsed = 5, transient = TRUE)
-    on.exit(setTimeLimit(cpu = Inf, elapsed = Inf, transient = FALSE))
-    
-    value <- NULL
-    for (url in urls) {
-      mdebugf(" - query: %s", sQuote(url))
-      value <- tryCatch({
-        readLines(url, warn = FALSE)
-      }, error = function(ex) NULL)
-
-      mdebugf(" - answer: %s", sQuote(paste(value, collapse = "\n")))
-      
-      ## Nothing found?
-      if (is.null(value)) next
-; 
-      ## Keep only lines that look like they contain IP v4 numbers
-      ip4_pattern <- ".*[^[:digit:]]*([[:digit:]]+[.][[:digit:]]+[.][[:digit:]]+[.][[:digit:]]+).*"
-      value <- grep(ip4_pattern, value, value = TRUE)
-      mdebugf(" - IPv4 maybe strings: %s", sQuote(paste(value, collapse = "\n")))
-  
-      ## Extract the IP numbers
-      value <- gsub(ip4_pattern, "\\1", value)
-  
-      ## Trim and drop empty results (just in case)
-      value <- trim(value)
-      value <- value[nzchar(value)]
-      mdebugf(" - IPv4 words: %s", sQuote(paste(value, collapse = "\n")))
-  
-      ## Nothing found?
-      if (length(value) == 0) next
-
-      ## Match?
-      if (length(value) == 1 && nzchar(value)) break
-    } ## for (url ...)
-    
-    ## Nothing found?
-    if (is.null(value)) {
-      if (mustWork) {
-        stop(sprintf("Failed to identify external IP from any of the %d external services: %s", length(urls), paste(sQuote(urls), collapse = ", ")))
-      }
-      mdebug("myExternalIP() ... failed")
-      return(NA_character_)
-    }
-
-    ## Sanity check
-    stop_if_not(length(value) == 1, is.character(value), !is.na(value), nzchar(value))
-
-    ## Cache result
-    ip <<- value
-
-    mdebug("myExternalIP() ... done")
-    
-    ip
-  }
-}) ## myExternalIP()
-
-
-myInternalIP <- local({
-  ip <- NULL
-
-  ## Known private network IPv4 ranges:
-  ##   (1)    10.0.0.0 -  10.255.255.255
-  ##   (2)  172.16.0.0 -  172.31.255.255
-  ##   (3) 192.168.0.0 - 192.168.255.255
-  ## https://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
-  isPrivateIP <- function(ips) {
-    ips <- strsplit(ips, split = ".", fixed = TRUE)
-    ips <- lapply(ips, FUN = as.integer)
-    res <- logical(length = length(ips))
-    for (kk in seq_along(ips)) {
-      ip <- ips[[kk]]
-      if (ip[1] == 10) {
-        res[kk] <- TRUE
-      } else if (ip[1] == 172) {
-        if (ip[2] >= 16 && ip[2] <= 31) res[kk] <- TRUE
-      } else if (ip[1] == 192) {
-        if (ip[2] == 168) res[kk] <- TRUE
-      }
-    }
-    res
-  } ## isPrivateIP()
-
-  function(force = FALSE, which = c("first", "last", "all"), mustWork = TRUE) {
-    if (!force && !is.null(ip)) return(ip)
-    which <- match.arg(which, choices = c("first", "last", "all"))
-
-    value <- NULL
-    os <- R.version$os
-    pattern <- "[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+"
-    if (grepl("^linux", os)) {
-      ## (i) Try command 'hostname -I'
-      res <- tryCatch({
-        system2("hostname", args = "-I", stdout = TRUE)
-      }, error = identity)
-
-      ## (ii) Try commands 'ifconfig'
-      if (inherits(res, "simpleError")) {
-        res <- tryCatch({
-          system2("ifconfig", stdout = TRUE)
-        }, error = identity)
-      }
-
-      ## (ii) Try command '/sbin/ifconfig'
-      if (inherits(res, "simpleError")) {
-        res <- tryCatch({
-          system2("/sbin/ifconfig", stdout = TRUE)
-        }, error = identity)
-      }
-      
-      ## Failed?
-      if (inherits(res, "simpleError")) res <- NA_character_
-      
-      res <- grep(pattern, res, value = TRUE)
-      res <- unlist(strsplit(res, split = "[ ]+", fixed = FALSE), use.names = FALSE)
-      res <- grep(pattern, res, value = TRUE)
-      res <- unlist(strsplit(res, split = ":", fixed = FALSE), use.names = FALSE)
-      res <- grep(pattern, res, value = TRUE)
-      res <- unique(trim(res))
-      ## Keep private network IPs only (just in case)
-      value <- res[isPrivateIP(res)]
-    } else if (grepl("^mingw", os)) {
-      res <- system2("ipconfig", stdout = TRUE)
-      res <- grep("IPv4", res, value = TRUE)
-      res <- grep(pattern, res, value = TRUE)
-      res <- unlist(strsplit(res, split = "[ ]+", fixed = FALSE), use.names = FALSE)
-      res <- grep(pattern, res, value = TRUE)
-      res <- unique(trim(res))
-      ## Keep private network IPs only (just in case)
-      value <- res[isPrivateIP(res)]
-    } else {
-      if (mustWork) {
-        stop(sprintf("remote(..., myip = '<internal>') is yet not implemented for this operating system (%s). Please specify the 'myip' IP number manually.", os))
-      }
-      return(NA_character_)
-    }
-
-    ## Trim and drop empty results (just in case)
-    value <- trim(value)
-    value <- value[nzchar(value)]
-
-    ## Nothing found?
-    if (length(value) == 0 && !mustWork) return(NA_character_)
-
-    if (length(value) > 1) {
-      value <- switch(which,
-        first = value[1],
-        last  = value[length(value)],
-        all   = value,
-        value
-      )
-    }
-    ## Sanity check
-
-    stop_if_not(is.character(value), length(value) >= 1, !any(is.na(value)))
-
-    ## Cache result
-    ip <<- value
-
-    ip
-  }
-}) ## myInternalIP()
-
 
 
 #' Check whether a process PID exists or not
