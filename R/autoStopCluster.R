@@ -3,12 +3,15 @@
 #' Registers a finalizer to a cluster such that the cluster will
 #' be stopped when garbage collected
 #'
-#' @param cl A cluster object
+#' @param cl A cluster object created by for instance [makeClusterPSOCK()]
+#' or [parallel::makeCluster()].
 #'
 #' @param debug If TRUE, then debug messages are produced when
 #' the cluster is garbage collected.
 #'
 #' @return The cluster object with attribute `gcMe` set.
+#'
+#' @example incl/autoStopCluster.R
 #'
 #' @seealso
 #' The cluster is stopped using

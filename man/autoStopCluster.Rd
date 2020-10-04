@@ -7,7 +7,8 @@
 autoStopCluster(cl, debug = FALSE)
 }
 \arguments{
-\item{cl}{A cluster object}
+\item{cl}{A cluster object created by for instance \code{\link[=makeClusterPSOCK]{makeClusterPSOCK()}}
+or \code{\link[parallel:makeCluster]{parallel::makeCluster()}}.}
 
 \item{debug}{If TRUE, then debug messages are produced when
 the cluster is garbage collected.}
@@ -18,6 +19,11 @@ The cluster object with attribute \code{gcMe} set.
 \description{
 Registers a finalizer to a cluster such that the cluster will
 be stopped when garbage collected
+}
+\examples{
+cl <- makeClusterPSOCK(2, dryrun = TRUE)
+cl <- autoStopCluster(cl)
+print(cl)
 }
 \seealso{
 The cluster is stopped using

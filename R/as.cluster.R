@@ -1,10 +1,13 @@
 #' Coerce an Object to a Cluster Object
 #'
 #' @param x An object to be coerced.
+#'
 #' @param \dots Additional arguments passed to the underlying coercion method.
 #'            For `c(...)`, the clusters and cluster nodes to be combined.
 #'
 #' @return An object of class `cluster`.
+#'
+#' @example incl/as.cluster.R
 #'
 #' @export
 as.cluster <- function(x, ...) {
