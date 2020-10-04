@@ -34,8 +34,8 @@
 #' `makeNode(workers[i], ..., rank = i)` where `i = seq_along(workers)`.
 #'
 #' @param autoStop If TRUE, the cluster will be automatically stopped
-#' (using \code{\link[parallel:makeCluster]{stopCluster}()}) when it is
-#' garbage collected, unless already stopped.
+#' using \code{\link[parallel:makeCluster]{stopCluster}()} when it is
+#' garbage collected, unless already stopped.  See also [autoStopCluster()].
 #'
 #' @param tries,delay Maximum number of attempts done to launch each node
 #' with `makeNode()` and the delay (in seconds) in-between attempts.

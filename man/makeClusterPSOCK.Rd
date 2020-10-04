@@ -68,8 +68,8 @@ SSH options \code{-p}, e.g. \code{rshopts = c("-p", "2200")}.}}
 \code{makeNode(workers[i], ..., rank = i)} where \code{i = seq_along(workers)}.}
 
 \item{autoStop}{If TRUE, the cluster will be automatically stopped
-(using \code{\link[parallel:makeCluster]{stopCluster}()}) when it is
-garbage collected, unless already stopped.}
+using \code{\link[parallel:makeCluster]{stopCluster}()} when it is
+garbage collected, unless already stopped.  See also \code{\link[=autoStopCluster]{autoStopCluster()}}.}
 
 \item{tries, delay}{Maximum number of attempts done to launch each node
 with \code{makeNode()} and the delay (in seconds) in-between attempts.

@@ -18,8 +18,8 @@ makeClusterMPI(
 \code{\link[parallel:makeCluster]{makeCluster}(workers, type = "MPI", ...)}.}
 
 \item{autoStop}{If TRUE, the cluster will be automatically stopped
-(using \code{\link[parallel:makeCluster]{stopCluster}()}) when it is
-garbage collected, unless already stopped.}
+using \code{\link[parallel:makeCluster]{stopCluster}()} when it is
+garbage collected, unless already stopped.  See also \code{\link[=autoStopCluster]{autoStopCluster()}}.}
 
 \item{verbose}{If TRUE, informative messages are outputted.}
 }
