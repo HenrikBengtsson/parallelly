@@ -52,7 +52,7 @@
 #'
 #' @importFrom parallel stopCluster
 #' @export
-makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOption("future.makeNodePSOCK.tries", as.integer(Sys.getenv("R_FUTURE_MAKENODEPSOCK_tries", 3))), delay = getOption("future.makeNodePSOCK.tries.delay", as.numeric(Sys.getenv("R_FUTURE_MAKENODEPSOCK_TRIES_DELAY", 15.0))), verbose = getOption("future.debug", FALSE)) {
+makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOptionOrEnvVar("future.makeNodePSOCK.tries", 3L), delay = getOptionOrEnvVar("future.makeNodePSOCK.tries.delay", 15.0), verbose = getOptionOrEnvVar("future.debug", FALSE)) {
   if (is.numeric(workers)) {
     if (length(workers) != 1L) {
       stop("When numeric, argument 'workers' must be a single value: ", length(workers))
@@ -491,7 +491,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @rdname makeClusterPSOCK
 #' @importFrom tools pskill
 #' @export
-makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOption("future.makeNodePSOCK.connectTimeout", as.numeric(Sys.getenv("R_FUTURE_MAKENODEPSOCK_CONNECTTIMEOUT", 2 * 60))), timeout = getOption("future.makeNodePSOCK.timeout", as.numeric(Sys.getenv("R_FUTURE_MAKENODEPSOCK_TIMEOUT", 30 * 24 * 60 * 60))), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_startup = NULL, rscript_envs = NULL, rscript_libs = NULL, methods = TRUE, useXDR = TRUE, outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption("future.makeNodePSOCK.rshcmd", Sys.getenv("R_FUTURE_MAKENODEPSOCK_RSHCMD")), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption("future.makeNodePSOCK.rshopts", Sys.getenv("R_FUTURE_MAKENODEPSOCK_RSHOPTS")), rank = 1L, manual = FALSE, dryrun = FALSE, verbose = FALSE) {
+makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("future.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("future.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_startup = NULL, rscript_envs = NULL, rscript_libs = NULL, methods = TRUE, useXDR = TRUE, outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("future.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("future.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, verbose = FALSE) {
   localMachine <- is.element(worker, c("localhost", "127.0.0.1"))
 
   ## Could it be that the worker specifies the name of the localhost?
@@ -642,7 +642,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
   }
 
   ## Add Rscript "label"?
-  rscript_label <- getOption("future.makeNodePSOCK.rscript_label", Sys.getenv("R_FUTURE_MAKENODEPSOCK_RSCRIPT_LABEL"))
+  rscript_label <- getOptionOrEnvVar("future.makeNodePSOCK.rscript_label", NULL)
   if (!is.null(rscript_label) && nzchar(rscript_label) && !isFALSE(as.logical(rscript_label))) {
     if (isTRUE(as.logical(rscript_label))) {
       script <- grep("[.]R$", commandArgs(), value = TRUE)[1]
@@ -1182,7 +1182,7 @@ find_rshcmd <- function(which = NULL, first = FALSE, must_work = TRUE) {
 
 
 #' @importFrom utils installed.packages
-session_info <- function(pkgs = getOption("future.makeNodePSOCK.sessionInfo.pkgs", as.logical(Sys.getenv("R_FUTURE_MAKENODEPSOCK_SESSIONINFO_PKGS", FALSE)))) {
+session_info <- function(pkgs = getOptionOrEnvVar("future.makeNodePSOCK.sessionInfo.pkgs", FALSE)) {
   libs <- .libPaths()
   info <- list(
     r = c(R.version, os.type = .Platform$OS.type),
@@ -1306,8 +1306,7 @@ useWorkerPID <- local({
   }
   
   function(rscript, rank, force = FALSE, verbose = FALSE) {
-    autoKill <- getOption("future.makeNodePSOCK.autoKill",
-              as.logical(Sys.getenv("R_FUTURE_MAKENODEPSOCK_AUTOKILL", TRUE)))
+    autoKill <- getOptionOrEnvVar("future.makeNodePSOCK.autoKill", TRUE)
     if (!isTRUE(as.logical(autoKill))) return(list())
 
     result <- makeResult(rank)

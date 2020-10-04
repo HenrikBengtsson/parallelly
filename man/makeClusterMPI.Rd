@@ -8,7 +8,7 @@ makeClusterMPI(
   workers,
   ...,
   autoStop = FALSE,
-  verbose = getOption("future.debug", FALSE)
+  verbose = getOptionOrEnvVar("future.debug", FALSE)
 )
 }
 \arguments{

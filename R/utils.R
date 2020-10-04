@@ -1,3 +1,55 @@
+## When 'default' is specified, this is 30x faster than
+## base::getOption().  The difference is that here we use
+## use names(.Options) whereas in 'base' names(options())
+## is used.
+getOption <- local({
+  go <- base::getOption
+  function(x, default = NULL) {
+    if (missing(default) || match(x, table = names(.Options), nomatch = 0L) > 0L) go(x) else default
+  }
+}) ## getOption()
+
+
+
+#' Gets an R Option or an Environment Variable
+#'
+#' @param name (character string) The name of the \R option.
+#'
+#' @param default (a single object) The value to be returned if neither
+#' the \R option nor the environment variable is set.  If the environment
+#' variable is set, its value is coerced to the same type as `default`.
+
+#' @param envvar (character string) The name of the environment variable.
+#' If not set, or NULL, then the name is automatically constructed from
+#' the upper-case version of argument `name` with periods (`.`) substituted
+#' by underscores (`_`) and prefixed with `R_`, e.g. with `"abc.debug"`
+#' becomes `R_ABC_DEBUG`.
+#'
+#' @return
+#' Returns an object.
+#'
+#' @keywords internal
+getOptionOrEnvVar <- function(name, default = NULL, envvar = NULL) {
+  ## Is the R option set?
+  value <- getOption(name, NULL)
+  if (!is.null(value)) return(value)
+
+  ## Is the environment variable set?
+  if (is.null(envvar)) {
+    envvar <- gsub(".", "_", toupper(name), fixed = TRUE)
+    envvar <- paste("R_", envvar, sep = "")
+  }
+  value <- Sys.getenv(envvar, NA_character_)
+
+  ## Not set?
+  if (is.na(value)) return(default)
+
+  ## Coerce environment variable string to the type according to 'default'?
+  if (!is.null(default)) storage.mode(value) <- storage.mode(default)
+  
+  value
+}
+
 isFALSE <- function(x) {
   is.logical(x) && length(x) == 1L && !is.na(x) && !x
 }
@@ -99,25 +151,29 @@ now <- function(x = Sys.time(), format = "[%H:%M:%OS3] ") {
   format(as.POSIXlt(x, tz = ""), format = format)
 }
 
-mdebug <- function(..., debug = getOption("future.debug", FALSE)) {
+getDebugOption <- function() {
+  getOptionOrEnvVar("future.debug", FALSE)
+}
+
+mdebug <- function(..., debug = getDebugOption()) {
   if (!debug) return()
   message(now(), ...)
 }
 
 mdebugf <- function(..., appendLF = TRUE,
-                    debug = getOption("future.debug", FALSE)) {
+                    debug = getDebugOption()) {
   if (!debug) return()
   message(now(), sprintf(...), appendLF = appendLF)
 }
 
 #' @importFrom utils capture.output
-mprint <- function(..., appendLF = TRUE, debug = getOption("future.debug", FALSE)) {
+mprint <- function(..., appendLF = TRUE, debug = getDebugOption()) {
   if (!debug) return()
   message(paste(now(), capture.output(print(...)), sep = "", collapse = "\n"), appendLF = appendLF)
 }
 
 #' @importFrom utils capture.output str
-mstr <- function(..., appendLF = TRUE, debug = getOption("future.debug", FALSE)) {
+mstr <- function(..., appendLF = TRUE, debug = getDebugOption()) {
   if (!debug) return()
   message(paste(now(), capture.output(str(...)), sep = "", collapse = "\n"), appendLF = appendLF)
 }
@@ -152,47 +208,6 @@ requirePackages <- local(function(pkgs) {
   lapply(pkgs, FUN = requirePackage)
 }) ## requirePackages()
 
-
-## When 'default' is specified, this is 30x faster than
-## base::getOption().  The difference is that here we use
-## use names(.Options) whereas in 'base' names(options())
-## is used.
-getOption <- local({
-  go <- base::getOption
-  function(x, default = NULL) {
-    if (missing(default) || match(x, table = names(.Options), nomatch = 0L) > 0L) go(x) else default
-  }
-}) ## getOption()
-
-
-detectCores <- local({
-  res <- NULL
-  function() {
-    if (is.null(res)) {
-      ## Get number of system cores from option, system environment,
-      ## and finally detectCores().  This also designed such that
-      ## it is indeed possible to return NA_integer_.
-      value <- getOption("future.availableCores.system")
-      if (!is.null(value)) {
-        value <- as.integer(value)
-        return(value)
-      }
-      
-      value <- parallel::detectCores()
-      
-      ## If unknown, set default to 1L
-      if (is.na(value)) value <- 1L
-      value <- as.integer(value)
-      
-      ## Assert positive integer
-      stop_if_not(length(value) == 1L, is.numeric(value),
-                is.finite(value), value >= 1L)
-
-      res <<- value
-    }
-    res
-  }
-})
 
 
 ## We are currently importing the following non-exported functions:
@@ -459,144 +474,6 @@ myInternalIP <- local({
 
 
 
-
-
-
-#' Gets the length of an object without dispatching
-#'
-#' @param x Any \R object.
-#'
-#' @return A non-negative integer.
-#'
-#' @details
-#' This function returns `length(unclass(x))`, but tries to avoid
-#' calling `unclass(x)` unless necessary.
-#' 
-#' @seealso \code{\link{.subset}()} and \code{\link{.subset2}()}.
-#' 
-#' @keywords internal
-#' @rdname private_length
-#' @importFrom utils getS3method
-.length <- function(x) {
-  nx <- length(x)
-  
-  ## Can we trust base::length(x), i.e. is there a risk that there is
-  ## a method that overrides with another definition?
-  classes <- class(x)
-  if (length(classes) == 1L && classes == "list") return(nx)
-
-  ## Identify all length() methods for this object
-  for (class in classes) {
-    fun <- getS3method("length", class, optional = TRUE)
-    if (!is.null(fun)) {
-      nx <- length(unclass(x))
-      break
-    }
-  }
-
-  nx
-} ## .length()
-
-
-#' Creates a connection to the system null device
-#'
-#' @return Returns a open, binary \code{\link[base:connections]{base::connection()}}.
-#' 
-#' @keywords internal
-nullcon <- local({
-  nullfile <- switch(.Platform$OS.type, windows = "NUL", "/dev/null")
-  .nullcon <- function() file(nullfile, open = "wb", raw = TRUE)
-
-  ## Assert that a null device exists
-  tryCatch({
-    con <- .nullcon()
-    on.exit(close(con))
-    cat("test", file = con)
-  }, error = function(ex) {
-    stop(sprintf("Failed to write to null file (%s) on this platform (%s). Please report this the maintainer of the 'future' package.", sQuote(nullfile), sQuote(.Platform$OS.type)))
-  })
-  
-  .nullcon
-})
-
-
-reference_filters <- local({
-  filters <- default <- list(
-    ignore_envirs = function(ref, typeof, class, ...) {
-      typeof != "environment"
-    }
-  )
-
-  function(action = "drop_function", ...) {
-    if (action == "drop_function") {
-      function(ref) {
-        typeof <- typeof(ref)
-        class <- class(ref)
-        for (kk in seq_along(filters)) {
-          filter <- filters[[kk]]
-          if (filter(ref, typeof = typeof, class = class)) next
-          return(TRUE) ## drop reference
-        }
-        FALSE  ## don't drop reference
-      }
-    } else if (action == "set") {
-      filters <- list(...)
-    } else if (action == "reset") {
-      filters <<- default
-    } else if (action == "append") {
-      filters <<- c(filters, list(...))
-    } else if (action == "prepend") {
-      filters <<- c(list(...), filters)
-    } else if (action == "get") {
-      filters
-    }
-  }
-})
-
-#' Get first or all references of an \R object
-#'
-#' @param x The \R object to be checked.
-#' 
-#' @param first_only If `TRUE`, only the first reference is returned,
-#' otherwise all references.
-#'
-#' @return `find_references()` returns a list of one or more references
-#' identified.
-#' 
-#' @keywords internal
-find_references <- function(x, first_only = FALSE) {
-  con <- nullcon()
-  on.exit(close(con))
-
-  ## Get function that drops references
-  drop_reference <- reference_filters()
-  
-  refs <- list()
-    
-  refhook <- if (first_only) {
-    function(ref) {
-      if (drop_reference(ref)) return(NULL)
-      refs <<- c(refs, list(ref))
-      stop(structure(list(message = ""), class = c("refhook", "condition")))
-    }
-  } else {
-    function(ref) {
-      if (drop_reference(ref)) return(NULL)
-      refs <<- c(refs, list(ref))
-      NULL
-    }
-  }
-  
-  tryCatch({
-    serialize(x, connection = con, ascii = FALSE, xdr = FALSE,
-              refhook = refhook)
-  }, refhook = identity)
-  
-  refs
-}
-
-
-
 #' Check whether a process PID exists or not
 #'
 #' @param pid A positive integer.
@@ -779,7 +656,7 @@ pid_exists <- local({
 
   cache <- list()
 
-  function(pid, debug = getOption("future.debug", FALSE)) {
+  function(pid, debug = getDebugOption()) {
     stop_if_not(is.numeric(pid), length(pid) == 1L, is.finite(pid), pid > 0L)
 
     pid_check <- cache$pid_check
