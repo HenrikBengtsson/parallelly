@@ -1,4 +1,4 @@
-![Life cycle: experimental](man/imgs/lifecycle-experimental-orange.svg)
+![Life cycle: experimental](man/figures/lifecycle-experimental-orange.svg)
 
 The **parallelly** package provides functions that enhance the **parallel** packages.  For example, `makeClusterPSOCK()` is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up a remote cluster workers without the need to configure port-forwarding in firewalls, etc.
 
