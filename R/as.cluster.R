@@ -7,7 +7,6 @@
 #' @return An object of class `cluster`.
 #'
 #' @export
-#' @keywords internal
 as.cluster <- function(x, ...) {
   UseMethod("as.cluster")
 }

@@ -14,7 +14,6 @@
 #' The cluster is stopped using
 #' \code{\link[parallel:makeCluster]{stopCluster}(cl)}.
 #'
-#' @keywords internal
 #' @importFrom parallel stopCluster
 #' @importFrom utils capture.output
 #' @export

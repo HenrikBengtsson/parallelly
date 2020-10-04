@@ -3,6 +3,7 @@
 
 # parallelly: Enhancing the 'parallel' Package
 
+The **parallelly** package provides functions that enhances the **parallel** packages.  For example, `makeClusterPSOCK()` is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up a remote cluster workers without the need to configure port-forwarding in firewalls, etc.
 
 ## Installation
 R package parallelly is only available via [GitHub](https://github.com/HenrikBengtsson/parallelly) and can be installed in R as:

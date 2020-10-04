@@ -37,4 +37,3 @@ An object of class \code{cluster}.
 \description{
 Coerce an object to a cluster object
 }
-\keyword{internal}

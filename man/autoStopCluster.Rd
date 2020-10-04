@@ -23,4 +23,3 @@ be stopped when garbage collected
 The cluster is stopped using
 \code{\link[parallel:makeCluster]{stopCluster}(cl)}.
 }
-\keyword{internal}
