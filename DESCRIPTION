@@ -1,0 +1,22 @@
+Package: parallelly
+Version: 1.18.0-9000
+Title: Enhancing the 'parallel' Package
+Imports:
+    digest,
+    parallel,
+    utils
+Suggests:
+    RhpcBLASctl,
+    R.rsp,
+    markdown
+VignetteBuilder: R.rsp
+Authors@R: c(person("Henrik", "Bengtsson", role=c("aut", "cre", "cph"),
+                                          email = "henrikb@braju.com"))
+Description: Utility functions that enhances the 'parallel' packages and that are used for the built-in parallel backends of the 'future' package.
+License: LGPL (>= 2.1)
+LazyLoad: TRUE
+ByteCompile: TRUE
+URL: https://github.com/HenrikBengtsson/parallelly
+BugReports: https://github.com/HenrikBengtsson/parallelly/issues
+RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)

@@ -1,0 +1,8 @@
+Package: parallelly
+===================
+ 
+Version: 0.0.0-9000 [2020-10-03]
+
+SIGINFICANT CHANGES:
+
+ * Added makeClusterMPI() and makeClusterPSOCK() from the 'future' package.
