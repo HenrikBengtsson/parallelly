@@ -33,5 +33,5 @@ We abide to the [Code of Conduct](https://www.contributor-covenant.org/version/2
 | Resource      | GitHub        | GitHub Actions      | Travis CI       | AppVeyor CI      |
 | ------------- | ------------------- | ------------------- | --------------- | ---------------- |
 | _Platforms:_  | _Multiple_          | _Multiple_          | _Linux & macOS_ | _Windows_        |
-| R CMD check   |  |        |    |  |
+| R CMD check   |  | <a href="https://github.com/HenrikBengtsson/parallelly/actions?query=workflow%3AR-CMD-check"><img src="https://github.com/HenrikBengtsson/parallelly/workflows/R-CMD-check/badge.svg?branch=develop" alt="Build status"></a>       |    |  |
 | Test coverage |                     |                     |      |                  |
