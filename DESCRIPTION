@@ -2,14 +2,9 @@ Package: parallelly
 Version: 1.18.0-9000
 Title: Enhancing the 'parallel' Package
 Imports:
-    digest,
     parallel,
+    tools,
     utils
-Suggests:
-    RhpcBLASctl,
-    R.rsp,
-    markdown
-VignetteBuilder: R.rsp
 Authors@R: c(person("Henrik", "Bengtsson", role=c("aut", "cre", "cph"),
                                           email = "henrikb@braju.com"))
 Description: Utility functions that enhances the 'parallel' packages and that are used for the built-in parallel backends of the 'future' package.
