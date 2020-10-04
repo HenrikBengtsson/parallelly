@@ -1,5 +1,5 @@
 
-
+<img src="man/figures/logo.png" align="right" />
 
 # parallelly: Enhancing the 'parallel' Package
 
