@@ -1,4 +1,4 @@
-The **parallelly** package provides functions that enhances the **parallel** packages.  For example, `makeClusterPSOCK()` is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up a remote cluster workers without the need to configure port-forwarding in firewalls, etc.
+The **parallelly** package provides functions that enhance the **parallel** packages.  For example, `makeClusterPSOCK()` is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up a remote cluster workers without the need to configure port-forwarding in firewalls, etc.
 
 ## Backward compatibility with the future package
 
