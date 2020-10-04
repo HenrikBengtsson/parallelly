@@ -3,7 +3,7 @@ Package: parallelly
  
 Version: 0.0.0-9000 [2020-10-04]
 
-SIGINFICANT CHANGES:
+SIGNIFICANT CHANGES:
 
  * Added as.cluster(), autoStopCluster(), makeClusterMPI(), makeClusterPSOCK(),
    and makeNodePSOCK() from the 'future' package.

@@ -14,4 +14,4 @@ The functions in this package originates from the **[future](https://cran.r-proj
 
 3. After having validated that there are no negative impact on the future framework, allow for changes in the **parallelly** package, e.g. renaming the R options and environment variable to be `parallelly.*` and `R_PARALLELLY_*` while falling back to `future.*` and `R_FUTURE_*`
 
-Initially, backward compatibily for the **future** package is top priority.
+Initially, backward compatibility for the **future** package is top priority.
