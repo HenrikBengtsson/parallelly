@@ -7,7 +7,7 @@
 \alias{as.cluster.SOCKnode}
 \alias{as.cluster.SOCK0node}
 \alias{c.cluster}
-\title{Coerce an object to a cluster object}
+\title{Coerce an Object to a Cluster Object}
 \usage{
 as.cluster(x, ...)
 
@@ -35,5 +35,5 @@ An object of class \code{cluster}.
 \code{c(...)} combine multiple clusters and / or cluster nodes into one cluster returned as an of class \code{cluster}.
 }
 \description{
-Coerce an object to a cluster object
+Coerce an Object to a Cluster Object
 }

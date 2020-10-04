@@ -2,7 +2,7 @@
 % Please edit documentation in R/autoStopCluster.R
 \name{autoStopCluster}
 \alias{autoStopCluster}
-\title{Automatically stop a cluster when garbage collected}
+\title{Automatically Stop a Cluster when Garbage Collected}
 \usage{
 autoStopCluster(cl, debug = FALSE)
 }

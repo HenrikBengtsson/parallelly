@@ -1,4 +1,4 @@
-#' Create a Message Passing Interface (MPI) cluster of \R workers for parallel processing
+#' Create a Message Passing Interface (MPI) Cluster of R Workers for Parallel Processing
 #' 
 #' The `makeClusterMPI()` function creates an MPI cluster of \R workers
 #' for parallel processing.  This function utilizes 

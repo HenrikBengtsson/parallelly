@@ -3,7 +3,7 @@
 \name{makeClusterPSOCK}
 \alias{makeClusterPSOCK}
 \alias{makeNodePSOCK}
-\title{Create a PSOCK cluster of \R workers for parallel processing}
+\title{Create a PSOCK Cluster of R Workers for Parallel Processing}
 \usage{
 makeClusterPSOCK(
   workers,

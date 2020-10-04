@@ -1,4 +1,4 @@
-#' Automatically stop a cluster when garbage collected
+#' Automatically Stop a Cluster when Garbage Collected
 #'
 #' Registers a finalizer to a cluster such that the cluster will
 #' be stopped when garbage collected

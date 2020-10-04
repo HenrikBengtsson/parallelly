@@ -1,4 +1,4 @@
-#' Coerce an object to a cluster object
+#' Coerce an Object to a Cluster Object
 #'
 #' @param x An object to be coerced.
 #' @param \dots Additional arguments passed to the underlying coercion method.
