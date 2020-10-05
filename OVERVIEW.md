@@ -34,7 +34,7 @@ cl <- parallel::makeCluster(2)
 cl <- parallelly::autoStopCluster(cl)
 ```
 
-with make the cluster created by **parallel** to be shutdown automatically when the cluster object is removed by R's garbage collector.  This lowers the risk of, by mistake, leaving stray R worker processes running in the background.
+makes the cluster created by **parallel** to shutdown automatically when the cluster object is removed by R's garbage collector.  This lowers the risk of, by mistake, leaving stray R worker processes running in the background.
 
 
 ## Backward compatibility with the future package
