@@ -23,6 +23,20 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | faster, parallel setup of workers (R >= 4.0.0)  | todo |  ✓  |
 
 
+## Backward compatibility with the parallel package
+
+Any cluster created by the **parallelly** package is fully compatible with the clusters created by the **parallel** package and can be used by all of **parallel**'s functions for cluster processing, e.g. `parallel::clusterEvalQ()` and `parallel::parLapply()`.  The `parallelly::makeClusterPSOCK()` function can be used as a stand-in replacement of the `parallel::makePSOCKcluster()`, or equivalently, `parallel::makeCluster(..., type = "PSOCK")`.
+
+Most of the additional function of **parallelly** can also be applied to clusters created by the **parallel** package.  For example,
+
+```r
+cl <- parallel::makeCluster(2)
+cl <- parallelly::autoStopCluster(cl)
+```
+
+with make the cluster created by **parallel** to be shutdown automatically when the cluster object is removed by R's garbage collector.  This lowers the risk of, by mistake, leaving stray R worker processes running in the background.
+
+
 ## Backward compatibility with the future package
 
 The functions in this package originates from the **[future](https://cran.r-project.org/package=future)** package where they have been used and validated for several years.  Because they can be used independently of the future framework, they were moved to a separate package.  For backward compatibility reasons future framework, the names of R options and environment variables are still prefixed as `future.*` and `R_FUTURE_*`.  However, ditto prefixed with `parallelly.*` and `R_PARALLELLY_*` are also recognized.  The latter will eventually become the new defaults.
