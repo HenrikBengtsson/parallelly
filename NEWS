@@ -1,9 +1,348 @@
 Package: parallelly
 ===================
  
-Version: 0.0.0-9000 [2020-10-04]
+Version: 1.19.1-9000 [2020-10-04]
 
 SIGNIFICANT CHANGES:
 
  * Added as.cluster(), autoStopCluster(), makeClusterMPI(), makeClusterPSOCK(),
    and makeNodePSOCK() from the 'future' package.
+
+BUG FIXES:
+
+ * Renamed environment variable 'R_FUTURE_MAKENODEPSOCK_tries' used by
+   makeClusterPSOCK() to 'R_FUTURE_MAKENODEPSOCK_TRIES'.
+
+HISTORY:
+
+ * Below is an excerpt of the future's NEWS entries that are related to the
+   function of this package.
+
+
+Version: 1.19.0 [2020-09-19]
+
+NEW FEATURES:
+
+ * makeClusterPSOCK() will now retry to create a cluster node up to 'tries'
+   (default: 3) times before giving up.  If argument 'port' species more than
+   one port (e.g. port = "random") then it will also attempt find a valid
+   random port up to 'tries' times before giving up.  The pre-validation of
+   the random port is only supported in R (>= 4.0.0) and skipped otherwise.
+
+ * makeClusterPSOCK() skips shell quoting of the elements in 'rscript' if it
+   inherits from 'AsIs'.
+
+ * makeClusterPSOCK(), or actually makeNodePSOCK(), gained argument 'quiet',
+   which can be used to silence output produced by 'manual = TRUE'.
+
+PERFORMANCE:
+
+ * Now plan(multisession), plan(cluster, workers = <number>), and
+   makeClusterPSOCK() which they both use internally, sets up localhost
+   workers twice as fast compared to versions since future 1.12.0, which
+   brings it back to par with a bare-bone parallel::makeCluster(...,
+   setup_strategy = "sequential") setup.  The slowdown was introduced in
+   future 1.12.0 (2019-03-07) when protection against leaving stray R
+   processes behind from failed worker startup was implemented.  This
+   protection now makes use of memoization for speedup.
+
+
+Version: 1.18.0 [2020-07-08]
+
+NEW FEATURES:
+
+ * print() on RichSOCKcluster gives information not only on the name of the
+   host but also on the version of R and the platform of each node ("worker"),
+   e.g. "Socket cluster with 3 nodes where 2 nodes are on host 'localhost' (R
+   version 4.0.0 (2020-04-24), platform x86_64-w64-mingw32), 1 node is on host
+   'n3' (R version 3.6.3 (2020-02-29), platform x86_64-pc-linux-gnu)".
+
+ * It is now possible to set environment variables on workers before they are
+   launched by makeClusterPSOCK() by specify them as as "<name>=<value>"
+   as part of the 'rscript' vector argument, e.g. rscript=c("ABC=123",
+   "DEF='hello world'", "Rscript"). This works because elements in 'rscript'
+   that match regular expression '^[[:alpha:]_][[:alnum:]_]*=.*' are no longer
+   shell quoted.
+
+ * makeClusterPSOCK() now returns a cluster that in addition to inheriting
+   from' SOCKcluster' it will also inherit from 'RichSOCKcluster'.
+
+BUG FIXES:
+
+ * Made makeClusterPSOCK() and makeNodePSOCK() agile to the name change from
+   parallel:::.slaveRSOCK() to parallel:::.workRSOCK() in R (>= 4.1.0).
+
+ * makeClusterPSOCK(..., rscript) will not try to locate rscript[1] if
+   argument 'homogeneous' is FALSE (or inferred to be FALSE).
+
+ * makeClusterPSOCK(..., rscript_envs) would result in a syntax error when
+   starting the workers due to non-ASCII quotation marks if option
+   'useFancyQuotes' was not set to FALSE.
+
+
+Version: 1.17.0 [2020-04-17]
+
+NEW FEATURES:
+
+ * makeClusterPSOCK() gained argument 'rscript_envs' for setting environment
+   variables in workers on startup, e.g. rscript_envs = c(FOO = "3.14", "BAR").
+
+
+Version: 1.15.1 [2019-11-23]
+
+NEW FEATURES:
+
+ * The default range of ports that makeClusterPSOCK() draws a random port from
+   (when argument 'port' is not specified) can now be controlled by environment
+   variable `R_FUTURE_RANDOM_PORTS`.  The default range is still 11000:11999
+   as with the 'parallel' package.
+
+
+Version: 1.15.0 [2019-11-07]
+
+DOCUMENTATION:
+
+ * Added 'Troubleshooting' section to ?makeClusterPSOCK with instructions on
+   how to troubleshoot when the setup of local and remote clusters fail.
+
+BUG FIXES:
+
+ * makeClusterPSOCK() could produce warnings like "cannot open file
+   '/tmp/alice/Rtmpi69yYF/future.parent=2622.a3e32bc6af7.pid': No such file",
+   e.g. when launching R workers running in Docker containers.
+   
+ * makeClusterMPI() did not work for MPI clusters with 'comm' other than '1'.
+
+
+Version: 1.13.0 [2019-05-08]
+
+NEW FEATURES:
+
+ * makeClusterPSOCK() gained support for argument 'rscript_startup' for
+   evaluating one or more R expressions in the background R worker prior
+   to the worker event loop launching.  This provides a more convenient
+   approach than having to use, say, 'rscript_args = c("-e", sQuote(code))'.
+
+ * makeClusterPSOCK() gained support for argument 'rscript_libs' to control the
+   R package library search path on the workers.  For example, to _prepend_ the
+   folder '~/R-libs' on the workers, use 'rscript_libs = c("~/R-libs", "*")',
+   where "*" will be resolved to the current '.libPaths()' on the workers.
+
+BUG FIXES:
+
+ * makeClusterPSOCK() did not shell quote the Rscript executable when running
+   its pre-tests checking whether localhost Rscript processes can be killed by
+   their PIDs or not.
+
+
+Version: 1.12.0 [2019-03-07]
+
+NEW FEATURES:
+
+ * If makeClusterPSOCK() fails to create one of many nodes, then it will
+   attempt to stop any nodes that were successfully created.  This lowers
+   the risk for leaving R worker processes behind.
+ 
+BUG FIXES:
+
+ * makeClusterPSOCK() in future (>= 1.11.1) produced warnings when argument
+   'rscript' had length(rscript) > 1.
+
+
+Version: 1.11.1.1 [2019-01-25]
+
+BUG FIXES:
+
+ * When makeClusterPSOCK() fails to connect to a worker, it produces an error
+   with detailed information on what could have happened.  In rare cases,
+   another error could be produced when generating the information on what
+   the workers PID is.
+ 
+
+Version: 1.11.1 [2019-01-25]
+
+NEW FEATURES:
+
+ * The defaults of several arguments of makeClusterPSOCK() and makeNodePSOCK()
+   can now be controlled via environment variables in addition to R options
+   that was supported in the past. An advantage of using environment variables
+   is that they will be inherited by child processes, also nested ones.
+
+SOFTWARE QUALITY:
+
+ * TESTS: When the 'future' package is loaded, it checks whether 'R CMD check'
+   is running or not.  If it is, then a few future-specific environment
+   variables are adjusted such that the tests play nice with the testing
+   environment.  For instance, it sets the socket connection timeout for
+   PSOCK cluster workers to 120 seconds (instead of the default 30 days!).
+   This will lower the risk for more and more zombie worker processes
+   cluttering up the test machine (e.g. CRAN servers) in case a worker process
+   is left behind despite the main R processes is terminated.  Note that these
+   adjustments are applied automatically to the checks of any package that
+   depends on, or imports, the 'future' package.
+
+BUG FIXES:
+
+ * Whenever makeClusterPSOCK() would fail to connect to a worker, for instance
+   due to a port clash, then it would leave the R worker process running - also
+   after the main R process terminated.  When the worker is running on the same
+   machine, makeClusterPSOCK() will now attempt to kill such stray R processes.
+   Note that parallel::makePSOCKcluster() still has this problem.
+
+
+Version: 1.11.0 [2019-01-21]
+
+NEW FEATURES:
+
+ * makeClusterPSOCK() produces more informative error messages whenever the
+   setup of R workers fails.  Also, its verbose messages are now prefixed
+   with "[local output] " to help distinguish the output produced by the
+   current R session from that produced by background workers.
+   
+ * It is now possible to specify what type of SSH clients makeClusterPSOCK()
+   automatically searches for and in what order, e.g.
+   'rshcmd = c("<rstudio-ssh>", "<putty-plink>")'.
+
+ * Now makeClusterPSOCK() preserves the global RNG state (.Random.seed) also
+   when it draws a random port number.
+   
+ * makeClusterPSOCK() gained argument 'rshlogfile'.
+
+BUG FIXES:
+
+ * makeClusterPSOCK(..., rscript = "my_r") would in some cases fail to find
+   the intended 'my_r' executable.
+
+
+Version: 1.10.0 [2018-10-16]
+
+NEW FEATURES:
+
+ * Add makeClusterMPI(n) for creating MPI-based clusters of a similar kind as
+   parallel::makeCluster(n, type = "MPI") but that also attempts to workaround
+   issues where parallel::stopCluster() causes R to stall.
+   
+ * makeClusterPSOCK() and makeClusterMPI() gained argument 'autoStop' for
+   controlling whether the cluster should be automatically stopped when
+   garbage collected or not.
+
+
+Version: 1.9.0 [2018-07-22]
+
+BUG FIXES:
+
+ * makeClusterPSOCK() produced a warning when environment variable
+   'R_PARALLEL_PORT' was set to 'random' (e.g. as on CRAN).
+
+
+Version: 1.8.1 [2018-05-02]
+
+NEW FEATURES:
+
+ * makeClusterPSOCK() now produces a more informative warning if environment
+   variable R_PARALLEL_PORT specifies a non-numeric port.
+
+
+Version: 1.7.0 [2018-02-10]
+
+NEW FEATURES:
+
+ * On Windows, makeClusterPSOCK(), and therefore plan(multisession) and
+   plan(multiprocess), will use the SSH client distributed with RStudio as
+   a fallback if neither 'ssh' nor 'plink' is available on the system PATH.
+
+BUG FIXES:
+
+ * makeClusterPSOCK(..., renice = 19) would launch each PSOCK worker via
+   'nice +19' resulting in the error "nice: '+19': No such file or directory".
+   This bug was inherited from parallel::makePSOCKcluster().  Now using
+   'nice --adjustment=19' instead.
+
+
+Version: 1.5.0 [2017-05-24]
+
+NEW FEATURES:
+
+ * makeClusterPSOCK() now defaults to use the Windows PuTTY software's SSH
+   client 'plink -ssh', if 'ssh' is not found.
+
+ * Argument 'homogeneous' of makeNodePSOCK(), a helper function of
+   makeClusterPSOCK(), will default to FALSE also if the hostname is a
+   fully qualified domain name (FQDN), that is, it "contains periods".
+   For instance, c('node1', 'node2.server.org') will use homogeneous = TRUE
+   for the first worker and homogeneous = FALSE for the second.
+
+ * makeClusterPSOCK() now asserts that each cluster node is functioning by
+   retrieving and recording the node's session information including the
+   process ID of the corresponding R process.
+
+DOCUMENTATION:
+
+ * Help on makeClusterPSOCK() gained more detailed descriptions on arguments
+   and what their defaults are.
+ 
+Version: 1.4.0 [2017-03-12]
+
+NEW FEATURES:
+
+ * The default values for arguments 'connectTimeout' and 'timeout' of
+   makeNodePSOCK() can now be controlled via global options.
+
+
+Version: 1.3.0 [2017-01-18]
+
+NEW FEATURES:
+
+ * makeClusterPSOCK() treats workers that refer to a local machine by
+   its local or canonical hostname as "localhost".  This avoids having
+   to launch such workers over SSH, which may not be supported on all
+   systems / compute cluster.
+
+BUG FIXES:
+
+ * Creation of cluster futures (including multisession ones) would
+   time out already after 40 seconds if all workers were busy.
+   New default timeout is 30 days (option 'future.wait.timeout').
+   
+    
+Version: 1.2.0 [2016-11-12]
+
+NEW FEATURES:
+
+ * Added makeClusterPSOCK() - a version of parallel::makePSOCKcluster()
+   that allows for more flexible control of how PSOCK cluster workers
+   are set up and how they are launched and communicated with if running
+   on external machines.
+
+ * Added generic as.cluster() for coercing objects to cluster objects
+   to be used as in plan(cluster, workers = as.cluster(x)).  Also added
+   a c() implementation for cluster objects such that multiple cluster
+   objects can be combined into a single one.
+
+BUG FIXES:
+
+ * Argument 'user' to remote() was ignored (since 1.1.0).
+    
+    
+Version: 1.1.1 [2016-10-10]
+
+BUG FIXES:
+
+ * For the special case where 'remote' futures use workers = "localhost"
+   they (again) use the exact same R executable as the main / calling R
+   session (in all other cases it uses whatever 'Rscript' is found in the
+   PATH).  This was already indeed implemented in 1.0.1, but with the
+   added support for reverse SSH tunnels in 1.1.0 this default behavior
+   was lost.
+    
+    
+Version: 1.1.0 [2016-10-09]
+
+NEW FEATURES:
+
+ * REMOTE CLUSTERS: It is now very simple to use cluster() and remote()
+   to connect to remote clusters / machines.  As long as you can connect
+   via ssh to those machines, it works also with these future.  The new
+   code completely avoids incoming firewall and incoming port forwarding
+   issues previously needed.  This is done by using reverse SSH tunneling.
+   There is also no need to worry about internal or external IP numbers.
