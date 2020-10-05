@@ -5,7 +5,7 @@
 
 ![Life cycle: experimental](man/figures/lifecycle-experimental-orange.svg)
 
-The **parallelly** package provides functions that enhance the **parallel** packages.  For example, `makeClusterPSOCK()` is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up a remote cluster workers without the need to configure port-forwarding in firewalls, etc.
+The **parallelly** package provides functions that enhance the **parallel** packages.  For example, `makeClusterPSOCK()` is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up a remote cluster workers without the need of knowing your public IP and configuring the firewall to do port-forwarding to your local computer.  The functions and features added to this package is written to be backward compatible with the **parallel** package such that they can be incorporated in the latter.  The **parallelly** package comes with an open invitation for the R Core Team to adopt all or parts of its code into the **parallel** package at any time.
 
 
 ## Feature Comparison 'parallelly' vs 'parallel' 
@@ -54,6 +54,8 @@ The functions in this package originates from the **[future](https://cran.r-proj
 2. Update the **future** package to import and re-export the functions from the **parallelly** to maximize backward compatibility in the future framework
 
 3. After having validated that there are no negative impact on the future framework, allow for changes in the **parallelly** package, e.g. renaming the R options and environment variable to be `parallelly.*` and `R_PARALLELLY_*` while falling back to `future.*` and `R_FUTURE_*`
+
+4. Add vignettes on how to set up cluster running on local or remote machines, including in Linux containers and on popular cloud services, and vignettes on common problems and how to troubleshoot them
 
 Initially, backward compatibility for the **future** package is top priority.
 
