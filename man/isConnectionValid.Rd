@@ -15,7 +15,7 @@ connectionId(con)
 \value{
 \code{isConnectionValid()} returns TRUE if the connection is still valid,
 otherwise FALSE.  If FALSE, then character attribute \code{reason} provides
-an explaination why the connection is not valid.
+an explanation why the connection is not valid.
 
 \code{connectionId()} returns an non-negative integer, -1, or \code{NA_integer_}.
 For connections stdin, stdout, and stderr, 0, 1, and 2, are returned,

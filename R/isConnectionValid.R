@@ -8,7 +8,7 @@
 #' @return
 #' `isConnectionValid()` returns TRUE if the connection is still valid,
 #' otherwise FALSE.  If FALSE, then character attribute `reason` provides
-#' an explaination why the connection is not valid.
+#' an explanation why the connection is not valid.
 #'
 #' @return
 #' `connectionId()` returns an non-negative integer, -1, or `NA_integer_`.
