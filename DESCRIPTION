@@ -7,7 +7,7 @@ Imports:
     utils
 Authors@R: c(person("Henrik", "Bengtsson", role=c("aut", "cre", "cph"),
                                           email = "henrikb@braju.com"))
-Description: Utility functions that enhances the 'parallel' packages and that are used for the built-in parallel backends of the 'future' package.  For example, availableCores() gives the number of CPU cores available to your R process as given by relevant R options and environment variables including those set by job schedulers on high-performance compute (HPC) clusters. If none is set, it will fall back to parallel::detectCores(). Another example is makeClusterPSOCK(), which is backward compatible with parallel::makePSOCKcluster() while doing a better job in setting up a remote cluster workers without the need of knowing your public IP and configuring the firewall to do port-forwarding to your local computer.
+Description: Utility functions that enhances the 'parallel' packages and that are used for the built-in parallel backends of the 'future' package.  For example, availableCores() gives the number of CPU cores available to your R process as given by relevant R options and environment variables including those set by job schedulers on high-performance compute clusters. If none is set, it will fall back to parallel::detectCores(). Another example is makeClusterPSOCK(), which is backward compatible with parallel::makePSOCKcluster() while doing a better job in setting up a remote cluster workers without the need for configuring the firewall to do port-forwarding to your local computer.
 License: LGPL (>= 2.1)
 LazyLoad: TRUE
 ByteCompile: TRUE
