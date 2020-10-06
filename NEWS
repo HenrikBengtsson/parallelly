@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
  
-Version: 1.19.1-9000 [2020-10-05]
+Version: 1.19.1-9000 [2020-10-06]
 
 SIGNIFICANT CHANGES:
 
@@ -9,6 +9,11 @@ SIGNIFICANT CHANGES:
    as.cluster(), autoStopCluster(), makeClusterMPI(), makeClusterPSOCK(),
    and makeNodePSOCK() from the 'future' package.
 
+NEW FEATURES:
+
+ * Add isConnectionValid() and connectionId() adopted from internal code
+   of the 'future' package.
+ 
 BUG FIXES:
 
  * Renamed environment variable 'R_FUTURE_MAKENODEPSOCK_tries' used by
