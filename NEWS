@@ -1,12 +1,12 @@
 Package: parallelly
 ===================
  
-Version: 1.19.1-9000 [2020-10-04]
+Version: 1.19.1-9000 [2020-10-05]
 
 SIGNIFICANT CHANGES:
 
  * Added as.cluster(), autoStopCluster(), makeClusterMPI(), makeClusterPSOCK(),
-   and makeNodePSOCK() from the 'future' package.
+   makeNodePSOCK(), and supportsMulticore() from the 'future' package.
 
 BUG FIXES:
 
