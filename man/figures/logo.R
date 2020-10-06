@@ -16,6 +16,7 @@ logo <- hexSticker::sticker(
 img <- magick::image_read(imgfile)
 img2 <- magick::image_resize(img, geometry = c(120, 140))
 magick::image_write(img2, "man/figures/logo.png")
+magick::image_write(img, "logo-large.png")
 
 
 
