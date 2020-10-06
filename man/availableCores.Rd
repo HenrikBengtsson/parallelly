@@ -106,6 +106,24 @@ done by first specifying
 then the number of cores to use, e.g. \code{options(mc.cores = 8)}.
 }
 
+\examples{
+message(paste("Number of cores available:", availableCores()))
+
+\dontrun{
+options(mc.cores = 2L)
+message(paste("Number of cores available:", availableCores()))
+}
+
+\dontrun{
+## Use 75\% of the cores on the system but never more than four
+options(parallelly.availableCores.custom = function() {
+  ncores <- max(parallel::detectCores(), 1L, na.rm = TRUE)
+  min(0.75 * ncores, 4L)
+})
+message(paste("Number of cores available:", availableCores()))
+}
+
+}
 \seealso{
 To get the set of available workers regardless of machine,
 see \code{\link[=availableWorkers]{availableWorkers()}}.

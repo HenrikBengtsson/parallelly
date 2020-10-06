@@ -47,6 +47,25 @@
 #'    hostnames of available workers.
 #' }
 #'
+#' @examples
+#' message(paste("Available workers:",
+#'         paste(sQuote(availableWorkers()), collapse = ", ")))
+#'
+#' \dontrun{
+#' options(mc.cores = 2L)
+#' message(paste("Available workers:",
+#'         paste(sQuote(availableWorkers()), collapse = ", ")))
+#' }
+#'
+#' \dontrun{
+#' ## Always use two workers on host 'n1' and one on host 'n2'
+#' options(parallelly.availableWorkers.custom = function() {
+#'   c("n1", "n1", "n2")
+#' })
+#' message(paste("Available workers:",
+#'         paste(sQuote(availableWorkers()), collapse = ", ")))
+#' }
+#'
 #' @seealso
 #' To get the number of available workers on the current machine,
 #' see [availableCores()].
