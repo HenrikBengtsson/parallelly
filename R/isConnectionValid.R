@@ -91,7 +91,7 @@
 #'
 #' @references
 #' 1. ['BUG: A `connection` object may become corrupt and re-referenced to another connection (PATCH)'](https://github.com/HenrikBengtsson/Wishlist-for-R/issues/81), 2018-10-30.
-#' 2. R-devel thread [PATCH: Asserting that 'connection' used has not changed + R_GetConnection2()](https://stat.ethz.ch/pipermail/r-devel/2018-October/077004.html) on 2018-10-31.
+#' 2. R-devel thread [PATCH: Asserting that 'connection' used has not changed + R_GetConnection2()](https://stat.ethz.ch/pipermail/r-devel/2018-October/077004.html), 2018-10-31.
 #'
 #' @seealso
 #' See [base::showConnections()] for currently open connections and their

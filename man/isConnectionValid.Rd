@@ -107,7 +107,7 @@ close(con)
 \references{
 \enumerate{
 \item \href{https://github.com/HenrikBengtsson/Wishlist-for-R/issues/81}{'BUG: A \code{connection} object may become corrupt and re-referenced to another connection (PATCH)'}, 2018-10-30.
-\item R-devel thread \href{https://stat.ethz.ch/pipermail/r-devel/2018-October/077004.html}{PATCH: Asserting that 'connection' used has not changed + R_GetConnection2()} on 2018-10-31.
+\item R-devel thread \href{https://stat.ethz.ch/pipermail/r-devel/2018-October/077004.html}{PATCH: Asserting that 'connection' used has not changed + R_GetConnection2()}, 2018-10-31.
 }
 }
 \seealso{
