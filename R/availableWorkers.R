@@ -53,7 +53,6 @@
 #'
 #' @importFrom utils file_test
 #' @export
-#' @keywords internal
 availableWorkers <- function(methods = getOption2("future.availableWorkers.methods", c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")), na.rm = TRUE, default = "localhost", which = c("auto", "min", "max", "all")) {
   ## Local functions
   getenv <- function(name) {
