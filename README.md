@@ -33,14 +33,14 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 
 Any cluster created by the **parallelly** package is fully compatible with the clusters created by the **parallel** package and can be used by all of **parallel**'s functions for cluster processing, e.g. `parallel::clusterEvalQ()` and `parallel::parLapply()`.  The `parallelly::makeClusterPSOCK()` function can be used as a stand-in replacement of the `parallel::makePSOCKcluster()`, or equivalently, `parallel::makeCluster(..., type = "PSOCK")`.
 
-Most of **parallelly** function apply also to clusters created by the **parallel** package.  For example,
+Most of **parallelly** functions apply also to clusters created by the **parallel** package.  For example,
 
 ```r
 cl <- parallel::makeCluster(2)
 cl <- parallelly::autoStopCluster(cl)
 ```
 
-makes the cluster created by **parallel** to shut down automatically when R's garbage collector removes the cluster object.  This lowers the risk of, by mistake, leaving stray R worker processes running in the background.
+makes the cluster created by **parallel** to shut down automatically when R's garbage collector removes the cluster object.  This lowers the risk for leaving stray R worker processes running in the background by mistake.
 
 
 ### availableCores() vs parallel::detectCores()
