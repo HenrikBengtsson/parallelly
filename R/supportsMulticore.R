@@ -9,7 +9,7 @@
 #' processing.
 #' In R, forked processing is often referred to as "multicore" processing,
 #' which stems from the 'mc' of the `mclapply()` family of functions, which
-#' originally was in a package named **multicore** which later was
+#' originally was in a package named \pkg{multicore} which later was
 #' incorporated into the \pkg{parallel} package.
 #' This function checks whether or not forked (aka "multicore") processing
 #' is supported in the current \R session.

@@ -8,7 +8,7 @@
 #' _WARNING: This function is very much in a beta version and should
 #' only be used if `parallel::makeCluster(..., type = "MPI")` fails._
 #'
-#' _Creating MPI clusters requires the **Rmpi** package._
+#' _Creating MPI clusters requires the \pkg{Rmpi} package._
 #'
 #' @inheritParams makeClusterPSOCK
 #'
