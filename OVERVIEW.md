@@ -1,26 +1,27 @@
 ![Life cycle: experimental](man/figures/lifecycle-experimental-orange.svg)
 
-The **parallelly** package provides functions that enhance the **parallel** packages.  For example, `makeClusterPSOCK()` is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up a remote cluster workers without the need of knowing your public IP and configuring the firewall to do port-forwarding to your local computer.  The functions and features added to this package is written to be backward compatible with the **parallel** package such that they can be incorporated in the latter.  The **parallelly** package comes with an open invitation for the R Core Team to adopt all or parts of its code into the **parallel** package at any time.
+The **parallelly** package provides functions that enhance the **parallel** packages.  For example, `availableCores()` gives the number of CPU cores available to your R process as given by relevant R options and environment variables including those set by job schedulers on high-performance compute (HPC) clusters.  If none is set, it will fall back to `parallel::detectCores()`.  Another example is `makeClusterPSOCK()`, which is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up a remote cluster workers without the need of knowing your public IP and configuring the firewall to do port-forwarding to your local computer.  The functions and features added to this package is written to be backward compatible with the **parallel** package such that they can be incorporated in the latter.  The **parallelly** package comes with an open invitation for the R Core Team to adopt all or parts of its code into the **parallel** package at any time.
 
 
 ## Feature Comparison 'parallelly' vs 'parallel' 
 
-|                                    | parallelly |  parallel  |
-| ---------------------------------- | :--------: | :--------: |
-| remote clusters without knowing public IP       |   ✓  | N/A |
-| remote clusters without firewall configuration  |   ✓  | N/A |
-| remote username in ~/.ssh/config                |   ✓  | N/A |
-| fallback to RStudio' SSH and PuTTY's plink      |   ✓  | N/A |
-| combining multiple, existing clusters           |   ✓  | N/A |
-| garbage-collection shutdown of clusters         |   ✓  | N/A |
-| validation of cluster at setup                  |   ✓  | N/A |
-| collect worker details at cluster setup         |   ✓  | N/A |
-| attempt to launch failed workers multiple times |   ✓  | N/A |
-| termination of workers if cluster setup fails   |   ✓  | N/A |
-| informative error messages                      |   ✓  | N/A |
-| more informative printing of cluster objects    |   ✓  | N/A |
-| defaults via options & environment variables    |   ✓  | N/A |
-| faster, parallel setup of workers (R >= 4.0.0)  | todo |  ✓  |
+|                                    |    parallelly   |  parallel  |
+| ---------------------------------- | :-------------: | :--------: |
+| remote clusters without knowing public IP            |   ✓  | N/A |
+| remote clusters without firewall configuration       |   ✓  | N/A |
+| remote username in ~/.ssh/config                     |   ✓  | N/A |
+| fallback to RStudio' SSH and PuTTY's plink           |   ✓  | N/A |
+| combining multiple, existing clusters                |   ✓  | N/A |
+| garbage-collection shutdown of clusters              |   ✓  | N/A |
+| validation of cluster at setup                       |   ✓  | N/A |
+| collect worker details at cluster setup              |   ✓  | N/A |
+| attempt to launch failed workers multiple times      |   ✓  | N/A |
+| termination of workers if cluster setup fails        |   ✓  | N/A |
+| more informative printing of cluster objects         |   ✓  | N/A |
+| faster, parallel setup of workers (R >= 4.0.0)       | todo |  ✓  |
+| defaults via options & environment variables         |   ✓  | N/A |
+| respecting CPU resources allocated by HPC schedulers |   ✓  | N/A |
+| informative error messages                           |   ✓  | N/A |
 
 
 ## Backward compatibility with the parallel package
