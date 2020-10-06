@@ -17,28 +17,16 @@
 #'
 #' @keywords internal
 getOptionOrEnvVar <- function(name, default = NULL, envvar = NULL) {
-  ## Backward compatibility with the 'future' package
-  basename <- sub(sprintf("^(future|%s)[.]", .packageName), "", name)
-  names <- unique(c(name, paste(c(.packageName, "future"), basename, sep=".")))
+  ## Is there an R options set?
+  value <- getOption2(name, default = NULL)
+  if (!is.null(value)) return(value)
 
-  ## Is there an R option set?
-  for (name in names) {
-    value <- getOption(name, NULL)
-    if (!is.null(value)) return(value)
-  }
-  
   ## Is there an environment variable set?
-  for (name in names) {
-    if (is.null(envvar)) {
-      envvar <- gsub(".", "_", toupper(name), fixed = TRUE)
-      envvar <- paste("R_", envvar, sep = "")
-    }
-    value <- Sys.getenv(envvar, NA_character_)
-    if (!is.na(value)) {
-      ## Coerce environment variable string to the type according to 'default'?
-      if (!is.null(default)) storage.mode(value) <- storage.mode(default)
-      return(value)
-    }
+  value <- getEnvVar2(name, default = "")
+  if (nzchar(value)) {
+    ## Coerce environment variable string to the type according to 'default'?
+    if (!is.null(default)) storage.mode(value) <- storage.mode(default)
+    return(value)
   }
   
   ## Nothing was set
@@ -46,9 +34,50 @@ getOptionOrEnvVar <- function(name, default = NULL, envvar = NULL) {
 }
 
 
-getDebugOption <- function() {
-  getOptionOrEnvVar("future.debug", FALSE)
-}
+getOption2 <- local({
+  re <- sprintf("^(future|%s)[.]", .packageName)
+  prefixes <- paste(c(.packageName, "future"), ".", sep = "")
+  
+  function(name, default = NULL) {
+    value <- getOption(name, NULL)
+    if (!is.null(value)) return(value)
+    
+    ## Backward compatibility with the 'future' package
+    basename <- sub(re, "", name)
+    names <- unique(c(name, paste(prefixes, basename, sep="")))
+  
+    ## Is there an R option set?
+    for (name in names) {
+      value <- getOption(name, NULL)
+      if (!is.null(value)) return(value)
+    }
+  
+    default
+  }
+})
+
+
+getEnvVar2 <- local({
+  re <- sprintf("^R_(FUTURE|%s)[.]", toupper(.packageName))
+  prefixes <- paste("R_", toupper(c(.packageName, "future")), sep = "_")
+  
+  function(name, default = NA_character_) {
+    value <- Sys.getenv(name, "")
+    if (nzchar(value)) return(value)
+    
+    ## Backward compatibility with the 'future' package
+    basename <- sub(re, "", name)
+    names <- unique(c(name, paste(prefixes, basename, sep="")))
+  
+    ## Is there an environment variable set?
+    for (name in names) {
+      value <- Sys.getenv(name, "")
+      if (nzchar(value)) return(value)
+    }
+
+    default
+  }
+})
 
 
 ## When 'default' is specified, this is 30x faster than

@@ -33,6 +33,7 @@ fullTest <- (Sys.getenv("_R_CHECK_FULL_") != "")
 isWin32 <- (.Platform$OS.type == "windows" && .Platform$r_arch == "i386")
 
 ## Private functions
+detectCores <- parallelly:::detectCores
 hpaste <- parallelly:::hpaste
 inRCmdCheck <- parallelly:::inRCmdCheck
 mdebug <- parallelly:::mdebug
