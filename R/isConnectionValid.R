@@ -5,6 +5,10 @@
 #'
 #' @param con A \link[base:connections]{connection}.
 #'
+#' @param mustWork If TRUE, `connectionUuid()` may produce an error if the
+#' the connection is broken.  If FALSE, and there is an error, it returns
+#' attribute `uuid` if set, otherwise NULL.
+#'
 #' @return
 #' `isConnectionValid()` returns TRUE if the connection is still valid,
 #' otherwise FALSE.  If FALSE, then character attribute `reason` provides
@@ -19,6 +23,9 @@
 #' identifier -1.
 #' Attribute `raw_id` returns the pointer string from which the above is
 #' inferred.
+#'
+#' @return
+#' `connectionUuid()` returns a UUID representation of a connection.
 #'
 #' @section Connection Index versus Connection Identifier:
 #' R represents \link[base:connections]{connections} as indices using plain
@@ -72,21 +79,26 @@
 #' as.integer(stderr())         ## int 2
 #'
 #' ## The first three connections always exist and are always valid
-#' connectionId(stdin())        ## == 0L
 #' isConnectionValid(stdin())   ## TRUE
-#' connectionId(stdout())       ## == 1L
+#' connectionId(stdin())        ## 0L
+#' connectionUuid(stdin())      ## UUID string
 #' isConnectionValid(stdout())  ## TRUE
-#' connectionId(stderr())       ## == 2L
+#' connectionId(stdout())       ## 1L
+#' connectionUuid(stdout())     ## UUID string
 #' isConnectionValid(stderr())  ## TRUE
+#' connectionId(stderr())       ## 2L
+#' connectionUuid(stderr())     ## UUID string
 #'
 #' ## Connections cannot be serialized
 #' con <- file(tempfile(), open = "w")
 #' x <- list(value = 42, stderr = stderr(), con = con)
 #' y <- unserialize(serialize(x, connection = NULL))
-#' connectionId(y$stderr)       ## ==  2L
 #' isConnectionValid(y$stderr)  ## TRUE
-#' connectionId(y$con)          ## == -1L
+#' connectionId(y$stderr)       ##  2L
+#' connectionUuid(y$stderr)     ## UUID string
 #' isConnectionValid(y$con)     ## FALSE with attribute 'reason'
+#' connectionId(y$con)          ## -1L
+#' connectionUuid(y$con)        ## UUID string
 #' close(con)
 #'
 #' @references
@@ -148,6 +160,27 @@ connectionId <- function(con) {
   attr(id, "raw_id") <- raw_id
   
   id
+}
+
+
+#' @rdname isConnectionValid
+#' @export
+connectionUuid <- function(con, mustWork = TRUE) {
+  stop_if_not(inherits(con, "connection"))
+  if (mustWork) {
+    info <- summary(con)
+    info$opened <- NULL
+    uuid <- uuid(info)
+  } else {
+    uuid <- tryCatch({
+      info <- summary(con)
+      info$opened <- NULL
+      uuid(info)
+    }, error = function(ex) {
+      attr(con, "uuid", exact = TRUE)
+    })
+  }
+  uuid
 }
 
 

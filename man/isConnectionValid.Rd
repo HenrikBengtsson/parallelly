@@ -3,14 +3,21 @@
 \name{isConnectionValid}
 \alias{isConnectionValid}
 \alias{connectionId}
+\alias{connectionUuid}
 \title{Checks if a Connection is Valid}
 \usage{
 isConnectionValid(con)
 
 connectionId(con)
+
+connectionUuid(con, mustWork = TRUE)
 }
 \arguments{
 \item{con}{A \link[base:connections]{connection}.}
+
+\item{mustWork}{If TRUE, \code{connectionUuid()} may produce an error if the
+the connection is broken.  If FALSE, and there is an error, it returns
+attribute \code{uuid} if set, otherwise NULL.}
 }
 \value{
 \code{isConnectionValid()} returns TRUE if the connection is still valid,
@@ -25,6 +32,8 @@ A connection that has been serialized, which is no longer valid, has
 identifier -1.
 Attribute \code{raw_id} returns the pointer string from which the above is
 inferred.
+
+\code{connectionUuid()} returns a UUID representation of a connection.
 }
 \description{
 Get a unique identifier for an R \link[base:connections]{connection}
@@ -86,21 +95,26 @@ as.integer(stdout())         ## int 1
 as.integer(stderr())         ## int 2
 
 ## The first three connections always exist and are always valid
-connectionId(stdin())        ## == 0L
 isConnectionValid(stdin())   ## TRUE
-connectionId(stdout())       ## == 1L
+connectionId(stdin())        ## 0L
+connectionUuid(stdin())      ## UUID string
 isConnectionValid(stdout())  ## TRUE
-connectionId(stderr())       ## == 2L
+connectionId(stdout())       ## 1L
+connectionUuid(stdout())     ## UUID string
 isConnectionValid(stderr())  ## TRUE
+connectionId(stderr())       ## 2L
+connectionUuid(stderr())     ## UUID string
 
 ## Connections cannot be serialized
 con <- file(tempfile(), open = "w")
 x <- list(value = 42, stderr = stderr(), con = con)
 y <- unserialize(serialize(x, connection = NULL))
-connectionId(y$stderr)       ## ==  2L
 isConnectionValid(y$stderr)  ## TRUE
-connectionId(y$con)          ## == -1L
+connectionId(y$stderr)       ##  2L
+connectionUuid(y$stderr)     ## UUID string
 isConnectionValid(y$con)     ## FALSE with attribute 'reason'
+connectionId(y$con)          ## -1L
+connectionUuid(y$con)        ## UUID string
 close(con)
 
 }

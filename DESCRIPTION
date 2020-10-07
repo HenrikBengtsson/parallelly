@@ -2,6 +2,7 @@ Package: parallelly
 Version: 0.0.0-9000
 Title: Enhancing the 'parallel' Package
 Imports:
+    digest,
     parallel,
     tools,
     utils
