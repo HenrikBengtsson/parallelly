@@ -86,21 +86,21 @@ as.integer(stdout())         ## int 1
 as.integer(stderr())         ## int 2
 
 ## The first three connections always exist and are always valid
-connectionId(stdin())        ## == 0L
 isConnectionValid(stdin())   ## TRUE
-connectionId(stdout())       ## == 1L
+connectionId(stdin())        ## 0L
 isConnectionValid(stdout())  ## TRUE
-connectionId(stderr())       ## == 2L
+connectionId(stdout())       ## 1L
 isConnectionValid(stderr())  ## TRUE
+connectionId(stderr())       ## 2L
 
 ## Connections cannot be serialized
 con <- file(tempfile(), open = "w")
 x <- list(value = 42, stderr = stderr(), con = con)
 y <- unserialize(serialize(x, connection = NULL))
-connectionId(y$stderr)       ## ==  2L
 isConnectionValid(y$stderr)  ## TRUE
-connectionId(y$con)          ## == -1L
+connectionId(y$stderr)       ##  2L
 isConnectionValid(y$con)     ## FALSE with attribute 'reason'
+connectionId(y$con)          ## -1L
 close(con)
 
 }
