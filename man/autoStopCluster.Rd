@@ -24,6 +24,8 @@ be stopped when garbage collected
 cl <- makeClusterPSOCK(2, dryrun = TRUE)
 cl <- autoStopCluster(cl)
 print(cl)
+rm(list = "cl")
+gc()
 }
 \seealso{
 The cluster is stopped using

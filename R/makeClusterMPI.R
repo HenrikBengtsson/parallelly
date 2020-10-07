@@ -8,7 +8,8 @@
 #' _WARNING: This function is very much in a beta version and should
 #' only be used if `parallel::makeCluster(..., type = "MPI")` fails._
 #'
-#' _Creating MPI clusters requires the \pkg{Rmpi} package._
+#' _Creating MPI clusters requires that the \pkg{Rmpi} and \pkg{snow}
+#' packages are installed._
 #'
 #' @inheritParams makeClusterPSOCK
 #'
@@ -19,6 +20,17 @@
 #' 
 #' @return An object of class `c("RichMPIcluster", "MPIcluster", "cluster")` consisting
 #' of a list of `"MPInode"` workers.
+#'
+#' @examples
+#' \donttest{\dontrun{
+#' if (requireNamespace("Rmpi") && requireNamespace("snow")) {
+#'   cl <- makeClusterMPI(2, autoStop = TRUE)
+#'   print(cl)
+#'   y <- parLapply(cl, X = 1:3, fun = sqrt)
+#'   print(y)
+#'   rm(list = "cl")
+#' }
+#' }}
 #'
 #' @references
 #' 1. R-sig-hpc thread \href{https://stat.ethz.ch/pipermail/r-sig-hpc/2017-September/002065.html}{Rmpi: mpi.close.Rslaves() 'hangs'} on 2017-09-28.

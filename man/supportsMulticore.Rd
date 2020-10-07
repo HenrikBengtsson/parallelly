@@ -55,3 +55,8 @@ Analogously, it is possible to override disabled forking by setting one
 of these to \code{TRUE}.
 }
 
+\examples{
+## Check whether or not forked processing is supported
+supportsMulticore()
+
+}

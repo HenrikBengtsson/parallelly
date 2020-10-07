@@ -37,7 +37,20 @@ tweaks the cluster in an attempt to avoid
 only be used if \code{parallel::makeCluster(..., type = "MPI")} fails.}
 }
 \details{
-\emph{Creating MPI clusters requires the \pkg{Rmpi} package.}
+\emph{Creating MPI clusters requires that the \pkg{Rmpi} and \pkg{snow}
+packages are installed.}
+}
+\examples{
+\donttest{\dontrun{
+if (requireNamespace("Rmpi") && requireNamespace("snow")) {
+  cl <- makeClusterMPI(2, autoStop = TRUE)
+  print(cl)
+  y <- parLapply(cl, X = 1:3, fun = sqrt)
+  print(y)
+  rm(list = "cl")
+}
+}}
+
 }
 \references{
 \enumerate{
