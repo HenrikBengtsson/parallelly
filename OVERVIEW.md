@@ -13,9 +13,9 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | fallback to RStudio' SSH and PuTTY's plink           |   ✓  | N/A |
 | combining multiple, existing clusters                |   ✓  | N/A |
 | garbage-collection shutdown of clusters              |   ✓  | N/A |
-| validation of cluster at setup                       |   ✓  | N/A |
+| validation of cluster at setup                       |   ✓  |  ✓  |
 | collect worker details at cluster setup              |   ✓  | N/A |
-| attempt to launch failed workers multiple times      |   ✓  | N/A |
+| attempt to launch failed workers multiple times      |   ✓  |  ✓  |
 | termination of workers if cluster setup fails        |   ✓  | N/A |
 | more informative printing of cluster objects         |   ✓  | N/A |
 | faster, parallel setup of workers (R >= 4.0.0)       | todo |  ✓  |
@@ -35,7 +35,11 @@ cl <- parallel::makeCluster(2)
 cl <- parallelly::autoStopCluster(cl)
 ```
 
-makes the cluster created by **parallel** to shut down automatically when R's garbage collector removes the cluster object.  This lowers the risk for leaving stray R worker processes running in the background by mistake.
+makes the cluster created by **parallel** to shut down automatically when R's garbage collector removes the cluster object.  This lowers the risk for leaving stray R worker processes running in the background by mistake.  Another way to achieve the above in one call is to use:
+
+```r
+cl <- parallel::makeClusterPSOCK(2, autoStop = TRUE)
+```
 
 
 ### availableCores() vs parallel::detectCores()
