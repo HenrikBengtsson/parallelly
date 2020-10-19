@@ -59,7 +59,7 @@ print(res)
 stopifnot(inherits(res, "error"))
 
 res <- tryCatch({
-  cl <- makeClusterPSOCK(1L, rshcmd = character(0L))
+  cl <- makeClusterPSOCK(1L, rshcmd = character(0L), tries = 1L)
 }, error = identity)
 print(res)
 stopifnot(inherits(res, "error"))
@@ -97,7 +97,7 @@ stopifnot(inherits(res, "error"))
 if (fullTest || covr_testing) {
   ## Occupied/blocked port
   res <- tryCatch(
-    cl <- parallelly::makeClusterPSOCK("localhost", port = 80L),
+    cl <- parallelly::makeClusterPSOCK("localhost", port = 80L, tries = 1L),
   error = identity)
   print(res)
   ## Skip error assertion in case this actually works on some machine.
