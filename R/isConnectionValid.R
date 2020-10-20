@@ -141,7 +141,8 @@ connectionId <- function(con) {
   id <- gsub("(<pointer:| |>)", "", id)
   
   ## Has the connection been serialized?
-  if (id == "(nil)" || id == "0x0") return(-1L)
+  ## 0: observed on Solaris
+  if (id == "(nil)" || id == "0x0" || id == "0") return(-1L)
   
   id <- strtoi(id, base = 16L)
 

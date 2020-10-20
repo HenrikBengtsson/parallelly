@@ -26,6 +26,15 @@ message("- Connections cannot be serialized")
 con <- file(tempfile(), open = "w")
 x <- list(value = 42, stderr = stderr(), con = con)
 y <- unserialize(serialize(x, connection = NULL))
+print(connectionId(x$stderr))
+print(connectionId(x$con))
+print(isConnectionValid(x$stderr))
+print(isConnectionValid(x$con))
+print(connectionId(y$stderr))
+print(connectionId(y$con))
+print(isConnectionValid(y$stderr))
+print(isConnectionValid(y$con))
+
 stopifnot(
   identical(y$value, x$value),
   connectionId(x$stderr) == 2L,
