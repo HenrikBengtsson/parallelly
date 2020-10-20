@@ -70,14 +70,14 @@ The functions in this package originate from the **[future](https://cran.r-proje
 
 ## Roadmap
 
-1. Submit **parallelly** to CRAN, with minimal changes compared to the corresponding functions in the **future** package
+* [x] Submit **parallelly** to CRAN, with minimal changes compared to the corresponding functions in the **future** package (on CRAN as of 2020-10-20)
 
-2. Update the **future** package to import and re-export the functions from the **parallelly** to maximize backward compatibility in the future framework
+* [ ] Update the **future** package to import and re-export the functions from the **parallelly** to maximize backward compatibility in the future framework
 
-3. After having validated that there are no negative impact on the future framework, allow for changes in the **parallelly** package, e.g. renaming the R options and environment variable to be `parallelly.*` and `R_PARALLELLY_*` while falling back to `future.*` and `R_FUTURE_*`
+* [ ] After having validated that there are no negative impact on the future framework, allow for changes in the **parallelly** package, e.g. renaming the R options and environment variable to be `parallelly.*` and `R_PARALLELLY_*` while falling back to `future.*` and `R_FUTURE_*`
 
-4. Migrate, currently internal, UUID functions and export them, e.g. `uuid()`, `connectionUuid()`, and `sessionUuid()` (https://github.com/HenrikBengtsson/Wishlist-for-R/issues/96).  Because [R does not have a built-in md5 checksum function that operates on object](https://github.com/HenrikBengtsson/Wishlist-for-R/issues/21), these functions require us adding a dependency on the **[digest](https://cran.r-project.org/package=digest)** package.
+* [ ] Migrate, currently internal, UUID functions and export them, e.g. `uuid()`, `connectionUuid()`, and `sessionUuid()` (https://github.com/HenrikBengtsson/Wishlist-for-R/issues/96).  Because [R does not have a built-in md5 checksum function that operates on object](https://github.com/HenrikBengtsson/Wishlist-for-R/issues/21), these functions require us adding a dependency on the **[digest](https://cran.r-project.org/package=digest)** package.
 
-5. Add vignettes on how to set up cluster running on local or remote machines, including in Linux containers and on popular cloud services, and vignettes on common problems and how to troubleshoot them
+* [ ] Add vignettes on how to set up cluster running on local or remote machines, including in Linux containers and on popular cloud services, and vignettes on common problems and how to troubleshoot them
 
-Initially, backward compatibility for the **future** package is top priority.
+Initially, backward compatibility for the **future** package is of top priority.

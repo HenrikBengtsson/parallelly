@@ -955,7 +955,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
        ## Special: Windows 10 ssh client may not support reverse tunneling. /2018-11-10
        ## https://github.com/PowerShell/Win32-OpenSSH/issues/1265
        if (!localMachine && revtunnel && isTRUE(attr(rshcmd, "OpenSSH_for_Windows"))) {
-         suggestions <- c(suggestions, sprintf("The 'rshcmd' (%s) used may not support reverse tunneling (revtunnel = TRUE). See ?future::makeClusterPSOCK for alternatives.\n", rshcmd_label))
+         suggestions <- c(suggestions, sprintf("The 'rshcmd' (%s) used may not support reverse tunneling (revtunnel = TRUE). See ?parallelly::makeClusterPSOCK for alternatives.\n", rshcmd_label))
        }
        
        if (length(suggestions) > 0) {
