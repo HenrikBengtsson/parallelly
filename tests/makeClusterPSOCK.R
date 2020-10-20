@@ -1,5 +1,6 @@
 source("incl/start.R")
 
+is_fqdn <- parallelly:::is_fqdn
 is_ip_number <- parallelly:::is_ip_number
 is_localhost <- parallelly:::is_localhost
 find_rshcmd <- parallelly:::find_rshcmd
@@ -7,6 +8,12 @@ find_rshcmd <- parallelly:::find_rshcmd
 message("*** makeClusterPSOCK() ...")
 
 message("- makeClusterPSOCK() - internal utility functions")
+
+stopifnot(
+   is_fqdn("a.b"),
+   is_fqdn("a.b.c"),
+  !is_fqdn("a")
+)
 
 stopifnot(
    is_ip_number("1.2.3.4"),
