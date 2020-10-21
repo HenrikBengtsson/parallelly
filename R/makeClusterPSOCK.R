@@ -239,9 +239,11 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' 
 #' @param rscript_libs A character vector of \R library paths that will be
 #' used for the library search path of the \R workers.  An asterisk
-#' (`"*"`) will be resolved as the current `.libPaths()` on the
-#' worker. That is, to `prepend` a folder, instead of replacing the
+#' (`"*"`) will be resolved to the default `.libPaths()` _on the
+#' worker_. That is, to `prepend` a folder, instead of replacing the
 #' existing ones, use `rscript_libs = c("new_folder", "*")`.
+#' To pass down a non-default library path currently set _on the main \R
+#' session_ to the workers, use `rscript_libs = .libPaths()`.
 #' 
 #' @param methods If TRUE, then the \pkg{methods} package is also loaded.
 #' 

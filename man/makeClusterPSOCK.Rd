@@ -120,9 +120,11 @@ These variables are set using \code{Sys.setenv()}.}
 
 \item{rscript_libs}{A character vector of \R library paths that will be
 used for the library search path of the \R workers.  An asterisk
-(\code{"*"}) will be resolved as the current \code{.libPaths()} on the
-worker. That is, to \code{prepend} a folder, instead of replacing the
-existing ones, use \code{rscript_libs = c("new_folder", "*")}.}
+(\code{"*"}) will be resolved to the default \code{.libPaths()} \emph{on the
+worker}. That is, to \code{prepend} a folder, instead of replacing the
+existing ones, use \code{rscript_libs = c("new_folder", "*")}.
+To pass down a non-default library path currently set \emph{on the main \R
+session} to the workers, use \code{rscript_libs = .libPaths()}.}
 
 \item{methods}{If TRUE, then the \pkg{methods} package is also loaded.}
 
