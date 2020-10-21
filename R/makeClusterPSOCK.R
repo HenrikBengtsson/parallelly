@@ -223,12 +223,6 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' For instance, use `rscript_args = c("-e", shQuote('setwd("/path/to")'))`
 #' to set the working directory to \file{/path/to} on _all_ workers.
 #'
-#' @param rscript_startup An \R expression or a character vector of \R code,
-#' or a list with a mix of these, that will be evaluated on the \R worker
-#' prior to launching the worker's event loop.
-#' For instance, use `rscript_startup = 'setwd("/path/to")'`
-#' to set the working directory to \file{/path/to} on _all_ workers.
-#' 
 #' @param rscript_envs A named character vector environment variables to
 #' set on worker at startup, e.g.
 #' `rscript_envs = c(FOO = "3.14", "HOME", "UNKNOWN")`.
@@ -244,6 +238,12 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' existing ones, use `rscript_libs = c("new_folder", "*")`.
 #' To pass down a non-default library path currently set _on the main \R
 #' session_ to the workers, use `rscript_libs = .libPaths()`.
+#' 
+#' @param rscript_startup An \R expression or a character vector of \R code,
+#' or a list with a mix of these, that will be evaluated on the \R worker
+#' prior to launching the worker's event loop.
+#' For instance, use `rscript_startup = 'setwd("/path/to")'`
+#' to set the working directory to \file{/path/to} on _all_ workers.
 #' 
 #' @param methods If TRUE, then the \pkg{methods} package is also loaded.
 #' 
@@ -493,7 +493,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @rdname makeClusterPSOCK
 #' @importFrom tools pskill
 #' @export
-makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("future.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("future.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_startup = NULL, rscript_envs = NULL, rscript_libs = NULL, methods = TRUE, useXDR = TRUE, outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("future.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("future.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, verbose = FALSE) {
+makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("future.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("future.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = TRUE, outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("future.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("future.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, verbose = FALSE) {
   localMachine <- is.element(worker, c("localhost", "127.0.0.1"))
 
   ## Could it be that the worker specifies the name of the localhost?
