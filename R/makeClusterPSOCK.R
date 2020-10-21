@@ -699,7 +699,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
     tryCatch({
       parse(text = code)
     }, error = function(ex) {
-      stop("Argument 'rscript_envs' appears to contain invalid values: ", paste(sQuote(rscript_libs), collapse = ", "))
+      stop("Argument 'rscript_envs' appears to contain invalid values: ", paste(sQuote(rscript_envs), collapse = ", "))
     })
     rscript_args <- c(rscript_args, "-e", shQuote(code))
   }
