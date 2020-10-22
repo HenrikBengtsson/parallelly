@@ -690,27 +690,39 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
       copy <- which(nchar(names) == 0L)
     }
     if (length(copy) > 0L) {
+      unset <- NULL
       for (idx in copy) {
         name <- rscript_envs[idx]
+        if (!nzchar(name)) {
+          stop("Argument 'rscript_envs' contains an empty non-named environment variable")
+        }
         value <- Sys.getenv(name, NA_character_)
         if (!is.na(value)) {
           rscript_envs[idx] <- value
           names(rscript_envs)[idx] <- name
+        } else {
+          unset <- c(unset, name)
         }
+      }
+      if (length(unset) > 0L) {
+        warning("Did not pass down non-set environment variables to cluster node: ", paste(sQuote(unset), collapse = ", "))
       }
       names <- names(rscript_envs)
       rscript_envs <- rscript_envs[nzchar(names)]
       names <- names(rscript_envs)
     }
-    code <- sprintf('%s="%s"', names, rscript_envs)
-    code <- paste(code, collapse = ", ")
-    code <- paste0("Sys.setenv(", code, ")")
-    tryCatch({
-      parse(text = code)
-    }, error = function(ex) {
-      stop("Argument 'rscript_envs' appears to contain invalid values: ", paste(sQuote(rscript_envs), collapse = ", "))
-    })
-    rscript_args <- c(rscript_args, "-e", shQuote(code))
+    ## Any environment variables to set?
+    if (length(names) > 0L) {
+      code <- sprintf('%s="%s"', names, rscript_envs)
+      code <- paste(code, collapse = ", ")
+      code <- paste0("Sys.setenv(", code, ")")
+      tryCatch({
+        parse(text = code)
+      }, error = function(ex) {
+        stop("Argument 'rscript_envs' appears to contain invalid values: ", paste(sprintf("%s=%s", sQuote(names), sQuote(rscript_envs)), collapse = ", "))
+      })
+      rscript_args <- c(rscript_args, "-e", shQuote(code))
+    }
   }
 
   if (length(rscript_libs) > 0L) {
