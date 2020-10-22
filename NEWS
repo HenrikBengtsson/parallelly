@@ -16,7 +16,7 @@ NEW FEATURES:
    also used in error messages, if available.  This validation has been done
    since version 1.5.0 but now it can be disabled.  The default of argument
    'validate' can be controlled via an R options and an environment variable.
-   
+
  * Now makeNodePSOCK(..., rscript_envs = "no-existing") produces an informative
    warning on non-existing environment variables that was skipped.
 
@@ -29,6 +29,9 @@ BUG FIXES:
  * makeClusterPSOCK() would attempt to loaded 'parallelly' on the worker.
    If it's not available on the worker, it would result in a silent warning
    on the worker.  Now 'parallelly' is not loaded.
+
+ * makeClusterPSOCK(..., tries = n) would retry to setup a cluster node also
+   on errors that were unrelated to node setup or node connection errors.
 
  * The error message on using an invalid 'rscript_envs' argument for
    makeClusterPSOCK() reported on the value of 'rscript_libs' (sic!).
