@@ -104,7 +104,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     port <- as.integer(port)
   }
   if (length(port) == 0L) {
-    stop("Argument 'post' must be of length one or more: 0")
+    stop("Argument 'port' must be of length one or more: 0")
   }
   if (length(port) > 1L) {
     ports <- stealth_sample(port, size = tries)
@@ -158,8 +158,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       node <- tryCatch({
         makeNode(workers[[ii]], port = port, ..., rank = ii, verbose = verbose)
       }, error = identity)
-      ## Success?
-      if (!inherits(node, "error")) break
+      ## Success or an error that is not a connection error?
+      if (!inherits(node, "PSOCKConnectionError")) break
       if (kk < tries) {
         if (verbose) {
           message(conditionMessage(node))
@@ -171,13 +171,16 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     }
     if (inherits(node, "error")) {
       ex <- node
-      if (verbose) {
-        message(sprintf("%s  Failed %d attempts with %g seconds delay",
-                verbose_prefix, tries, delay))
+      if (inherits(node, "PSOCKConnectionError")) {
+        if (verbose) {
+          message(sprintf("%s  Failed %d attempts with %g seconds delay",
+                  verbose_prefix, tries, delay))
+        }
+        ex$message <- sprintf("%s\n * Number of attempts: %d (%gs delay)",
+                              conditionMessage(ex), tries, delay)
+      } else {
+        ex$call <- sys.call()
       }
-      ex$message <- sprintf("%s\n * Number of attempts: %d (%gs delay)",
-                            conditionMessage(ex), tries, delay)
-                        
       stop(ex)
     }
     cl[[ii]] <- node
@@ -989,7 +992,11 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
        msg <- paste(msg, collapse = "")
        ex$message <- msg
 
-       ## Relay error and temporarily avoid truncating the error message in case it is too long
+       ## Re-signal as an PSOCKConnectionError error
+       class(ex) <- c("PSOCKConnectionError", class(ex))
+       
+       ## Relay error and temporarily avoid truncating the error message
+       ## in case it is too long
        local({
          oopts <- options(warning.length = 2000L)
          on.exit(options(oopts))

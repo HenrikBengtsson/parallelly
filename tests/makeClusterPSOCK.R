@@ -108,7 +108,7 @@ print(res)
 stopifnot(inherits(res, "error"))
 
 res <- tryCatch({
-  cl <- makeClusterPSOCK(1L, rshcmd = character(0L), tries = 1L)
+  cl <- makeClusterPSOCK(1L, rshcmd = character(0L))
 }, error = identity)
 print(res)
 stopifnot(inherits(res, "error"))
