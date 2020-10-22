@@ -1216,7 +1216,8 @@ add_cluster_session_info <- function(cl) {
     ## Session information already collected?
     if (!is.null(node$session_info)) next
 
-    node$session_info <- clusterCall(cl[ii], fun = session_info)[[1]]
+    pkgs <- getOptionOrEnvVar("future.makeNodePSOCK.sessionInfo.pkgs", FALSE)
+    node$session_info <- clusterCall(cl[ii], fun = session_info, pkgs = pkgs)[[1]]
 
     ## Sanity check, iff possible
     if (inherits(node, "SOCK0node") || inherits(node, "SOCKnode")) {

@@ -5,6 +5,10 @@ Version: 1.20.0-9000 [2020-10-21]
 
 BUG FIXES:
 
+ * makeClusterPSOCK() would produce an error on 'one node produced an error:
+   could not find function "getOptionOrEnvVar"' if 'parallelly' is not
+   available on the worker.
+   
  * The error message on using an invalid 'rscript_envs' argument for
    makeClusterPSOCK() reported on the value of 'rscript_libs' (sic!).
  

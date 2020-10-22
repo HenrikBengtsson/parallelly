@@ -51,6 +51,16 @@ print(cl)
 parallel::stopCluster(cl)
 
 
+message("- makeClusterPSOCK() - w/out 'parallelly' on worker")
+
+ovalue <- Sys.getenv("R_LIBS_USER")
+Sys.setenv(R_LIBS_USER = tempdir())
+cl <- makeClusterPSOCK(1L, outfile = "")
+print(cl)
+parallel::stopCluster(cl)
+Sys.setenv(R_LIBS_USER = ovalue)
+
+
 message("- makeClusterPSOCK() - exceptions")
 
 res <- tryCatch({
