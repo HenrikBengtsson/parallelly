@@ -51,6 +51,29 @@ print(cl)
 parallel::stopCluster(cl)
 
 
+message("- makeClusterPSOCK() - with and w/out validation")
+
+cl <- makeClusterPSOCK(1L, validate = TRUE) ## default
+node <- cl[[1]]
+stopifnot(
+  is.list(node),
+  inherits(node, "SOCKnode"),
+  "session_info" %in% names(node)
+)
+si <- node[["session_info"]]
+stopifnot(is.list(si))
+parallel::stopCluster(cl)
+
+cl <- makeClusterPSOCK(1L, validate = FALSE)
+node <- cl[[1]]
+stopifnot(
+  is.list(node),
+  inherits(node, "SOCKnode"),
+  ! "session_info" %in% names(node)
+)
+parallel::stopCluster(cl)
+
+
 message("- makeClusterPSOCK() - w/out 'parallelly' on worker")
 
 ovalue <- Sys.getenv("R_LIBS_USER")

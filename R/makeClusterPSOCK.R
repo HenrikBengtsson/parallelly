@@ -42,6 +42,10 @@
 #' If argument `port` specifies more than one port, e.g. `port = "random"`
 #' then a random port will be drawn and validated at most `tries` times.
 #'
+#' @param validate If TRUE, after the nodes have been created, they are all
+#' validated that they work by inquiring about their session information,
+#' which is saved in attribute `session_info` of each node.
+#'
 #' @param verbose If TRUE, informative messages are outputted.
 #'
 #' @return An object of class `c("RichSOCKcluster", "SOCKcluster", "cluster")`
@@ -52,7 +56,7 @@
 #'
 #' @importFrom parallel stopCluster
 #' @export
-makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOptionOrEnvVar("future.makeNodePSOCK.tries", 3L), delay = getOptionOrEnvVar("future.makeNodePSOCK.tries.delay", 15.0), verbose = getOptionOrEnvVar("future.debug", FALSE)) {
+makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOptionOrEnvVar("future.makeNodePSOCK.tries", 3L), delay = getOptionOrEnvVar("future.makeNodePSOCK.tries.delay", 15.0), validate = getOptionOrEnvVar("future.makeNodePSOCK.validate", TRUE), verbose = getOptionOrEnvVar("future.debug", FALSE)) {
   if (is.numeric(workers)) {
     if (length(workers) != 1L) {
       stop("When numeric, argument 'workers' must be a single value: ", length(workers))
@@ -65,10 +69,13 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   }
 
   tries <- as.integer(tries)
-  stop_if_not(length(tries), is.integer(tries), !is.na(tries), tries >= 1L)
+  stop_if_not(length(tries) == 1L, is.integer(tries), !is.na(tries), tries >= 1L)
 
   delay <- as.numeric(delay)
-  stop_if_not(length(delay), is.numeric(delay), !is.na(delay), delay >= 0)
+  stop_if_not(length(delay) == 1L, is.numeric(delay), !is.na(delay), delay >= 0)
+
+  validate <- as.logical(validate)
+  stop_if_not(length(validate) == 1L, is.logical(validate), !is.na(validate))
 
   verbose_prefix <- "[local output] "
 
@@ -174,14 +181,16 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       stop(ex)
     }
     cl[[ii]] <- node
-    
-    ## Attaching session information for each worker.  This is done to assert
-    ## that we have a working cluster already here.  It will also collect
-    ## useful information otherwise not available, e.g. the PID.
-    if (verbose) {
-      message(sprintf("%s- collecting session information", verbose_prefix))
+
+    if (validate) {
+      ## Attaching session information for each worker.  This is done to assert
+      ## that we have a working cluster already here.  It will also collect
+      ## useful information otherwise not available, e.g. the PID.
+      if (verbose) {
+        message(sprintf("%s- collecting session information", verbose_prefix))
+      }
+      cl[ii] <- add_cluster_session_info(cl[ii])
     }
-    cl[ii] <- add_cluster_session_info(cl[ii])
     
     if (verbose) {
       message(sprintf("%sCreating node %d of %d ... done", verbose_prefix, ii, n))

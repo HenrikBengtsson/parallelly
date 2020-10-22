@@ -13,6 +13,7 @@ makeClusterPSOCK(
   autoStop = FALSE,
   tries = getOptionOrEnvVar("future.makeNodePSOCK.tries", 3L),
   delay = getOptionOrEnvVar("future.makeNodePSOCK.tries.delay", 15),
+  validate = getOptionOrEnvVar("future.makeNodePSOCK.validate", TRUE),
   verbose = getOptionOrEnvVar("future.debug", FALSE)
 )
 
@@ -75,6 +76,10 @@ garbage collected, unless already stopped.  See also \code{\link[=autoStopCluste
 with \code{makeNode()} and the delay (in seconds) in-between attempts.
 If argument \code{port} specifies more than one port, e.g. \code{port = "random"}
 then a random port will be drawn and validated at most \code{tries} times.}
+
+\item{validate}{If TRUE, after the nodes have been created, they are all
+validated that they work by inquiring about their session information,
+which is saved in attribute \code{session_info} of each node.}
 
 \item{verbose}{If TRUE, informative messages are outputted.}
 

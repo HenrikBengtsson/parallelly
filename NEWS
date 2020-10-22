@@ -3,11 +3,21 @@ Package: parallelly
 
 Version: 1.20.0-9000 [2020-10-21]
 
+NEW FEATURES:
+
+ * makeClusterPSOCK() gained argument 'validate' to control whether or not the
+   nodes should be tested after they've been created.  The validation is done
+   by querying each node for its session information, which is then saved as
+   attribute 'session_info' on the cluster node object.  This information is
+   also used in error messages, if available.  This validation has been done
+   since version 1.5.0 but now it can be disabled.  The default of argument
+   'validate' can be controlled via an R options and an environment variable.
+
 BUG FIXES:
 
  * makeClusterPSOCK() would produce an error on 'one node produced an error:
    could not find function "getOptionOrEnvVar"' if 'parallelly' is not
-   available on the worker.
+   available on the node.
 
  * makeClusterPSOCK() would attempt to loaded 'parallelly' on the worker.
    If it's not available on the worker, it would result in a silent warning
