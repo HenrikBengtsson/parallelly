@@ -1206,31 +1206,37 @@ session_info <- function(pkgs = getOptionOrEnvVar("future.makeNodePSOCK.sessionI
 
 #' @importFrom utils capture.output
 #' @importFrom parallel clusterCall
-add_cluster_session_info <- function(cl) {
-  stop_if_not(inherits(cl, "cluster"))
+add_cluster_session_info <- local({
+  get_session_info <- session_info
+  formals(get_session_info)$pkgs <- FALSE
+  environment(get_session_info) <- getNamespace("utils")
   
-  for (ii in seq_along(cl)) {
-    node <- cl[[ii]]
-    if (is.null(node)) next  ## Happens with dryrun = TRUE
-
-    ## Session information already collected?
-    if (!is.null(node$session_info)) next
-
-    pkgs <- getOptionOrEnvVar("future.makeNodePSOCK.sessionInfo.pkgs", FALSE)
-    node$session_info <- clusterCall(cl[ii], fun = session_info, pkgs = pkgs)[[1]]
-
-    ## Sanity check, iff possible
-    if (inherits(node, "SOCK0node") || inherits(node, "SOCKnode")) {
-      pid <- capture.output(print(node))
-      pid <- as.integer(gsub(".* ", "", pid))
-      stop_if_not(node$session_info$process$pid == pid)
+  function(cl) {
+    stop_if_not(inherits(cl, "cluster"))
+    
+    for (ii in seq_along(cl)) {
+      node <- cl[[ii]]
+      if (is.null(node)) next  ## Happens with dryrun = TRUE
+  
+      ## Session information already collected?
+      if (!is.null(node$session_info)) next
+  
+      pkgs <- getOptionOrEnvVar("future.makeNodePSOCK.sessionInfo.pkgs", FALSE)
+      node$session_info <- clusterCall(cl[ii], fun = get_session_info, pkgs = pkgs)[[1]]
+  
+      ## Sanity check, iff possible
+      if (inherits(node, "SOCK0node") || inherits(node, "SOCKnode")) {
+        pid <- capture.output(print(node))
+        pid <- as.integer(gsub(".* ", "", pid))
+        stop_if_not(node$session_info$process$pid == pid)
+      }
+      
+      cl[[ii]] <- node
     }
     
-    cl[[ii]] <- node
+    cl
   }
-  
-  cl
-} ## add_cluster_session_info()
+}) ## add_cluster_session_info()
 
 
 ## Gets the Windows build version, e.g. '10.0.17134.523' (Windows 10 v1803)

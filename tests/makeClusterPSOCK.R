@@ -61,6 +61,15 @@ parallel::stopCluster(cl)
 Sys.setenv(R_LIBS_USER = ovalue)
 
 
+message("- makeClusterPSOCK() - assert 'parallelly' is not loaded")
+
+cl <- makeClusterPSOCK(1L)
+ns <- parallel::clusterCall(cl, function() { loadedNamespaces() })
+print(ns)
+stopifnot(!is.element("parallelly", ns))
+parallel::stopCluster(cl)
+
+
 message("- makeClusterPSOCK() - exceptions")
 
 res <- tryCatch({
