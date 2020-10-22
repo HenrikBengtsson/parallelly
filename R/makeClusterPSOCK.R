@@ -1092,7 +1092,6 @@ is_fqdn <- function(worker) {
 #' Attribute `version` contains the output from querying the
 #' executable for its version (via command-line option `-V`).
 #'
-#' @export
 #' @keywords internal
 find_rshcmd <- function(which = NULL, first = FALSE, must_work = TRUE) {
   query_version <- function(bin, args = "-V") {
