@@ -1,6 +1,6 @@
 ![Life cycle: experimental](man/figures/lifecycle-experimental-orange.svg)
 
-The **parallelly** package provides functions that enhance the **parallel** packages.  For example, `availableCores()` gives the number of CPU cores available to your R process as given by R options and environment variables, including those set by job schedulers on high-performance compute (HPC) clusters.  If none is set, it will fall back to `parallel::detectCores()`.  Another example is `makeClusterPSOCK()`, which is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up remote cluster workers without having to know your public IP and configuring the firewall to do port-forwarding to your local computer.  The functions and features added to this package are written to be backward compatible with the **parallel** package, such that they may be incorporated there later.  The **parallelly** package comes with an open invitation for the R Core Team to adopt all or parts of its code into the **parallel** package.
+The **parallelly** package provides functions that enhance the **parallel** packages.  For example, `availableCores()` gives the number of CPU cores available to your R process as given by R options and environment variables, including those set by job schedulers on high-performance compute (HPC) clusters.  If none are set, it will fall back to `parallel::detectCores()`.  Another example is `makeClusterPSOCK()`, which is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up remote cluster workers without having to know your public IP and configuring the firewall to do port-forwarding to your local computer.  The functions and features added to this package are written to be backward compatible with the **parallel** package, such that they may be incorporated there later.  The **parallelly** package comes with an open invitation for the R Core Team to adopt all or parts of its code into the **parallel** package.
 
 ## Feature Comparison 'parallelly' vs 'parallel' 
 
@@ -10,14 +10,14 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | remote clusters without firewall configuration       |   ✓  | N/A |
 | remote username in ~/.ssh/config                     |   ✓  | N/A |
 | fallback to RStudio' SSH and PuTTY's plink           |   ✓  | N/A |
-| combining multiple, existing clusters                |   ✓  | N/A |
-| garbage-collection shutdown of clusters              |   ✓  | N/A |
-| validation of cluster at setup                       |   ✓  |  ✓  |
-| collect worker details at cluster setup              |   ✓  | N/A |
-| attempt to launch failed workers multiple times      |   ✓  |  ✓  |
-| termination of workers if cluster setup fails        |   ✓  | N/A |
-| more informative printing of cluster objects         |   ✓  | N/A |
 | faster, parallel setup of workers (R >= 4.0.0)       | todo |  ✓  |
+| validation of cluster at setup                       |   ✓  |  ✓  |
+| attempt to launch failed workers multiple times      |   ✓  |  ✓  |
+| collect worker details at cluster setup              |   ✓  | N/A |
+| termination of workers if cluster setup fails        |   ✓  | N/A |
+| combining multiple, existing clusters                |   ✓  | N/A |
+| more informative printing of cluster objects         |   ✓  | N/A |
+| garbage-collection shutdown of clusters              |   ✓  | N/A |
 | defaults via options & environment variables         |   ✓  | N/A |
 | respecting CPU resources allocated by HPC schedulers |   ✓  | N/A |
 | informative error messages                           |   ✓  | N/A |
@@ -45,12 +45,12 @@ cl <- parallel::makeClusterPSOCK(2, autoStop = TRUE)
 
 The `availableCores()` function is designed as a better, safer alternative to `detectCores()` of the **parallel** package.  It is designed to be a worry-free solution for developers and end-users to query the number of available cores - a solution that plays nice on multi-tenant systems, high-performance compute (HPC) cluster, CRAN check servers, and elsewhere.
 
-Just like other software tools that "hijacks" all cores by default, R scripts, and packages that defaults to `detectCores()` number of parallel workers cause lots of suffering for fellow end-users and system administrators.  For instance, a shared server with 48 cores will come to a halt already after a few users run parallel processing using `detectCores()` number of parallel workers.  This problem gets worse on machines with a large number of cores because they can host even more concurrent users.  If these R users would have used `availableCores()` instead, then the system administrator can limit the number of cores each user get to, say, 2, by setting the environment variable `R_PARALLELLY_AVAILABLECORES_FALLBACK=2`.
+Just like other software tools that "hijacks" all cores by default, R scripts, and packages that defaults to `detectCores()` number of parallel workers cause lots of suffering for fellow end-users and system administrators.  For instance, a shared server with 48 cores will come to a halt already after a few users run parallel processing using `detectCores()` number of parallel workers.  This problem gets worse on machines with many cores because they can host even more concurrent users.  If these R users would have used `availableCores()` instead, then the system administrator can limit the number of cores each user get to, say, 2, by setting the environment variable `R_PARALLELLY_AVAILABLECORES_FALLBACK=2`.
 In contrast, it is _not_ possible to override what `parallel::detectCores()` returns, cf. [PR#17641 - WISH: Make parallel::detectCores() agile to new env var R_DEFAULT_CORES ](https://bugs.r-project.org/bugzilla/show_bug.cgi?id=17641).
 
-At the same time, if this is on an HPC cluster with a job scheduler, a script that uses `availableCores()` will run the number of parallel workers that the job scheduler has assigned to the job.  For example, if a Slurm job is submitted as `sbatch --cpus-per-task=16 ...`, then `availableCores()` will return 16 because it respects the `SLURM_*` environment variables set by the scheduler.  See `help("availableCores", package = "parallelly")` for currently supported job schedulers.
+At the same time, if this is on an HPC cluster with a job scheduler, a script that uses `availableCores()` will run the number of parallel workers that the job scheduler has assigned to the job.  For example, if we submit a Slurm job as `sbatch --cpus-per-task=16 ...`, then `availableCores()` will return 16 because it respects the `SLURM_*` environment variables set by the scheduler.  See `help("availableCores", package = "parallelly")` for currently supported job schedulers.
 
-In addition to job schedulers, `availableCores()` respects R options and environment variables commonly used to specify the number of parallel workers, e.g. R option `mc.cores`.  It will detect when running `R CMD check` and return 2, which is the maximum number of parallel workers allowed by the [CRAN Policies](https://cran.r-project.org/web/packages/policies.html).  If nothing is set that limits the number of cores, then `availableCores()` falls back to `parallel::detectCores()` and if that returns `NA_integer_` then `1` is returned.
+Besides job schedulers, `availableCores()` respects R options and environment variables commonly used to specify the number of parallel workers, e.g. R option `mc.cores`.  It will detect when running `R CMD check` and return 2, which is the maximum number of parallel workers allowed by the [CRAN Policies](https://cran.r-project.org/web/packages/policies.html).  If nothing is set that limits the number of cores, then `availableCores()` falls back to `parallel::detectCores()` and if that returns `NA_integer_` then `1` is returned.
 
 The below table summarize the benefits:
 
