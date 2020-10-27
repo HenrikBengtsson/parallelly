@@ -42,6 +42,10 @@
 #' If argument `port` specifies more than one port, e.g. `port = "random"`
 #' then a random port will be drawn and validated at most `tries` times.
 #'
+#' @param validate If TRUE, after the nodes have been created, they are all
+#' validated that they work by inquiring about their session information,
+#' which is saved in attribute `session_info` of each node.
+#'
 #' @param verbose If TRUE, informative messages are outputted.
 #'
 #' @return An object of class `c("RichSOCKcluster", "SOCKcluster", "cluster")`
@@ -52,7 +56,7 @@
 #'
 #' @importFrom parallel stopCluster
 #' @export
-makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOptionOrEnvVar("future.makeNodePSOCK.tries", 3L), delay = getOptionOrEnvVar("future.makeNodePSOCK.tries.delay", 15.0), verbose = getOptionOrEnvVar("future.debug", FALSE)) {
+makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOptionOrEnvVar("future.makeNodePSOCK.tries", 3L), delay = getOptionOrEnvVar("future.makeNodePSOCK.tries.delay", 15.0), validate = getOptionOrEnvVar("future.makeNodePSOCK.validate", TRUE), verbose = getOptionOrEnvVar("future.debug", FALSE)) {
   if (is.numeric(workers)) {
     if (length(workers) != 1L) {
       stop("When numeric, argument 'workers' must be a single value: ", length(workers))
@@ -65,10 +69,13 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   }
 
   tries <- as.integer(tries)
-  stop_if_not(length(tries), is.integer(tries), !is.na(tries), tries >= 1L)
+  stop_if_not(length(tries) == 1L, is.integer(tries), !is.na(tries), tries >= 1L)
 
   delay <- as.numeric(delay)
-  stop_if_not(length(delay), is.numeric(delay), !is.na(delay), delay >= 0)
+  stop_if_not(length(delay) == 1L, is.numeric(delay), !is.na(delay), delay >= 0)
+
+  validate <- as.logical(validate)
+  stop_if_not(length(validate) == 1L, is.logical(validate), !is.na(validate))
 
   verbose_prefix <- "[local output] "
 
@@ -97,7 +104,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     port <- as.integer(port)
   }
   if (length(port) == 0L) {
-    stop("Argument 'post' must be of length one or more: 0")
+    stop("Argument 'port' must be of length one or more: 0")
   }
   if (length(port) > 1L) {
     ports <- stealth_sample(port, size = tries)
@@ -151,8 +158,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       node <- tryCatch({
         makeNode(workers[[ii]], port = port, ..., rank = ii, verbose = verbose)
       }, error = identity)
-      ## Success?
-      if (!inherits(node, "error")) break
+      ## Success or an error that is not a connection error?
+      if (!inherits(node, "PSOCKConnectionError")) break
       if (kk < tries) {
         if (verbose) {
           message(conditionMessage(node))
@@ -164,24 +171,29 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     }
     if (inherits(node, "error")) {
       ex <- node
-      if (verbose) {
-        message(sprintf("%s  Failed %d attempts with %g seconds delay",
-                verbose_prefix, tries, delay))
+      if (inherits(node, "PSOCKConnectionError")) {
+        if (verbose) {
+          message(sprintf("%s  Failed %d attempts with %g seconds delay",
+                  verbose_prefix, tries, delay))
+        }
+        ex$message <- sprintf("%s\n * Number of attempts: %d (%gs delay)",
+                              conditionMessage(ex), tries, delay)
+      } else {
+        ex$call <- sys.call()
       }
-      ex$message <- sprintf("%s\n * Number of attempts: %d (%gs delay)",
-                            conditionMessage(ex), tries, delay)
-                        
       stop(ex)
     }
     cl[[ii]] <- node
-    
-    ## Attaching session information for each worker.  This is done to assert
-    ## that we have a working cluster already here.  It will also collect
-    ## useful information otherwise not available, e.g. the PID.
-    if (verbose) {
-      message(sprintf("%s- collecting session information", verbose_prefix))
+
+    if (validate) {
+      ## Attaching session information for each worker.  This is done to assert
+      ## that we have a working cluster already here.  It will also collect
+      ## useful information otherwise not available, e.g. the PID.
+      if (verbose) {
+        message(sprintf("%s- collecting session information", verbose_prefix))
+      }
+      cl[ii] <- add_cluster_session_info(cl[ii])
     }
-    cl[ii] <- add_cluster_session_info(cl[ii])
     
     if (verbose) {
       message(sprintf("%sCreating node %d of %d ... done", verbose_prefix, ii, n))
@@ -223,12 +235,6 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' For instance, use `rscript_args = c("-e", shQuote('setwd("/path/to")'))`
 #' to set the working directory to \file{/path/to} on _all_ workers.
 #'
-#' @param rscript_startup An \R expression or a character vector of \R code,
-#' or a list with a mix of these, that will be evaluated on the \R worker
-#' prior to launching the worker's event loop.
-#' For instance, use `rscript_startup = 'setwd("/path/to")'`
-#' to set the working directory to \file{/path/to} on _all_ workers.
-#' 
 #' @param rscript_envs A named character vector environment variables to
 #' set on worker at startup, e.g.
 #' `rscript_envs = c(FOO = "3.14", "HOME", "UNKNOWN")`.
@@ -239,9 +245,17 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' 
 #' @param rscript_libs A character vector of \R library paths that will be
 #' used for the library search path of the \R workers.  An asterisk
-#' (`"*"`) will be resolved as the current `.libPaths()` on the
-#' worker. That is, to `prepend` a folder, instead of replacing the
+#' (`"*"`) will be resolved to the default `.libPaths()` _on the
+#' worker_. That is, to `prepend` a folder, instead of replacing the
 #' existing ones, use `rscript_libs = c("new_folder", "*")`.
+#' To pass down a non-default library path currently set _on the main \R
+#' session_ to the workers, use `rscript_libs = .libPaths()`.
+#' 
+#' @param rscript_startup An \R expression or a character vector of \R code,
+#' or a list with a mix of these, that will be evaluated on the \R worker
+#' prior to launching the worker's event loop.
+#' For instance, use `rscript_startup = 'setwd("/path/to")'`
+#' to set the working directory to \file{/path/to} on _all_ workers.
 #' 
 #' @param methods If TRUE, then the \pkg{methods} package is also loaded.
 #' 
@@ -491,7 +505,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @rdname makeClusterPSOCK
 #' @importFrom tools pskill
 #' @export
-makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("future.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("future.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_startup = NULL, rscript_envs = NULL, rscript_libs = NULL, methods = TRUE, useXDR = TRUE, outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("future.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("future.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, verbose = FALSE) {
+makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("future.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("future.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = TRUE, outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("future.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("future.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, verbose = FALSE) {
   localMachine <- is.element(worker, c("localhost", "127.0.0.1"))
 
   ## Could it be that the worker specifies the name of the localhost?
@@ -679,27 +693,39 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
       copy <- which(nchar(names) == 0L)
     }
     if (length(copy) > 0L) {
+      unset <- NULL
       for (idx in copy) {
         name <- rscript_envs[idx]
+        if (!nzchar(name)) {
+          stop("Argument 'rscript_envs' contains an empty non-named environment variable")
+        }
         value <- Sys.getenv(name, NA_character_)
         if (!is.na(value)) {
           rscript_envs[idx] <- value
           names(rscript_envs)[idx] <- name
+        } else {
+          unset <- c(unset, name)
         }
+      }
+      if (length(unset) > 0L) {
+        warning("Did not pass down non-set environment variables to cluster node: ", paste(sQuote(unset), collapse = ", "))
       }
       names <- names(rscript_envs)
       rscript_envs <- rscript_envs[nzchar(names)]
       names <- names(rscript_envs)
     }
-    code <- sprintf('%s="%s"', names, rscript_envs)
-    code <- paste(code, collapse = ", ")
-    code <- paste0("Sys.setenv(", code, ")")
-    tryCatch({
-      parse(text = code)
-    }, error = function(ex) {
-      stop("Argument 'rscript_envs' appears to contain invalid values: ", paste(sQuote(rscript_libs), collapse = ", "))
-    })
-    rscript_args <- c(rscript_args, "-e", shQuote(code))
+    ## Any environment variables to set?
+    if (length(names) > 0L) {
+      code <- sprintf('%s="%s"', names, rscript_envs)
+      code <- paste(code, collapse = ", ")
+      code <- paste0("Sys.setenv(", code, ")")
+      tryCatch({
+        parse(text = code)
+      }, error = function(ex) {
+        stop("Argument 'rscript_envs' appears to contain invalid values: ", paste(sprintf("%s=%s", sQuote(names), sQuote(rscript_envs)), collapse = ", "))
+      })
+      rscript_args <- c(rscript_args, "-e", shQuote(code))
+    }
   }
 
   if (length(rscript_libs) > 0L) {
@@ -955,7 +981,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
        ## Special: Windows 10 ssh client may not support reverse tunneling. /2018-11-10
        ## https://github.com/PowerShell/Win32-OpenSSH/issues/1265
        if (!localMachine && revtunnel && isTRUE(attr(rshcmd, "OpenSSH_for_Windows"))) {
-         suggestions <- c(suggestions, sprintf("The 'rshcmd' (%s) used may not support reverse tunneling (revtunnel = TRUE). See ?future::makeClusterPSOCK for alternatives.\n", rshcmd_label))
+         suggestions <- c(suggestions, sprintf("The 'rshcmd' (%s) used may not support reverse tunneling (revtunnel = TRUE). See ?parallelly::makeClusterPSOCK for alternatives.\n", rshcmd_label))
        }
        
        if (length(suggestions) > 0) {
@@ -966,7 +992,11 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
        msg <- paste(msg, collapse = "")
        ex$message <- msg
 
-       ## Relay error and temporarily avoid truncating the error message in case it is too long
+       ## Re-signal as an PSOCKConnectionError error
+       class(ex) <- c("PSOCKConnectionError", class(ex))
+       
+       ## Relay error and temporarily avoid truncating the error message
+       ## in case it is too long
        local({
          oopts <- options(warning.length = 2000L)
          on.exit(options(oopts))
@@ -1081,7 +1111,6 @@ is_fqdn <- function(worker) {
 #' Attribute `version` contains the output from querying the
 #' executable for its version (via command-line option `-V`).
 #'
-#' @export
 #' @keywords internal
 find_rshcmd <- function(which = NULL, first = FALSE, must_work = TRUE) {
   query_version <- function(bin, args = "-V") {
@@ -1204,30 +1233,37 @@ session_info <- function(pkgs = getOptionOrEnvVar("future.makeNodePSOCK.sessionI
 
 #' @importFrom utils capture.output
 #' @importFrom parallel clusterCall
-add_cluster_session_info <- function(cl) {
-  stop_if_not(inherits(cl, "cluster"))
+add_cluster_session_info <- local({
+  get_session_info <- session_info
+  formals(get_session_info)$pkgs <- FALSE
+  environment(get_session_info) <- getNamespace("utils")
   
-  for (ii in seq_along(cl)) {
-    node <- cl[[ii]]
-    if (is.null(node)) next  ## Happens with dryrun = TRUE
-
-    ## Session information already collected?
-    if (!is.null(node$session_info)) next
-
-    node$session_info <- clusterCall(cl[ii], fun = session_info)[[1]]
-
-    ## Sanity check, iff possible
-    if (inherits(node, "SOCK0node") || inherits(node, "SOCKnode")) {
-      pid <- capture.output(print(node))
-      pid <- as.integer(gsub(".* ", "", pid))
-      stop_if_not(node$session_info$process$pid == pid)
+  function(cl) {
+    stop_if_not(inherits(cl, "cluster"))
+    
+    for (ii in seq_along(cl)) {
+      node <- cl[[ii]]
+      if (is.null(node)) next  ## Happens with dryrun = TRUE
+  
+      ## Session information already collected?
+      if (!is.null(node$session_info)) next
+  
+      pkgs <- getOptionOrEnvVar("future.makeNodePSOCK.sessionInfo.pkgs", FALSE)
+      node$session_info <- clusterCall(cl[ii], fun = get_session_info, pkgs = pkgs)[[1]]
+  
+      ## Sanity check, iff possible
+      if (inherits(node, "SOCK0node") || inherits(node, "SOCKnode")) {
+        pid <- capture.output(print(node))
+        pid <- as.integer(gsub(".* ", "", pid))
+        stop_if_not(node$session_info$process$pid == pid)
+      }
+      
+      cl[[ii]] <- node
     }
     
-    cl[[ii]] <- node
+    cl
   }
-  
-  cl
-} ## add_cluster_session_info()
+}) ## add_cluster_session_info()
 
 
 ## Gets the Windows build version, e.g. '10.0.17134.523' (Windows 10 v1803)

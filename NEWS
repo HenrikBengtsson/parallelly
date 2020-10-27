@@ -1,6 +1,49 @@
 Package: parallelly
 ===================
+
+Version: 1.21.0 [2020-10-26]
+
+SIGNIFICANT CHANGES:
+
+ * Removed find_rshcmd() which was never meant to be exported.
  
+NEW FEATURES:
+
+ * makeClusterPSOCK() gained argument 'validate' to control whether or not the
+   nodes should be tested after they've been created.  The validation is done
+   by querying each node for its session information, which is then saved as
+   attribute 'session_info' on the cluster node object.  This information is
+   also used in error messages, if available.  This validation has been done
+   since version 1.5.0 but now it can be disabled.  The default of argument
+   'validate' can be controlled via an R options and an environment variable.
+
+ * Now makeNodePSOCK(..., rscript_envs = "UNKNOWN") produces an informative
+   warning on non-existing environment variables that was skipped.
+
+BUG FIXES:
+
+ * makeClusterPSOCK() would produce an error on 'one node produced an error:
+   could not find function "getOptionOrEnvVar"' if 'parallelly' is not
+   available on the node.
+
+ * makeClusterPSOCK() would attempt to loaded 'parallelly' on the worker.
+   If it's not available on the worker, it would result in a silent warning
+   on the worker.  Now 'parallelly' is not loaded.
+
+ * makeClusterPSOCK(..., tries = n) would retry to setup a cluster node also
+   on errors that were unrelated to node setup or node connection errors.
+
+ * The error message on using an invalid 'rscript_envs' argument for
+   makeClusterPSOCK() reported on the value of 'rscript_libs' (sic!).
+ 
+ * makeNodePSOCK(..., rscript_envs = "UNKNOWN") would result in an error when
+   trying to launch the cluster node.
+
+DEPRECATED AND DEFUNCT:
+
+ * Removed find_rshcmd() which was never meant to be exported.
+ 
+
 Version: 1.20.0 [2020-10-10]
 
 SIGNIFICANT CHANGES:

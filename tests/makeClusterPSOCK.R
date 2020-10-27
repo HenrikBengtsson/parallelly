@@ -1,5 +1,6 @@
 source("incl/start.R")
 
+is_fqdn <- parallelly:::is_fqdn
 is_ip_number <- parallelly:::is_ip_number
 is_localhost <- parallelly:::is_localhost
 find_rshcmd <- parallelly:::find_rshcmd
@@ -7,6 +8,12 @@ find_rshcmd <- parallelly:::find_rshcmd
 message("*** makeClusterPSOCK() ...")
 
 message("- makeClusterPSOCK() - internal utility functions")
+
+stopifnot(
+   is_fqdn("a.b"),
+   is_fqdn("a.b.c"),
+  !is_fqdn("a")
+)
 
 stopifnot(
    is_ip_number("1.2.3.4"),
@@ -41,6 +48,48 @@ print(cl)
 
 cl <- makeClusterPSOCK(1L)
 print(cl)
+parallel::stopCluster(cl)
+
+
+message("- makeClusterPSOCK() - with and w/out validation")
+
+cl <- makeClusterPSOCK(1L, validate = TRUE) ## default
+node <- cl[[1]]
+stopifnot(
+  is.list(node),
+  inherits(node, "SOCKnode"),
+  "session_info" %in% names(node)
+)
+si <- node[["session_info"]]
+stopifnot(is.list(si))
+parallel::stopCluster(cl)
+
+cl <- makeClusterPSOCK(1L, validate = FALSE)
+node <- cl[[1]]
+stopifnot(
+  is.list(node),
+  inherits(node, "SOCKnode"),
+  ! "session_info" %in% names(node)
+)
+parallel::stopCluster(cl)
+
+
+message("- makeClusterPSOCK() - w/out 'parallelly' on worker")
+
+ovalue <- Sys.getenv("R_LIBS_USER")
+Sys.setenv(R_LIBS_USER = tempdir())
+cl <- makeClusterPSOCK(1L, outfile = "")
+print(cl)
+parallel::stopCluster(cl)
+Sys.setenv(R_LIBS_USER = ovalue)
+
+
+message("- makeClusterPSOCK() - assert 'parallelly' is not loaded")
+
+cl <- makeClusterPSOCK(1L)
+ns <- parallel::clusterCall(cl, function() { loadedNamespaces() })
+print(ns)
+stopifnot(!is.element("parallelly", ns))
 parallel::stopCluster(cl)
 
 
@@ -97,7 +146,7 @@ stopifnot(inherits(res, "error"))
 if (fullTest || covr_testing) {
   ## Occupied/blocked port
   res <- tryCatch(
-    cl <- parallelly::makeClusterPSOCK("localhost", port = 80L),
+    cl <- parallelly::makeClusterPSOCK("localhost", port = 80L, tries = 1L),
   error = identity)
   print(res)
   ## Skip error assertion in case this actually works on some machine.

@@ -13,6 +13,7 @@ makeClusterPSOCK(
   autoStop = FALSE,
   tries = getOptionOrEnvVar("future.makeNodePSOCK.tries", 3L),
   delay = getOptionOrEnvVar("future.makeNodePSOCK.tries.delay", 15),
+  validate = getOptionOrEnvVar("future.makeNodePSOCK.validate", TRUE),
   verbose = getOptionOrEnvVar("future.debug", FALSE)
 )
 
@@ -25,9 +26,9 @@ makeNodePSOCK(
   rscript = NULL,
   homogeneous = NULL,
   rscript_args = NULL,
-  rscript_startup = NULL,
   rscript_envs = NULL,
   rscript_libs = NULL,
+  rscript_startup = NULL,
   methods = TRUE,
   useXDR = TRUE,
   outfile = "/dev/null",
@@ -76,6 +77,10 @@ with \code{makeNode()} and the delay (in seconds) in-between attempts.
 If argument \code{port} specifies more than one port, e.g. \code{port = "random"}
 then a random port will be drawn and validated at most \code{tries} times.}
 
+\item{validate}{If TRUE, after the nodes have been created, they are all
+validated that they work by inquiring about their session information,
+which is saved in attribute \code{session_info} of each node.}
+
 \item{verbose}{If TRUE, informative messages are outputted.}
 
 \item{worker}{The hostname or IP number of the machine where the worker
@@ -104,12 +109,6 @@ workers before they launches.
 For instance, use \code{rscript_args = c("-e", shQuote('setwd("/path/to")'))}
 to set the working directory to \file{/path/to} on \emph{all} workers.}
 
-\item{rscript_startup}{An \R expression or a character vector of \R code,
-or a list with a mix of these, that will be evaluated on the \R worker
-prior to launching the worker's event loop.
-For instance, use \code{rscript_startup = 'setwd("/path/to")'}
-to set the working directory to \file{/path/to} on \emph{all} workers.}
-
 \item{rscript_envs}{A named character vector environment variables to
 set on worker at startup, e.g.
 \code{rscript_envs = c(FOO = "3.14", "HOME", "UNKNOWN")}.
@@ -120,9 +119,17 @@ These variables are set using \code{Sys.setenv()}.}
 
 \item{rscript_libs}{A character vector of \R library paths that will be
 used for the library search path of the \R workers.  An asterisk
-(\code{"*"}) will be resolved as the current \code{.libPaths()} on the
-worker. That is, to \code{prepend} a folder, instead of replacing the
-existing ones, use \code{rscript_libs = c("new_folder", "*")}.}
+(\code{"*"}) will be resolved to the default \code{.libPaths()} \emph{on the
+worker}. That is, to \code{prepend} a folder, instead of replacing the
+existing ones, use \code{rscript_libs = c("new_folder", "*")}.
+To pass down a non-default library path currently set \emph{on the main \R
+session} to the workers, use \code{rscript_libs = .libPaths()}.}
+
+\item{rscript_startup}{An \R expression or a character vector of \R code,
+or a list with a mix of these, that will be evaluated on the \R worker
+prior to launching the worker's event loop.
+For instance, use \code{rscript_startup = 'setwd("/path/to")'}
+to set the working directory to \file{/path/to} on \emph{all} workers.}
 
 \item{methods}{If TRUE, then the \pkg{methods} package is also loaded.}
 

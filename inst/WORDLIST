@@ -107,3 +107,4 @@ stdin
 stdout
 md
 UUID
+getOptionOrEnvVar
