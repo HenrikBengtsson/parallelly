@@ -97,6 +97,16 @@ For any other value of a \code{methods} element, the \R option with the
 same name is queried.  If that is not set, the system environment
 variable is queried.  If neither is set, a missing value is returned.
 }
+\section{Avoid ending up with zero cores}{
+
+Note that \code{availableCores()} may return a single core.  Because of this,
+using something like:\if{html}{\out{<div class="r">}}\preformatted{ncores <- availableCores() - 1
+}\if{html}{\out{</div>}}
+
+may return zero, which is often not intended.  Instead, use:\if{html}{\out{<div class="r">}}\preformatted{ncores <- max(1, availableCores() - 1)
+}\if{html}{\out{</div>}}
+}
+
 \section{Advanced usage}{
 
 It is possible to override the maximum number of cores on the machine
@@ -112,6 +122,13 @@ message(paste("Number of cores available:", availableCores()))
 \dontrun{
 options(mc.cores = 2L)
 message(paste("Number of cores available:", availableCores()))
+}
+
+\dontrun{
+## IMPORTANT: availableCores() may return 1L
+options(mc.cores = 1L)
+ncores <- max(1, availableCores() - 1)
+message(paste("Number of cores to use:", ncores))
 }
 
 \dontrun{
