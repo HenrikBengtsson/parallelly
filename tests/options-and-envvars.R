@@ -72,9 +72,9 @@ for (what in c("option", "envvar")) {
         stopifnot(is.na(value))
 
         message("- getOptionOrEnvVar()")
-        value <- getOptionOrEnvVar("future.some.option", NA)
+        value <- getOptionOrEnvVar("future.some.setting", NA)
         stopifnot(is.na(value))
-        value <- getOptionOrEnvVar("parallelly.some.option", NA)
+        value <- getOptionOrEnvVar("parallelly.some.setting", NA)
         stopifnot(is.na(value))
       } else if (isTRUE(value0)) {
         if (what == "option") {
@@ -93,10 +93,10 @@ for (what in c("option", "envvar")) {
         stopifnot(identical(value1, value2))
         
         message("- getOptionOrEnvVar()")
-        value1 <- getOptionOrEnvVar("future.some.option", NA)
-#        stopifnot(is.na(value1))
-        value2 <- getOptionOrEnvVar("parallelly.some.option", NA)
-#        stopifnot(is.na(value2))
+        value1 <- getOptionOrEnvVar("future.some.setting", NA)
+        stopifnot(isTRUE(value1))
+        value2 <- getOptionOrEnvVar("parallelly.some.setting", NA)
+        stopifnot(isTRUE(value1))
         stopifnot(identical(value1, value2))
       }
 

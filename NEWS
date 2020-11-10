@@ -5,9 +5,9 @@ Version: 1.21.0-9000 [2020-11-10]
 
 BUG FIXES:
 
- * Environment variables with prefix 'R_PARALLELLY_*' were not recognized;
-   only the ones with a 'R_FUTURE_*' prefix. This was due to a bug in the
-   internal getEnvVar2() function.
+ * Except for environment variables 'R_FUTURE_AVAILABLECORES_FALLBACK' and
+   'R_FUTURE_AVAILABLECORES_SYSTEM', none of the 'R_PARALLELLY_*' and
+   'R_FUTURE_*' ones where recognized.
    
 
 Version: 1.21.0 [2020-10-26]
