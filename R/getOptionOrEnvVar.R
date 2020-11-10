@@ -58,8 +58,8 @@ getOption2 <- local({
 
 
 getEnvVar2 <- local({
-  re <- sprintf("^R_(FUTURE|%s)[.]", toupper(.packageName))
-  prefixes <- paste("R_", toupper(c(.packageName, "future")), sep = "_")
+  re <- sprintf("^R_(FUTURE|%s)_", toupper(.packageName))
+  prefixes <- paste("R_", toupper(c(.packageName, "future")), "_", sep = "")
   
   function(name, default = NA_character_) {
     value <- Sys.getenv(name, "")

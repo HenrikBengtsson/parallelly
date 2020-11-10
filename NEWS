@@ -1,10 +1,14 @@
 Package: parallelly
 ===================
 
-Version: 1.21.0-9000 [2020-10-27]
+Version: 1.21.0-9000 [2020-11-10]
 
- * ...
+BUG FIXES:
 
+ * Environment variables with prefix 'R_PARALLELLY_*' were not recognized;
+   only the ones with a 'R_FUTURE_*' prefix. This was due to a bug in the
+   internal getEnvVar2() function.
+   
 
 Version: 1.21.0 [2020-10-26]
 
