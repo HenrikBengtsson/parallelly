@@ -3,6 +3,14 @@ Package: parallelly
 
 Version: 1.21.0-9000 [2020-11-10]
 
+NEW FEATURES:
+
+ * The default value of argument 'useXDR' for makeNodePSOCK() can be controlled
+   by the R option 'parallelly.makeNodePSOCK.useXDR' or the corresponding
+   environment variable 'R_PARALLELLY_MAKENODEPSOCK_USEXDR'.  If neither is
+   set, the  default is still 'useXDR = TRUE'.  The plan is to switch to use
+   the faster 'useXDR = FALSE' in a future release.
+
 BUG FIXES:
 
  * Except for environment variables 'R_FUTURE_AVAILABLECORES_FALLBACK' and

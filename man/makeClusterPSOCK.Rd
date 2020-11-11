@@ -30,7 +30,7 @@ makeNodePSOCK(
   rscript_libs = NULL,
   rscript_startup = NULL,
   methods = TRUE,
-  useXDR = TRUE,
+  useXDR = getOptionOrEnvVar("future.makeNodePSOCK.useXDR", TRUE),
   outfile = "/dev/null",
   renice = NA_integer_,
   rshcmd = getOptionOrEnvVar("future.makeNodePSOCK.rshcmd", NULL),

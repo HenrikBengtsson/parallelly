@@ -51,6 +51,22 @@ print(cl)
 parallel::stopCluster(cl)
 
 
+message("- makeClusterPSOCK() - useXDR = TRUE/FALSE")
+
+for (useXDR in c(TRUE, FALSE)) {
+  cl <- makeClusterPSOCK(1L, useXDR = useXDR)
+  node <- cl[[1]]
+  stopifnot(
+    is.list(node),
+    inherits(node, if (useXDR) "SOCKnode" else "SOCK0node"),
+    "session_info" %in% names(node)
+  )
+  si <- node[["session_info"]]
+  stopifnot(is.list(si))
+  parallel::stopCluster(cl)
+}
+
+
 message("- makeClusterPSOCK() - with and w/out validation")
 
 cl <- makeClusterPSOCK(1L, validate = TRUE) ## default
