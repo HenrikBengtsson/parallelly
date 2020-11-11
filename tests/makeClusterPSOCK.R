@@ -69,22 +69,24 @@ for (useXDR in c(TRUE, FALSE)) {
 
 message("- makeClusterPSOCK() - with and w/out validation")
 
+useXDR <- parallelly:::getOptionOrEnvVar("future.makeNodePSOCK.useXDR", TRUE)
 cl <- makeClusterPSOCK(1L, validate = TRUE) ## default
 node <- cl[[1]]
 stopifnot(
   is.list(node),
-  inherits(node, "SOCKnode"),
+  inherits(node, if (useXDR) "SOCKnode" else "SOCK0node"),
   "session_info" %in% names(node)
 )
 si <- node[["session_info"]]
 stopifnot(is.list(si))
 parallel::stopCluster(cl)
 
+useXDR <- parallelly:::getOptionOrEnvVar("future.makeNodePSOCK.useXDR", TRUE)
 cl <- makeClusterPSOCK(1L, validate = FALSE)
 node <- cl[[1]]
 stopifnot(
   is.list(node),
-  inherits(node, "SOCKnode"),
+  inherits(node, if (useXDR) "SOCKnode" else "SOCK0node"),
   ! "session_info" %in% names(node)
 )
 parallel::stopCluster(cl)

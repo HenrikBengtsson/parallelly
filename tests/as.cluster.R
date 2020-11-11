@@ -1,5 +1,6 @@
 source("incl/start.R")
 stopCluster <- parallel::stopCluster
+useXDR <- parallelly:::getOptionOrEnvVar("future.makeNodePSOCK.useXDR", TRUE)
 
 message("*** cluster operations ...")
 
@@ -22,7 +23,7 @@ local({
 
   node <- cl[[1]]
   print(node)
-  stopifnot(inherits(node, "SOCKnode"))
+  stopifnot(inherits(node, if (useXDR) "SOCKnode" else "SOCK0node"))
   nodes <- list(node, node)
   cl3 <- as.cluster(node)
   print(cl3)
