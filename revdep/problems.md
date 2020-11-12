@@ -50,6 +50,28 @@ Run `revdep_details(, "alookr")` for more info
     See ‘/c4/home/henrik/repositories/parallelly/revdep/checks/alookr/new/alookr.Rcheck/00install.out’ for details.
     ```
 
+# AlpsNMR
+
+<details>
+
+* Version: 3.0.3
+* GitHub: NA
+* Source code: https://github.com/cran/AlpsNMR
+* Date/Publication: 2020-11-04
+* Number of recursive dependencies: 164
+
+Run `revdep_details(, "AlpsNMR")` for more info
+
+</details>
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘zip’
+      All declared Imports should be used.
+    ```
+
 # aroma.core
 
 <details>
@@ -120,7 +142,7 @@ Run `revdep_details(, "batchtools")` for more info
 *   checking dependencies in R code ... NOTE
     ```
     --------------------------------------------------------------------------
-    [[13001,1],0]: A high-performance Open MPI point-to-point messaging module
+    [[14579,1],0]: A high-performance Open MPI point-to-point messaging module
     was unable to find any relevant network interfaces:
     
     Module: OpenFabrics (openib)
@@ -261,7 +283,7 @@ Run `revdep_details(, "CLVTools")` for more info
 * GitHub: https://github.com/rubenarslan/codebook
 * Source code: https://github.com/cran/codebook
 * Date/Publication: 2020-06-06 23:40:03 UTC
-* Number of recursive dependencies: 195
+* Number of recursive dependencies: 198
 
 Run `revdep_details(, "codebook")` for more info
 
@@ -352,10 +374,10 @@ Run `revdep_details(, "delayed")` for more info
 
 <details>
 
-* Version: 1.0.4
+* Version: 1.0.5
 * GitHub: https://github.com/sjspielman/dragon
 * Source code: https://github.com/cran/dragon
-* Date/Publication: 2020-10-25 14:10:05 UTC
+* Date/Publication: 2020-11-05 17:30:18 UTC
 * Number of recursive dependencies: 128
 
 Run `revdep_details(, "dragon")` for more info
@@ -363,13 +385,6 @@ Run `revdep_details(, "dragon")` for more info
 </details>
 
 ## In both
-
-*   checking whether package ‘dragon’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: Strategy 'multiprocess' is deprecated in future (>= 1.20.0). Instead, explicitly specify either 'multisession' or 'multicore'. In the current R session, 'multiprocess' equals 'multicore'.
-    See ‘/c4/home/henrik/repositories/parallelly/revdep/checks/dragon/new/dragon.Rcheck/00install.out’ for details.
-    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -381,11 +396,11 @@ Run `revdep_details(, "dragon")` for more info
 
 <details>
 
-* Version: 0.2.0
+* Version: 0.3.0
 * GitHub: https://github.com/mdsteiner/EFAtools
 * Source code: https://github.com/cran/EFAtools
-* Date/Publication: 2020-09-17 07:20:03 UTC
-* Number of recursive dependencies: 83
+* Date/Publication: 2020-11-04 18:00:02 UTC
+* Number of recursive dependencies: 88
 
 Run `revdep_details(, "EFAtools")` for more info
 
@@ -395,9 +410,16 @@ Run `revdep_details(, "EFAtools")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.0Mb
+      installed size is  7.4Mb
       sub-directories of 1Mb or more:
-        libs   5.4Mb
+        doc    1.0Mb
+        libs   5.5Mb
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘progress’
+      All declared Imports should be used.
     ```
 
 # EpiNow2
@@ -472,88 +494,6 @@ Run `revdep_details(, "forecastML")` for more info
     ```
     Namespace in Imports field not imported from: ‘dtplyr’
       All declared Imports should be used.
-    ```
-
-# future
-
-<details>
-
-* Version: 1.20.1
-* GitHub: https://github.com/HenrikBengtsson/future
-* Source code: https://github.com/cran/future
-* Date/Publication: 2020-11-03 06:40:10 UTC
-* Number of recursive dependencies: 14
-
-Run `revdep_details(, "future")` for more info
-
-</details>
-
-## In both
-
-*   checking R code for possible problems ... NOTE
-    ```
-    getExpression.ClusterFuture: no visible global function definition for
-      ‘parallel_sendData’
-    getExpression.ClusterFuture: no visible global function definition for
-      ‘...future.sendCondition’
-    getExpression.ClusterFuture: no visible global function definition for
-      ‘sendCondition’
-    getExpression.Future: no visible binding for global variable ‘seed’
-    makeExpression: no visible global function definition for ‘sysCalls’
-    makeExpression: no visible global function definition for
-      ‘sessionInformation’
-    Undefined global functions or variables:
-      ...future.sendCondition parallel_sendData seed sendCondition
-      sessionInformation sysCalls
-    ```
-
-# future.apply
-
-<details>
-
-* Version: 1.6.0
-* GitHub: https://github.com/HenrikBengtsson/future.apply
-* Source code: https://github.com/cran/future.apply
-* Date/Publication: 2020-07-01 07:50:02 UTC
-* Number of recursive dependencies: 14
-
-Run `revdep_details(, "future.apply")` for more info
-
-</details>
-
-## In both
-
-*   checking R code for possible problems ... NOTE
-    ```
-    future_lapply: no visible global function definition for
-      ‘...future.FUN’
-    future_mapply: no visible global function definition for
-      ‘...future.FUN’
-    Undefined global functions or variables:
-      ...future.FUN
-    ```
-
-# future.callr
-
-<details>
-
-* Version: 0.5.0
-* GitHub: https://github.com/HenrikBengtsson/future.callr
-* Source code: https://github.com/cran/future.callr
-* Date/Publication: 2019-09-28 04:40:07 UTC
-* Number of recursive dependencies: 19
-
-Run `revdep_details(, "future.callr")` for more info
-
-</details>
-
-## In both
-
-*   checking R code for possible problems ... NOTE
-    ```
-    run.CallrFuture: no visible global function definition for ‘fasten’
-    Undefined global functions or variables:
-      fasten
     ```
 
 # GetBCBData
@@ -669,6 +609,29 @@ Run `revdep_details(, "hal9001")` for more info
         libs   5.5Mb
     ```
 
+# IFAA
+
+<details>
+
+* Version: 1.0.0
+* GitHub: https://github.com/gitlzg/IFAA
+* Source code: https://github.com/cran/IFAA
+* Date/Publication: 2020-11-04 15:00:09 UTC
+* Number of recursive dependencies: 39
+
+Run `revdep_details(, "IFAA")` for more info
+
+</details>
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘expm’ ‘rlecuyer’
+      All declared Imports should be used.
+    ```
+
 # iml
 
 <details>
@@ -695,11 +658,11 @@ Run `revdep_details(, "iml")` for more info
 
 <details>
 
-* Version: 1.4.0
+* Version: 1.6.0
 * GitHub: https://github.com/broadinstitute/inferCNV
 * Source code: https://github.com/cran/infercnv
-* Date/Publication: 2020-04-27
-* Number of recursive dependencies: 126
+* Date/Publication: 2020-10-27
+* Number of recursive dependencies: 127
 
 Run `revdep_details(, "infercnv")` for more info
 
@@ -721,10 +684,10 @@ Run `revdep_details(, "infercnv")` for more info
     +          png_res=300,
     +          dynamic_resize=0
     +          )
-    INFO [2020-11-03 14:13:31] ::plot_cnv:Start
-    INFO [2020-11-03 14:13:31] ::plot_cnv:Current data dimensions (r,c)=4613,20 Total=94613.7345076583 Min=0.459691019720342 Max=2.53323815685956.
-    INFO [2020-11-03 14:13:31] ::plot_cnv:Depending on the size of the matrix this may take a moment.
-    INFO [2020-11-03 14:13:31] plot_cnv(): auto thresholding at: (0.510779 , 1.489221)
+    INFO [2020-11-11 17:25:36] ::plot_cnv:Start
+    INFO [2020-11-11 17:25:36] ::plot_cnv:Current data dimensions (r,c)=4613,20 Total=94613.7345076583 Min=0.459691019720342 Max=2.53323815685956.
+    INFO [2020-11-11 17:25:36] ::plot_cnv:Depending on the size of the matrix this may take a moment.
+    INFO [2020-11-11 17:25:36] plot_cnv(): auto thresholding at: (0.510779 , 1.489221)
     Warning in png(paste(out_dir, paste(output_filename, ".png", sep = ""),  :
       unable to open connection to X11 display ''
     Error in .External2(C_X11, paste0("png::", filename), g$width, g$height,  : 
@@ -744,14 +707,6 @@ Run `revdep_details(, "infercnv")` for more info
     ```
     Unexported object imported by a ':::' call: ‘HiddenMarkov:::makedensity’
       See the note in ?`:::` about the use of this operator.
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    .plot_cnv_references: no visible binding for global variable
-      ‘infercnv_obj’
-    Undefined global functions or variables:
-      infercnv_obj
     ```
 
 # inlinedocs
@@ -877,11 +832,11 @@ Run `revdep_details(, "lmtp")` for more info
 
 <details>
 
-* Version: 1.10.0
+* Version: 1.11.0
 * GitHub: https://github.com/nhejazi/methyvim
 * Source code: https://github.com/cran/methyvim
 * Date/Publication: 2020-04-27
-* Number of recursive dependencies: 208
+* Number of recursive dependencies: 211
 
 Run `revdep_details(, "methyvim")` for more info
 
@@ -892,7 +847,6 @@ Run `revdep_details(, "methyvim")` for more info
 *   checking tests ...
     ```
     ...
-      > test_check("methyvim")
       ── ERROR (test-methyvim.R:22:1): (code run outside of `test_that()`) ───────────
       Error: 'names' attribute [8] must be the same length as the vector [1]
       Backtrace:
@@ -907,10 +861,11 @@ Run `revdep_details(, "methyvim")` for more info
       Strategy 'multiprocess' is deprecated in future (>= 1.20.0). Instead, explicitly specify either 'multisession' or 'multicore'. In the current R session, 'multiprocess' equals 'multicore'.
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
+      Warning (test-cluster_sites.R:4:1): (code run outside of `test_that()`)
       ERROR (test-methyvim.R:22:1): (code run outside of `test_that()`)
       Warning (test-set_parallel.R:9:3): registers BiocParallel::DoparParam by default for parallel=TRUE
       
-      [ FAIL 1 | WARN 1 | SKIP 0 | PASS 34 ]
+      [ FAIL 1 | WARN 2 | SKIP 0 | PASS 34 ]
       Error: Test failures
       Execution halted
     ```
@@ -924,11 +879,11 @@ Run `revdep_details(, "methyvim")` for more info
 
 <details>
 
-* Version: 1.28.0
+* Version: 1.30.0
 * GitHub: NA
 * Source code: https://github.com/cran/MineICA
-* Date/Publication: 2020-04-27
-* Number of recursive dependencies: 207
+* Date/Publication: 2020-10-27
+* Number of recursive dependencies: 210
 
 Run `revdep_details(, "MineICA")` for more info
 
@@ -1081,7 +1036,7 @@ Run `revdep_details(, "origami")` for more info
 * GitHub: https://github.com/rmaia/pavo
 * Source code: https://github.com/cran/pavo
 * Date/Publication: 2020-02-08 16:20:08 UTC
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 101
 
 Run `revdep_details(, "pavo")` for more info
 
@@ -1205,11 +1160,11 @@ Run `revdep_details(, "promises")` for more info
 
 <details>
 
-* Version: 1.20.0
+* Version: 1.22.0
 * GitHub: NA
 * Source code: https://github.com/cran/Prostar
-* Date/Publication: 2020-04-27
-* Number of recursive dependencies: 286
+* Date/Publication: 2020-10-27
+* Number of recursive dependencies: 281
 
 Run `revdep_details(, "Prostar")` for more info
 
@@ -1217,11 +1172,12 @@ Run `revdep_details(, "Prostar")` for more info
 
 ## In both
 
-*   checking whether package ‘Prostar’ can be installed ... WARNING
+*   checking package dependencies ... ERROR
     ```
-    Found the following significant warnings:
-      Warning: no DISPLAY variable so Tk is not available
-    See ‘/c4/home/henrik/repositories/parallelly/revdep/checks/Prostar/new/Prostar.Rcheck/00install.out’ for details.
+    Package required and available but unsuitable version: ‘DAPAR’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # PSCBS
@@ -1270,11 +1226,11 @@ Run `revdep_details(, "PSCBS")` for more info
 
 <details>
 
-* Version: 1.24.0
+* Version: 1.26.0
 * GitHub: https://github.com/ccagc/QDNAseq
 * Source code: https://github.com/cran/QDNAseq
-* Date/Publication: 2020-04-27
-* Number of recursive dependencies: 71
+* Date/Publication: 2020-10-27
+* Number of recursive dependencies: 72
 
 Run `revdep_details(, "QDNAseq")` for more info
 
@@ -1398,13 +1354,6 @@ Run `revdep_details(, "rBiasCorrection")` for more info
       Execution halted
     ```
 
-*   checking R code for possible problems ... NOTE
-    ```
-    regression_type1: no visible global function definition for ‘italic’
-    Undefined global functions or variables:
-      italic
-    ```
-
 # regmedint
 
 <details>
@@ -1429,19 +1378,12 @@ Run `revdep_details(, "regmedint")` for more info
 
 *   checking R code for possible problems ... NOTE
     ```
-    fit_mreg: no visible global function definition for ‘lm’
     fit_mreg: no visible global function definition for ‘as.formula’
-    fit_mreg: no visible global function definition for ‘glm’
-    fit_mreg: no visible global function definition for ‘binomial’
-    fit_yreg: no visible global function definition for ‘lm’
     fit_yreg: no visible global function definition for ‘as.formula’
-    fit_yreg: no visible global function definition for ‘glm’
-    fit_yreg: no visible global function definition for ‘binomial’
-    fit_yreg: no visible global function definition for ‘poisson’
     Undefined global functions or variables:
-      as.formula binomial glm lm poisson
+      as.formula
     Consider adding
-      importFrom("stats", "as.formula", "binomial", "glm", "lm", "poisson")
+      importFrom("stats", "as.formula")
     to your NAMESPACE file.
     ```
 
@@ -1539,7 +1481,7 @@ Run `revdep_details(, "seer")` for more info
 * GitHub: https://github.com/satijalab/seurat
 * Source code: https://github.com/cran/Seurat
 * Date/Publication: 2020-09-26 04:30:12 UTC
-* Number of recursive dependencies: 229
+* Number of recursive dependencies: 230
 
 Run `revdep_details(, "Seurat")` for more info
 
@@ -1643,11 +1585,11 @@ Run `revdep_details(, "shinyrecap")` for more info
 
 <details>
 
-* Version: 1.0.19
+* Version: 1.1.0
 * GitHub: https://github.com/ShixiangWang/sigminer
 * Source code: https://github.com/cran/sigminer
-* Date/Publication: 2020-09-28 07:30:03 UTC
-* Number of recursive dependencies: 196
+* Date/Publication: 2020-11-11 07:40:06 UTC
+* Number of recursive dependencies: 197
 
 Run `revdep_details(, "sigminer")` for more info
 
@@ -1657,37 +1599,9 @@ Run `revdep_details(, "sigminer")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.5Mb
+      installed size is  6.8Mb
       sub-directories of 1Mb or more:
-        extdata   3.7Mb
-    ```
-
-# Signac
-
-<details>
-
-* Version: 1.0.0
-* GitHub: https://github.com/timoast/signac
-* Source code: https://github.com/cran/Signac
-* Date/Publication: 2020-08-16 15:50:03 UTC
-* Number of recursive dependencies: 231
-
-Run `revdep_details(, "Signac")` for more info
-
-</details>
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      'Biobase' 'Rcpp' 'grid'
-      All declared Imports should be used.
-    ```
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘cicero’
+        extdata   3.9Mb
     ```
 
 # simhelpers
