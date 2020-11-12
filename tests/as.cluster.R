@@ -1,6 +1,5 @@
 source("incl/start.R")
 stopCluster <- parallel::stopCluster
-useXDR <- parallelly:::getOptionOrEnvVar("future.makeNodePSOCK.useXDR", TRUE)
 
 message("*** cluster operations ...")
 

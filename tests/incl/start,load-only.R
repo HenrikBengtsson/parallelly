@@ -31,6 +31,7 @@ Sys.setenv(R_FUTURE_MAKENODEPSOCK_RSCRIPT_LABEL = worker_label)
 
 fullTest <- (Sys.getenv("_R_CHECK_FULL_") != "")
 isWin32 <- (.Platform$OS.type == "windows" && .Platform$r_arch == "i386")
+useXDR <- parallelly:::getOptionOrEnvVar("future.makeNodePSOCK.useXDR", FALSE)
 
 ## Private functions
 detectCores <- parallelly:::detectCores

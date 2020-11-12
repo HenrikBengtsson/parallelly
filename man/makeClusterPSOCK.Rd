@@ -30,7 +30,7 @@ makeNodePSOCK(
   rscript_libs = NULL,
   rscript_startup = NULL,
   methods = TRUE,
-  useXDR = getOptionOrEnvVar("future.makeNodePSOCK.useXDR", TRUE),
+  useXDR = getOptionOrEnvVar("future.makeNodePSOCK.useXDR", FALSE),
   outfile = "/dev/null",
   renice = NA_integer_,
   rshcmd = getOptionOrEnvVar("future.makeNodePSOCK.rshcmd", NULL),
@@ -133,8 +133,8 @@ to set the working directory to \file{/path/to} on \emph{all} workers.}
 
 \item{methods}{If TRUE, then the \pkg{methods} package is also loaded.}
 
-\item{useXDR}{If TRUE, the communication between master and workers, which is
-binary, will use big-endian (XDR).}
+\item{useXDR}{If TRUE, the communication between master and workers, which
+is binary, will use big-endian (XDR).}
 
 \item{outfile}{Where to direct the \link[base:showConnections]{stdout} and
 \link[base:showConnections]{stderr} connection output from the workers.
