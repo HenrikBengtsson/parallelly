@@ -1,15 +1,16 @@
 Package: parallelly
 ===================
 
-Version: 1.21.0-9000 [2020-11-10]
+Version: 1.21.0-9000 [2020-11-11]
 
 NEW FEATURES:
 
- * The default value of argument 'useXDR' for makeNodePSOCK() can be controlled
-   by the R option 'parallelly.makeNodePSOCK.useXDR' or the corresponding
-   environment variable 'R_PARALLELLY_MAKENODEPSOCK_USEXDR'.  If neither is
-   set, the  default is still 'useXDR = TRUE'.  The plan is to switch to use
-   the faster 'useXDR = FALSE' in a future release.
+ * PSOCK cluster workers are now set up to communicate using little endian
+   (useXDR = FALSE) instead of big endian (useXDR = TRUE).  Since most modern
+   system use little endian, 'useXDR = FALSE' speeds up the communication
+   noticeably (10-15%) on those systems.  The default value of this argument
+   can be controlled by the R option 'parallelly.makeNodePSOCK.useXDR' or the
+   corresponding environment variable 'R_PARALLELLY_MAKENODEPSOCK_USEXDR'.
 
 BUG FIXES:
 
