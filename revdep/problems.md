@@ -6,7 +6,7 @@
 * GitHub: https://github.com/martakarass/adept
 * Source code: https://github.com/cran/adept
 * Date/Publication: 2019-06-18 06:50:03 UTC
-* Number of recursive dependencies: 97
+* Number of recursive dependencies: 96
 
 Run `revdep_details(, "adept")` for more info
 
@@ -54,17 +54,43 @@ Run `revdep_details(, "alookr")` for more info
 
 <details>
 
-* Version: 3.0.3
+* Version: 3.0.4
 * GitHub: NA
 * Source code: https://github.com/cran/AlpsNMR
-* Date/Publication: 2020-11-04
-* Number of recursive dependencies: 164
+* Date/Publication: 2020-11-19
+* Number of recursive dependencies: 163
 
 Run `revdep_details(, "AlpsNMR")` for more info
 
 </details>
 
 ## In both
+
+*   checking Rd \usage sections ... WARNING
+    ```
+    ...
+    
+    Undocumented arguments in documentation object 'confusion_matrix'
+      ‘MVObj’ ‘model’
+    
+    Undocumented arguments in documentation object 'model_VIP'
+      ‘model’
+    
+    Undocumented arguments in documentation object 'rdCV_PLS_RF'
+      ‘X’ ‘Y’ ‘ID’ ‘scale’ ‘nRep’ ‘nOuter’ ‘nInner’ ‘varRatio’ ‘DA’
+      ‘fitness’ ‘method’ ‘nCompMax’ ‘methParam’ ‘ML’ ‘modReturn’ ‘logg’
+      ‘parallel’
+    
+    Undocumented arguments in documentation object 'rdCV_PLS_RF_ML'
+      ‘scale’ ‘nRep’ ‘nOuter’ ‘nInner’ ‘varRatio’ ‘DA’ ‘fitness’ ‘method’
+      ‘ML’ ‘modReturn’ ‘logg’ ‘parallel’
+    
+    Functions with \usage entries need to have the appropriate \alias
+    entries, and all their arguments documented.
+    The \usage entries must correspond to syntactically valid R code.
+    See chapter ‘Writing R documentation files’ in the ‘Writing R
+    Extensions’ manual.
+    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -142,7 +168,7 @@ Run `revdep_details(, "batchtools")` for more info
 *   checking dependencies in R code ... NOTE
     ```
     --------------------------------------------------------------------------
-    [[14579,1],0]: A high-performance Open MPI point-to-point messaging module
+    [[7388,1],0]: A high-performance Open MPI point-to-point messaging module
     was unable to find any relevant network interfaces:
     
     Module: OpenFabrics (openib)
@@ -161,7 +187,7 @@ Run `revdep_details(, "batchtools")` for more info
 * GitHub: https://github.com/bcgov/bcmaps
 * Source code: https://github.com/cran/bcmaps
 * Date/Publication: 2020-04-29 10:30:10 UTC
-* Number of recursive dependencies: 88
+* Number of recursive dependencies: 87
 
 Run `revdep_details(, "bcmaps")` for more info
 
@@ -178,10 +204,10 @@ Run `revdep_details(, "bcmaps")` for more info
 
 <details>
 
-* Version: 0.3-10
+* Version: 0.3-12
 * GitHub: NA
 * Source code: https://github.com/cran/blavaan
-* Date/Publication: 2020-08-03 06:40:02 UTC
+* Date/Publication: 2020-11-12 07:10:03 UTC
 * Number of recursive dependencies: 114
 
 Run `revdep_details(, "blavaan")` for more info
@@ -192,9 +218,9 @@ Run `revdep_details(, "blavaan")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 62.7Mb
+      installed size is 66.5Mb
       sub-directories of 1Mb or more:
-        libs  60.8Mb
+        libs  65.0Mb
     ```
 
 *   checking for GNU extensions in Makefiles ... NOTE
@@ -210,7 +236,7 @@ Run `revdep_details(, "blavaan")` for more info
 * GitHub: https://github.com/rvalavi/blockCV
 * Source code: https://github.com/cran/blockCV
 * Date/Publication: 2020-02-23 20:00:02 UTC
-* Number of recursive dependencies: 110
+* Number of recursive dependencies: 109
 
 Run `revdep_details(, "blockCV")` for more info
 
@@ -252,6 +278,74 @@ Run `revdep_details(, "brms")` for more info
         doc   2.7Mb
     ```
 
+# ceRNAnetsim
+
+<details>
+
+* Version: 1.2.0
+* GitHub: https://github.com/selcenari/ceRNAnetsim
+* Source code: https://github.com/cran/ceRNAnetsim
+* Date/Publication: 2020-10-27
+* Number of recursive dependencies: 95
+
+Run `revdep_details(, "ceRNAnetsim")` for more info
+
+</details>
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > ### ** Examples
+    > 
+    > 
+    > # When does the system gain steady-state conditions again?
+    > 
+    > ## new_counts, the dataset that includes the current counts of nodes.
+    > 
+    > data("minsamp")
+    > data("new_counts")
+    > 
+    > priming_graph(minsamp, Competing_expression, miRNA_expression)%>%
+    +   update_variables(new_counts)%>%
+    +   simulate_vis()
+    Warning in priming_graph(minsamp, Competing_expression, miRNA_expression) :
+      First column is processed as competing and the second as miRNA.
+    
+    Warning: Ignoring `graph` as layout is already calculated. Pass the calculated layout to the `graph` argument to silence this warning
+    Error in .register_graph_context(attr(plot$data, "graph"), free = TRUE) : 
+      is.tbl_graph(graph) is not TRUE
+    Calls: %>% ... ggplot_build.ggraph -> .register_graph_context -> stopifnot
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+    ...
+      Warning (test-iter_perturb.R:41:3): Could the functions work? 
+      Warning (test-iter_perturb.R:56:3): Outputs of the functions
+      Warning (test-iter_perturb.R:63:3): Outputs of the functions
+      Warning (test-updating_variables.R:11:3): Check the functions which update the values on the datasets.
+      Warning (test-updating_variables.R:18:3): Check the functions which update the values on the datasets.
+      Warning (test-updating_variables.R:36:3): Check the functions which update the values on the datasets.
+      Warning (test-updating_variables.R:40:3): Check the functions which update the values on the datasets.
+      Warning (test-updating_variables.R:51:3): Check the functions which update the values on the datasets with interaction factors.
+      Warning (test-updating_variables.R:59:3): Check the functions which update the values on the datasets with interaction factors.
+      Warning (test-updating_variables.R:77:3): Check zero values
+      Warning (test-updating_variables.R:97:3): Check gene knock down
+      Warning (test-updating_variables.R:107:3): Check gene knock down
+      Warning (test-updating_variables.R:118:3): Check gene knock down
+      Warning (test-updating_variables.R:130:3): Check gene knock down
+      Warning (test-updating_variables.R:145:3): Check gene knock down
+      Warning (test-updating_variables.R:145:3): Check gene knock down
+      Warning (test-updating_variables.R:159:3): Check gene knock down
+      
+      [ FAIL 1 | WARN 38 | SKIP 0 | PASS 27 ]
+      Error: Test failures
+      Execution halted
+    ```
+
 # CLVTools
 
 <details>
@@ -260,7 +354,7 @@ Run `revdep_details(, "brms")` for more info
 * GitHub: https://github.com/bachmannpatrick/CLVTools
 * Source code: https://github.com/cran/CLVTools
 * Date/Publication: 2020-08-26 20:10:02 UTC
-* Number of recursive dependencies: 87
+* Number of recursive dependencies: 86
 
 Run `revdep_details(, "CLVTools")` for more info
 
@@ -311,7 +405,7 @@ Run `revdep_details(, "codebook")` for more info
 * GitHub: https://github.com/M-E-Rademaker/cSEM
 * Source code: https://github.com/cran/cSEM
 * Date/Publication: 2020-10-12 16:40:03 UTC
-* Number of recursive dependencies: 121
+* Number of recursive dependencies: 119
 
 Run `revdep_details(, "cSEM")` for more info
 
@@ -333,7 +427,7 @@ Run `revdep_details(, "cSEM")` for more info
 * GitHub: https://github.com/frictionlessdata/datapackage-r
 * Source code: https://github.com/cran/datapackage.r
 * Date/Publication: 2020-05-06 22:10:09 UTC
-* Number of recursive dependencies: 114
+* Number of recursive dependencies: 113
 
 Run `revdep_details(, "datapackage.r")` for more info
 
@@ -426,11 +520,11 @@ Run `revdep_details(, "EFAtools")` for more info
 
 <details>
 
-* Version: 1.2.1
+* Version: 1.3.1
 * GitHub: NA
 * Source code: https://github.com/cran/EpiNow2
-* Date/Publication: 2020-10-20 14:50:09 UTC
-* Number of recursive dependencies: 146
+* Date/Publication: 2020-11-22 14:20:05 UTC
+* Number of recursive dependencies: 149
 
 Run `revdep_details(, "EpiNow2")` for more info
 
@@ -445,10 +539,9 @@ Run `revdep_details(, "EpiNow2")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 107.4Mb
+      installed size is 137.8Mb
       sub-directories of 1Mb or more:
-        help    2.3Mb
-        libs  104.8Mb
+        libs  136.4Mb
     ```
 
 # foieGras
@@ -459,7 +552,7 @@ Run `revdep_details(, "EpiNow2")` for more info
 * GitHub: https://github.com/ianjonsen/foieGras
 * Source code: https://github.com/cran/foieGras
 * Date/Publication: 2020-07-22 21:50:02 UTC
-* Number of recursive dependencies: 124
+* Number of recursive dependencies: 123
 
 Run `revdep_details(, "foieGras")` for more info
 
@@ -482,7 +575,7 @@ Run `revdep_details(, "foieGras")` for more info
 * GitHub: https://github.com/nredell/forecastML
 * Source code: https://github.com/cran/forecastML
 * Date/Publication: 2020-05-07 15:10:17 UTC
-* Number of recursive dependencies: 99
+* Number of recursive dependencies: 98
 
 Run `revdep_details(, "forecastML")` for more info
 
@@ -493,6 +586,28 @@ Run `revdep_details(, "forecastML")` for more info
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘dtplyr’
+      All declared Imports should be used.
+    ```
+
+# funGp
+
+<details>
+
+* Version: 0.2.0
+* GitHub: NA
+* Source code: https://github.com/cran/funGp
+* Date/Publication: 2020-11-17 09:10:03 UTC
+* Number of recursive dependencies: 35
+
+Run `revdep_details(, "funGp")` for more info
+
+</details>
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘plyr’
       All declared Imports should be used.
     ```
 
@@ -527,7 +642,7 @@ Run `revdep_details(, "GetBCBData")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/googleTagManageR
 * Date/Publication: 2020-10-05 13:20:10 UTC
-* Number of recursive dependencies: 68
+* Number of recursive dependencies: 67
 
 Run `revdep_details(, "googleTagManageR")` for more info
 
@@ -550,7 +665,7 @@ Run `revdep_details(, "googleTagManageR")` for more info
 * GitHub: https://github.com/HughParsonage/grattan
 * Source code: https://github.com/cran/grattan
 * Date/Publication: 2020-07-13 14:20:06 UTC
-* Number of recursive dependencies: 118
+* Number of recursive dependencies: 117
 
 Run `revdep_details(, "grattan")` for more info
 
@@ -568,10 +683,10 @@ Run `revdep_details(, "grattan")` for more info
 
 <details>
 
-* Version: 3.0.0
+* Version: 3.0.1
 * GitHub: NA
 * Source code: https://github.com/cran/gWQS
-* Date/Publication: 2020-06-23 13:00:03 UTC
+* Date/Publication: 2020-11-19 15:00:03 UTC
 * Number of recursive dependencies: 106
 
 Run `revdep_details(, "gWQS")` for more info
@@ -594,7 +709,7 @@ Run `revdep_details(, "gWQS")` for more info
 * GitHub: https://github.com/tlverse/hal9001
 * Source code: https://github.com/cran/hal9001
 * Date/Publication: 2020-06-27 04:50:07 UTC
-* Number of recursive dependencies: 94
+* Number of recursive dependencies: 93
 
 Run `revdep_details(, "hal9001")` for more info
 
@@ -662,7 +777,7 @@ Run `revdep_details(, "iml")` for more info
 * GitHub: https://github.com/broadinstitute/inferCNV
 * Source code: https://github.com/cran/infercnv
 * Date/Publication: 2020-10-27
-* Number of recursive dependencies: 127
+* Number of recursive dependencies: 126
 
 Run `revdep_details(, "infercnv")` for more info
 
@@ -684,10 +799,10 @@ Run `revdep_details(, "infercnv")` for more info
     +          png_res=300,
     +          dynamic_resize=0
     +          )
-    INFO [2020-11-11 17:25:36] ::plot_cnv:Start
-    INFO [2020-11-11 17:25:36] ::plot_cnv:Current data dimensions (r,c)=4613,20 Total=94613.7345076583 Min=0.459691019720342 Max=2.53323815685956.
-    INFO [2020-11-11 17:25:36] ::plot_cnv:Depending on the size of the matrix this may take a moment.
-    INFO [2020-11-11 17:25:36] plot_cnv(): auto thresholding at: (0.510779 , 1.489221)
+    INFO [2020-11-22 12:01:19] ::plot_cnv:Start
+    INFO [2020-11-22 12:01:19] ::plot_cnv:Current data dimensions (r,c)=4613,20 Total=94613.7345076583 Min=0.459691019720342 Max=2.53323815685956.
+    INFO [2020-11-22 12:01:19] ::plot_cnv:Depending on the size of the matrix this may take a moment.
+    INFO [2020-11-22 12:01:19] plot_cnv(): auto thresholding at: (0.510779 , 1.489221)
     Warning in png(paste(out_dir, paste(output_filename, ".png", sep = ""),  :
       unable to open connection to X11 display ''
     Error in .External2(C_X11, paste0("png::", filename), g$width, g$height,  : 
@@ -754,28 +869,6 @@ Run `revdep_details(, "ItemResponseTrees")` for more info
     See section 'Cross-references' in the 'Writing R Extensions' manual.
     ```
 
-# JointAI
-
-<details>
-
-* Version: 1.0.0
-* GitHub: https://github.com/nerler/JointAI
-* Source code: https://github.com/cran/JointAI
-* Date/Publication: 2020-08-31 06:40:09 UTC
-* Number of recursive dependencies: 136
-
-Run `revdep_details(, "JointAI")` for more info
-
-</details>
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘mathjaxr’
-      All declared Imports should be used.
-    ```
-
 # lidR
 
 <details>
@@ -784,7 +877,7 @@ Run `revdep_details(, "JointAI")` for more info
 * GitHub: https://github.com/Jean-Romain/lidR
 * Source code: https://github.com/cran/lidR
 * Date/Publication: 2020-10-10 21:40:03 UTC
-* Number of recursive dependencies: 160
+* Number of recursive dependencies: 159
 
 Run `revdep_details(, "lidR")` for more info
 
@@ -808,7 +901,7 @@ Run `revdep_details(, "lidR")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/lmtp
 * Date/Publication: 2020-07-18 09:10:02 UTC
-* Number of recursive dependencies: 87
+* Number of recursive dependencies: 86
 
 Run `revdep_details(, "lmtp")` for more info
 
@@ -1015,7 +1108,7 @@ Run `revdep_details(, "MineICA")` for more info
 * GitHub: https://github.com/tlverse/origami
 * Source code: https://github.com/cran/origami
 * Date/Publication: 2020-01-16 22:40:02 UTC
-* Number of recursive dependencies: 87
+* Number of recursive dependencies: 86
 
 Run `revdep_details(, "origami")` for more info
 
@@ -1032,11 +1125,11 @@ Run `revdep_details(, "origami")` for more info
 
 <details>
 
-* Version: 2.4.0
+* Version: 2.5.0
 * GitHub: https://github.com/rmaia/pavo
 * Source code: https://github.com/cran/pavo
-* Date/Publication: 2020-02-08 16:20:08 UTC
-* Number of recursive dependencies: 101
+* Date/Publication: 2020-11-12 09:00:02 UTC
+* Number of recursive dependencies: 100
 
 Run `revdep_details(, "pavo")` for more info
 
@@ -1080,7 +1173,7 @@ Run `revdep_details(, "PCRedux")` for more info
 * GitHub: https://github.com/lamho86/phylolm
 * Source code: https://github.com/cran/phylolm
 * Date/Publication: 2020-06-22 05:10:08 UTC
-* Number of recursive dependencies: 45
+* Number of recursive dependencies: 44
 
 Run `revdep_details(, "phylolm")` for more info
 
@@ -1101,7 +1194,7 @@ Run `revdep_details(, "phylolm")` for more info
 * GitHub: https://github.com/rstudio/plumber
 * Source code: https://github.com/cran/plumber
 * Date/Publication: 2020-09-14 21:40:02 UTC
-* Number of recursive dependencies: 68
+* Number of recursive dependencies: 67
 
 Run `revdep_details(, "plumber")` for more info
 
@@ -1112,9 +1205,9 @@ Run `revdep_details(, "plumber")` for more info
 *   checking tests ...
     ```
     ...
-      Warning (???): accessing two images created using promises does not create an error
+      Warning (test-async.R:356:3): accessing two images created using promises does not create an error
       FAILURE (test-async.R:356:3): accessing two images created using promises does not create an error
-      Warning (???): accessing two images created using promises does not create an error
+      Warning (test-async.R:361:3): accessing two images created using promises does not create an error
       FAILURE (test-async.R:361:3): accessing two images created using promises does not create an error
       FAILURE (test-async.R:393:3): accessing two images created using promises does not create an error
       FAILURE (test-async.R:395:3): accessing two images created using promises does not create an error
@@ -1143,7 +1236,7 @@ Run `revdep_details(, "plumber")` for more info
 * GitHub: https://github.com/rstudio/promises
 * Source code: https://github.com/cran/promises
 * Date/Publication: 2020-06-09 21:50:02 UTC
-* Number of recursive dependencies: 55
+* Number of recursive dependencies: 54
 
 Run `revdep_details(, "promises")` for more info
 
@@ -1271,7 +1364,7 @@ Run `revdep_details(, "QDNAseq")` for more info
 * GitHub: https://github.com/fboehm/qtl2pleio
 * Source code: https://github.com/cran/qtl2pleio
 * Date/Publication: 2020-10-29 16:50:03 UTC
-* Number of recursive dependencies: 113
+* Number of recursive dependencies: 112
 
 Run `revdep_details(, "qtl2pleio")` for more info
 
@@ -1290,10 +1383,10 @@ Run `revdep_details(, "qtl2pleio")` for more info
 
 <details>
 
-* Version: 0.2.3
+* Version: 0.2.4
 * GitHub: https://github.com/kapsner/rBiasCorrection
 * Source code: https://github.com/cran/rBiasCorrection
-* Date/Publication: 2020-09-23 04:50:02 UTC
+* Date/Publication: 2020-11-16 17:20:02 UTC
 * Number of recursive dependencies: 134
 
 Run `revdep_details(, "rBiasCorrection")` for more info
@@ -1331,16 +1424,16 @@ Run `revdep_details(, "rBiasCorrection")` for more info
 *   checking tests ...
     ```
     ...
-      Warning (test-algorithm_minmax_TRUE.R:340:5): algorithm test, type 1, minmax = TRUE selection_method = RelError
-      Warning (test-algorithm_minmax_TRUE.R:340:5): algorithm test, type 1, minmax = TRUE selection_method = RelError
-      Warning (test-algorithm_minmax_TRUE.R:351:5): algorithm test, type 1, minmax = TRUE selection_method = RelError
-      Warning (test-algorithm_minmax_TRUE.R:351:5): algorithm test, type 1, minmax = TRUE selection_method = RelError
-      Warning (test-algorithm_minmax_TRUE.R:384:5): algorithm test, type 1, minmax = TRUE selection_method = RelError
-      Warning (test-algorithm_minmax_TRUE.R:384:5): algorithm test, type 1, minmax = TRUE selection_method = RelError
-      Warning (test-algorithm_minmax_TRUE.R:420:5): algorithm test, type 1, minmax = TRUE selection_method = RelError
-      Warning (test-algorithm_minmax_TRUE.R:420:5): algorithm test, type 1, minmax = TRUE selection_method = RelError
-      Warning (test-biascorrection.R:15:3): correct functioning of BiasCorrection, data type 1
-      Warning (test-biascorrection.R:15:3): correct functioning of BiasCorrection, data type 1
+          █
+       1. └─rBiasCorrection::create_exampleplot(...) test-plotting.R:227:4
+       2.   └─ggplot2::ggsave(...)
+       3.     └─ggplot2:::dev(...)
+       4.       └─grDevices::png(..., res = dpi, units = "in")
+      
+      ── Skipped tests  ──────────────────────────────────────────────────────────────
+      ● On CRAN (2)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       ERROR (test-biascorrection.R:15:3): correct functioning of BiasCorrection, data type 1
       Warning (test-plotting.R:63:5): plotting_utility
       ERROR (test-plotting.R:63:5): plotting_utility
@@ -1349,7 +1442,7 @@ Run `revdep_details(, "rBiasCorrection")` for more info
       Warning (test-plotting.R:227:5): create_exampleplot
       ERROR (test-plotting.R:227:5): create_exampleplot
       
-      [ FAIL 4 | WARN 37 | SKIP 2 | PASS 181 ]
+      [ FAIL 4 | WARN 3 | SKIP 2 | PASS 180 ]
       Error: Test failures
       Execution halted
     ```
@@ -1358,10 +1451,10 @@ Run `revdep_details(, "rBiasCorrection")` for more info
 
 <details>
 
-* Version: 0.1.0
+* Version: 0.2.0
 * GitHub: https://github.com/kaz-yos/regmedint
 * Source code: https://github.com/cran/regmedint
-* Date/Publication: 2020-05-11 11:00:02 UTC
+* Date/Publication: 2020-11-16 12:30:07 UTC
 * Number of recursive dependencies: 111
 
 Run `revdep_details(, "regmedint")` for more info
@@ -1376,15 +1469,72 @@ Run `revdep_details(, "regmedint")` for more info
       All declared Imports should be used.
     ```
 
-*   checking R code for possible problems ... NOTE
+# reproducible
+
+<details>
+
+* Version: 1.2.1
+* GitHub: https://github.com/PredictiveEcology/reproducible
+* Source code: https://github.com/cran/reproducible
+* Date/Publication: 2020-08-18 07:20:36 UTC
+* Number of recursive dependencies: 105
+
+Run `revdep_details(, "reproducible")` for more info
+
+</details>
+
+## In both
+
+*   checking examples ... ERROR
     ```
-    fit_mreg: no visible global function definition for ‘as.formula’
-    fit_yreg: no visible global function definition for ‘as.formula’
-    Undefined global functions or variables:
-      as.formula
-    Consider adding
-      importFrom("stats", "as.formula")
-    to your NAMESPACE file.
+    ...
+    > ### Name: Cache
+    > ### Title: Cache method that accommodates environments, S4 methods,
+    > ###   Rasters, & nested caching
+    > ### Aliases: Cache Cache,ANY-method
+    > 
+    > ### ** Examples
+    > 
+    > tmpDir <- file.path(tempdir())
+    > 
+    > # Basic use
+    > ranNumsA <- Cache(rnorm, 10, 16, cacheRepo = tmpDir)
+    > 
+    > # All same
+    > ranNumsB <- Cache(rnorm, 10, 16, cacheRepo = tmpDir) # recovers cached copy
+      ...(Object to retrieve (f11fb1a2880f8060.rds))
+         loaded cached result from previous rnorm call, 
+    > ranNumsC <- Cache(cacheRepo = tmpDir) %C% rnorm(10, 16)  # recovers cached copy
+    Error in get(x, envir = ns, inherits = FALSE) : 
+      object 'split_chain' not found
+    Calls: %C% -> getFromNamespace -> get
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+    ...
+      
+      ── Skip (test-prepInputsInNestedArchives.R:149:3): prepInputs in a two files dou
+      Reason: On CRAN
+      
+      ── Skip (test-prepInputsInNestedArchives.R:175:3): prepInputs works with nested 
+      Reason: On CRAN
+      
+      ── Skipped tests  ──────────────────────────────────────────────────────────────
+      ● No Drive token is not TRUE (5)
+      ● On CRAN (58)
+      ● empty test (6)
+      ● test cloudCache inside Cache -- Not fully written test (1)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      ERROR (test-cache.R:550:3): test pipe for Cache
+      Warning (test-prepInputs.R:1803:3): rasters aren't properly resampled
+      Warning (test-prepInputs.R:1818:3): rasters aren't properly resampled
+      
+      [ FAIL 1 | WARN 2 | SKIP 70 | PASS 353 ]
+      Error: Test failures
+      Execution halted
     ```
 
 # robotstxt
@@ -1395,7 +1545,7 @@ Run `revdep_details(, "regmedint")` for more info
 * GitHub: https://github.com/ropensci/robotstxt
 * Source code: https://github.com/cran/robotstxt
 * Date/Publication: 2020-09-03 19:30:02 UTC
-* Number of recursive dependencies: 67
+* Number of recursive dependencies: 66
 
 Run `revdep_details(, "robotstxt")` for more info
 
@@ -1417,7 +1567,7 @@ Run `revdep_details(, "robotstxt")` for more info
 * GitHub: https://github.com/sapfluxnet/sapfluxnetr
 * Source code: https://github.com/cran/sapfluxnetr
 * Date/Publication: 2020-08-27 12:50:02 UTC
-* Number of recursive dependencies: 78
+* Number of recursive dependencies: 77
 
 Run `revdep_details(, "sapfluxnetr")` for more info
 
@@ -1438,7 +1588,7 @@ Run `revdep_details(, "sapfluxnetr")` for more info
 * GitHub: https://github.com/ChristophH/sctransform
 * Source code: https://github.com/cran/sctransform
 * Date/Publication: 2020-10-08 12:00:02 UTC
-* Number of recursive dependencies: 71
+* Number of recursive dependencies: 70
 
 Run `revdep_details(, "sctransform")` for more info
 
@@ -1459,7 +1609,7 @@ Run `revdep_details(, "sctransform")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/seer
 * Date/Publication: 2020-06-08 05:00:02 UTC
-* Number of recursive dependencies: 112
+* Number of recursive dependencies: 111
 
 Run `revdep_details(, "seer")` for more info
 
@@ -1481,7 +1631,7 @@ Run `revdep_details(, "seer")` for more info
 * GitHub: https://github.com/satijalab/seurat
 * Source code: https://github.com/cran/Seurat
 * Date/Publication: 2020-09-26 04:30:12 UTC
-* Number of recursive dependencies: 230
+* Number of recursive dependencies: 228
 
 Run `revdep_details(, "Seurat")` for more info
 
@@ -1515,7 +1665,7 @@ Run `revdep_details(, "Seurat")` for more info
 * GitHub: https://github.com/rstudio/shiny
 * Source code: https://github.com/cran/shiny
 * Date/Publication: 2020-06-23 13:30:03 UTC
-* Number of recursive dependencies: 102
+* Number of recursive dependencies: 101
 
 Run `revdep_details(, "shiny")` for more info
 
@@ -1635,7 +1785,7 @@ Run `revdep_details(, "simhelpers")` for more info
 * GitHub: https://github.com/tylermorganwall/skpr
 * Source code: https://github.com/cran/skpr
 * Date/Publication: 2020-03-04 20:20:02 UTC
-* Number of recursive dependencies: 137
+* Number of recursive dependencies: 136
 
 Run `revdep_details(, "skpr")` for more info
 
@@ -1687,7 +1837,7 @@ Run `revdep_details(, "solitude")` for more info
 * GitHub: https://github.com/mikemahoney218/spacey
 * Source code: https://github.com/cran/spacey
 * Date/Publication: 2020-03-14 18:50:02 UTC
-* Number of recursive dependencies: 98
+* Number of recursive dependencies: 97
 
 Run `revdep_details(, "spacey")` for more info
 
@@ -1709,7 +1859,7 @@ Run `revdep_details(, "spacey")` for more info
 * GitHub: https://github.com/spatial-ews/spatialwarnings
 * Source code: https://github.com/cran/spatialwarnings
 * Date/Publication: 2020-05-14 17:10:06 UTC
-* Number of recursive dependencies: 82
+* Number of recursive dependencies: 81
 
 Run `revdep_details(, "spatialwarnings")` for more info
 
@@ -1738,7 +1888,7 @@ Run `revdep_details(, "spatialwarnings")` for more info
 * GitHub: https://github.com/r-spatial/stars
 * Source code: https://github.com/cran/stars
 * Date/Publication: 2020-07-08 11:20:03 UTC
-* Number of recursive dependencies: 136
+* Number of recursive dependencies: 134
 
 Run `revdep_details(, "stars")` for more info
 
@@ -1767,7 +1917,7 @@ Run `revdep_details(, "stars")` for more info
 * GitHub: https://github.com/frictionlessdata/tableschema-r
 * Source code: https://github.com/cran/tableschema.r
 * Date/Publication: 2020-03-12 12:40:02 UTC
-* Number of recursive dependencies: 68
+* Number of recursive dependencies: 67
 
 Run `revdep_details(, "tableschema.r")` for more info
 
@@ -1823,7 +1973,7 @@ Run `revdep_details(, "treeHMM")` for more info
 * GitHub: https://github.com/RamiKrispin/TSstudio
 * Source code: https://github.com/cran/TSstudio
 * Date/Publication: 2020-01-21 05:30:02 UTC
-* Number of recursive dependencies: 140
+* Number of recursive dependencies: 139
 
 Run `revdep_details(, "TSstudio")` for more info
 
@@ -1845,7 +1995,7 @@ Run `revdep_details(, "TSstudio")` for more info
 * GitHub: https://github.com/nhejazi/txshift
 * Source code: https://github.com/cran/txshift
 * Date/Publication: 2020-09-25 13:50:02 UTC
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 98
 
 Run `revdep_details(, "txshift")` for more info
 
