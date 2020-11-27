@@ -6,8 +6,9 @@
 \usage{
 availableCores(
   constraints = NULL,
-  methods = getOption2("future.availableCores.methods", c("system", "mc.cores",
-    "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")),
+  methods = getOption2("future.availableCores.methods", c("system", "nproc",
+    "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback",
+    "custom")),
   na.rm = TRUE,
   default = c(current = 1L),
   which = c("min", "max", "all")
@@ -48,6 +49,8 @@ are supported:
 \itemize{
 \item \code{"system"} -
 Query \code{\link[parallel]{detectCores}()}.
+\item \code{"nproc"} -
+On Unix, query system command \code{nproc}.
 \item \code{"mc.cores"} -
 If available, returns the value of option
 \code{\link[base:options]{mc.cores}}.

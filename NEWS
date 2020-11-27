@@ -1,9 +1,13 @@
 Package: parallelly
 ===================
 
-Version: 1.21.0-9000 [2020-11-11]
+Version: 1.21.0-9000 [2020-11-26]
 
 NEW FEATURES:
+
+ * Now availableCores() queries also Unix command 'nproc', if available. This
+   will make it respect number of CPU/cores limited by 'cgroups' and Linux
+   containers.
 
  * PSOCK cluster workers are now set up to communicate using little endian
    (useXDR = FALSE) instead of big endian (useXDR = TRUE).  Since most modern

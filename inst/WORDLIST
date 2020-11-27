@@ -110,3 +110,5 @@ UUID
 getOptionOrEnvVar
 useXDR
 USEXDR
+cgroups
+nproc
