@@ -18,6 +18,9 @@ NEW FEATURES:
 
  * Add cpuLoad() for querying the "average" system load on Unix-like systems.
 
+ * Add freeCores() for estimating the average number of unused cores based
+   on the average system load as given by cpuLoad().
+
 BUG FIXES:
 
  * Except for environment variables 'R_FUTURE_AVAILABLECORES_FALLBACK' and

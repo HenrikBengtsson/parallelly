@@ -1,0 +1,2 @@
+free <- freeCores()
+print(free)
