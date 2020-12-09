@@ -20,7 +20,7 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | more informative printing of cluster objects         |   ✓  | N/A |
 | garbage-collection shutdown of clusters              |   ✓  | N/A |
 | defaults via options & environment variables         |   ✓  | N/A |
-| respecting CPU resources allocated by HPC schedulers |   ✓  | N/A |
+| respecting CPU resources allocated by cgroups, Linux containers, and HPC schedulers |   ✓  | N/A |
 | informative error messages                           |   ✓  | N/A |
 
 
@@ -59,7 +59,9 @@ The below table summarize the benefits:
 | --------------------------------------- | :--------------: | :---------------------------: |
 | Guaranteed to return a positive integer |        ✓         | no (may return `NA_integer_`) |
 | Can be overridden, e.g. by a sysadm     |        ✓         |              no              |
+| Respects cgroups and Linux containers   |        ✓         |              no              |
 | Respects job scheduler allocations      |        ✓         |              no              |
+| Respects CRAN policies                  |        ✓         |              no              |
 
 
 
