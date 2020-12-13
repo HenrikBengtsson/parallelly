@@ -13,9 +13,10 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | ---------------------------------- | :-------------: | :--------: |
 | remote clusters without knowing public IP            |   ✓  | N/A |
 | remote clusters without firewall configuration       |   ✓  | N/A |
-| remote username in ~/.ssh/config                     |   ✓  | N/A |
+| remote username in ~/.ssh/config                     |   ✓  | R (>= 4.1.0) |
 | fallback to RStudio' SSH and PuTTY's plink           |   ✓  | N/A |
 | faster, parallel setup of workers (R >= 4.0.0)       | todo |  ✓  |
+| faster, little-endian protocol by default            |   ✓  | N/A |
 | validation of cluster at setup                       |   ✓  |  ✓  |
 | attempt to launch failed workers multiple times      |   ✓  |  ✓  |
 | collect worker details at cluster setup              |   ✓  | N/A |
@@ -24,7 +25,7 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | more informative printing of cluster objects         |   ✓  | N/A |
 | garbage-collection shutdown of clusters              |   ✓  | N/A |
 | defaults via options & environment variables         |   ✓  | N/A |
-| respecting CPU resources allocated by HPC schedulers |   ✓  | N/A |
+| respecting CPU resources allocated by cgroups, Linux containers, and HPC schedulers |   ✓  | N/A |
 | informative error messages                           |   ✓  | N/A |
 
 
@@ -63,7 +64,9 @@ The below table summarize the benefits:
 | --------------------------------------- | :--------------: | :---------------------------: |
 | Guaranteed to return a positive integer |        ✓         | no (may return `NA_integer_`) |
 | Can be overridden, e.g. by a sysadm     |        ✓         |              no              |
+| Respects cgroups and Linux containers   |        ✓         |              no              |
 | Respects job scheduler allocations      |        ✓         |              no              |
+| Respects CRAN policies                  |        ✓         |              no              |
 
 
 
@@ -76,9 +79,11 @@ The functions in this package originate from the **[future](https://cran.r-proje
 
 * [x] Submit **parallelly** to CRAN, with minimal changes compared to the corresponding functions in the **future** package (on CRAN as of 2020-10-20)
 
-* [ ] Update the **future** package to import and re-export the functions from the **parallelly** to maximize backward compatibility in the future framework
+* [x] Update the **future** package to import and re-export the functions from the **parallelly** to maximize backward compatibility in the future framework (**future** 1.20.1 on CRAN as of 2020-11-03)
 
-* [ ] After having validated that there are no negative impact on the future framework, allow for changes in the **parallelly** package, e.g. renaming the R options and environment variable to be `parallelly.*` and `R_PARALLELLY_*` while falling back to `future.*` and `R_FUTURE_*`
+* [x] Switch to use 10-15% faster `useXDR=FALSE`
+
+* [ ] After having validated that there is no negative impact on the future framework, allow for changes in the **parallelly** package, e.g. renaming the R options and environment variable to be `parallelly.*` and `R_PARALLELLY_*` while falling back to `future.*` and `R_FUTURE_*`
 
 * [ ] Migrate, currently internal, UUID functions and export them, e.g. `uuid()`, `connectionUuid()`, and `sessionUuid()` (https://github.com/HenrikBengtsson/Wishlist-for-R/issues/96).  Because [R does not have a built-in md5 checksum function that operates on object](https://github.com/HenrikBengtsson/Wishlist-for-R/issues/21), these functions require us adding a dependency on the **[digest](https://cran.r-project.org/package=digest)** package.
 

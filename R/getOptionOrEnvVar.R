@@ -22,7 +22,8 @@ getOptionOrEnvVar <- function(name, default = NULL, envvar = NULL) {
   if (!is.null(value)) return(value)
 
   ## Is there an environment variable set?
-  value <- getEnvVar2(name, default = "")
+  name2 <- sprintf("R_%s", gsub(".", "_", toupper(name), fixed = TRUE))
+  value <- getEnvVar2(name2, default = "")
   if (nzchar(value)) {
     ## Coerce environment variable string to the type according to 'default'?
     if (!is.null(default)) storage.mode(value) <- storage.mode(default)
@@ -58,8 +59,8 @@ getOption2 <- local({
 
 
 getEnvVar2 <- local({
-  re <- sprintf("^R_(FUTURE|%s)[.]", toupper(.packageName))
-  prefixes <- paste("R_", toupper(c(.packageName, "future")), sep = "_")
+  re <- sprintf("^R_(FUTURE|%s)_", toupper(.packageName))
+  prefixes <- paste("R_", toupper(c(.packageName, "future")), "_", sep = "")
   
   function(name, default = NA_character_) {
     value <- Sys.getenv(name, "")

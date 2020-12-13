@@ -32,6 +32,8 @@
 #' \itemize{
 #'  \item `"system"` -
 #'    Query \code{\link[parallel]{detectCores}()}.
+#'  \item `"nproc"` -
+#'    On Unix, query system command \code{nproc}.
 #'  \item `"mc.cores"` -
 #'    If available, returns the value of option
 #'    \code{\link[base:options]{mc.cores}}.
@@ -81,6 +83,20 @@
 #' same name is queried.  If that is not set, the system environment
 #' variable is queried.  If neither is set, a missing value is returned.
 #'
+#' @section Avoid ending up with zero cores:
+#' Note that `availableCores()` may return a single core.  Because of this,
+#' using something like:
+#'
+#' ```r
+#' ncores <- availableCores() - 1
+#' ```
+#'
+#' may return zero, which is often not intended.  Instead, use:
+#'
+#' ```r
+#' ncores <- max(1, availableCores() - 1)
+#' ```
+#'
 #' @section Advanced usage:
 #' It is possible to override the maximum number of cores on the machine
 #' as reported by `availableCores(methods = "system")`.  This can be
@@ -94,6 +110,13 @@
 #' \dontrun{
 #' options(mc.cores = 2L)
 #' message(paste("Number of cores available:", availableCores()))
+#' }
+#'
+#' \dontrun{
+#' ## IMPORTANT: availableCores() may return 1L
+#' options(mc.cores = 1L)
+#' ncores <- max(1, availableCores() - 1)
+#' message(paste("Number of cores to use:", ncores))
 #' }
 #'
 #' \dontrun{
@@ -111,7 +134,7 @@
 #'
 #' @importFrom parallel detectCores
 #' @export
-availableCores <- function(constraints = NULL, methods = getOption2("future.availableCores.methods", c("system", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, default = c(current = 1L), which = c("min", "max", "all")) {
+availableCores <- function(constraints = NULL, methods = getOption2("future.availableCores.methods", c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, default = c(current = 1L), which = c("min", "max", "all")) {
   ## Local functions
   getenv <- function(name) {
     as.integer(trim(Sys.getenv(name, NA_character_)))
@@ -212,6 +235,9 @@ availableCores <- function(constraints = NULL, methods = getOption2("future.avai
     } else if (method == "system") {
       ## Number of cores available according to parallel::detectCores()
       n <- detectCores()
+    } else if (method == "nproc") {
+      ## Number of cores according Unix 'nproc'
+      n <- getNproc()
     } else if (method == "fallback") {
       ## Number of cores available according to future.availableCores.fallback
       n <- getOption2("future.availableCores.fallback", NA_integer_)
@@ -290,3 +316,22 @@ availableCores <- function(constraints = NULL, methods = getOption2("future.avai
 
   ncores
 } # availableCores()
+
+
+getNproc <- function() {
+  systems <- list(linux = "nproc 2>/dev/null")
+  os <- names(systems)
+  m <- pmatch(os, table = R.version$os, nomatch = NA_integer_)
+  m <- os[!is.na(m)]
+  if (length(m) == 0L) return(NA_integer_)
+
+  for (cmd in systems[[m]]) {
+    res <- tryCatch({
+      suppressWarnings(system(cmd, intern=TRUE))
+    }, error = function(e) NULL)
+    res <- gsub("(^[[:space:]]+|[[:space:]]+$)", "", res[1])
+    if (grepl("^[1-9]$", res)) return(as.integer(res))
+  }
+  
+  NA_integer_
+}

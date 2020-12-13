@@ -1,6 +1,35 @@
 Package: parallelly
 ===================
 
+Version: 1.22.0 [2020-12-12]
+
+NEW FEATURES:
+
+ * Now availableCores() queries also Unix command 'nproc', if available. This
+   will make it respect number of CPU/cores limited by 'cgroups' and Linux
+   containers.
+
+ * PSOCK cluster workers are now set up to communicate using little endian
+   (useXDR = FALSE) instead of big endian (useXDR = TRUE).  Since most modern
+   system use little endian, 'useXDR = FALSE' speeds up the communication
+   noticeably (10-15%) on those systems.  The default value of this argument
+   can be controlled by the R option 'parallelly.makeNodePSOCK.useXDR' or the
+   corresponding environment variable 'R_PARALLELLY_MAKENODEPSOCK_USEXDR'.
+
+BETA FEATURES:
+
+ * Add cpuLoad() for querying the "average" system load on Unix-like systems.
+
+ * Add freeCores() for estimating the average number of unused cores based
+   on the average system load as given by cpuLoad().
+
+BUG FIXES:
+
+ * Except for environment variables 'R_FUTURE_AVAILABLECORES_FALLBACK' and
+   'R_FUTURE_AVAILABLECORES_SYSTEM', none of the 'R_PARALLELLY_*' and
+   'R_FUTURE_*' ones where recognized.
+   
+
 Version: 1.21.0 [2020-10-26]
 
 SIGNIFICANT CHANGES:

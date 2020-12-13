@@ -1,0 +1,2 @@
+loadavg <- cpuLoad()
+print(loadavg)

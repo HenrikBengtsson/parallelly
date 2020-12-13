@@ -6,8 +6,9 @@
 \usage{
 availableCores(
   constraints = NULL,
-  methods = getOption2("future.availableCores.methods", c("system", "mc.cores",
-    "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")),
+  methods = getOption2("future.availableCores.methods", c("system", "nproc",
+    "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback",
+    "custom")),
   na.rm = TRUE,
   default = c(current = 1L),
   which = c("min", "max", "all")
@@ -48,6 +49,8 @@ are supported:
 \itemize{
 \item \code{"system"} -
 Query \code{\link[parallel]{detectCores}()}.
+\item \code{"nproc"} -
+On Unix, query system command \code{nproc}.
 \item \code{"mc.cores"} -
 If available, returns the value of option
 \code{\link[base:options]{mc.cores}}.
@@ -97,6 +100,16 @@ For any other value of a \code{methods} element, the \R option with the
 same name is queried.  If that is not set, the system environment
 variable is queried.  If neither is set, a missing value is returned.
 }
+\section{Avoid ending up with zero cores}{
+
+Note that \code{availableCores()} may return a single core.  Because of this,
+using something like:\if{html}{\out{<div class="r">}}\preformatted{ncores <- availableCores() - 1
+}\if{html}{\out{</div>}}
+
+may return zero, which is often not intended.  Instead, use:\if{html}{\out{<div class="r">}}\preformatted{ncores <- max(1, availableCores() - 1)
+}\if{html}{\out{</div>}}
+}
+
 \section{Advanced usage}{
 
 It is possible to override the maximum number of cores on the machine
@@ -112,6 +125,13 @@ message(paste("Number of cores available:", availableCores()))
 \dontrun{
 options(mc.cores = 2L)
 message(paste("Number of cores available:", availableCores()))
+}
+
+\dontrun{
+## IMPORTANT: availableCores() may return 1L
+options(mc.cores = 1L)
+ncores <- max(1, availableCores() - 1)
+message(paste("Number of cores to use:", ncores))
 }
 
 \dontrun{
