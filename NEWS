@@ -16,6 +16,8 @@ NEW FEATURES:
    can be controlled by the R option 'parallelly.makeNodePSOCK.useXDR' or the
    corresponding environment variable 'R_PARALLELLY_MAKENODEPSOCK_USEXDR'.
 
+BETA FEATURES:
+
  * Add cpuLoad() for querying the "average" system load on Unix-like systems.
 
  * Add freeCores() for estimating the average number of unused cores based
