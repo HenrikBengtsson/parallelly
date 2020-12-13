@@ -112,3 +112,5 @@ useXDR
 USEXDR
 cgroups
 nproc
+cpuLoad
+freeCores
