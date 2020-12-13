@@ -168,7 +168,7 @@ Run `revdep_details(, "batchtools")` for more info
 *   checking dependencies in R code ... NOTE
     ```
     --------------------------------------------------------------------------
-    [[7388,1],0]: A high-performance Open MPI point-to-point messaging module
+    [[21164,1],0]: A high-performance Open MPI point-to-point messaging module
     was unable to find any relevant network interfaces:
     
     Module: OpenFabrics (openib)
@@ -278,74 +278,6 @@ Run `revdep_details(, "brms")` for more info
         doc   2.7Mb
     ```
 
-# ceRNAnetsim
-
-<details>
-
-* Version: 1.2.0
-* GitHub: https://github.com/selcenari/ceRNAnetsim
-* Source code: https://github.com/cran/ceRNAnetsim
-* Date/Publication: 2020-10-27
-* Number of recursive dependencies: 95
-
-Run `revdep_details(, "ceRNAnetsim")` for more info
-
-</details>
-
-## In both
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > ### ** Examples
-    > 
-    > 
-    > # When does the system gain steady-state conditions again?
-    > 
-    > ## new_counts, the dataset that includes the current counts of nodes.
-    > 
-    > data("minsamp")
-    > data("new_counts")
-    > 
-    > priming_graph(minsamp, Competing_expression, miRNA_expression)%>%
-    +   update_variables(new_counts)%>%
-    +   simulate_vis()
-    Warning in priming_graph(minsamp, Competing_expression, miRNA_expression) :
-      First column is processed as competing and the second as miRNA.
-    
-    Warning: Ignoring `graph` as layout is already calculated. Pass the calculated layout to the `graph` argument to silence this warning
-    Error in .register_graph_context(attr(plot$data, "graph"), free = TRUE) : 
-      is.tbl_graph(graph) is not TRUE
-    Calls: %>% ... ggplot_build.ggraph -> .register_graph_context -> stopifnot
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-    ...
-      Warning (test-iter_perturb.R:41:3): Could the functions work? 
-      Warning (test-iter_perturb.R:56:3): Outputs of the functions
-      Warning (test-iter_perturb.R:63:3): Outputs of the functions
-      Warning (test-updating_variables.R:11:3): Check the functions which update the values on the datasets.
-      Warning (test-updating_variables.R:18:3): Check the functions which update the values on the datasets.
-      Warning (test-updating_variables.R:36:3): Check the functions which update the values on the datasets.
-      Warning (test-updating_variables.R:40:3): Check the functions which update the values on the datasets.
-      Warning (test-updating_variables.R:51:3): Check the functions which update the values on the datasets with interaction factors.
-      Warning (test-updating_variables.R:59:3): Check the functions which update the values on the datasets with interaction factors.
-      Warning (test-updating_variables.R:77:3): Check zero values
-      Warning (test-updating_variables.R:97:3): Check gene knock down
-      Warning (test-updating_variables.R:107:3): Check gene knock down
-      Warning (test-updating_variables.R:118:3): Check gene knock down
-      Warning (test-updating_variables.R:130:3): Check gene knock down
-      Warning (test-updating_variables.R:145:3): Check gene knock down
-      Warning (test-updating_variables.R:145:3): Check gene knock down
-      Warning (test-updating_variables.R:159:3): Check gene knock down
-      
-      [ FAIL 1 | WARN 38 | SKIP 0 | PASS 27 ]
-      Error: Test failures
-      Execution halted
-    ```
-
 # CLVTools
 
 <details>
@@ -427,7 +359,7 @@ Run `revdep_details(, "cSEM")` for more info
 * GitHub: https://github.com/frictionlessdata/datapackage-r
 * Source code: https://github.com/cran/datapackage.r
 * Date/Publication: 2020-05-06 22:10:09 UTC
-* Number of recursive dependencies: 113
+* Number of recursive dependencies: 117
 
 Run `revdep_details(, "datapackage.r")` for more info
 
@@ -468,11 +400,11 @@ Run `revdep_details(, "delayed")` for more info
 
 <details>
 
-* Version: 1.0.5
+* Version: 1.1.0
 * GitHub: https://github.com/sjspielman/dragon
 * Source code: https://github.com/cran/dragon
-* Date/Publication: 2020-11-05 17:30:18 UTC
-* Number of recursive dependencies: 128
+* Date/Publication: 2020-12-08 08:10:15 UTC
+* Number of recursive dependencies: 131
 
 Run `revdep_details(, "dragon")` for more info
 
@@ -586,28 +518,6 @@ Run `revdep_details(, "forecastML")` for more info
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘dtplyr’
-      All declared Imports should be used.
-    ```
-
-# funGp
-
-<details>
-
-* Version: 0.2.0
-* GitHub: NA
-* Source code: https://github.com/cran/funGp
-* Date/Publication: 2020-11-17 09:10:03 UTC
-* Number of recursive dependencies: 35
-
-Run `revdep_details(, "funGp")` for more info
-
-</details>
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘plyr’
       All declared Imports should be used.
     ```
 
@@ -785,32 +695,6 @@ Run `revdep_details(, "infercnv")` for more info
 
 ## In both
 
-*   checking examples ... ERROR
-    ```
-    ...
-    +          ref_title="References (Cells)",
-    +          cluster_by_groups=TRUE,
-    +          x.center=1,
-    +          x.range="auto",
-    +          hclust_method='ward.D',
-    +          color_safe_pal=FALSE,
-    +          output_filename="infercnv",
-    +          output_format="png",
-    +          png_res=300,
-    +          dynamic_resize=0
-    +          )
-    INFO [2020-11-22 12:01:19] ::plot_cnv:Start
-    INFO [2020-11-22 12:01:19] ::plot_cnv:Current data dimensions (r,c)=4613,20 Total=94613.7345076583 Min=0.459691019720342 Max=2.53323815685956.
-    INFO [2020-11-22 12:01:19] ::plot_cnv:Depending on the size of the matrix this may take a moment.
-    INFO [2020-11-22 12:01:19] plot_cnv(): auto thresholding at: (0.510779 , 1.489221)
-    Warning in png(paste(out_dir, paste(output_filename, ".png", sep = ""),  :
-      unable to open connection to X11 display ''
-    Error in .External2(C_X11, paste0("png::", filename), g$width, g$height,  : 
-      unable to start device PNG
-    Calls: plot_cnv -> png
-    Execution halted
-    ```
-
 *   checking installed package size ... NOTE
     ```
       installed size is  5.0Mb
@@ -877,7 +761,7 @@ Run `revdep_details(, "ItemResponseTrees")` for more info
 * GitHub: https://github.com/Jean-Romain/lidR
 * Source code: https://github.com/cran/lidR
 * Date/Publication: 2020-10-10 21:40:03 UTC
-* Number of recursive dependencies: 159
+* Number of recursive dependencies: 160
 
 Run `revdep_details(, "lidR")` for more info
 
@@ -983,25 +867,6 @@ Run `revdep_details(, "MineICA")` for more info
 </details>
 
 ## In both
-
-*   checking running R code from vignettes ...
-    ```
-      ‘MineICA.Rnw’... failed
-     ERROR
-    Errors in running code in vignettes:
-    when running code in ‘MineICA.Rnw’
-      ...
-    [1] "Comp 1"
-    Scale for 'x' is already present. Adding another scale for 'x', which will
-    replace the existing scale.
-    Warning: `axis.ticks.margin` is deprecated. Please set `margin` property of `axis.text` instead
-    Warning in grDevices::png(..., res = dpi, units = "in") :
-      unable to open connection to X11 display ''
-    
-      When sourcing ‘MineICA.R’:
-    Error: task 1 failed - "unable to start device PNG"
-    Execution halted
-    ```
 
 *   checking Rd cross-references ... WARNING
     ```
@@ -1129,13 +994,39 @@ Run `revdep_details(, "origami")` for more info
 * GitHub: https://github.com/rmaia/pavo
 * Source code: https://github.com/cran/pavo
 * Date/Publication: 2020-11-12 09:00:02 UTC
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 101
 
 Run `revdep_details(, "pavo")` for more info
 
 </details>
 
 ## In both
+
+*   checking tests ...
+    ```
+    ...
+      Warning (test-images.R:97:3): classify
+      Warning (test-images.R:102:3): classify
+      Warning (test-images.R:121:3): classify
+      Warning (test-images.R:149:3): classify
+      Warning (test-images.R:194:3): adjacency
+      Warning (test-images.R:195:3): adjacency
+      Warning (test-images.R:214:3): adjacency
+      Warning (test-images.R:225:3): adjacency
+      Warning (test-images.R:250:3): adjacency
+      Warning (test-images.R:272:3): adjacency
+      Warning (test-images.R:286:3): summary
+      Warning (test-images.R:288:3): summary
+      FAILURE (test-images.R:291:3): summary
+      Warning (test-processing.R:12:3): Procspec
+      Warning (test-processing.R:56:3): Aggregation
+      Warning (test-vismodel.R:12:3): Warnings
+      Warning (test-vismodel.R:67:3): sensdata()
+      
+      [ FAIL 1 | WARN 1069 | SKIP 6 | PASS 377 ]
+      Error: Test failures
+      Execution halted
+    ```
 
 *   checking whether package ‘pavo’ can be installed ... WARNING
     ```
@@ -1152,7 +1043,7 @@ Run `revdep_details(, "pavo")` for more info
 * GitHub: https://github.com/PCRuniversum/PCRedux
 * Source code: https://github.com/cran/PCRedux
 * Date/Publication: 2020-03-06 08:10:02 UTC
-* Number of recursive dependencies: 122
+* Number of recursive dependencies: 149
 
 Run `revdep_details(, "PCRedux")` for more info
 
@@ -1186,48 +1077,6 @@ Run `revdep_details(, "phylolm")` for more info
     Packages unavailable to check Rd xrefs: ‘geiger’, ‘caper’
     ```
 
-# plumber
-
-<details>
-
-* Version: 1.0.0
-* GitHub: https://github.com/rstudio/plumber
-* Source code: https://github.com/cran/plumber
-* Date/Publication: 2020-09-14 21:40:02 UTC
-* Number of recursive dependencies: 67
-
-Run `revdep_details(, "plumber")` for more info
-
-</details>
-
-## In both
-
-*   checking tests ...
-    ```
-    ...
-      Warning (test-async.R:356:3): accessing two images created using promises does not create an error
-      FAILURE (test-async.R:356:3): accessing two images created using promises does not create an error
-      Warning (test-async.R:361:3): accessing two images created using promises does not create an error
-      FAILURE (test-async.R:361:3): accessing two images created using promises does not create an error
-      FAILURE (test-async.R:393:3): accessing two images created using promises does not create an error
-      FAILURE (test-async.R:395:3): accessing two images created using promises does not create an error
-      FAILURE (test-async.R:396:3): accessing two images created using promises does not create an error
-      FAILURE (test-async.R:398:3): accessing two images created using promises does not create an error
-      FAILURE (test-async.R:400:3): accessing two images created using promises does not create an error
-      FAILURE (test-async.R:401:3): accessing two images created using promises does not create an error
-      FAILURE (test-async.R:404:3): accessing two images created using promises does not create an error
-      Warning (test-endpoint-aroundexec.R:137:3): not producing an image produces an error
-      FAILURE (test-endpoint-aroundexec.R:137:3): not producing an image produces an error
-      FAILURE (test-endpoint-aroundexec.R:142:3): not producing an image produces an error
-      Warning (test-zzz-plumb_api.R:64:3): all example plumber apis plumb
-      Warning (test-zzzz-include.R:29:5): Includes work
-      FAILURE (test-zzzz-include.R:30:5): Includes work
-      
-      [ FAIL 12 | WARN 5 | SKIP 12 | PASS 1842 ]
-      Error: Test failures
-      Execution halted
-    ```
-
 # promises
 
 <details>
@@ -1253,11 +1102,11 @@ Run `revdep_details(, "promises")` for more info
 
 <details>
 
-* Version: 1.22.0
-* GitHub: NA
+* Version: 1.22.4
+* GitHub: https://github.com/samWieczorek/Prostar
 * Source code: https://github.com/cran/Prostar
-* Date/Publication: 2020-10-27
-* Number of recursive dependencies: 281
+* Date/Publication: 2020-12-11
+* Number of recursive dependencies: 291
 
 Run `revdep_details(, "Prostar")` for more info
 
@@ -1265,54 +1114,11 @@ Run `revdep_details(, "Prostar")` for more info
 
 ## In both
 
-*   checking package dependencies ... ERROR
+*   checking whether package ‘Prostar’ can be installed ... WARNING
     ```
-    Package required and available but unsuitable version: ‘DAPAR’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
-    ```
-
-# PSCBS
-
-<details>
-
-* Version: 0.65.0
-* GitHub: https://github.com/HenrikBengtsson/PSCBS
-* Source code: https://github.com/cran/PSCBS
-* Date/Publication: 2019-05-05 22:40:09 UTC
-* Number of recursive dependencies: 90
-
-Run `revdep_details(, "PSCBS")` for more info
-
-</details>
-
-## In both
-
-*   checking running R code from vignettes ...
-    ```
-    ...
-    +     aspectRatio = 0.35, {
-    +         plotTracks(fit)
-    +     })
-    Warning in png("figures/PairedPSCBS,exData,chr01,CBS,tracks.png", width = 840,  :
-      unable to open connection to X11 display ''
-    
-      When sourcing ‘CBS.R’:
-    Error: unable to start device PNG
-    Execution halted
-    when running code in ‘PairedPSCBS.tex.rsp’
-      ...
-    > toPNG(fullname, tags = c(class(fit)[1], "tracks"), 
-    +     aspectRatio = 0.6, {
-    +         plotTracks(fit)
-    +     })
-    Warning in png("figures/PairedPSCBS,exData,chr01,PairedPSCBS,tracks.png",  :
-      unable to open connection to X11 display ''
-    
-      When sourcing ‘PairedPSCBS.R’:
-    Error: unable to start device PNG
-    Execution halted
+    Found the following significant warnings:
+      Warning: no DISPLAY variable so Tk is not available
+    See ‘/c4/home/henrik/repositories/parallelly/revdep/checks/Prostar/new/Prostar.Rcheck/00install.out’ for details.
     ```
 
 # QDNAseq
@@ -1331,25 +1137,6 @@ Run `revdep_details(, "QDNAseq")` for more info
 
 ## In both
 
-*   checking running R code from vignettes ...
-    ```
-      ‘QDNAseq.Rnw’... failed
-     ERROR
-    Errors in running code in vignettes:
-    when running code in ‘QDNAseq.Rnw’
-      ...
-    experimentData: use 'experimentData(object)'
-    Annotation:  
-    
-    > png("rawprofile.png")
-    Warning in png("rawprofile.png") :
-      unable to open connection to X11 display ''
-    
-      When sourcing ‘QDNAseq.R’:
-    Error: unable to start device PNG
-    Execution halted
-    ```
-
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘future’
@@ -1360,11 +1147,11 @@ Run `revdep_details(, "QDNAseq")` for more info
 
 <details>
 
-* Version: 1.4.1
+* Version: 1.4.3
 * GitHub: https://github.com/fboehm/qtl2pleio
 * Source code: https://github.com/cran/qtl2pleio
-* Date/Publication: 2020-10-29 16:50:03 UTC
-* Number of recursive dependencies: 112
+* Date/Publication: 2020-12-02 22:50:02 UTC
+* Number of recursive dependencies: 116
 
 Run `revdep_details(, "qtl2pleio")` for more info
 
@@ -1374,77 +1161,9 @@ Run `revdep_details(, "qtl2pleio")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 24.2Mb
+      installed size is 20.2Mb
       sub-directories of 1Mb or more:
-        libs  24.0Mb
-    ```
-
-# rBiasCorrection
-
-<details>
-
-* Version: 0.2.4
-* GitHub: https://github.com/kapsner/rBiasCorrection
-* Source code: https://github.com/cran/rBiasCorrection
-* Date/Publication: 2020-11-16 17:20:02 UTC
-* Number of recursive dependencies: 134
-
-Run `revdep_details(, "rBiasCorrection")` for more info
-
-</details>
-
-## In both
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > 
-    > gdat <- rBiasCorrection::example._plot.df_agg
-    > 
-    > coef_h <- rBiasCorrection::example._plot_coef_h
-    > coef_c <- rBiasCorrection::example._plot_coef_c
-    > 
-    > create_exampleplot(
-    +   data = gdat,
-    +   coef_hyper = coef_h,
-    +   coef_cubic = coef_c,
-    +   plot_height = 5,
-    +   plot_width = 7.5,
-    +   plot_textsize = 1,
-    +   filename = paste0(tempdir(), "/exampleplot.png")
-    + )
-    Warning in grDevices::png(..., res = dpi, units = "in") :
-      unable to open connection to X11 display ''
-    Error in .External2(C_X11, paste0("png::", filename), g$width, g$height,  : 
-      unable to start device PNG
-    Calls: create_exampleplot -> <Anonymous> -> dev -> <Anonymous>
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-    ...
-          █
-       1. └─rBiasCorrection::create_exampleplot(...) test-plotting.R:227:4
-       2.   └─ggplot2::ggsave(...)
-       3.     └─ggplot2:::dev(...)
-       4.       └─grDevices::png(..., res = dpi, units = "in")
-      
-      ── Skipped tests  ──────────────────────────────────────────────────────────────
-      ● On CRAN (2)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      ERROR (test-biascorrection.R:15:3): correct functioning of BiasCorrection, data type 1
-      Warning (test-plotting.R:63:5): plotting_utility
-      ERROR (test-plotting.R:63:5): plotting_utility
-      Warning (test-plotting.R:178:6): createbarerrorplots
-      ERROR (test-plotting.R:178:6): createbarerrorplots
-      Warning (test-plotting.R:227:5): create_exampleplot
-      ERROR (test-plotting.R:227:5): create_exampleplot
-      
-      [ FAIL 4 | WARN 3 | SKIP 2 | PASS 180 ]
-      Error: Test failures
-      Execution halted
+        libs  20.0Mb
     ```
 
 # regmedint
@@ -1467,74 +1186,6 @@ Run `revdep_details(, "regmedint")` for more info
     ```
     Namespace in Imports field not imported from: ‘Deriv’
       All declared Imports should be used.
-    ```
-
-# reproducible
-
-<details>
-
-* Version: 1.2.1
-* GitHub: https://github.com/PredictiveEcology/reproducible
-* Source code: https://github.com/cran/reproducible
-* Date/Publication: 2020-08-18 07:20:36 UTC
-* Number of recursive dependencies: 105
-
-Run `revdep_details(, "reproducible")` for more info
-
-</details>
-
-## In both
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > ### Name: Cache
-    > ### Title: Cache method that accommodates environments, S4 methods,
-    > ###   Rasters, & nested caching
-    > ### Aliases: Cache Cache,ANY-method
-    > 
-    > ### ** Examples
-    > 
-    > tmpDir <- file.path(tempdir())
-    > 
-    > # Basic use
-    > ranNumsA <- Cache(rnorm, 10, 16, cacheRepo = tmpDir)
-    > 
-    > # All same
-    > ranNumsB <- Cache(rnorm, 10, 16, cacheRepo = tmpDir) # recovers cached copy
-      ...(Object to retrieve (f11fb1a2880f8060.rds))
-         loaded cached result from previous rnorm call, 
-    > ranNumsC <- Cache(cacheRepo = tmpDir) %C% rnorm(10, 16)  # recovers cached copy
-    Error in get(x, envir = ns, inherits = FALSE) : 
-      object 'split_chain' not found
-    Calls: %C% -> getFromNamespace -> get
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-    ...
-      
-      ── Skip (test-prepInputsInNestedArchives.R:149:3): prepInputs in a two files dou
-      Reason: On CRAN
-      
-      ── Skip (test-prepInputsInNestedArchives.R:175:3): prepInputs works with nested 
-      Reason: On CRAN
-      
-      ── Skipped tests  ──────────────────────────────────────────────────────────────
-      ● No Drive token is not TRUE (5)
-      ● On CRAN (58)
-      ● empty test (6)
-      ● test cloudCache inside Cache -- Not fully written test (1)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      ERROR (test-cache.R:550:3): test pipe for Cache
-      Warning (test-prepInputs.R:1803:3): rasters aren't properly resampled
-      Warning (test-prepInputs.R:1818:3): rasters aren't properly resampled
-      
-      [ FAIL 1 | WARN 2 | SKIP 70 | PASS 353 ]
-      Error: Test failures
-      Execution halted
     ```
 
 # robotstxt
@@ -1673,32 +1324,6 @@ Run `revdep_details(, "shiny")` for more info
 
 ## In both
 
-*   checking tests ...
-    ```
-    ...
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      Warning (test-mock-session.R:89:3): renderImage supported
-      ERROR (test-mock-session.R:89:3): renderImage supported
-      Warning (test-plot-coordmap.R:23:3): ggplot coordmap
-      ERROR (test-plot-coordmap.R:23:3): ggplot coordmap
-      Warning (test-plot-coordmap.R:85:3): ggplot coordmap with facet_wrap
-      ERROR (test-plot-coordmap.R:85:3): ggplot coordmap with facet_wrap
-      Warning (test-plot-coordmap.R:134:3): ggplot coordmap with facet_grid
-      ERROR (test-plot-coordmap.R:134:3): ggplot coordmap with facet_grid
-      Warning (test-plot-coordmap.R:219:3): ggplot coordmap with 2D facet_grid
-      ERROR (test-plot-coordmap.R:219:3): ggplot coordmap with 2D facet_grid
-      Warning (test-plot-coordmap.R:269:3): ggplot coordmap with various data types
-      ERROR (test-plot-coordmap.R:269:3): ggplot coordmap with various data types
-      Warning (test-plot-coordmap.R:323:3): ggplot coordmap with various scales and coords
-      ERROR (test-plot-coordmap.R:323:3): ggplot coordmap with various scales and coords
-      Warning (test-plot-coordmap.R:381:3): ggplot coordmap maintains discrete limits
-      ERROR (test-plot-coordmap.R:381:3): ggplot coordmap maintains discrete limits
-      
-      [ FAIL 8 | WARN 8 | SKIP 7 | PASS 1012 ]
-      Error: Test failures
-      Execution halted
-    ```
-
 *   checking installed package size ... NOTE
     ```
       installed size is 10.8Mb
@@ -1814,7 +1439,7 @@ Run `revdep_details(, "skpr")` for more info
 * GitHub: https://github.com/talegari/solitude
 * Source code: https://github.com/cran/solitude
 * Date/Publication: 2020-09-17 10:10:07 UTC
-* Number of recursive dependencies: 137
+* Number of recursive dependencies: 148
 
 Run `revdep_details(, "solitude")` for more info
 
@@ -1837,7 +1462,7 @@ Run `revdep_details(, "solitude")` for more info
 * GitHub: https://github.com/mikemahoney218/spacey
 * Source code: https://github.com/cran/spacey
 * Date/Publication: 2020-03-14 18:50:02 UTC
-* Number of recursive dependencies: 97
+* Number of recursive dependencies: 98
 
 Run `revdep_details(, "spacey")` for more info
 
@@ -1936,6 +1561,27 @@ Run `revdep_details(, "tableschema.r")` for more info
     Package unavailable to check Rd xrefs: ‘parsedate’
     ```
 
+# text
+
+<details>
+
+* Version: 0.9.0
+* GitHub: https://github.com/OscarKjell/text
+* Source code: https://github.com/cran/text
+* Date/Publication: 2020-11-23 09:30:02 UTC
+* Number of recursive dependencies: 140
+
+Run `revdep_details(, "text")` for more info
+
+</details>
+
+## In both
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 3 marked UTF-8 strings
+    ```
+
 # treeHMM
 
 <details>
@@ -1973,7 +1619,7 @@ Run `revdep_details(, "treeHMM")` for more info
 * GitHub: https://github.com/RamiKrispin/TSstudio
 * Source code: https://github.com/cran/TSstudio
 * Date/Publication: 2020-01-21 05:30:02 UTC
-* Number of recursive dependencies: 139
+* Number of recursive dependencies: 143
 
 Run `revdep_details(, "TSstudio")` for more info
 
