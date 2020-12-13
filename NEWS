@@ -11,12 +11,12 @@ Version: 1.22.0 [2020-12-12]
 NEW FEATURES:
 
  * Now availableCores() queries also Unix command 'nproc', if available. This
-   will make it respect number of CPU/cores limited by 'cgroups' and Linux
+   will make it respect the number of CPU/cores limited by 'cgroups' and Linux
    containers.
 
  * PSOCK cluster workers are now set up to communicate using little endian
    (useXDR = FALSE) instead of big endian (useXDR = TRUE).  Since most modern
-   system use little endian, 'useXDR = FALSE' speeds up the communication
+   systems use little endian, 'useXDR = FALSE' speeds up the communication
    noticeably (10-15%) on those systems.  The default value of this argument
    can be controlled by the R option 'parallelly.makeNodePSOCK.useXDR' or the
    corresponding environment variable 'R_PARALLELLY_MAKENODEPSOCK_USEXDR'.
