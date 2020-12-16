@@ -9,8 +9,8 @@ NEW FEATURES:
    'logical', which is passed down to parallel::detectCores() as-is.
    The default is TRUE but it can be changed by setting the R option
    'parallelly.availableCores.logical'.  This option can in turn be set via
-   environment variable 'R_PARALLELLY_AVAILABLECORES_LOGICAL' when the
-   package is loaded.
+   environment variable 'R_PARALLELLY_AVAILABLECORES_LOGICAL' which is
+   applied (only) when the package is loaded.
  
 
 Version: 1.22.0 [2020-12-12]
