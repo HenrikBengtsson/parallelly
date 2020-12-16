@@ -4,6 +4,8 @@
 #'
 #' @param fraction (non-negative numeric) A scale factor.
 #'
+#' @param logical Passed as-is to [availableCores()].
+#'
 #' @param default (integer) The value to be returned if the system load is
 #' unknown, i.e. [cpuLoad()] return missing values.
 #'
@@ -15,12 +17,12 @@
 #'
 #' @keywords internal
 #' @export
-freeCores <- function(memory = c("5min", "15min", "1min"), fraction = 0.90, default = parallelly::availableCores()) {
+freeCores <- function(memory = c("5min", "15min", "1min"), fraction = 0.90, logical = getOption2("future.availableCores.logical", TRUE), default = parallelly::availableCores()) {
   memory <- match.arg(memory, choices = c("5min", "15min", "1min"))
   stop_if_not(!is.na(fraction), fraction > 0, fraction <= 1)
 
   ## Number of cores on the current system
-  ncores <- availableCores(methods = c("system", "fallback"))
+  ncores <- availableCores(methods = c("system", "fallback"), logical = logical)
   if (ncores == 1L) return(1L)
   
   loadavg <- cpuLoad()

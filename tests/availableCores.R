@@ -55,8 +55,11 @@ message("*** LSF ... done")
 message("*** Internal detectCores() ...")
 
 ## Option 'future.availableCores.system'
+
+## Reset internal cache
 env <- environment(parallelly:::detectCores)
-env$res <- NULL
+env$cache <- list()
+
 options(future.availableCores.system = 2L)
 n <- detectCores()
 print(n)
@@ -65,7 +68,8 @@ options(future.availableCores.system = NULL)
 
 ## Reset
 env <- environment(parallelly:::detectCores)
-env$res <- NULL
+env$cache <- list()
+
 n <- detectCores()
 print(n)
 stopifnot(is.integer(n), is.finite(n), n >= 1)

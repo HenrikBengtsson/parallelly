@@ -1,9 +1,15 @@
 Package: parallelly
 ===================
 
-Version: 1.22.0-9000 [2020-12-12]
+Version: 1.22.0-9000 [2020-12-15]
 
- * ...
+NEW FEATURES:
+
+ * availableCores(), availableWorkers(), and freeCores() gained argument
+   'logical', which is passed down to parallel::detectCores() as-is.
+   The default is TRUE but which can be changed by setting the R option
+   'parallelly.availableCores.logical'.  This option in turn be environment
+   variable 'R_PARALLELLY_AVAILABLECORES_LOGICAL' when the package is loaded.
  
 
 Version: 1.22.0 [2020-12-12]
