@@ -1,14 +1,16 @@
-#' Maximum Number of Concurrent Connections Possible
+#' Number of Concurrent Connections Available and Free
 #'
 #' The number of [connections] that can be open at the same time in \R is
 #' _typically_ 128, where the first three are occupied by the always open
 #' [stdin()], [stdout()], and [stderr()] connections, which leaves 125 slots
-#' available for other types of connections.  For example, this limit limits
-#' how many nodes a parallel cluster can have.
+#' available for other types of connections.  Connections are in many places,
+#' reading and writing to file, downloading URLs, communicating with parallel
+#' \R processes over a socket connections, capturing standard output via
+#' text connections, and so on.
 #'
-#' @return A non-negative integer, or `+Inf` if the maximum number
-#' is greated than 65536
-#' (or what option \option{parallelly.maxConnections.tries} specified).
+#' @return
+#' A non-negative integer, or `+Inf` if the available number of connections
+#' is greated than 65536.
 #'
 #' @section How to increase the limit:
 #' This limit of 128 connections can only be changed by rebuilding \R from
@@ -20,23 +22,27 @@
 #'
 #' in \file{src/main/connections.c}.
 #'
-#' @section How this function finds the limit:
-#' Since the limit _can_ be changed, we do not want to assume that the limit
-#' is 128 for all \R installation.  Unfortunately, it is not possible to
-#' ask \R what the limit is.  Instead, this function infers it from
-#' trial-and-error.  More specifically, it attempts to open as many concurrent
-#' connections as possible until it fails.  The result will be memoized to
-#' return returned in any succeeding calls.
+#' @section How the limit is identified:
+#' Since the limit _might_ changed, for instance in custom \R builds or in
+#' future releases of \R, we do not want to assume that the limit is 128 for
+#' all \R installation.  Unfortunately, it is not possible to query \R for what
+#' the limit is.
+#' Instead, `availableConnections()` infers it from trial-and-error.
+#" Specifically, it attempts to open as many concurrent connections as possible
+#' until it fails.  For efficiency, the result is memoized throughout the 
+#' current \R session.
 #'
 #' @examples
-#' n <- maxConnections()
-#' message("You can have ", n, " connections open in this R installation")
+#' total <- availableConnections()
+#' message("You can have ", total, " connections open in this R installation")
+#' free <- freeConnections()
+#' message("There are ", free, " connections remaining")
 #'
 #' @references
 #' 1. 'WISH: Increase limit of maximum number of open connections (currently 125+3)', 2016-07-09, 
 #' \url{https://github.com/HenrikBengtsson/Wishlist-for-R/issues/28}
 #' @export
-maxConnections <- local({
+availableConnections <- local({
   max <- NULL
   
   function() {
@@ -68,3 +74,10 @@ maxConnections <- local({
     max
   }               
 })
+
+
+#' @rdname availableConnections
+#' @export
+freeConnections <- function() {
+  availableConnections() - length(getAllConnections())
+}

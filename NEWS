@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.22.0-9000 [2020-12-16]
+Version: 1.22.0-9000 [2020-12-17]
 
 NEW FEATURES:
 
@@ -12,10 +12,11 @@ NEW FEATURES:
    environment variable 'R_PARALLELLY_AVAILABLECORES_LOGICAL' which is
    applied (only) when the package is loaded.
 
- * Add maxConnections() to infer the maximum number of connections that the
-   current R installation can have open at any time.  This is limit is
-   typically 128 but may be different in custom R installations that are
-   built from source.
+ * Add availableConnections() and freeConnections() to infer the maximum number
+   of connections that the current R installation can have open at any time
+   and how many of those are currently free to be used.  This limit is
+   typically 128 but may be different in custom R installations that are built
+   from source.
 
 
 Version: 1.22.0 [2020-12-12]
