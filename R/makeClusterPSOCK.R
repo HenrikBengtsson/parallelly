@@ -68,16 +68,6 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     workers <- rep("localhost", times = workers)
   }
 
-  ## If we are sure that each node requires a connection, then ...
-  if (identical(makeNode, makeNodePSOCK)) {
-    ## ... can we create that many workers?
-    free <- freeConnections()
-    if (validate) free <- free - 1L
-    if (length(workers) > free) {
-      stop(sprintf("Cannot create %d parallel PSOCK nodes. We need one connection per worker but there are only %d connections left out of the maximum %d available on this R installation", length(workers), free, availableConnections()))
-    }
-  }
-
   tries <- as.integer(tries)
   stop_if_not(length(tries) == 1L, is.integer(tries), !is.na(tries), tries >= 1L)
 
@@ -86,6 +76,16 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 
   validate <- as.logical(validate)
   stop_if_not(length(validate) == 1L, is.logical(validate), !is.na(validate))
+
+  ## If we are sure that each node requires a connection, then ...
+  if (identical(makeNode, makeNodePSOCK)) {
+    ## ... can we create that many workers?
+    free <- freeConnections()
+    if (validate) free <- free - 1L
+    if (length(workers) > free) {
+      stop(sprintf("Cannot create %d parallel PSOCK nodes. Each node needs one connection but there are only %d connections left out of the maximum %d available on this R installation", length(workers), free, availableConnections()))
+    }
+  }
 
   verbose_prefix <- "[local output] "
 
