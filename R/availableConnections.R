@@ -3,10 +3,10 @@
 #' The number of [connections] that can be open at the same time in \R is
 #' _typically_ 128, where the first three are occupied by the always open
 #' [stdin()], [stdout()], and [stderr()] connections, which leaves 125 slots
-#' available for other types of connections.  Connections are in many places,
-#' reading and writing to file, downloading URLs, communicating with parallel
-#' \R processes over a socket connections, capturing standard output via
-#' text connections, and so on.
+#' available for other types of connections.  Connections are used in many
+#' places, e.g. reading and writing to file, downloading URLs, communicating
+#' with parallel \R processes over a socket connections, and capturing standard
+#' output via text connections.
 #'
 #' @return
 #' A non-negative integer, or `+Inf` if the available number of connections
@@ -17,7 +17,7 @@
 #' source.  The limited is hardcoded as a
 #'
 #' ```c
-#' #define NCONNECTIONS 128 /* snow needs one per slave node */
+#' #define NCONNECTIONS 128
 #' ```
 #'
 #' in \file{src/main/connections.c}.
@@ -37,6 +37,9 @@
 #' message("You can have ", total, " connections open in this R installation")
 #' free <- freeConnections()
 #' message("There are ", free, " connections remaining")
+#'
+#' @seealso
+#' [base::showConnections()].
 #'
 #' @references
 #' 1. 'WISH: Increase limit of maximum number of open connections (currently 125+3)', 2016-07-09, 

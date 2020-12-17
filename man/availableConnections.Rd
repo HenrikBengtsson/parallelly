@@ -17,15 +17,15 @@ is greated than 65536.
 The number of \link{connections} that can be open at the same time in \R is
 \emph{typically} 128, where the first three are occupied by the always open
 \code{\link[=stdin]{stdin()}}, \code{\link[=stdout]{stdout()}}, and \code{\link[=stderr]{stderr()}} connections, which leaves 125 slots
-available for other types of connections.  Connections are in many places,
-reading and writing to file, downloading URLs, communicating with parallel
-\R processes over a socket connections, capturing standard output via
-text connections, and so on.
+available for other types of connections.  Connections are used in many
+places, e.g. reading and writing to file, downloading URLs, communicating
+with parallel \R processes over a socket connections, and capturing standard
+output via text connections.
 }
 \section{How to increase the limit}{
 
 This limit of 128 connections can only be changed by rebuilding \R from
-source.  The limited is hardcoded as a\if{html}{\out{<div class="c">}}\preformatted{#define NCONNECTIONS 128 /* snow needs one per slave node */
+source.  The limited is hardcoded as a\if{html}{\out{<div class="c">}}\preformatted{#define NCONNECTIONS 128
 }\if{html}{\out{</div>}}
 
 in \file{src/main/connections.c}.
@@ -54,4 +54,7 @@ message("There are ", free, " connections remaining")
 \item 'WISH: Increase limit of maximum number of open connections (currently 125+3)', 2016-07-09,
 \url{https://github.com/HenrikBengtsson/Wishlist-for-R/issues/28}
 }
+}
+\seealso{
+\code{\link[base:showConnections]{base::showConnections()}}.
 }
