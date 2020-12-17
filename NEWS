@@ -12,6 +12,10 @@ NEW FEATURES:
    environment variable 'R_PARALLELLY_AVAILABLECORES_LOGICAL' which is
    applied (only) when the package is loaded.
 
+ * Now makeClusterPSOCK() asserts that there are enough free connections
+   available before attempting to create the parallel workers.  If too many
+   workers are requested, an informative error message is produced.
+ 
  * Add availableConnections() and freeConnections() to infer the maximum number
    of connections that the current R installation can have open at any time
    and how many of those are currently free to be used.  This limit is
