@@ -9,6 +9,9 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | remote clusters without knowing public IP            |   ✓  | N/A |
 | remote clusters without firewall configuration       |   ✓  | N/A |
 | remote username in ~/.ssh/config                     |   ✓  | R (>= 4.1.0) |
+| set workers' library package path on startup         |   ✓  | N/A |
+| set workers' environment variables path on startup   |   ✓  | N/A |
+| custom workers startup code                          |   ✓  | N/A |
 | fallback to RStudio' SSH and PuTTY's plink           |   ✓  | N/A |
 | faster, parallel setup of workers (R >= 4.0.0)       | todo |  ✓  |
 | faster, little-endian protocol by default            |   ✓  | N/A |
