@@ -1,4 +1,4 @@
-#' Number of Concurrent Connections Available and Free
+#' Number of Available and Free Connections
 #'
 #' The number of [connections] that can be open at the same time in \R is
 #' _typically_ 128, where the first three are occupied by the always open
@@ -10,7 +10,8 @@
 #'
 #' @return
 #' A non-negative integer, or `+Inf` if the available number of connections
-#' is greated than 65536.
+#' is greated than 16384, which is a limit be set via option
+#' \option{parallelly.availableConnections.tries}.
 #'
 #' @section How to increase the limit:
 #' This limit of 128 connections can only be changed by rebuilding \R from
@@ -50,7 +51,7 @@ availableConnections <- local({
   
   function() {
     ## Overridden by R options?
-    value <- getOption("parallelly.maxConnections", NULL)
+    value <- getOption("parallelly.availableConnections", NULL)
     if (!is.null(value)) {
       stop_if_not(length(value) == 1L, is.numeric(value), !is.na(value),
                   value >= 3L)
@@ -58,7 +59,7 @@ availableConnections <- local({
     }
     
     if (is.null(max)) {
-      tries <- getOption("parallelly.maxConnections.tries", 65536L)
+      tries <- getOption("parallelly.availableConnections.tries", 16384L)
       stop_if_not(length(tries) == 1L, is.numeric(tries), !is.na(tries),
                   tries >= 0L)
 

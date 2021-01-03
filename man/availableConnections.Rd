@@ -3,7 +3,7 @@
 \name{availableConnections}
 \alias{availableConnections}
 \alias{freeConnections}
-\title{Number of Concurrent Connections Available and Free}
+\title{Number of Available and Free Connections}
 \usage{
 availableConnections()
 
@@ -11,7 +11,8 @@ freeConnections()
 }
 \value{
 A non-negative integer, or \code{+Inf} if the available number of connections
-is greated than 65536.
+is greated than 16384, which is a limit be set via option
+\option{parallelly.availableConnections.tries}.
 }
 \description{
 The number of \link{connections} that can be open at the same time in \R is
