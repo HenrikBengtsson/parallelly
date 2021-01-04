@@ -24,6 +24,7 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | garbage-collection shutdown of clusters              |   ✓  | N/A |
 | defaults via options & environment variables         |   ✓  | N/A |
 | respecting CPU resources allocated by cgroups, Linux containers, and HPC schedulers |   ✓  | N/A |
+| early error if requesting more workers than possible |   ✓  | N/A |
 | informative error messages                           |   ✓  | N/A |
 
 
