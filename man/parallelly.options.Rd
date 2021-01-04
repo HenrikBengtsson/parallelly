@@ -59,6 +59,8 @@ by options and environment variables with prefixes \code{future.} and
 \section{Options for configuring low-level system behaviors}{
 
 \describe{
+\item{\option{parallelly.availableCores.logical} / \option{future.availableCores.logical}:}{(logical) The default value of argument \code{logical} as used by \code{availableCores()}, \code{availableWorkers()}, and \code{availableCores()} for querying \code{parallel::detectCores(logical = logical)}.  If not specified, this option is set according to system environment variable \env{R_FUTURE_AVAILABLECORES_LOGICAL} when the \pkg{parallelly} package is \emph{loaded}.  The default is \code{TRUE} just like it is for \code{\link[parallel:detectCores]{parallel::detectCores()}}.}
+
 \item{\option{parallelly.availableCores.methods} / \option{future.availableCores.methods}:}{(character vector) Default lookup methods for \code{\link[=availableCores]{availableCores()}}. (Default: \code{c("system", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "fallback")})}
 
 \item{\option{parallelly.availableCores.custom} / \option{future.availableCores.custom}:}{(function) If set and a function, then this function will be called (without arguments) by \code{\link[=availableCores]{availableCores()}} where its value, coerced to an integer, is interpreted as a number of cores.}

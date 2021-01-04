@@ -5,6 +5,8 @@
 #'
 #' @param na.rm If TRUE, only non-missing settings are considered/returned.
 #'
+#' @param logical Passed as-is to [availableCores()].
+#'
 #' @param default The default set of workers.
 #'
 #' @param which A character specifying which set / sets to return.
@@ -18,9 +20,9 @@
 #'
 #' @details
 #' The default set of workers for each method is
-#' `rep("localhost", times = availableCores(method))`, which means
-#' that each will at least use as many parallel workers on the current
-#' machine that [availableCores()] allows for that method.
+#' `rep("localhost", times = availableCores(methods = method, logical = logical))`,
+#' which means that each will at least use as many parallel workers on the
+#' current machine that [availableCores()] allows for that method.
 #'
 #' In addition, the following settings ("methods") are also acknowledged:
 #' \itemize{
@@ -72,7 +74,7 @@
 #'
 #' @importFrom utils file_test
 #' @export
-availableWorkers <- function(methods = getOption2("future.availableWorkers.methods", c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")), na.rm = TRUE, default = "localhost", which = c("auto", "min", "max", "all")) {
+availableWorkers <- function(methods = getOption2("future.availableWorkers.methods", c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("future.availableCores.logical", TRUE), default = "localhost", which = c("auto", "min", "max", "all")) {
   ## Local functions
   getenv <- function(name) {
     as.character(trim(Sys.getenv(name, NA_character_)))
@@ -94,7 +96,7 @@ availableWorkers <- function(methods = getOption2("future.availableWorkers.metho
 
 
   ## Default is to use the current machine
-  ncores <- availableCores(methods = methods, na.rm = FALSE, which = "all")
+  ncores <- availableCores(methods = methods, na.rm = FALSE, logical = logical, which = "all")
   
   workers <- lapply(ncores, FUN = function(n) {
     if (length(n) == 0 || is.na(n)) n <- 0L

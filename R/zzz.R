@@ -90,4 +90,21 @@
   if (!is.null(ncores)) {
     if (debug) mdebugf("Option 'future.availableCores.system = %d", ncores)
   }
+
+  ## Unless already set, set option 'future.availableCores.logical'
+  ## according to environment variable 'R_FUTURE_AVAILABLECORES_LOGICAL'.
+  logical <- getOption2("future.availableCores.logical")
+  if (is.null(logical)) {
+    logical <- trim(getEnvVar2("R_FUTURE_AVAILABLECORES_LOGICAL", ""))
+    if (nzchar(logical)) {
+      if (debug) mdebugf("R_FUTURE_AVAILABLECORES_LOGICAL=%s", sQuote(logical))
+      logical <- as.logical(logical)
+      if (debug) mdebugf(" => options(future.availableCores.logical = %s)", logical)
+      options(future.availableCores.logical = logical)
+    }
+    logical <- getOption2("future.availableCores.logical", NULL)
+  }
+  if (!is.null(logical)) {
+    if (debug) mdebugf("Option 'future.availableCores.logical = %s", logical)
+  }
 }

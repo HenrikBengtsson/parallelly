@@ -9,6 +9,7 @@ availableWorkers(
     "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system",
     "fallback")),
   na.rm = TRUE,
+  logical = getOption2("future.availableCores.logical", TRUE),
   default = "localhost",
   which = c("auto", "min", "max", "all")
 )
@@ -18,6 +19,8 @@ availableWorkers(
 of available cores.}
 
 \item{na.rm}{If TRUE, only non-missing settings are considered/returned.}
+
+\item{logical}{Passed as-is to \code{\link[=availableCores]{availableCores()}}.}
 
 \item{default}{The default set of workers.}
 
@@ -36,9 +39,9 @@ Get Set of Available Workers
 }
 \details{
 The default set of workers for each method is
-\code{rep("localhost", times = availableCores(method))}, which means
-that each will at least use as many parallel workers on the current
-machine that \code{\link[=availableCores]{availableCores()}} allows for that method.
+\code{rep("localhost", times = availableCores(methods = method, logical = logical))},
+which means that each will at least use as many parallel workers on the
+current machine that \code{\link[=availableCores]{availableCores()}} allows for that method.
 
 In addition, the following settings ("methods") are also acknowledged:
 \itemize{

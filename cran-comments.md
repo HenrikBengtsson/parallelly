@@ -1,8 +1,8 @@
-# CRAN submission parallelly 1.22.0
+# CRAN submission parallelly 1.23.0
 
-on 2020-12-12
+on 2021-01-04
 
-I've verified this submission have no negative impact on any of the 147 first and second generation of reverse dependencies (139 from CRAN + 8 from Bioconductor).
+I've verified this submission have no negative impact on any of the 149 first and second generation of reverse dependencies (141 from CRAN + 8 from Bioconductor).
 
 Thank you
 

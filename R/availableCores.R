@@ -14,6 +14,11 @@
 #'
 #' @param na.rm If TRUE, only non-missing settings are considered/returned.
 #'
+#' @param logical Passed to
+#' \code{\link[parallel]{detectCores}(logical = logical)}, which, if supported,
+#' returns the number of logical CPUs (TRUE) or physical CPUs/cores (FALSE).
+#' This argument is only if argument `methods` includes `"system"`.
+#'
 #' @param default The default number of cores to return if no non-missing
 #' settings are available.
 #'
@@ -31,7 +36,7 @@
 #' are supported:
 #' \itemize{
 #'  \item `"system"` -
-#'    Query \code{\link[parallel]{detectCores}()}.
+#'    Query \code{\link[parallel]{detectCores}(logical = logical)}.
 #'  \item `"nproc"` -
 #'    On Unix, query system command \code{nproc}.
 #'  \item `"mc.cores"` -
@@ -134,7 +139,7 @@
 #'
 #' @importFrom parallel detectCores
 #' @export
-availableCores <- function(constraints = NULL, methods = getOption2("future.availableCores.methods", c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, default = c(current = 1L), which = c("min", "max", "all")) {
+availableCores <- function(constraints = NULL, methods = getOption2("future.availableCores.methods", c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("future.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all")) {
   ## Local functions
   getenv <- function(name) {
     as.integer(trim(Sys.getenv(name, NA_character_)))
@@ -234,7 +239,7 @@ availableCores <- function(constraints = NULL, methods = getOption2("future.avai
       n <- if (chk) 2L else NA_integer_
     } else if (method == "system") {
       ## Number of cores available according to parallel::detectCores()
-      n <- detectCores()
+      n <- detectCores(logical = logical)
     } else if (method == "nproc") {
       ## Number of cores according Unix 'nproc'
       n <- getNproc()

@@ -10,6 +10,7 @@ availableCores(
     "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback",
     "custom")),
   na.rm = TRUE,
+  logical = getOption2("future.availableCores.logical", TRUE),
   default = c(current = 1L),
   which = c("min", "max", "all")
 )
@@ -25,6 +26,11 @@ single core to be reported.}
 of available cores.}
 
 \item{na.rm}{If TRUE, only non-missing settings are considered/returned.}
+
+\item{logical}{Passed to
+\code{\link[parallel]{detectCores}(logical = logical)}, which, if supported,
+returns the number of logical CPUs (TRUE) or physical CPUs/cores (FALSE).
+This argument is only if argument \code{methods} includes \code{"system"}.}
 
 \item{default}{The default number of cores to return if no non-missing
 settings are available.}
@@ -48,7 +54,7 @@ The following settings ("methods") for inferring the number of cores
 are supported:
 \itemize{
 \item \code{"system"} -
-Query \code{\link[parallel]{detectCores}()}.
+Query \code{\link[parallel]{detectCores}(logical = logical)}.
 \item \code{"nproc"} -
 On Unix, query system command \code{nproc}.
 \item \code{"mc.cores"} -

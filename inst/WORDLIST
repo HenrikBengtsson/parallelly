@@ -114,3 +114,5 @@ cgroups
 nproc
 cpuLoad
 freeCores
+availableConnections
+freeConnections

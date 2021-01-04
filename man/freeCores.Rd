@@ -7,6 +7,7 @@
 freeCores(
   memory = c("5min", "15min", "1min"),
   fraction = 0.9,
+  logical = getOption2("future.availableCores.logical", TRUE),
   default = parallelly::availableCores()
 )
 }
@@ -14,6 +15,8 @@ freeCores(
 \item{memory}{(character) The time period used to infer the system load.}
 
 \item{fraction}{(non-negative numeric) A scale factor.}
+
+\item{logical}{Passed as-is to \code{\link[=availableCores]{availableCores()}}.}
 
 \item{default}{(integer) The value to be returned if the system load is
 unknown, i.e. \code{\link[=cpuLoad]{cpuLoad()}} return missing values.}

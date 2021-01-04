@@ -1,17 +1,39 @@
 Package: parallelly
 ===================
 
+Version: 1.23.0 [2021-01-03]
+
+NEW FEATURES:
+
+ * availableCores(), availableWorkers(), and freeCores() gained argument
+   'logical', which is passed down to parallel::detectCores() as-is.
+   The default is TRUE but it can be changed by setting the R option
+   'parallelly.availableCores.logical'.  This option can in turn be set via
+   environment variable 'R_PARALLELLY_AVAILABLECORES_LOGICAL' which is
+   applied (only) when the package is loaded.
+
+ * Now makeClusterPSOCK() asserts that there are enough free connections
+   available before attempting to create the parallel workers.  If too many
+   workers are requested, an informative error message is produced.
+ 
+ * Add availableConnections() and freeConnections() to infer the maximum number
+   of connections that the current R installation can have open at any time
+   and how many of those are currently free to be used.  This limit is
+   typically 128 but may be different in custom R installations that are built
+   from source.
+
+
 Version: 1.22.0 [2020-12-12]
 
 NEW FEATURES:
 
  * Now availableCores() queries also Unix command 'nproc', if available. This
-   will make it respect number of CPU/cores limited by 'cgroups' and Linux
+   will make it respect the number of CPU/cores limited by 'cgroups' and Linux
    containers.
 
  * PSOCK cluster workers are now set up to communicate using little endian
    (useXDR = FALSE) instead of big endian (useXDR = TRUE).  Since most modern
-   system use little endian, 'useXDR = FALSE' speeds up the communication
+   systems use little endian, 'useXDR = FALSE' speeds up the communication
    noticeably (10-15%) on those systems.  The default value of this argument
    can be controlled by the R option 'parallelly.makeNodePSOCK.useXDR' or the
    corresponding environment variable 'R_PARALLELLY_MAKENODEPSOCK_USEXDR'.
