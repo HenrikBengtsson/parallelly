@@ -53,7 +53,7 @@ local({
 
 message("*** cluster operations - makeClusterPSOCK(remotes) ...")
 
-remotes <- Sys.getenv("R_FUTURE_TESTS_REMOTES", "")
+remotes <- Sys.getenv("R_PARALLELLY_TESTS_REMOTES", "")
 remotes <- gsub(" ", "", unlist(strsplit(remotes, split = ",")))
 remotes <- remotes[nzchar(remotes)]
 if (length(remotes) > 0) {

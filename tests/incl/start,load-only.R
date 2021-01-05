@@ -18,20 +18,20 @@ oopts <- options(
 ## Comment: The below should be set automatically whenever the package is
 ## loaded and 'R CMD check' runs.  The below is added in case R is changed
 ## in the future and we fail to detect 'R CMD check'.
-Sys.setenv(R_FUTURE_MAKENODEPSOCK_CONNECTTIMEOUT = 2 * 60)
-Sys.setenv(R_FUTURE_MAKENODEPSOCK_TIMEOUT = 2 * 60)
-Sys.setenv(R_FUTURE_WAIT_INTERVAL = 0.01) ## 0.01s (instead of default 0.2s)
-Sys.setenv(R_FUTURE_MAKENODEPSOCK_SESSIONINFO_PKGS = TRUE)
+Sys.setenv(R_PARALLELLY_MAKENODEPSOCK_CONNECTTIMEOUT = 2 * 60)
+Sys.setenv(R_PARALLELLY_MAKENODEPSOCK_TIMEOUT = 2 * 60)
+Sys.setenv(R_PARALLELLY_WAIT_INTERVAL = 0.01) ## 0.01s (instead of default 0.2s)
+Sys.setenv(R_PARALLELLY_MAKENODEPSOCK_SESSIONINFO_PKGS = TRUE)
 
 ## Label PSOCK cluster workers (to help troubleshooting)
 test_script <- grep("[.]R$", commandArgs(), value = TRUE)[1]
 if (is.na(test_script)) test_script <- "UNKNOWN"
-worker_label <- sprintf("future/tests/%s:%s:%s:%s", test_script, Sys.info()[["nodename"]], Sys.info()[["user"]], Sys.getpid())
-Sys.setenv(R_FUTURE_MAKENODEPSOCK_RSCRIPT_LABEL = worker_label)
+worker_label <- sprintf("parallelly/tests/%s:%s:%s:%s", test_script, Sys.info()[["nodename"]], Sys.info()[["user"]], Sys.getpid())
+Sys.setenv(R_PARALLELLY_MAKENODEPSOCK_RSCRIPT_LABEL = worker_label)
 
 fullTest <- (Sys.getenv("_R_CHECK_FULL_") != "")
 isWin32 <- (.Platform$OS.type == "windows" && .Platform$r_arch == "i386")
-useXDR <- parallelly:::getOptionOrEnvVar("future.makeNodePSOCK.useXDR", FALSE)
+useXDR <- parallelly:::getOptionOrEnvVar("parallelly.makeNodePSOCK.useXDR", FALSE)
 
 ## Private functions
 detectCores <- parallelly:::detectCores
@@ -45,4 +45,3 @@ isNA <- parallelly:::isNA
 
 ## Local functions for test scripts
 printf <- function(...) cat(sprintf(...))
-

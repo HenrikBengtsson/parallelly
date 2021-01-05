@@ -4,19 +4,19 @@ getOption2 <- parallelly:::getOption2
 getEnvVar2 <- parallelly:::getEnvVar2
 getOptionOrEnvVar <- parallelly:::getOptionOrEnvVar
 
-options(future.some.option = NULL)
+options(parallelly.some.option = NULL)
 options(parallelly.some.option = NULL)
 Sys.unsetenv("R_FUTURE_SOME_ENVVAR")
-Sys.unsetenv("R_PARALLLELLY_SOME_ENVVAR")
+Sys.unsetenv("R_PARALLELLY_SOME_ENVVAR")
 
 
 message("*** Options and environment variables ...")
 
 showall <- function() {
   utils::str(list(
-    future.some.setting = getOption("future.some.setting", NULL),
-    parallelly.some.setting = getOption("parallelly.some.setting", NULL),
-    R_FUTURE_SOME_SETTING = Sys.getenv("R_FUTURE_SOME_SETTING", ""),
+    future.some.setting       = getOption("future.some.setting", NULL),
+    parallelly.some.setting   = getOption("parallelly.some.setting", NULL),
+    R_FUTURE_SOME_SETTING     = Sys.getenv("R_FUTURE_SOME_SETTING", ""),
     R_PARALLELLY_SOME_SETTING = Sys.getenv("R_PARALLELLY_SOME_SETTING", "")
   ))
 }
