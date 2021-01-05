@@ -7,7 +7,7 @@
 freeCores(
   memory = c("5min", "15min", "1min"),
   fraction = 0.9,
-  logical = getOption2("future.availableCores.logical", TRUE),
+  logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = parallelly::availableCores()
 )
 }

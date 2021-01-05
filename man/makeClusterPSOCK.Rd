@@ -11,18 +11,18 @@ makeClusterPSOCK(
   port = c("auto", "random"),
   ...,
   autoStop = FALSE,
-  tries = getOptionOrEnvVar("future.makeNodePSOCK.tries", 3L),
-  delay = getOptionOrEnvVar("future.makeNodePSOCK.tries.delay", 15),
-  validate = getOptionOrEnvVar("future.makeNodePSOCK.validate", TRUE),
-  verbose = getOptionOrEnvVar("future.debug", FALSE)
+  tries = getOptionOrEnvVar("parallelly.makeNodePSOCK.tries", 3L),
+  delay = getOptionOrEnvVar("parallelly.makeNodePSOCK.tries.delay", 15),
+  validate = getOptionOrEnvVar("parallelly.makeNodePSOCK.validate", TRUE),
+  verbose = getOptionOrEnvVar("parallelly.debug", FALSE)
 )
 
 makeNodePSOCK(
   worker = "localhost",
   master = NULL,
   port,
-  connectTimeout = getOptionOrEnvVar("future.makeNodePSOCK.connectTimeout", 2 * 60),
-  timeout = getOptionOrEnvVar("future.makeNodePSOCK.timeout", 30 * 24 * 60 * 60),
+  connectTimeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.connectTimeout", 2 * 60),
+  timeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60),
   rscript = NULL,
   homogeneous = NULL,
   rscript_args = NULL,
@@ -30,14 +30,14 @@ makeNodePSOCK(
   rscript_libs = NULL,
   rscript_startup = NULL,
   methods = TRUE,
-  useXDR = getOptionOrEnvVar("future.makeNodePSOCK.useXDR", FALSE),
+  useXDR = getOptionOrEnvVar("parallelly.makeNodePSOCK.useXDR", FALSE),
   outfile = "/dev/null",
   renice = NA_integer_,
-  rshcmd = getOptionOrEnvVar("future.makeNodePSOCK.rshcmd", NULL),
+  rshcmd = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshcmd", NULL),
   user = NULL,
   revtunnel = TRUE,
   rshlogfile = NULL,
-  rshopts = getOptionOrEnvVar("future.makeNodePSOCK.rshopts", NULL),
+  rshopts = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshopts", NULL),
   rank = 1L,
   manual = FALSE,
   dryrun = FALSE,
@@ -55,7 +55,7 @@ of localhost workers (as a positive integer).}
 the workers (via socket connections).  If an integer vector of ports, then a
 random one among those is chosen.  If \code{"random"}, then a random port in
 is chosen from \code{11000:11999}, or from the range specified by
-environment variable \env{R_FUTURE_RANDOM_PORTS}.
+environment variable \env{R_PARALLELLY_RANDOM_PORTS}.
 If \code{"auto"} (default), then the default (single) port is taken from
 environment variable \env{R_PARALLEL_PORT}, otherwise \code{"random"} is
 used.
@@ -212,7 +212,7 @@ to an external host.
 
 The default method for connecting to an external host is via SSH and the
 system executable for this is given by argument \code{rshcmd}.  The default
-is given by option \option{future.makeNodePSOCK.rshcmd}.  If that is not
+is given by option \option{parallelly.makeNodePSOCK.rshcmd}.  If that is not
 set, then the default is to use \command{ssh}.
 Most Unix-like systems, including macOS, have \command{ssh} preinstalled
 on the \env{PATH}.  This is also true for recent Windows 10
@@ -253,7 +253,7 @@ Because of this, it is recommended to use the PuTTY SSH client or the
 RStudio SSH client until this bug has been resolved in Windows 10.}
 
 Additional SSH options may be specified via argument \code{rshopts}, which
-defaults to option \option{future.makeNodePSOCK.rshopts}. For instance, a
+defaults to option \option{parallelly.makeNodePSOCK.rshopts}. For instance, a
 private SSH key can be provided as
 \code{rshopts = c("-i", "~/.ssh/my_private_key")}.  PuTTY users should
 specify a PuTTY PPK file, e.g.

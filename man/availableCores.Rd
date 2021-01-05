@@ -6,11 +6,11 @@
 \usage{
 availableCores(
   constraints = NULL,
-  methods = getOption2("future.availableCores.methods", c("system", "nproc",
+  methods = getOption2("parallelly.availableCores.methods", c("system", "nproc",
     "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback",
     "custom")),
   na.rm = TRUE,
-  logical = getOption2("future.availableCores.logical", TRUE),
+  logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = c(current = 1L),
   which = c("min", "max", "all")
 )
@@ -97,7 +97,7 @@ Query Platform Load Sharing Facility (LSF) environment variable
 Jobs with multiple (CPU) slots can be submitted on LSF using
 \verb{bsub -n 2 -R "span[hosts=1]" < hello.sh}.
 \item \code{"custom"} -
-If option \option{future.availableCores.custom} is set and a function,
+If option \option{parallelly.availableCores.custom} is set and a function,
 then this function will be called (without arguments) and it's value
 will be coerced to an integer, which will be interpreted as a number
 of available cores.  If the value is NA, then it will be ignored.
@@ -121,7 +121,7 @@ may return zero, which is often not intended.  Instead, use:\if{html}{\out{<div 
 It is possible to override the maximum number of cores on the machine
 as reported by \code{availableCores(methods = "system")}.  This can be
 done by first specifying
-\code{options(future.availableCores.methods = "mc.cores")} and
+\code{options(parallelly.availableCores.methods = "mc.cores")} and
 then the number of cores to use, e.g. \code{options(mc.cores = 8)}.
 }
 

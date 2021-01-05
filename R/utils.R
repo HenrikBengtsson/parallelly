@@ -81,25 +81,25 @@ now <- function(x = Sys.time(), format = "[%H:%M:%OS3] ") {
   format(as.POSIXlt(x, tz = ""), format = format)
 }
 
-mdebug <- function(..., debug = getOption2("future.debug", FALSE)) {
+mdebug <- function(..., debug = getOption2("parallelly.debug", FALSE)) {
   if (!debug) return()
   message(now(), ...)
 }
 
 mdebugf <- function(..., appendLF = TRUE,
-                    debug = getOption2("future.debug", FALSE)) {
+                    debug = getOption2("parallelly.debug", FALSE)) {
   if (!debug) return()
   message(now(), sprintf(...), appendLF = appendLF)
 }
 
 #' @importFrom utils capture.output
-mprint <- function(..., appendLF = TRUE, debug = getOption2("future.debug", FALSE)) {
+mprint <- function(..., appendLF = TRUE, debug = getOption2("parallelly.debug", FALSE)) {
   if (!debug) return()
   message(paste(now(), capture.output(print(...)), sep = "", collapse = "\n"), appendLF = appendLF)
 }
 
 #' @importFrom utils capture.output str
-mstr <- function(..., appendLF = TRUE, debug = getOption2("future.debug", FALSE)) {
+mstr <- function(..., appendLF = TRUE, debug = getOption2("parallelly.debug", FALSE)) {
   if (!debug) return()
   message(paste(now(), capture.output(str(...)), sep = "", collapse = "\n"), appendLF = appendLF)
 }
@@ -301,7 +301,7 @@ pid_exists <- local({
 
   cache <- list()
 
-  function(pid, debug = getOption2("future.debug", FALSE)) {
+  function(pid, debug = getOption2("parallelly.debug", FALSE)) {
     stop_if_not(is.numeric(pid), length(pid) == 1L, is.finite(pid), pid > 0L)
 
     pid_check <- cache$pid_check

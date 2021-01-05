@@ -43,7 +43,7 @@
 #'  \item `"LSF"` -
 #'    Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
 #'  \item `"custom"` -
-#'    If option \option{future.availableWorkers.custom} is set and a function,
+#'    If option \option{parallelly.availableWorkers.custom} is set and a function,
 #'    then this function will be called (without arguments) and it's value
 #'    will be coerced to a character vector, which will be interpreted as
 #'    hostnames of available workers.
@@ -74,7 +74,7 @@
 #'
 #' @importFrom utils file_test
 #' @export
-availableWorkers <- function(methods = getOption2("future.availableWorkers.methods", c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("future.availableCores.logical", TRUE), default = "localhost", which = c("auto", "min", "max", "all")) {
+availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = "localhost", which = c("auto", "min", "max", "all")) {
   ## Local functions
   getenv <- function(name) {
     as.character(trim(Sys.getenv(name, NA_character_)))
@@ -162,7 +162,7 @@ availableWorkers <- function(methods = getOption2("future.availableWorkers.metho
       if (is.na(data)) next
       w <- split(data)
     } else if (method == "custom") {
-      fcn <- getOption2("future.availableWorkers.custom", NULL)
+      fcn <- getOption2("parallelly.availableWorkers.custom", NULL)
       if (!is.function(fcn)) next
       w <- fcn()
       w <- as.character(w)

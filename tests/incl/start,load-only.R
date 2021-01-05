@@ -20,7 +20,6 @@ oopts <- options(
 ## in the future and we fail to detect 'R CMD check'.
 Sys.setenv(R_PARALLELLY_MAKENODEPSOCK_CONNECTTIMEOUT = 2 * 60)
 Sys.setenv(R_PARALLELLY_MAKENODEPSOCK_TIMEOUT = 2 * 60)
-Sys.setenv(R_PARALLELLY_WAIT_INTERVAL = 0.01) ## 0.01s (instead of default 0.2s)
 Sys.setenv(R_PARALLELLY_MAKENODEPSOCK_SESSIONINFO_PKGS = TRUE)
 
 ## Label PSOCK cluster workers (to help troubleshooting)

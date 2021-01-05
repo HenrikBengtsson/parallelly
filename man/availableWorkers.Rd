@@ -5,11 +5,11 @@
 \title{Get Set of Available Workers}
 \usage{
 availableWorkers(
-  methods = getOption2("future.availableWorkers.methods", c("mc.cores",
+  methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores",
     "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system",
     "fallback")),
   na.rm = TRUE,
-  logical = getOption2("future.availableCores.logical", TRUE),
+  logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = "localhost",
   which = c("auto", "min", "max", "all")
 )
@@ -62,7 +62,7 @@ requests eight cores on a any number of machines.
 \item \code{"LSF"} -
 Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
 \item \code{"custom"} -
-If option \option{future.availableWorkers.custom} is set and a function,
+If option \option{parallelly.availableWorkers.custom} is set and a function,
 then this function will be called (without arguments) and it's value
 will be coerced to a character vector, which will be interpreted as
 hostnames of available workers.

@@ -32,12 +32,12 @@
 #' A warning will also be produced informing the user about this the first
 #' time time this function is called in an \R session.
 #' This warning can be disabled by setting R option
-#' \option{future.supportsMulticore.unstable}, or environment variable
+#' \option{parallelly.supportsMulticore.unstable}, or environment variable
 #' \env{R_FUTURE_SUPPORTSMULTICORE_UNSTABLE} to `"quiet"`.
 #'
 #' @section Enable or disable forked processing:
 #' It is possible to disable forked processing for futures by setting \R
-#' option \option{future.fork.enable} to `FALSE`.  Alternatively, one can
+#' option \option{parallelly.fork.enable} to `FALSE`.  Alternatively, one can
 #' set environment variable \env{R_FUTURE_FORK_ENABLE} to `false`.
 #' Analogously, it is possible to override disabled forking by setting one
 #' of these to `TRUE`.
@@ -61,7 +61,7 @@ supportsMulticore <- local({
     if (!supportedByOS) return(FALSE)
 
     ## Is forked processing disabled via R settings?
-    value <- getOptionOrEnvVar("future.fork.enable", NA)
+    value <- getOptionOrEnvVar("parallelly.fork.enable", NA)
     stop_if_not(length(value) == 1L)
     value <- as.logical(value)
     if (!is.na(value)) return(value)
@@ -87,7 +87,7 @@ supportsMulticoreAndRStudio <- local({
   
    if (!warn || alreadyWarned) return(FALSE)
    
-   action <- getOptionOrEnvVar("future.supportsMulticore.unstable", "warn")
+   action <- getOptionOrEnvVar("parallelly.supportsMulticore.unstable", "warn")
    if (action == "warn") {
      warning("[ONE-TIME WARNING] Forked processing ('multicore') is not supported when running R from RStudio because it is considered unstable. For more details, how to control forked processing or not, and how to silence this warning in future R sessions, see ?parallelly::supportsMulticore")
    }
