@@ -35,7 +35,7 @@ Run `revdep_details(, "adept")` for more info
 * GitHub: https://github.com/choonghyunryu/alookr
 * Source code: https://github.com/cran/alookr
 * Date/Publication: 2020-06-07 16:50:07 UTC
-* Number of recursive dependencies: 207
+* Number of recursive dependencies: 208
 
 Run `revdep_details(, "alookr")` for more info
 
@@ -168,7 +168,7 @@ Run `revdep_details(, "batchtools")` for more info
 *   checking dependencies in R code ... NOTE
     ```
     --------------------------------------------------------------------------
-    [[21164,1],0]: A high-performance Open MPI point-to-point messaging module
+    [[4078,1],0]: A high-performance Open MPI point-to-point messaging module
     was unable to find any relevant network interfaces:
     
     Module: OpenFabrics (openib)
@@ -216,11 +216,37 @@ Run `revdep_details(, "blavaan")` for more info
 
 ## In both
 
+*   checking tests ...
+    ```
+    ...
+      Backtrace:
+        1. blavaan::blavFitIndices(fitstan) tests.blavaanobject-methods.R:126:2
+        3. blavaan:::fitMeasures(object, paste0("p_", pD))
+        4. blavaan:::.local(object, fit.measures, baseline.model, ...)
+        5. blavaan:::blav_fit_measures(...)
+        7. loo::loo.matrix(casells, r_eff = ref)
+        8. loo:::importance_sampling.matrix(...)
+        9. loo:::do_importance_sampling(...)
+       10. loo:::throw_pareto_warnings(pareto_k)
+       11. loo:::.warn(...)
+      
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Error (???): blavaan arguments ──────────────────────────────────────────────
+      Error: blavaan ERROR: problem with translation from lavaan to MCMC syntax.
+      Backtrace:
+          █
+       1. └─blavaan::blavaan(...)
+      
+      [ FAIL 1 | WARN 13 | SKIP 0 | PASS 61 ]
+      Error: Test failures
+      Execution halted
+    ```
+
 *   checking installed package size ... NOTE
     ```
-      installed size is 66.5Mb
+      installed size is 67.0Mb
       sub-directories of 1Mb or more:
-        libs  65.0Mb
+        libs  65.6Mb
     ```
 
 *   checking for GNU extensions in Makefiles ... NOTE
@@ -309,7 +335,7 @@ Run `revdep_details(, "CLVTools")` for more info
 * GitHub: https://github.com/rubenarslan/codebook
 * Source code: https://github.com/cran/codebook
 * Date/Publication: 2020-06-06 23:40:03 UTC
-* Number of recursive dependencies: 198
+* Number of recursive dependencies: 199
 
 Run `revdep_details(, "codebook")` for more info
 
@@ -366,6 +392,32 @@ Run `revdep_details(, "datapackage.r")` for more info
 </details>
 
 ## In both
+
+*   checking tests ...
+    ```
+    ...
+      Component "allOf": Component 1: Component 5: Component 12: Component 6: Component 5: Component 5: Component 6: Component 1: Component 3: Component 3: Component 9: Component 5: Component 5: Component 1: 1 string mismatch
+      Component "allOf": Component 1: Component 5: Component 12: Component 6: Component 5: Component 5: Component 6: Component 1: Component 3: Component 3: Component 9: Component 5: Component 5: Component 2: Modes: numeric, list
+      Component "allOf": Component 1: Component 5: Component 12: Component 6: Component 5: Component 5: Component 6: Component 1: Component 3: Component 3: Component 9: Component 5: Component 5: Component 2: target is numeric, current is list
+      Component "allOf": Component 1: Component 5: Component 12: Component 6: Component 5: Component 5: Component 6: Component 1: Component 3: Component 3: Component 9: Component 5: Component 5: Component 3: Modes: list, character
+      ...
+      ── Failure (test-profile.R:106:5): profile tabular-data-resource should be up-to-date ──
+      profile$jsonschema not equal to `response.data`.
+      Component "properties": Component "schema": Component "properties": Component "fields": Component "items": Component "anyOf": Component 9: Component 5: Names: 4 string mismatches
+      Component "properties": Component "schema": Component "properties": Component "fields": Component "items": Component "anyOf": Component 9: Component 5: Length mismatch: comparison on first 8 components
+      Component "properties": Component "schema": Component "properties": Component "fields": Component "items": Component "anyOf": Component 9: Component 5: Component 5: Names: 3 string mismatches
+      Component "properties": Component "schema": Component "properties": Component "fields": Component "items": Component "anyOf": Component 9: Component 5: Component 5: Length mismatch: comparison on first 3 components
+      Component "properties": Component "schema": Component "properties": Component "fields": Component "items": Component "anyOf": Component 9: Component 5: Component 5: Component 1: 1 string mismatch
+      Component "properties": Component "schema": Component "properties": Component "fields": Component "items": Component "anyOf": Component 9: Component 5: Component 5: Component 2: Modes: numeric, list
+      Component "properties": Component "schema": Component "properties": Component "fields": Component "items": Component "anyOf": Component 9: Component 5: Component 5: Component 2: target is numeric, current is list
+      Component "properties": Component "schema": Component "properties": Component "fields": Component "items": Component "anyOf": Component 9: Component 5: Component 5: Component 3: Modes: list, character
+      Component "properties": Component "schema": Component "properties": Component "fields": Component "items": Component "anyOf": Component 9: Component 5: Component 5: Component 3: names for target but not for current
+      ...
+      
+      [ FAIL 4 | WARN 0 | SKIP 0 | PASS 249 ]
+      Error: Test failures
+      Execution halted
+    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -452,11 +504,11 @@ Run `revdep_details(, "EFAtools")` for more info
 
 <details>
 
-* Version: 1.3.1
-* GitHub: NA
+* Version: 1.3.2
+* GitHub: https://github.com/epiforecasts/EpiNow2
 * Source code: https://github.com/cran/EpiNow2
-* Date/Publication: 2020-11-22 14:20:05 UTC
-* Number of recursive dependencies: 149
+* Date/Publication: 2020-12-14 09:00:15 UTC
+* Number of recursive dependencies: 150
 
 Run `revdep_details(, "EpiNow2")` for more info
 
@@ -471,9 +523,9 @@ Run `revdep_details(, "EpiNow2")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 137.8Mb
+      installed size is 168.7Mb
       sub-directories of 1Mb or more:
-        libs  136.4Mb
+        libs  167.2Mb
     ```
 
 # foieGras
@@ -494,9 +546,9 @@ Run `revdep_details(, "foieGras")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 38.3Mb
+      installed size is 38.6Mb
       sub-directories of 1Mb or more:
-        libs  37.2Mb
+        libs  37.4Mb
     ```
 
 # forecastML
@@ -582,6 +634,32 @@ Run `revdep_details(, "grattan")` for more info
 </details>
 
 ## In both
+
+*   checking tests ...
+    ```
+    ...
+      
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Failure (test_append_custom_series.R:86:3): As applied with inflators ───────
+      `lf_inflator_fy(...)` threw an error with unexpected message.
+      Expected match: "`lf.series$fy_year` had the required financial years but not in the correct order."
+      Actual message: "`lf.series$fy_year` did not have the required financial years.\n\n`lf.series$fy_year` was\n\tc(\"2021-22\", \"2023-24\", \"2022-23\")\nbut needs to include\n\tc(\"2020-21\", \"2021-22\", \"2022-23\", \"2023-24\")."
+      Backtrace:
+          █
+       1. ├─testthat::expect_error(...) test_append_custom_series.R:86:2
+       2. │ └─testthat:::quasi_capture(...)
+       3. │   ├─testthat:::.capture(...)
+       4. │   │ └─base::withCallingHandlers(...)
+       5. │   └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
+       6. └─grattan::lf_inflator_fy(...)
+       7.   └─grattan:::append_custom_series(...)
+       8.     └─grattan:::standardize_custom_series(custom.series, cs = cs, req.fys = reqd_fys)
+       9.       └─grattan:::stopn(...)
+      
+      [ FAIL 1 | WARN 0 | SKIP 110 | PASS 819 ]
+      Error: Test failures
+      Execution halted
+    ```
 
 *   checking package dependencies ... NOTE
     ```
@@ -805,6 +883,48 @@ Run `revdep_details(, "lmtp")` for more info
       All declared Imports should be used.
     ```
 
+# merTools
+
+<details>
+
+* Version: 0.5.2
+* GitHub: NA
+* Source code: https://github.com/cran/merTools
+* Date/Publication: 2020-06-23 10:30:12 UTC
+* Number of recursive dependencies: 152
+
+Run `revdep_details(, "merTools")` for more info
+
+</details>
+
+## In both
+
+*   checking tests ...
+    ```
+    ...
+      
+      ══ Warnings ════════════════════════════════════════════════════════════════════
+      ── Warning (???): findFormFuns works ───────────────────────────────────────────
+      qr2rankMatrix(.): QR has negative diag(R) entries
+      Backtrace:
+       1. lme4::lFormula(...)
+       2. lme4:::chkRank.drop.cols(X, kind = rankX.chk, tol = 1e-07)
+       3. Matrix::rankMatrix(X, tol = tol, method = method)
+       5. Matrix::qr2rankMatrix(q.r, tol = tol, isBqr = x.dense, do.warn = warn.qr)
+      
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Error (???): findFormFuns works ─────────────────────────────────────────────
+      Error: Dropping columns failed to produce full column rank design matrix
+      Backtrace:
+          █
+       1. └─lme4::lFormula(...)
+       2.   └─lme4:::chkRank.drop.cols(X, kind = rankX.chk, tol = 1e-07)
+      
+      [ FAIL 1 | WARN 1 | SKIP 12 | PASS 218 ]
+      Error: Test failures
+      Execution halted
+    ```
+
 # methyvim
 
 <details>
@@ -824,7 +944,15 @@ Run `revdep_details(, "methyvim")` for more info
 *   checking tests ...
     ```
     ...
-      ── ERROR (test-methyvim.R:22:1): (code run outside of `test_that()`) ───────────
+      Backtrace:
+       1. methyvim:::set_parallel(parallel = TRUE) test-set_parallel.R:9:2
+       2. future::plan(future::multiprocess)
+       3. future:::plan_set(...)
+       4. future:::warn_about_multiprocess(newStack)
+       5. base::.Deprecated(...)
+      
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Error (test-methyvim.R:22:1): (code run outside of `test_that()`) ───────────
       Error: 'names' attribute [8] must be the same length as the vector [1]
       Backtrace:
           █
@@ -833,14 +961,6 @@ Run `revdep_details(, "methyvim")` for more info
        3. └─methyvim::methyvim(...)
        4.   ├─base::`colnames<-`(...)
        5.   └─base::`colnames<-`(...)
-      
-      ── Warning (test-set_parallel.R:9:3): registers BiocParallel::DoparParam by defa
-      Strategy 'multiprocess' is deprecated in future (>= 1.20.0). Instead, explicitly specify either 'multisession' or 'multicore'. In the current R session, 'multiprocess' equals 'multicore'.
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      Warning (test-cluster_sites.R:4:1): (code run outside of `test_that()`)
-      ERROR (test-methyvim.R:22:1): (code run outside of `test_that()`)
-      Warning (test-set_parallel.R:9:3): registers BiocParallel::DoparParam by default for parallel=TRUE
       
       [ FAIL 1 | WARN 2 | SKIP 0 | PASS 34 ]
       Error: Test failures
@@ -990,10 +1110,10 @@ Run `revdep_details(, "origami")` for more info
 
 <details>
 
-* Version: 2.5.0
+* Version: 2.6.1
 * GitHub: https://github.com/rmaia/pavo
 * Source code: https://github.com/cran/pavo
-* Date/Publication: 2020-11-12 09:00:02 UTC
+* Date/Publication: 2020-12-18 22:20:02 UTC
 * Number of recursive dependencies: 101
 
 Run `revdep_details(, "pavo")` for more info
@@ -1001,32 +1121,6 @@ Run `revdep_details(, "pavo")` for more info
 </details>
 
 ## In both
-
-*   checking tests ...
-    ```
-    ...
-      Warning (test-images.R:97:3): classify
-      Warning (test-images.R:102:3): classify
-      Warning (test-images.R:121:3): classify
-      Warning (test-images.R:149:3): classify
-      Warning (test-images.R:194:3): adjacency
-      Warning (test-images.R:195:3): adjacency
-      Warning (test-images.R:214:3): adjacency
-      Warning (test-images.R:225:3): adjacency
-      Warning (test-images.R:250:3): adjacency
-      Warning (test-images.R:272:3): adjacency
-      Warning (test-images.R:286:3): summary
-      Warning (test-images.R:288:3): summary
-      FAILURE (test-images.R:291:3): summary
-      Warning (test-processing.R:12:3): Procspec
-      Warning (test-processing.R:56:3): Aggregation
-      Warning (test-vismodel.R:12:3): Warnings
-      Warning (test-vismodel.R:67:3): sensdata()
-      
-      [ FAIL 1 | WARN 1069 | SKIP 6 | PASS 377 ]
-      Error: Test failures
-      Execution halted
-    ```
 
 *   checking whether package ‘pavo’ can be installed ... WARNING
     ```
@@ -1106,7 +1200,7 @@ Run `revdep_details(, "promises")` for more info
 * GitHub: https://github.com/samWieczorek/Prostar
 * Source code: https://github.com/cran/Prostar
 * Date/Publication: 2020-12-11
-* Number of recursive dependencies: 291
+* Number of recursive dependencies: 292
 
 Run `revdep_details(, "Prostar")` for more info
 
@@ -1161,9 +1255,9 @@ Run `revdep_details(, "qtl2pleio")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 20.2Mb
+      installed size is 20.4Mb
       sub-directories of 1Mb or more:
-        libs  20.0Mb
+        libs  20.2Mb
     ```
 
 # regmedint
@@ -1235,10 +1329,10 @@ Run `revdep_details(, "sapfluxnetr")` for more info
 
 <details>
 
-* Version: 0.3.1
+* Version: 0.3.2
 * GitHub: https://github.com/ChristophH/sctransform
 * Source code: https://github.com/cran/sctransform
-* Date/Publication: 2020-10-08 12:00:02 UTC
+* Date/Publication: 2020-12-16 14:40:03 UTC
 * Number of recursive dependencies: 70
 
 Run `revdep_details(, "sctransform")` for more info
@@ -1278,11 +1372,11 @@ Run `revdep_details(, "seer")` for more info
 
 <details>
 
-* Version: 3.2.2
+* Version: 3.2.3
 * GitHub: https://github.com/satijalab/seurat
 * Source code: https://github.com/cran/Seurat
-* Date/Publication: 2020-09-26 04:30:12 UTC
-* Number of recursive dependencies: 228
+* Date/Publication: 2020-12-15 10:10:05 UTC
+* Number of recursive dependencies: 229
 
 Run `revdep_details(, "Seurat")` for more info
 
@@ -1297,10 +1391,10 @@ Run `revdep_details(, "Seurat")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 11.1Mb
+      installed size is 11.2Mb
       sub-directories of 1Mb or more:
         R      1.2Mb
-        libs   9.1Mb
+        libs   9.2Mb
     ```
 
 *   checking Rd cross-references ... NOTE
@@ -1364,7 +1458,7 @@ Run `revdep_details(, "shinyrecap")` for more info
 * GitHub: https://github.com/ShixiangWang/sigminer
 * Source code: https://github.com/cran/sigminer
 * Date/Publication: 2020-11-11 07:40:06 UTC
-* Number of recursive dependencies: 197
+* Number of recursive dependencies: 198
 
 Run `revdep_details(, "sigminer")` for more info
 
@@ -1410,7 +1504,7 @@ Run `revdep_details(, "simhelpers")` for more info
 * GitHub: https://github.com/tylermorganwall/skpr
 * Source code: https://github.com/cran/skpr
 * Date/Publication: 2020-03-04 20:20:02 UTC
-* Number of recursive dependencies: 136
+* Number of recursive dependencies: 141
 
 Run `revdep_details(, "skpr")` for more info
 
@@ -1420,9 +1514,9 @@ Run `revdep_details(, "skpr")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 41.4Mb
+      installed size is 41.8Mb
       sub-directories of 1Mb or more:
-        libs  39.9Mb
+        libs  40.3Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -1439,7 +1533,7 @@ Run `revdep_details(, "skpr")` for more info
 * GitHub: https://github.com/talegari/solitude
 * Source code: https://github.com/cran/solitude
 * Date/Publication: 2020-09-17 10:10:07 UTC
-* Number of recursive dependencies: 148
+* Number of recursive dependencies: 157
 
 Run `revdep_details(, "solitude")` for more info
 
@@ -1473,6 +1567,29 @@ Run `revdep_details(, "spacey")` for more info
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘rgdal’
+      All declared Imports should be used.
+    ```
+
+# SPARSEMODr
+
+<details>
+
+* Version: 1.0
+* GitHub: https://github.com/NAU-CCL/SPARSEMODr
+* Source code: https://github.com/cran/SPARSEMODr
+* Date/Publication: 2020-12-17 09:40:06 UTC
+* Number of recursive dependencies: 108
+
+Run `revdep_details(, "SPARSEMODr")` for more info
+
+</details>
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘future’ ‘geosphere’ ‘lubridate’ ‘tidyverse’ ‘viridis’
       All declared Imports should be used.
     ```
 
@@ -1534,6 +1651,25 @@ Run `revdep_details(, "stars")` for more info
         nc    4.5Mb
     ```
 
+# steps
+
+<details>
+
+* Version: 1.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/steps
+* Date/Publication: 2020-03-23 16:40:02 UTC
+* Number of recursive dependencies: 71
+
+Run `revdep_details(, "steps")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
 # tableschema.r
 
 <details>
@@ -1565,10 +1701,10 @@ Run `revdep_details(, "tableschema.r")` for more info
 
 <details>
 
-* Version: 0.9.0
+* Version: 0.9.10
 * GitHub: https://github.com/OscarKjell/text
 * Source code: https://github.com/cran/text
-* Date/Publication: 2020-11-23 09:30:02 UTC
+* Date/Publication: 2020-12-14 09:50:02 UTC
 * Number of recursive dependencies: 140
 
 Run `revdep_details(, "text")` for more info
