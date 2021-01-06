@@ -47,7 +47,7 @@ cl <- parallelly::autoStopCluster(cl)
 makes the cluster created by **parallel** to shut down automatically when R's garbage collector removes the cluster object.  This lowers the risk for leaving stray R worker processes running in the background by mistake.  Another way to achieve the above in a single call is to use:
 
 ```r
-cl <- parallel::makeClusterPSOCK(2, autoStop = TRUE)
+cl <- parallelly::makeClusterPSOCK(2, autoStop = TRUE)
 ```
 
 
