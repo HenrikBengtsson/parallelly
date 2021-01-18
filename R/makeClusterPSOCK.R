@@ -1389,7 +1389,7 @@ readWorkerPID <- function(pidfile, wait = 0.5, maxTries = 8L, verbose = FALSE) {
 
 
 randomParallelPorts <- function(default = 11000:11999) {
-  random <- getEnvVar2("R_PARALLELLY_RANDOM_PORTS")
+  random <- getEnvVar2("R_PARALLELLY_RANDOM_PORTS", "")
   if (!nzchar(random)) return(default)
 
   pattern <- "^([[:digit:]]+)(|:([[:digit:]]+))$"
