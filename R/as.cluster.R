@@ -38,7 +38,9 @@ as.cluster.SOCK0node <- as.cluster.SOCKnode
 
 #' @param recursive Not used.
 #'
-#' @return `c(...)` combine multiple clusters and / or cluster nodes into one cluster returned as an of class `cluster`.  A warning will be produced if there are duplicated nodes in the resulting cluster.
+#' @return `c(...)` combine multiple clusters and / or cluster nodes into one
+#' cluster returned as an of class `cluster`.  A warning will be produced if
+#' there are duplicated nodes in the resulting cluster.
 #'
 #' @rdname as.cluster
 #' @export
