@@ -1,8 +1,12 @@
 Package: parallelly
 ===================
 
-Version: 1.23.0-9000 [2021-01-04]
+Version: 1.23.0-9000 [2021-01-23]
 
+NEW FEATURES:
+
+ * c() for 'cluster' objects now warns about duplicated cluster nodes.
+ 
 MISCELLANEOUS:
 
  * All code is now using the 'parallelly.' prefix for options and the

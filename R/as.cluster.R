@@ -22,7 +22,7 @@ as.cluster.cluster <- function(x, ...) x
 #' @export
 as.cluster.list <- function(x, ...) {
   x <- lapply(x, FUN = as.cluster, ...)
-  x <- Reduce(c, x)
+  Reduce(c, x)
 }
 
 #' @rdname as.cluster
@@ -38,7 +38,7 @@ as.cluster.SOCK0node <- as.cluster.SOCKnode
 
 #' @param recursive Not used.
 #'
-#' @return `c(...)` combine multiple clusters and / or cluster nodes into one cluster returned as an of class `cluster`.
+#' @return `c(...)` combine multiple clusters and / or cluster nodes into one cluster returned as an of class `cluster`.  A warning will be produced if there are duplicated nodes in the resulting cluster.
 #'
 #' @rdname as.cluster
 #' @export
@@ -54,6 +54,13 @@ c.cluster <- function(..., recursive = FALSE) {
   ## Combine list of clusters
   x <- lapply(x, FUN = unclass)
   x <- Reduce(c, x)
+
+  ## Assert no duplicates
+  dups <- duplicated(x)
+  if (any(dups)) {
+    warning(sprintf("The combined cluster contains %d duplicated nodes", sum(dups)))
+  }
+  
   class(x) <- class
   
   x  
