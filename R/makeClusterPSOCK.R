@@ -310,6 +310,9 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' launch the worker from the terminal is outputted.  This is useful for
 #' troubleshooting.
 #'
+#' @param quiet If TRUE, then no output will be produced other than that from
+#' using `verbose = TRUE`.
+#'
 #' @return `makeNodePSOCK()` returns a `"SOCKnode"` or
 #' `"SOCK0node"` object representing an established connection to a worker.
 #'
@@ -514,8 +517,9 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #'
 #' @rdname makeClusterPSOCK
 #' @importFrom tools pskill
+#' @importFrom utils flush.console
 #' @export
-makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOptionOrEnvVar("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, verbose = FALSE) {
+makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOptionOrEnvVar("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, verbose = FALSE) {
   localMachine <- is.element(worker, c("localhost", "127.0.0.1"))
 
   ## Could it be that the worker specifies the name of the localhost?
@@ -531,6 +535,9 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   dryrun <- as.logical(dryrun)
   stop_if_not(length(dryrun) == 1L, !is.na(dryrun))
+
+  quiet <- as.logical(quiet)
+  stop_if_not(length(quiet) == 1L, !is.na(quiet))
   
   ## Locate a default SSH client?
   if (identical(rshcmd, "")) rshcmd <- NULL
@@ -841,20 +848,22 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
   is_worker_output_visible <- is.null(outfile)
 
   if (manual || dryrun) {
-    msg <- c("----------------------------------------------------------------------")
-    if (localMachine) {
-      msg <- c(msg, sprintf("Manually, start worker #%s on local machine %s with:", rank, sQuote(worker)), sprintf("\n  %s\n", cmd))
-    } else {
-      msg <- c(msg, sprintf("Manually, (i) login into external machine %s:", sQuote(worker)),
-               sprintf("\n  %s\n", rsh_call))
-      msg <- c(msg, sprintf("and (ii) start worker #%s from there:", rank),
-               sprintf("\n  %s\n", cmd))
-      msg <- c(msg, sprintf("Alternatively, start worker #%s from the local machine by combining both step in a single call:", rank),
-               sprintf("\n  %s\n", local_cmd))
+    if (!quiet) {
+      msg <- c("----------------------------------------------------------------------")
+      if (localMachine) {
+        msg <- c(msg, sprintf("Manually, start worker #%s on local machine %s with:", rank, sQuote(worker)), sprintf("\n  %s\n", cmd))
+      } else {
+        msg <- c(msg, sprintf("Manually, (i) login into external machine %s:", sQuote(worker)),
+                 sprintf("\n  %s\n", rsh_call))
+        msg <- c(msg, sprintf("and (ii) start worker #%s from there:", rank),
+                 sprintf("\n  %s\n", cmd))
+        msg <- c(msg, sprintf("Alternatively, start worker #%s from the local machine by combining both step in a single call:", rank),
+                 sprintf("\n  %s\n", local_cmd))
+      }
+      msg <- paste(c(msg, ""), collapse = "\n")
+      cat(msg)
+      flush.console()
     }
-    msg <- paste(c(msg, ""), collapse = "\n")
-    cat(msg)
-    utils::flush.console()
     if (dryrun) return(NULL)
   } else {
     if (verbose) {

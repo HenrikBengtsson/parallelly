@@ -32,7 +32,9 @@ For \code{c(...)}, the clusters and cluster nodes to be combined.}
 \value{
 An object of class \code{cluster}.
 
-\code{c(...)} combine multiple clusters and / or cluster nodes into one cluster returned as an of class \code{cluster}.
+\code{c(...)} combine multiple clusters and / or cluster nodes into one
+cluster returned as an of class \code{cluster}.  A warning will be produced if
+there are duplicated nodes in the resulting cluster.
 }
 \description{
 Coerce an Object to a Cluster Object

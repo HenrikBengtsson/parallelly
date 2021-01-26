@@ -41,6 +41,7 @@ makeNodePSOCK(
   rank = 1L,
   manual = FALSE,
   dryrun = FALSE,
+  quiet = FALSE,
   verbose = FALSE
 )
 }
@@ -173,6 +174,9 @@ to run will be displayed.}
 \item{dryrun}{If TRUE, nothing is set up, but a message suggesting how to
 launch the worker from the terminal is outputted.  This is useful for
 troubleshooting.}
+
+\item{quiet}{If TRUE, then no output will be produced other than that from
+using \code{verbose = TRUE}.}
 }
 \value{
 An object of class \code{c("RichSOCKcluster", "SOCKcluster", "cluster")}
