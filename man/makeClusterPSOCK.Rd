@@ -164,7 +164,9 @@ If FALSE, then the worker will try to connect directly to port \code{port} on
 to a temporary file.  The log file name is available as an attribute
 as part of the return node object.
 \emph{Warning: This only works with SSH clients that support option
-\verb{-E out.log}.}}
+\verb{-E out.log}}.  For example, PuTTY's \command{plink} does \emph{not} support
+this option, and any attempts to specify \code{rshlogfile} will cause the SSH
+connection to fail.}
 
 \item{rank}{A unique one-based index for each worker (automatically set).}
 

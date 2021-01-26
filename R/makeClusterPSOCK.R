@@ -293,7 +293,9 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' to a temporary file.  The log file name is available as an attribute
 #' as part of the return node object.
 #' _Warning: This only works with SSH clients that support option
-#' `-E out.log`._
+#' `-E out.log`_.  For example, PuTTY's \command{plink} does _not_ support
+#' this option, and any attempts to specify `rshlogfile` will cause the SSH
+#' connection to fail.
 #'
 #' @param user (optional) The user name to be used when communicating with
 #' another host.
