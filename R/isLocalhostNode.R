@@ -2,7 +2,7 @@
 #'
 #' @param node A cluster node of class `SOCKnode` or `SOCK0node`.
 #'
-#' @param Not used.
+#' @param \ldots Not used.
 #'
 #' @return (logical) Returns TRUE if the cluster node is running on the
 #' current machine and FALSE if it runs on another machine.
@@ -32,4 +32,9 @@ isLocalhostNode.RichSOCKnode <- function(node, ...) {
   value <- attr(host, "localhost")
   if (is.logical(value)) return(value)
   NextMethod()
+}
+
+#' @export
+isLocalhostNode.cluster <- function(node, ...) {
+  vapply(node, FUN = isLocalhostNode, FUN.VALUE = NA)
 }

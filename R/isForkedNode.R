@@ -2,7 +2,7 @@
 #'
 #' @param node A cluster node of class `SOCKnode` or `SOCK0node`.
 #'
-#' @param Not used.
+#' @param \ldots Not used.
 #'
 #' @return (logical) Returns TRUE if the cluster node is running in a
 #' forked child process and FALSE if it does not.
@@ -17,4 +17,9 @@ isForkedNode.default <- function(node, ...) NA
 #' @export
 isForkedNode.forknode <- function(node, ...) {
   TRUE
+}
+
+#' @export
+isForkedNode.cluster <- function(node, ...) {
+  vapply(node, FUN = isForkedNode, FUN.VALUE = NA)
 }

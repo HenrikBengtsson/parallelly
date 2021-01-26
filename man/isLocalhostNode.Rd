@@ -9,7 +9,7 @@ isLocalhostNode(node, ...)
 \arguments{
 \item{node}{A cluster node of class \code{SOCKnode} or \code{SOCK0node}.}
 
-\item{Not}{used.}
+\item{\ldots}{Not used.}
 }
 \value{
 (logical) Returns TRUE if the cluster node is running on the
