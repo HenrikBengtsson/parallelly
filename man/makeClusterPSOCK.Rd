@@ -223,9 +223,9 @@ on the \env{PATH}.  This is also true for recent Windows 10
 (since version 1803, April 2018) (*).
 
 For \emph{Windows systems prior to Windows 10}, it is less common to find
-\command{ssh} on the \env{PATH}. Instead it is more likely that such
-systems have the \command{PuTTY} software and its SSH client
-\command{plink} installed.  PuTTY puts itself on the system \env{PATH}
+\command{ssh} on the \env{PATH}. Instead it is more likely that such systems
+have the \href{https://www.putty.org/}{\command{PuTTY}} software and its SSH
+client \command{plink} installed.  PuTTY puts itself on the system \env{PATH}
 when installed, meaning this function will find PuTTY automatically if
 installed.  If not, to manually set specify PuTTY as the SSH client,
 specify the absolute pathname of \file{plink.exe} in the first element and

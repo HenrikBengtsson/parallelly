@@ -339,9 +339,9 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' (since version 1803, April 2018) (*).
 #'
 #' For _Windows systems prior to Windows 10_, it is less common to find
-#' \command{ssh} on the \env{PATH}. Instead it is more likely that such
-#' systems have the \command{PuTTY} software and its SSH client
-#' \command{plink} installed.  PuTTY puts itself on the system \env{PATH}
+#' \command{ssh} on the \env{PATH}. Instead it is more likely that such systems
+#' have the \href{https://www.putty.org/}{\command{PuTTY}} software and its SSH
+#' client \command{plink} installed.  PuTTY puts itself on the system \env{PATH}
 #' when installed, meaning this function will find PuTTY automatically if
 #' installed.  If not, to manually set specify PuTTY as the SSH client,
 #' specify the absolute pathname of \file{plink.exe} in the first element and
@@ -352,8 +352,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #'
 #' Furthermore, when running \R from RStudio on Windows, the \command{ssh}
 #' client that is distributed with RStudio will also be considered.
-#' This client, which is from \href{https://osdn.net/projects/mingw/}{MinGW} MSYS,
-#' is searched for in the folder given by the \env{RSTUDIO_MSYS_SSH}
+#' This client, which is from \href{https://osdn.net/projects/mingw/}{MinGW}
+#' MSYS, is searched for in the folder given by the \env{RSTUDIO_MSYS_SSH}
 #' environment variable - a variable that is (only) set when running RStudio.
 #'
 #' You can override the default set of SSH clients that are searched for
