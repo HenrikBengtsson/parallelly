@@ -333,20 +333,18 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' The default method for connecting to an external host is via SSH and the
 #' system executable for this is given by argument `rshcmd`.  The default
 #' is given by option \option{parallelly.makeNodePSOCK.rshcmd}.  If that is not
-#' set, then the default is to use \command{ssh}.
-#' Most Unix-like systems, including macOS, have \command{ssh} preinstalled
-#' on the \env{PATH}.  This is also true for recent Windows 10
-#' (since version 1803, April 2018) (*).
+#' set, then the default is to use \command{ssh} on Unix-like systems,
+#' including macOS.  On MS Windows systems, including Windows 10, the
+#' default is to use (i) \command{plink} from the
+#' \href{https://www.putty.org/}{\command{PuTTY}} project,
+#' (ii) the \command{ssh} client that is distributed with RStudio, and lastly
+#' (iii) the \command{ssh} client that comes with Windows 10.
 #'
-#' For _Windows systems prior to Windows 10_, it is less common to find
-#' \command{ssh} on the \env{PATH}. Instead it is more likely that such systems
-#' have the \href{https://www.putty.org/}{\command{PuTTY}} software and its SSH
-#' client \command{plink} installed.  PuTTY puts itself on the system \env{PATH}
-#' when installed, meaning this function will find PuTTY automatically if
-#' installed.  If not, to manually set specify PuTTY as the SSH client,
-#' specify the absolute pathname of \file{plink.exe} in the first element and
-#' option \command{-ssh} in the second as in
-#' `rshcmd = c("C:/Path/PuTTY/plink.exe", "-ssh")`.
+#' PuTTY puts itself on Windows' system \env{PATH} when installed, meaning this
+#' function will find PuTTY automatically if installed.  If not, to manually
+#' set specify PuTTY as the SSH client, specify the absolute pathname of
+#' \file{plink.exe} in the first element and option \command{-ssh} in the
+#' second as in `rshcmd = c("C:/Path/PuTTY/plink.exe", "-ssh")`.
 #' This is because all elements of `rshcmd` are individually "shell"
 #' quoted and element `rshcmd[1]` must be on the system \env{PATH}.
 #'
@@ -355,16 +353,20 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' This client, which is from \href{https://osdn.net/projects/mingw/}{MinGW}
 #' MSYS, is searched for in the folder given by the \env{RSTUDIO_MSYS_SSH}
 #' environment variable - a variable that is (only) set when running RStudio.
+#' To use this SSH client outside of RStudio, set \env{RSTUDIO_MSYS_SSH}
+#' accordingly.
 #'
 #' You can override the default set of SSH clients that are searched for
-#' by specifying them in `rshcmd` using the format `<...>`, e.g.
+#' by specifying them in argument `rshcmd` or via option
+#' \option{parallelly.makeNodePSOCK.rshcmd} using the format `<...>`, e.g.
 #' `rshcmd = c("<rstudio-ssh>", "<putty-plink>", "<ssh>")`.  See
 #' below for examples.
 #'
 #' If no SSH-client is found, an informative error message is produced.
 #'
-#' (*) _Known issue with the Windows 10 SSH client: There is a bug in the
-#' SSH client of Windows 10 that prevents it to work with reverse SSH tunneling
+#' (*) _Windows 10 has a \command{ssh} built-in since version 1803 (April 2018).
+#' However, there is a bug in that SSH client that prevents it to work with
+#' reverse SSH tunneling
 #' (\url{https://github.com/PowerShell/Win32-OpenSSH/issues/1265}; Oct 2018).
 #' The most recent version that we tested and that did _not_ work was
 #' OpenSSH_for_Windows_7.7p1, LibreSSL 2.6.5 (`ssh -V`) on
@@ -1191,12 +1193,7 @@ find_rshcmd <- function(which = NULL, first = FALSE, must_work = TRUE) {
       ##   - Windows 10 version 1903 build 18362.720
       ##   - Windows 10 version 1909 build 18363.720
       ## So it's unlikely that this will work out of the box.
-      ver <- windows_build_version()
-      if (!is.null(ver) && ver > "10.0.17763.253") {
-        which <- c("ssh", which)
-      } else {
-        which <- c(which, "ssh")
-      }
+      which <- c(which, "ssh")
     } else {
       which <- c("ssh")
     }

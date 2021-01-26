@@ -1,7 +1,14 @@
 Package: parallelly
 ===================
 
-Version: 1.23.0-9000 [2021-01-25]
+Version: 1.23.0-9000 [2021-01-26]
+
+SIGNIFICANT CHANGES:
+
+ * The default SSH client on MS Windows is now, in order of availability:
+   (i) 'plink' of the PuTTY software, (ii) 'ssh' in the RStudio distribution,
+   and (iii) 'ssh' of Windows 10.  Previously, the latter was considered first
+   but that still has a bug preventing us from using reverse tunneling.
 
 NEW FEATURES:
 
