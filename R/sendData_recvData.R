@@ -4,7 +4,7 @@ sendData.RichSOCKnode <- function(node, data) {
     data,
     connection = node$con,
     xdr        = inherits(node, "SOCKnode"),
-    refhook    = getOption("parallelly.send.refhook", NULL)
+    refhook    = getOption("parallelly.serialize.refhook", NULL)
   )
 }
 
@@ -12,7 +12,7 @@ sendData.RichSOCKnode <- function(node, data) {
 recvData.RichSOCKnode <- function(node) {
   unserialize(
     node$con,
-    refhook = getOption("parallelly.receive.refhook", NULL)
+    refhook = getOption("parallelly.unserialize.refhook", NULL)
   )
 }
 
