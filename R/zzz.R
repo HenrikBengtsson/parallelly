@@ -3,6 +3,8 @@
   debug <- isTRUE(as.logical(getEnvVar2("R_PARALLELLY_DEBUG", "FALSE")))
   if (debug) options(parallelly.debug = TRUE)
   debug <- getOption2("parallelly.debug", debug)
+
+  .registerS3methods(pkgname)
   
   ## Automatically play nice when 'R CMD check' runs?
   if (isTRUE(as.logical(getEnvVar2("R_PARALLELLY_R_CMD_CHECK_NICE", "TRUE"))) && inRCmdCheck()) {
