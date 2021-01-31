@@ -1,5 +1,6 @@
 source("incl/start.R")
 
+pkgname <- "parallelly"
 .onLoad <- parallelly:::.onLoad
 
 maxCores <- min(2L, availableCores(methods = "system"))
