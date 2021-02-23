@@ -419,8 +419,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' The default is to use reverse SSH tunneling (`revtunnel = TRUE`) for
 #' workers running on other machines.  This avoids the complication of
 #' otherwise having to configure port forwarding in firewalls, which often
-#' requires static IP address as well as privileges to edit the firewall,
-#' something most users don't have.
+#' requires static IP address as well as privileges to edit the firewall
+#' on your outgoing router, something most users don't have.
 #' It also has the advantage of not having to know the internal and / or the
 #' public IP address / hostname of the master.
 #' Yet another advantage is that there will be no need for a DNS lookup by the
