@@ -31,7 +31,7 @@ print(availableWorkers(methods = "LSF"))
 
 message("*** HPC related ...")
 
-expand_nodes <- parallelly:::expand_nodes
+sge_expand_node_count_pairs <- parallelly:::sge_expand_node_count_pairs
 read_pbs_nodefile <- parallelly:::read_pbs_nodefile
 read_pe_hostfile <- parallelly:::read_pe_hostfile
 
@@ -112,7 +112,7 @@ pathname <- tempfile()
 write.table(data0, file = pathname, quote = FALSE, row.names = FALSE, col.names = FALSE)
 lines <- readLines(pathname)
 print(lines)
-data <- read_pe_hostfile(pathname)
+data <- read_pe_hostfile(pathname, expand = FALSE)
 print(data)
 stopifnot(
   is.character(data$node),
@@ -125,7 +125,7 @@ stopifnot(
   all.equal(data[, c("node", "count")], data0[, c("node", "count")])
 )
 
-workers <- expand_nodes(data)
+workers <- sge_expand_node_count_pairs(data)
 stopifnot(length(workers) == length(workers0), all(workers == sort(workers0)))
 
 Sys.setenv(PE_HOSTFILE = pathname)

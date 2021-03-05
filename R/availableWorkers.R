@@ -139,8 +139,7 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
         warning(sprintf("Environment variable %s was set but no such file %s exists", sQuote("PE_HOSTFILE"), sQuote(pathname)))
         next
       }
-      data <- read_pe_hostfile(pathname)
-      w <- expand_nodes(data)
+      w <- read_pe_hostfile(pathname, expand = TRUE)
 
       ## Sanity checks
       nslots <- as.integer(getenv("NSLOTS"))
@@ -257,7 +256,7 @@ read_pbs_nodefile <- function(pathname, sort = TRUE) {
 
 
 #' @importFrom utils read.table
-read_pe_hostfile <- function(pathname, sort = TRUE) {
+read_pe_hostfile <- function(pathname, sort = TRUE, expand = FALSE) {
   ## One (node, ncores, queue, comment) per line, e.g.
   ## opt88 3 short.q@opt88 UNDEFINED
   ## iq242 2 short.q@iq242 UNDEFINED
@@ -284,12 +283,16 @@ read_pe_hostfile <- function(pathname, sort = TRUE) {
   if (sort) {
     data <- data[order(data$node, data$count), , drop = FALSE]
   }
+
+  if (expand) {
+    data <- sge_expand_node_count_pairs(data)
+  }
   
   data
 }
 
 ## Used after read_pe_hostfile()
-expand_nodes <- function(data) {
+sge_expand_node_count_pairs <- function(data) {
   nodes <- mapply(data$node, data$count, FUN = function(node, count) {
     rep(node, times = count)
   }, SIMPLIFY = FALSE, USE.NAMES = FALSE)
