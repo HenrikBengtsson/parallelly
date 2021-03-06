@@ -11,14 +11,6 @@ SIGNIFICANT CHANGES:
    but that still has a bug preventing us from using reverse tunneling.
 
 NEW FEATURES:
-
- * availableWorkers() now recognizes the Slurm environment variable
-   'SLURM_JOB_NODELIST', e.g. "dev1,n[3-4,095-120]". It will use
-   'scontrol show hostnames "$SLURM_JOB_NODELIST"' to expand it, if supported
-   on the current machine, otherwise it will attempt to parse and expand the
-   nodelist specification using R.  If either of enviroment variable
-   'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE' is set, then each
-   node in the nodelist will be represented that number of times.
    
  * makeClusterPSOCK(), or actually makeNodePSOCK(), gained argument 'quiet',
    which can be used to silence output produced by 'manual = TRUE'.
@@ -29,6 +21,13 @@ NEW FEATURES:
 
  * Add isLocalhostNode() to test if a cluster node runs on the current machine.
 
+ * availableWorkers() now recognizes the Slurm environment variable
+   'SLURM_JOB_NODELIST', e.g. "dev1,n[3-4,095-120]". It will use
+   'scontrol show hostnames "$SLURM_JOB_NODELIST"' to expand it, if supported
+   on the current machine, otherwise it will attempt to parse and expand the
+   nodelist specification using R.  If either of environment variable
+   'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE' is set, then each
+   node in the nodelist will be represented that number of times.
  
 MISCELLANEOUS:
 
