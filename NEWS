@@ -38,6 +38,9 @@ MISCELLANEOUS:
 
 BUG FIX:
 
+ * availableCores() did not respect environment variable 'SLURM_TASKS_PER_NODE'
+   when the job was allocated more than one node.
+
  * Above argument 'quiet' was introduced in future 1.19.1 but was mistakenly
    dropped from parallelly 1.20.0 when that was released, and therefore also
    from future (>= 1.20.0).

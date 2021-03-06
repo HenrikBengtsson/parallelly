@@ -141,12 +141,16 @@
 #' @export
 availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all")) {
   ## Local functions
-  getenv <- function(name) {
-    as.integer(trim(Sys.getenv(name, NA_character_)))
+  getenv <- function(name, mode = "integer") {
+    value <- trim(Sys.getenv(name, NA_character_))
+    storage.mode(value) <- mode
+    value
   } # getenv()
 
-  getopt <- function(name) {
-    as.integer(getOption(name, NA_integer_))
+  getopt <- function(name, mode = "integer") {
+    value <- getOption(name, NA_integer_)
+    storage.mode(value) <- mode
+    value
   } # getopt()
 
   which <- match.arg(which, choices = c("min", "max", "all"))
@@ -184,21 +188,18 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
           n <- getenv("SLURM_CPUS_ON_NODE")
         } else {
           ## Parse `SLURM_TASKS_PER_NODE`
-          ntasks_per_node <- Sys.getenv("SLURM_TASKS_PER_NODE", NA_character_)
-          if (!is.na(ntasks_per_node)) {
+          nodecounts <- getenv("SLURM_TASKS_PER_NODE", mode = "character")
+          if (!is.na(nodecounts)) {
             ## Examples:
             ## SLURM_TASKS_PER_NODE=5,2
             ## SLURM_TASKS_PER_NODE=2(x2),1(x3)  # Source: 'man sbatch'
-            ntasks_per_node <- strsplit(ntasks_per_node, split = ",", fixed = TRUE)[[1]]
+            n <- slurm_expand_nodecounts(nodecounts)
+            if (any(is.na(n))) next
 
             ## ASSUMPTION: We assume that it is the first component on the list that
-	    ## corresponds to the current machine. /HB 2021-03-05
-	    n <- ntasks_per_node[1]
-	    ## Since we assume the first on here, we can drop any "(x[[:digit:]]+)" part
-	    n <- gsub("(x[[:digit:]]+)", "", n)
-	    
-            ## TODO: Parse ... /HB 2020-09-16
-	  }
+            ## corresponds to the current machine. /HB 2021-03-05
+            n <- n[1]
+          }
         }
       }
 
