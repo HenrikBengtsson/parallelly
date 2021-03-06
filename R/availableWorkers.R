@@ -52,8 +52,9 @@
 #'    (fallback \env{SLURM_TASKS_PER_NODE}) to infer how many CPU cores
 #'    Slurm have alloted to each of the nodes.
 #'    For example, if `SLURM_NODELIST="n1,n[03-05]"` (expands to
-#'    `c("n1", "n03", "n04", "n05")`) and `SLURM_JOB_CPUS_PER_NODE="2,1,3,1"`,
-#'    then `c("n1", "n1", "n03", "n04", "n04", "n04", "n05")` is returned.
+#'    `c("n1", "n03", "n04", "n05")`) and `SLURM_JOB_CPUS_PER_NODE="2(x2),3,1"`
+#'    (expands to `c(2, 2, 3, 1)`), then
+#'    `c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05")` is returned.
 #'
 #'  \item `"custom"` -
 #'    If option \option{parallelly.availableWorkers.custom} is set and a function,
@@ -188,22 +189,19 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
       if (length(w) == 0) next
 
       ## SLURM_JOB_CPUS_PER_NODE=64,12,...
-      cores_per_node <- getenv("SLURM_JOB_CPUS_PER_NODE")
-      if (is.na(cores_per_node)) cores_per_node <- getenv("SLURM_TASKS_PER_NODE")
-      if (is.na(cores_per_node)) {
+      nodecounts <- getenv("SLURM_JOB_CPUS_PER_NODE")
+      if (is.na(nodecounts)) nodecounts <- getenv("SLURM_TASKS_PER_NODE")
+      if (is.na(nodecounts)) {
         warning("Expected either environment variable 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE' to be set. Will assume one core per node.")
       } else {
         ## Parse counts
-        c <- strsplit(cores_per_node, split = "[,[:space:]]", fixed = FALSE)
-        c <- unlist(c, use.names = FALSE)
-        c <- c[nzchar(c)]
-        c <- as.integer(c)
+	c <- slurm_expand_nodecounts(nodecounts)
         if (any(is.na(c))) {
-          warning("Skipping Slurm settings because 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE' contained non-integer values: ", sQuote(cores_per_node))
+          warning("Failed to parse 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE': ", sQuote(nodecounts))
           next
         }
         if (length(c) != length(w)) {
-          warning("Skipping Slurm settings because the number of elements in 'SLURM_JOB_CPUS_PER_NODE'/'SLURM_TASKS_PER_NODE' does not match parsed 'SLURM_JOB_NODELIST'/'SLURM_NODELIST': ", length(c), " != ", length(w))
+          warning(sprintf("Skipping Slurm settings because the number of elements in 'SLURM_JOB_CPUS_PER_NODE'/'SLURM_TASKS_PER_NODE' (%s) does not match parsed 'SLURM_JOB_NODELIST'/'SLURM_NODELIST' (%s): %d != %d", nodelist, nodecounts, length(c), length(w)))
           next
         }
         
@@ -414,7 +412,6 @@ supports_scontrol_show_hostname <- local({
 })
 
 
-## Used after read_pe_hostfile()
 ## SLURM_JOB_NODELIST="a1,b[02-04,6-7]"
 slurm_expand_nodelist <- function(nodelist, manual = getOption("parallelly.slurm_expand_nodelist.manual", FALSE)) {
   ## Alt 1. Is 'scontrol show hostnames' supported?
@@ -508,6 +505,41 @@ slurm_expand_nodelist <- function(nodelist, manual = getOption("parallelly.slurm
 
   hosts
 }
+
+
+SLURM_TASKS_PER_NODE="2(x2),1(x3)"  # Source: 'man sbatch'
+slurm_expand_nodecounts <- function(nodecounts) {
+  counts <- strsplit(nodecounts, split = ",", fixed = TRUE)
+  counts <- unlist(counts, use.names = TRUE)
+  counts <- counts[nzchar(counts)]
+  counts <- as.list(counts)
+  counts <- lapply(counts, FUN = function(count) {
+    ## Drop whitespace
+    count <- gsub("[[:space:]]", "", count)
+    pattern <- "^([[:digit:]]+)[(]x([[:digit:]]+)[)]$"
+    if (grepl(pattern, count)) {
+      times <- gsub(pattern, "\\2", count)
+      times <- as.integer(times)
+      if (is.na(times)) return(NA_integer_)
+      
+      count <- gsub(pattern, "\\1", count)
+      count <- as.integer(count)
+      if (is.na(count)) return(NA_integer_)
+
+      count <- rep(count, times = times)
+    } else {
+      count <- as.integer(count)
+    }
+  })
+  counts <- unlist(counts, use.names = TRUE)
+  
+  if (any(is.na(counts))) {
+    warning("Failed to parse Slurm node counts specification: ", nodecounts)
+  }
+  
+  counts
+}
+
 
 
 ## Used by availableWorkers()

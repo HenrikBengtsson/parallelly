@@ -188,11 +188,17 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
           if (!is.na(ntasks_per_node)) {
             ## Examples:
             ## SLURM_TASKS_PER_NODE=5,2
-            ## SLURM_TASKS_PER_NODE=2(x2),1(x3)
+            ## SLURM_TASKS_PER_NODE=2(x2),1(x3)  # Source: 'man sbatch'
             ntasks_per_node <- strsplit(ntasks_per_node, split = ",", fixed = TRUE)[[1]]
+
+            ## ASSUMPTION: We assume that it is the first component on the list that
+	    ## corresponds to the current machine. /HB 2021-03-05
+	    n <- ntasks_per_node[1]
+	    ## Since we assume the first on here, we can drop any "(x[[:digit:]]+)" part
+	    n <- gsub("(x[[:digit:]]+)", "", n)
+	    
             ## TODO: Parse ... /HB 2020-09-16
-            ## TODO: How do we infer which component to use on this host? /HB 2020-09-16
-          }
+	  }
         }
       }
 

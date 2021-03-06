@@ -183,7 +183,12 @@ for (kk in seq_along(specs)) {
   expanded <- slurm_expand_nodelist(nodelist, manual = TRUE)
   cat(sprintf("expanded: c(%s)\n", paste(sQuote(expanded), collapse = ", ")))
   cat(sprintf("truth: c(%s)\n", paste(sQuote(truth), collapse = ", ")))
-  stopifnot(identical(expanded, truth))
+  stopifnot(
+    is.character(expanded),
+    !any(is.na(expanded)),
+    length(expanded) == length(truth),
+    identical(expanded, truth)
+  )
 
   Sys.unsetenv(c("SLURM_JOB_NODELIST", "SLURM_NODELIST",
                  "SLURM_JOB_CPUS_PER_NODE", "SLURM_TASKS_PER_NODE"))
@@ -234,6 +239,37 @@ for (kk in seq_along(specs)) {
 }
 
 message("*** Slurm w/ SLURM_JOB_NODELIST ... DONE")
+
+
+message("*** Slurm w/ SLURM_TASKS_PER_NODE ...")
+
+slurm_expand_nodecounts <- parallelly:::slurm_expand_nodecounts
+
+specs <- list(
+  "1" = c(1L),
+  "1,3" = c(1L,3L),
+  "1, 3" = c(1L,3L),
+  "2(x3)" = rep(2L, times = 3L),
+  "2(x3),3,4(x1)" = c(rep(2L, times = 3L), 3L, 4L)
+)
+
+for (kk in seq_along(specs)) {
+  message(sprintf("- Specification #%d of %d", kk, length(specs)))
+  nodecounts <- names(specs)[kk]
+  truth <- specs[[kk]]
+  cat(sprintf("nodecounts: %s\n", sQuote(nodecounts)))
+  expanded <- slurm_expand_nodecounts(nodecounts)
+  cat(sprintf("expanded: c(%s)\n", paste(sQuote(expanded), collapse = ", ")))
+  cat(sprintf("truth: c(%s)\n", paste(sQuote(truth), collapse = ", ")))
+  stopifnot(
+    is.integer(expanded),
+    !any(is.na(expanded)),
+    length(expanded) == length(truth),
+    identical(expanded, truth)
+  )
+}
+
+message("*** Slurm w/ SLURM_TASKS_PER_NODE ... DONE")
 
 
 
