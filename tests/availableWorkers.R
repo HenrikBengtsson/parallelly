@@ -149,6 +149,50 @@ stopifnot(inherits(res, "warning"))
 message("*** read_pe_hostfile() ... DONE")
 
 
+message("*** Slurm w/ SLURM_JOB_NODELIST ...")
+
+slurm_expand_nodelist <- parallelly:::slurm_expand_nodelist
+
+specs <- list(
+  "n1" = c("n1"),
+  "  n1" = c("n1"),
+  "n1,  n3" = c("n1", "n3"),
+  "n[1-13]" = sprintf("n%d", c(1:13)),
+  "n[1,3-4, 11-13]" = sprintf("n%d", c(1,3:4,11:13)),
+  "a1,b[   02-04,6-7]" = c("a1", "b02", "b03", "b04", "b6", "b7")
+)
+
+## All combined
+all <- list(unlist(specs, use.names = FALSE))
+names(all) <- paste(names(specs), collapse = ",")
+specs <- c(specs, all)
+
+## Again, all combined but in reverse order 
+all <- list(unlist(rev(specs), use.names = FALSE))
+names(all) <- paste(rev(names(specs)), collapse = ",")
+specs <- c(specs, all)
+
+for (kk in seq_along(specs)) {
+  message(sprintf("- Specification #%d of %d", kk, length(specs)))
+  spec <- names(specs)[kk]
+  truth <- specs[[kk]]
+  cat(sprintf("spec: %s\n", sQuote(spec)))
+  expanded <- slurm_expand_nodelist(spec, manual = TRUE)
+  cat(sprintf("expanded: c(%s)\n", paste(sQuote(expanded), collapse = ", ")))
+  cat(sprintf("truth: c(%s)\n", paste(sQuote(truth), collapse = ", ")))
+  stopifnot(identical(expanded, truth))
+
+  Sys.setenv(SLURM_JOB_NODELIST = spec)
+  workers <- availableWorkers(method = "Slurm")
+  cat(sprintf("workers: c(%s)\n", paste(sQuote(workers), collapse = ", ")))
+  stopifnot(identical(workers, truth))
+  Sys.unsetenv("SLURM_JOB_NODELIST")
+}
+
+message("*** Slurm w/ SLURM_JOB_NODELIST ... DONE")
+
+
+
 message("*** HPC related ... DONE")
 
 

@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.23.0-9000 [2021-01-26]
+Version: 1.23.0-9000 [2021-03-05]
 
 SIGNIFICANT CHANGES:
 
@@ -12,6 +12,12 @@ SIGNIFICANT CHANGES:
 
 NEW FEATURES:
 
+ * availableWorkers() now recognizes the Slurm environment variable
+   'SLURM_JOB_NODELIST', e.g. "dev1,n[3-4,095-120]". It will use
+   'scontrol show hostname "$SLURM_JOB_NODELIST"' to expand it, if supported
+   on the current machine, otherwise it will attempt to parse and expand the
+   nodelist specification using R.
+   
  * makeClusterPSOCK(), or actually makeNodePSOCK(), gained argument 'quiet',
    which can be used to silence output produced by 'manual = TRUE'.
 

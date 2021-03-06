@@ -149,13 +149,15 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
     } else if (method == "Slurm") {
       ## From 'man sbatch':
       ## SLURM_JOB_NODELIST (and SLURM_NODELIST for backwards compatibility)
-      #  List of nodes allocated to the job.
+      ## List of nodes allocated to the job.
+      ## Example:
+      ## SLURM_JOB_NODELIST=n1,n[3-8],n[23-25]
       data <- getenv("SLURM_JOB_NODELIST")
       if (is.na(data)) data <- getenv("SLURM_NODELIST")
+      if (is.na(data)) next
 
-      ## TODO: Parse 'data' into a hostnames /HB 2020-09-18
-      ## ...
-      next
+      ## Parse and expand nodelist
+      w <- slurm_expand_nodelist(data)
     } else if (method == "LSF") {
       data <- getenv("LSB_HOSTS")
       if (is.na(data)) next
@@ -298,6 +300,134 @@ sge_expand_node_count_pairs <- function(data) {
   }, SIMPLIFY = FALSE, USE.NAMES = FALSE)
   unlist(nodes, recursive = FALSE, use.names = FALSE)
 }
+
+
+#' @importFrom utils file_test
+call_slurm_show_hostname <- function(specs, bin = Sys.which("scontrol")) {
+  stop_if_not(file_test("-x", bin))
+  
+  args <- c("show", "hostname", shQuote(specs))
+  res <- system2(bin, args = args, stdout = TRUE)
+  status <- attr(res, "status")
+  if (!is.null(status)) {
+    call <- sprintf("%s %s", shQuote(bin), paste(args, collapse = " "))
+    msg <- sprintf("%s failed with exit code %s", call, status)
+    stop(msg)
+  }
+  
+  res
+}
+
+supports_scontrol_show_hostname <- local({
+  res <- NA
+  function() {
+    if (!is.na(res)) return(res)
+
+    ## Look for 'scontrol'
+    bin <- Sys.which("scontrol")
+    if (!nzchar(bin)) {
+      res <<- FALSE
+      return(res)
+    }
+
+    ## Try a conversion
+    truth <- c("a1", "b02", "b03", "b04", "b6", "b7")
+    specs <- "a1,b[02-04,6-7]"
+    
+    hosts <- tryCatch({
+      call_slurm_show_hostname(specs, bin = bin)
+    }, error = identity)
+    
+    if (inherits(hosts, "error")) {
+      res <<- FALSE
+      return(res)
+    }
+
+    ## Sanity check
+    if (!isTRUE(all.equal(sort(hosts), sort(truth)))) {
+      msg <- sprintf("Internal availableWorkers() validation failed: 'scontrol show hostname %s' did not return the expected results.  Expected c(%s) but got c(%s).  Will still use it this methods but please report this to the maintainer of the 'parallelly' package", shQuote(specs), commaq(truth), commaq(hosts))
+      warning(msg, immediate. = TRUE)
+    }
+    
+    value <- TRUE
+    attr(value, "scontrol") <- bin
+    res <<- value
+    
+    res
+  }
+})
+
+
+## Used after read_pe_hostfile()
+## SLURM_JOB_NODELIST="a1,b[02-04,6-7]"
+slurm_expand_nodelist <- function(data, manual = FALSE) {
+  ## Alt 1. Is 'scontrol show hostname' supported?
+  if (!manual && supports_scontrol_show_hostname()) {
+    hosts <- call_slurm_show_hostname(data)
+    return(hosts)
+  }
+
+  ## Alt 2. Manually parse the nodelist specification
+
+  ## Drop any whitespace; at least 'scontrol show hostname' supports them
+  data <- gsub("[[:space:]]", "", data)
+  
+  ## Replace any commas *within* square brackets with semicolons
+  pattern <- "\\[([[:digit:];-]*),([[:digit:];-]*)"
+  while (grepl(pattern, data)) {
+    data <- gsub(pattern, "[\\1;\\2", data, perl = TRUE)
+  }
+
+  ## Now we can split by comma outside
+  data <- strsplit(data, split = ",", fixed = TRUE)
+  data <- as.list(unlist(data, use.names = FALSE))
+
+  for (ii in seq_along(data)) {
+    spec <- data[[ii]]
+
+    ## Already expanded?
+    if (length(spec) > 1L) next
+    
+    ## 1. Expand square-bracket specifications
+    ##    e.g. "a1,b[02-04,6-7]" => c("a1", "b02", "b03", "b04", "b6", "b7")
+    pattern <- "^(.*)\\[([[:digit:];-]+)\\]$"
+    if (grepl(pattern, spec)) {
+      prefix <- gsub(pattern, "\\1", spec)
+      set <- gsub(pattern, "\\2", spec)
+
+      sets <- strsplit(set, split = ";", fixed = TRUE)
+      sets <- unlist(sets, use.names = FALSE)
+      sets <- as.list(sets)
+      
+      for (jj in seq_along(sets)) {
+        set <- sets[[jj]]
+        ## Expand by evaluating them as R expressions
+        idxs <- tryCatch({
+          expr <- parse(text = gsub("-", ":", set, fixed = TRUE))
+          eval(expr, envir = baseenv())
+        }, error = function(e) NA_integer_)
+        idxs <- as.character(idxs)
+        
+        ## Pad with zeros?
+        pattern <- "^([0]*)[[:digit:]]+.*"
+        if (grepl(pattern, set)) {
+          pad <- gsub(pattern, "\\1", set)
+          idxs <- paste(pad, idxs, sep = "")
+        }
+
+        set <- paste(prefix, idxs, sep = "")
+        sets[[jj]] <- set
+      } ## for (jj ...)
+
+      sets <- unlist(sets, use.names = FALSE)
+      data[[ii]] <- sets
+    }
+  } ## for (ii in ...)
+  
+  hosts <- unlist(data, recursive = FALSE, use.names = FALSE)
+  hosts
+}
+
 
 ## Used by availableWorkers()
 apply_fallback <- function(workers) {
