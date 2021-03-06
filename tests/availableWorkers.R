@@ -176,19 +176,47 @@ specs <- c(specs, all)
 
 for (kk in seq_along(specs)) {
   message(sprintf("- Specification #%d of %d", kk, length(specs)))
-  spec <- names(specs)[kk]
+  nodelist <- names(specs)[kk]
   truth <- specs[[kk]]
-  cat(sprintf("spec: %s\n", sQuote(spec)))
-  expanded <- slurm_expand_nodelist(spec, manual = TRUE)
+  cat(sprintf("nodelist: %s\n", sQuote(nodelist)))
+  expanded <- slurm_expand_nodelist(nodelist, manual = TRUE)
   cat(sprintf("expanded: c(%s)\n", paste(sQuote(expanded), collapse = ", ")))
   cat(sprintf("truth: c(%s)\n", paste(sQuote(truth), collapse = ", ")))
   stopifnot(identical(expanded, truth))
 
-  Sys.setenv(SLURM_JOB_NODELIST = spec)
-  workers <- availableWorkers(method = "Slurm")
+  nhosts <- length(expanded)
+  ncores_per_host <- sample(1:10, size = nhosts, replace = TRUE)
+
+  ## Handle the case when 'nodelist' result in a non-ordered 'expanded'
+  expanded2 <- as.list(expanded)
+  for (kk in seq_along(expanded2)) {
+    expanded2[[kk]] <- rep(expanded2[[kk]], times = ncores_per_host[kk])
+  }
+  expanded2 <- unlist(expanded2, use.names = FALSE)
+
+  Sys.setenv(SLURM_JOB_NODELIST = nodelist)
+  Sys.setenv(SLURM_JOB_CPUS_PER_NODE = paste(ncores_per_host, collapse = ","))
+
+  for (name in c("SLURM_JOB_NODELIST", "SLURM_JOB_CPUS_PER_NODE")) {
+    cat(sprintf("%s = %s\n", name, Sys.getenv(name)))
+  }
+  workers <- availableWorkers(methods = "Slurm")
   cat(sprintf("workers: c(%s)\n", paste(sQuote(workers), collapse = ", ")))
-  stopifnot(identical(workers, truth))
+  stopifnot(identical(unique(workers), unique(truth)))
+  counts <- table(workers)
+  counts <- counts[unique(workers)]
+  print(counts)
+  counts2 <- table(expanded2)
+  counts2 <- counts2[unique(expanded2)]
+  print(counts2)
+  stopifnot(
+    sum(counts) == sum(ncores_per_host),
+    sum(counts) == sum(counts2),
+    all(counts == counts2)
+  )
+  
   Sys.unsetenv("SLURM_JOB_NODELIST")
+  Sys.unsetenv(c("SLURM_JOB_NODELIST", "SLURM_JOB_CPUS_PER_NODE"))
 }
 
 message("*** Slurm w/ SLURM_JOB_NODELIST ... DONE")
