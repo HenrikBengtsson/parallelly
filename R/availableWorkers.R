@@ -360,7 +360,7 @@ supports_scontrol_show_hostname <- local({
 
 ## Used after read_pe_hostfile()
 ## SLURM_JOB_NODELIST="a1,b[02-04,6-7]"
-slurm_expand_nodelist <- function(data, manual = FALSE) {
+slurm_expand_nodelist <- function(nodelist, manual = FALSE) {
   ## Alt 1. Is 'scontrol show hostname' supported?
   if (!manual && supports_scontrol_show_hostname()) {
     hosts <- call_slurm_show_hostname(data)
@@ -368,19 +368,27 @@ slurm_expand_nodelist <- function(data, manual = FALSE) {
   }
 
   ## Alt 2. Manually parse the nodelist specification
-
-  ## Drop any whitespace; at least 'scontrol show hostname' supports them
-  data <- gsub("[[:space:]]", "", data)
+  data <- nodelist
   
-  ## Replace any commas *within* square brackets with semicolons
-  pattern <- "\\[([[:digit:];-]*),([[:digit:];-]*)"
+  ## Drop any whitespace *within* square brackets
+  pattern <- "\\[([[:digit:],-]*)[[:space:]]+([[:digit:][:space:],-]*)"
   while (grepl(pattern, data)) {
-    data <- gsub(pattern, "[\\1;\\2", data, perl = TRUE)
+    data <- gsub(pattern, "[\\1\\2", data)
   }
 
-  ## Now we can split by comma outside
-  data <- strsplit(data, split = ",", fixed = TRUE)
+  ## Replace any commas *within* square brackets with semicolons
+  pattern <- "\\[([[:digit:][:space:];-]*),([[:digit:][:space:];-]*)"
+  while (grepl(pattern, data)) {
+    data <- gsub(pattern, "[\\1;\\2", data)
+  }
+
+  data <- strsplit(data, split = "[,[:space:]]", fixed = FALSE)
   data <- as.list(unlist(data, use.names = FALSE))
+
+  ## Keep only non-empty entries, which may happen due to whitespace or
+  ## extra commas.  This should not happen but 'scontrol show hostname'
+  ## handles those cases too.
+  data <- data[nzchar(data)]
 
   for (ii in seq_along(data)) {
     spec <- data[[ii]]
@@ -425,6 +433,12 @@ slurm_expand_nodelist <- function(data, manual = FALSE) {
   } ## for (ii in ...)
   
   hosts <- unlist(data, recursive = FALSE, use.names = FALSE)
+
+  ## Sanity check
+  if (any(!nzchar(hosts))) {
+    warning(sprintf("Unexpected result from parallelly:::slurm_expand_nodelist(..., manual = TRUE), which resulted in %d empty hostname based on nodelist specification %s", sum(!nzchar(hosts)), sQuote(nodelist)))
+  }
+  
   hosts
 }
 

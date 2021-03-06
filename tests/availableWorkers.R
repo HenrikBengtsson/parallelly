@@ -156,7 +156,9 @@ slurm_expand_nodelist <- parallelly:::slurm_expand_nodelist
 specs <- list(
   "n1" = c("n1"),
   "  n1" = c("n1"),
+  "n1,,  n3" = c("n1", "n3"),
   "n1,  n3" = c("n1", "n3"),
+  "n3  n1" = c("n3", "n1"),
   "n[1-13]" = sprintf("n%d", c(1:13)),
   "n[1,3-4, 11-13]" = sprintf("n%d", c(1,3:4,11:13)),
   "a1,b[   02-04,6-7]" = c("a1", "b02", "b03", "b04", "b6", "b7")
