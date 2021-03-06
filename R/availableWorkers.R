@@ -416,7 +416,7 @@ supports_scontrol_show_hostname <- local({
 
 ## Used after read_pe_hostfile()
 ## SLURM_JOB_NODELIST="a1,b[02-04,6-7]"
-slurm_expand_nodelist <- function(nodelist, manual = FALSE) {
+slurm_expand_nodelist <- function(nodelist, manual = getOption("parallelly.slurm_expand_nodelist.manual", FALSE)) {
   ## Alt 1. Is 'scontrol show hostname' supported?
   if (!manual && supports_scontrol_show_hostname()) {
     hosts <- call_slurm_show_hostname(nodelist)

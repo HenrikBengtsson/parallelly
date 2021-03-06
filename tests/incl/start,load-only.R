@@ -12,6 +12,7 @@ on_githubactions <- as.logical(Sys.getenv("GITHUB_ACTIONS", "FALSE"))
 oopts <- options(
   warn = 1L,
   mc.cores = 2L,
+  parallelly.slurm_expand_nodelist.manual = TRUE,
   parallelly.debug = TRUE
 )
 
