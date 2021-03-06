@@ -152,12 +152,41 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
       ## List of nodes allocated to the job.
       ## Example:
       ## SLURM_JOB_NODELIST=n1,n[3-8],n[23-25]
-      data <- getenv("SLURM_JOB_NODELIST")
-      if (is.na(data)) data <- getenv("SLURM_NODELIST")
-      if (is.na(data)) next
+      nodelist <- getenv("SLURM_JOB_NODELIST")
+      if (is.na(nodelist)) data <- getenv("SLURM_NODELIST")
+      if (is.na(nodelist)) next
 
       ## Parse and expand nodelist
-      w <- slurm_expand_nodelist(data)
+      w <- slurm_expand_nodelist(nodelist)
+
+      ## SLURM_JOB_CPUS_PER_NODE=64,12,...
+      cores_per_node <- getenv("SLURM_JOB_CPUS_PER_NODE")
+      if (is.na(cores_per_node)) cores_per_node <- getenv("SLURM_TASKS_PER_NODE")
+      if (is.na(cores_per_node)) {
+        warning("Skipping Slurm settings because neither environment variable 'SLURM_JOB_CPUS_PER_NODE' nor 'SLURM_TASKS_PER_NODE' is set")
+        next
+      }
+
+      ## Parse counts
+      c <- strsplit(cores_per_node, split = "[,[:space:]]", fixed = FALSE)
+      c <- unlist(c, use.names = FALSE)
+      c <- c[nzchar(c)]
+      c <- as.integer(c)
+      if (any(is.na(c))) {
+        warning("Skipping Slurm settings because 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE' contained non-integer values: ", sQuote(cores_per_node))
+	next
+      }
+      if (length(c) != length(w)) {
+        warning("Skipping Slurm settings because the number of elements in 'SLURM_JOB_CPUS_PER_NODE'/'SLURM_TASKS_PER_NODE' does not match parsed 'SLURM_JOB_NODELIST'/'SLURM_NODELIST': ", length(c), " != ", length(w))
+	next
+      }	
+
+      ## Expand workers list
+      w <- as.list(w)
+      for (kk in seq_along(w)) {
+        w[[kk]] <- rep(w[[kk]], times = c[kk])
+      }	
+      w <- unlist(w, use.names = FALSE)
     } else if (method == "LSF") {
       data <- getenv("LSB_HOSTS")
       if (is.na(data)) next
