@@ -34,14 +34,27 @@
 #'    An example of a job submission that results in this is
 #'    `qsub -l nodes = 4:ppn = 2`, which requests four nodes each
 #'    with two cores.
+#'
 #'  \item `"SGE"` -
 #'    Query Sun/Oracle Grid Engine (SGE) environment variable
 #'    \env{PE_HOSTFILE}.
 #'    An example of a job submission that results in this is
 #'    `qsub -pe mpi 8` (or `qsub -pe ompi 8`), which
 #'    requests eight cores on a any number of machines.
+#'
 #'  \item `"LSF"` -
 #'    Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
+#'
+#'  \item `"Slurm"` -
+#'    Query Slurm environment variable \env{SLURM_JOB_NODELIST} (fallback
+#'    to legacy \env{SLURM_NODELIST}) and parse set of nodes.
+#'    Then query Slurm environment variable \env{SLURM_JOB_CPUS_PER_NODE}
+#'    (fallback \env{SLURM_TASKS_PER_NODE}) to infer how many CPU cores
+#'    Slurm have alloted to each of the nodes.
+#'    For example, if `SLURM_NODELIST="n1,n[03-05]"` (expands to
+#'    `c("n1", "n03", "n04", "n05")`) and `SLURM_JOB_CPUS_PER_NODE="2,1,3,1"`,
+#'    then `c("n1", "n1", "n03", "n04", "n04", "n04", "n05")` is returned.
+#'
 #'  \item `"custom"` -
 #'    If option \option{parallelly.availableWorkers.custom} is set and a function,
 #'    then this function will be called (without arguments) and it's value
@@ -163,30 +176,29 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
       cores_per_node <- getenv("SLURM_JOB_CPUS_PER_NODE")
       if (is.na(cores_per_node)) cores_per_node <- getenv("SLURM_TASKS_PER_NODE")
       if (is.na(cores_per_node)) {
-        warning("Skipping Slurm settings because neither environment variable 'SLURM_JOB_CPUS_PER_NODE' nor 'SLURM_TASKS_PER_NODE' is set")
-        next
+        warning("Expected either environment variable 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE' to be set. Will assume one core per node.")
+      } else {
+        ## Parse counts
+        c <- strsplit(cores_per_node, split = "[,[:space:]]", fixed = FALSE)
+        c <- unlist(c, use.names = FALSE)
+        c <- c[nzchar(c)]
+        c <- as.integer(c)
+        if (any(is.na(c))) {
+          warning("Skipping Slurm settings because 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE' contained non-integer values: ", sQuote(cores_per_node))
+          next
+        }
+        if (length(c) != length(w)) {
+          warning("Skipping Slurm settings because the number of elements in 'SLURM_JOB_CPUS_PER_NODE'/'SLURM_TASKS_PER_NODE' does not match parsed 'SLURM_JOB_NODELIST'/'SLURM_NODELIST': ", length(c), " != ", length(w))
+          next
+        }
+        
+        ## Expand workers list
+        w <- as.list(w)
+        for (kk in seq_along(w)) {
+          w[[kk]] <- rep(w[[kk]], times = c[kk])
+        }
+        w <- unlist(w, use.names = FALSE)
       }
-
-      ## Parse counts
-      c <- strsplit(cores_per_node, split = "[,[:space:]]", fixed = FALSE)
-      c <- unlist(c, use.names = FALSE)
-      c <- c[nzchar(c)]
-      c <- as.integer(c)
-      if (any(is.na(c))) {
-        warning("Skipping Slurm settings because 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE' contained non-integer values: ", sQuote(cores_per_node))
-	next
-      }
-      if (length(c) != length(w)) {
-        warning("Skipping Slurm settings because the number of elements in 'SLURM_JOB_CPUS_PER_NODE'/'SLURM_TASKS_PER_NODE' does not match parsed 'SLURM_JOB_NODELIST'/'SLURM_NODELIST': ", length(c), " != ", length(w))
-	next
-      }	
-
-      ## Expand workers list
-      w <- as.list(w)
-      for (kk in seq_along(w)) {
-        w[[kk]] <- rep(w[[kk]], times = c[kk])
-      }	
-      w <- unlist(w, use.names = FALSE)
     } else if (method == "LSF") {
       data <- getenv("LSB_HOSTS")
       if (is.na(data)) next

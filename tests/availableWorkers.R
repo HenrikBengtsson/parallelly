@@ -184,6 +184,20 @@ for (kk in seq_along(specs)) {
   cat(sprintf("truth: c(%s)\n", paste(sQuote(truth), collapse = ", ")))
   stopifnot(identical(expanded, truth))
 
+  Sys.unsetenv(c("SLURM_JOB_NODELIST", "SLURM_NODELIST",
+                 "SLURM_JOB_CPUS_PER_NODE", "SLURM_TASKS_PER_NODE"))
+
+  ## Test without SLURM_JOB_CPUS_PER_NODE/SLURM_TASKS_PER_NODE
+  Sys.setenv(SLURM_JOB_NODELIST = nodelist)
+  for (name in c("SLURM_JOB_NODELIST", "SLURM_JOB_CPUS_PER_NODE")) {
+    cat(sprintf("%s = %s\n", name, sQuote(Sys.getenv(name))))
+  }
+  workers <- availableWorkers(methods = "Slurm")
+  cat(sprintf("workers: c(%s)\n", paste(sQuote(workers), collapse = ", ")))
+  stopifnot(identical(workers, truth))
+
+
+  ## Test with SLURM_JOB_CPUS_PER_NODE/SLURM_TASKS_PER_NODE
   nhosts <- length(expanded)
   ncores_per_host <- sample(1:10, size = nhosts, replace = TRUE)
 
@@ -198,7 +212,7 @@ for (kk in seq_along(specs)) {
   Sys.setenv(SLURM_JOB_CPUS_PER_NODE = paste(ncores_per_host, collapse = ","))
 
   for (name in c("SLURM_JOB_NODELIST", "SLURM_JOB_CPUS_PER_NODE")) {
-    cat(sprintf("%s = %s\n", name, Sys.getenv(name)))
+    cat(sprintf("%s = %s\n", name, sQuote(Sys.getenv(name))))
   }
   workers <- availableWorkers(methods = "Slurm")
   cat(sprintf("workers: c(%s)\n", paste(sQuote(workers), collapse = ", ")))
@@ -215,7 +229,6 @@ for (kk in seq_along(specs)) {
     all(counts == counts2)
   )
   
-  Sys.unsetenv("SLURM_JOB_NODELIST")
   Sys.unsetenv(c("SLURM_JOB_NODELIST", "SLURM_JOB_CPUS_PER_NODE"))
 }
 

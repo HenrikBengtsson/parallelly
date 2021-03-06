@@ -53,14 +53,27 @@ is given per line.
 An example of a job submission that results in this is
 \verb{qsub -l nodes = 4:ppn = 2}, which requests four nodes each
 with two cores.
+
 \item \code{"SGE"} -
 Query Sun/Oracle Grid Engine (SGE) environment variable
 \env{PE_HOSTFILE}.
 An example of a job submission that results in this is
 \verb{qsub -pe mpi 8} (or \verb{qsub -pe ompi 8}), which
 requests eight cores on a any number of machines.
+
 \item \code{"LSF"} -
 Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
+
+\item \code{"Slurm"} -
+Query Slurm environment variable \env{SLURM_JOB_NODELIST} (fallback
+to legacy \env{SLURM_NODELIST}) and parse set of nodes.
+Then query Slurm environment variable \env{SLURM_JOB_CPUS_PER_NODE}
+(fallback \env{SLURM_TASKS_PER_NODE}) to infer how many CPU cores
+Slurm have alloted to each of the nodes.
+For example, if \code{SLURM_NODELIST="n1,n[03-05]"} (expands to
+\code{c("n1", "n03", "n04", "n05")}) and \code{SLURM_JOB_CPUS_PER_NODE="2,1,3,1"},
+then \code{c("n1", "n1", "n03", "n04", "n04", "n04", "n05")} is returned.
+
 \item \code{"custom"} -
 If option \option{parallelly.availableWorkers.custom} is set and a function,
 then this function will be called (without arguments) and it's value
