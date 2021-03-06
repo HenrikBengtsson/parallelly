@@ -303,10 +303,10 @@ sge_expand_node_count_pairs <- function(data) {
 
 
 #' @importFrom utils file_test
-call_slurm_show_hostname <- function(specs, bin = Sys.which("scontrol")) {
+call_slurm_show_hostname <- function(nodelist, bin = Sys.which("scontrol")) {
   stop_if_not(file_test("-x", bin))
   
-  args <- c("show", "hostname", shQuote(specs))
+  args <- c("show", "hostname", shQuote(nodelist))
   res <- system2(bin, args = args, stdout = TRUE)
   status <- attr(res, "status")
   if (!is.null(status)) {
@@ -332,10 +332,10 @@ supports_scontrol_show_hostname <- local({
 
     ## Try a conversion
     truth <- c("a1", "b02", "b03", "b04", "b6", "b7")
-    specs <- "a1,b[02-04,6-7]"
+    nodelist <- "a1,b[02-04,6-7]"
     
     hosts <- tryCatch({
-      call_slurm_show_hostname(specs, bin = bin)
+      call_slurm_show_hostname(nodelist, bin = bin)
     }, error = identity)
     
     if (inherits(hosts, "error")) {
@@ -345,7 +345,7 @@ supports_scontrol_show_hostname <- local({
 
     ## Sanity check
     if (!isTRUE(all.equal(sort(hosts), sort(truth)))) {
-      msg <- sprintf("Internal availableWorkers() validation failed: 'scontrol show hostname %s' did not return the expected results.  Expected c(%s) but got c(%s).  Will still use it this methods but please report this to the maintainer of the 'parallelly' package", shQuote(specs), commaq(truth), commaq(hosts))
+      msg <- sprintf("Internal availableWorkers() validation failed: 'scontrol show hostname %s' did not return the expected results.  Expected c(%s) but got c(%s).  Will still use it this methods but please report this to the maintainer of the 'parallelly' package", shQuote(nodelist), commaq(truth), commaq(hosts))
       warning(msg, immediate. = TRUE)
     }
     
@@ -363,7 +363,7 @@ supports_scontrol_show_hostname <- local({
 slurm_expand_nodelist <- function(nodelist, manual = FALSE) {
   ## Alt 1. Is 'scontrol show hostname' supported?
   if (!manual && supports_scontrol_show_hostname()) {
-    hosts <- call_slurm_show_hostname(data)
+    hosts <- call_slurm_show_hostname(nodelist)
     return(hosts)
   }
 
