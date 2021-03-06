@@ -64,7 +64,7 @@
 #'
 #' @section Known limitations:
 #' `availableWorkers(methods = "Slurm")` will expand \env{SLURM_JOB_NODELIST}
-#' using \command{scontrol show hostname "$SLURM_JOB_NODELIST"}, if available.
+#' using \command{scontrol show hostnames "$SLURM_JOB_NODELIST"}, if available.
 #' If not available, then it attempts to parse the compressed nodelist based
 #' on a best-guess understanding on what the possible syntax may be.
 #' One known limitation is that "multi-dimensional" ranges are not supported,
@@ -401,7 +401,7 @@ supports_scontrol_show_hostname <- local({
 
     ## Sanity check
     if (!isTRUE(all.equal(sort(hosts), sort(truth)))) {
-      msg <- sprintf("Internal availableWorkers() validation failed: 'scontrol show hostname %s' did not return the expected results.  Expected c(%s) but got c(%s).  Will still use it this methods but please report this to the maintainer of the 'parallelly' package", shQuote(nodelist), commaq(truth), commaq(hosts))
+      msg <- sprintf("Internal availableWorkers() validation failed: 'scontrol show hostnames %s' did not return the expected results.  Expected c(%s) but got c(%s).  Will still use it this methods but please report this to the maintainer of the 'parallelly' package", shQuote(nodelist), commaq(truth), commaq(hosts))
       warning(msg, immediate. = TRUE)
     }
     
@@ -417,7 +417,7 @@ supports_scontrol_show_hostname <- local({
 ## Used after read_pe_hostfile()
 ## SLURM_JOB_NODELIST="a1,b[02-04,6-7]"
 slurm_expand_nodelist <- function(nodelist, manual = getOption("parallelly.slurm_expand_nodelist.manual", FALSE)) {
-  ## Alt 1. Is 'scontrol show hostname' supported?
+  ## Alt 1. Is 'scontrol show hostnames' supported?
   if (!manual && supports_scontrol_show_hostname()) {
     hosts <- call_slurm_show_hostname(nodelist)
     return(hosts)
@@ -427,7 +427,7 @@ slurm_expand_nodelist <- function(nodelist, manual = getOption("parallelly.slurm
   data <- nodelist
 
   ## Replace whitespace *within* square brackets with zeros
-  ## Source: scontrol show hostname treats "n[1,  3-4]" == "n[1,003-4]"
+  ## Source: scontrol show hostnames treats "n[1,  3-4]" == "n[1,003-4]"
   pattern <- "\\[([[:digit:],-]*)[[:space:]]([[:digit:][:space:],-]*)"
   while (grepl(pattern, data)) {
     data <- gsub(pattern, "[\\10\\2", data)
@@ -443,7 +443,7 @@ slurm_expand_nodelist <- function(nodelist, manual = getOption("parallelly.slurm
   data <- as.list(unlist(data, use.names = FALSE))
 
   ## Keep only non-empty entries, which may happen due to whitespace or
-  ## extra commas.  This should not happen but 'scontrol show hostname'
+  ## extra commas.  This should not happen but 'scontrol show hostnames'
   ## handles those cases too.
   data <- data[nzchar(data)]
 
