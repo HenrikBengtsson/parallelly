@@ -62,6 +62,18 @@
 #'    hostnames of available workers.
 #' }
 #'
+#' @section Known limitations:
+#' `availableWorkers(methods = "Slurm")` will expand \env{SLURM_JOB_NODELIST}
+#' using \command{scontrol show hostname "$SLURM_JOB_NODELIST"}, if available.
+#' If not available, then it attempts to parse the compressed nodelist based
+#' on a best-guess understanding on what the possible syntax may be.
+#' One known limitation is that "multi-dimensional" ranges are not supported,
+#' e.g. `"a[1-2]b[3-4]"` is expanded by \command{scontrol} to
+#' `c("a1b3", "a1b4", "a2b3", "a2b4")`.  If \command{scontrol} is not
+#' available, then any components that failed to be parsed are dropped with
+#' an informative warning message.  If no compents could be parsed, then
+#' the result of `methods = "Slurm"` will be empty.
+#'
 #' @examples
 #' message(paste("Available workers:",
 #'         paste(sQuote(availableWorkers()), collapse = ", ")))
@@ -171,6 +183,9 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
 
       ## Parse and expand nodelist
       w <- slurm_expand_nodelist(nodelist)
+
+      ## Failed to parse?
+      if (length(w) == 0) next
 
       ## SLURM_JOB_CPUS_PER_NODE=64,12,...
       cores_per_node <- getenv("SLURM_JOB_CPUS_PER_NODE")
@@ -410,11 +425,12 @@ slurm_expand_nodelist <- function(nodelist, manual = FALSE) {
 
   ## Alt 2. Manually parse the nodelist specification
   data <- nodelist
-  
-  ## Drop any whitespace *within* square brackets
-  pattern <- "\\[([[:digit:],-]*)[[:space:]]+([[:digit:][:space:],-]*)"
+
+  ## Replace whitespace *within* square brackets with zeros
+  ## Source: scontrol show hostname treats "n[1,  3-4]" == "n[1,003-4]"
+  pattern <- "\\[([[:digit:],-]*)[[:space:]]([[:digit:][:space:],-]*)"
   while (grepl(pattern, data)) {
-    data <- gsub(pattern, "[\\1\\2", data)
+    data <- gsub(pattern, "[\\10\\2", data)
   }
 
   ## Replace any commas *within* square brackets with semicolons
@@ -478,8 +494,18 @@ slurm_expand_nodelist <- function(nodelist, manual = FALSE) {
   ## Sanity check
   if (any(!nzchar(hosts))) {
     warning(sprintf("Unexpected result from parallelly:::slurm_expand_nodelist(..., manual = TRUE), which resulted in %d empty hostname based on nodelist specification %s", sum(!nzchar(hosts)), sQuote(nodelist)))
+    hosts <- hosts[nzchar(hosts)]
   }
-  
+
+  ## Failed to expand all compressed ranges?  This may happen because 
+  ## "multi-dimensional" ranges are given, e.g. "a[1-2]b[3-4]". This is
+  ## currently not supported by the above manual parser. /HB 2021-03-05
+  invalid <- grep("(\\[|\\]|,|;|[[:space:]])", hosts, value = TRUE)
+  if (length(invalid) > 0) {
+    warning(sprintf("Failed to parse the compressed Slurm nodelist %s. Detected invalid node names, which are dropped: %s", sQuote(nodelist), commaq(invalid)))
+    hosts <- setdiff(hosts, invalid)
+  }
+
   hosts
 }
 

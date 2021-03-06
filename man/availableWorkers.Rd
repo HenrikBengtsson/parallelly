@@ -81,6 +81,20 @@ will be coerced to a character vector, which will be interpreted as
 hostnames of available workers.
 }
 }
+\section{Known limitations}{
+
+\code{availableWorkers(methods = "Slurm")} will expand \env{SLURM_JOB_NODELIST}
+using \command{scontrol show hostname "$SLURM_JOB_NODELIST"}, if available.
+If not available, then it attempts to parse the compressed nodelist based
+on a best-guess understanding on what the possible syntax may be.
+One known limitation is that "multi-dimensional" ranges are not supported,
+e.g. \code{"a[1-2]b[3-4]"} is expanded by \command{scontrol} to
+\code{c("a1b3", "a1b4", "a2b3", "a2b4")}.  If \command{scontrol} is not
+available, then any components that failed to be parsed are dropped with
+an informative warning message.  If no compents could be parsed, then
+the result of \code{methods = "Slurm"} will be empty.
+}
+
 \examples{
 message(paste("Available workers:",
         paste(sQuote(availableWorkers()), collapse = ", ")))
