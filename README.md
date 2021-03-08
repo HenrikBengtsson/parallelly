@@ -118,6 +118,7 @@ Contributing to this package is easy.  Just send a [pull request](https://help.g
 
 We abide to the [Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/) of Contributor Covenant.
 
+<div id="badges"><!-- pkgdown markup -->
 
 ## Software status
 
@@ -126,3 +127,5 @@ We abide to the [Code of Conduct](https://www.contributor-covenant.org/version/2
 | _Platforms:_  | _Multiple_          | _Multiple_          | _Linux & macOS_ | _Windows_        |
 | R CMD check   | <a href="https://cran.r-project.org/web/checks/check_results_parallelly.html"><img border="0" src="http://www.r-pkg.org/badges/version/parallelly" alt="CRAN version"></a> | <a href="https://github.com/HenrikBengtsson/parallelly/actions?query=workflow%3AR-CMD-check"><img src="https://github.com/HenrikBengtsson/parallelly/workflows/R-CMD-check/badge.svg?branch=develop" alt="Build status"></a>       |    |  |
 | Test coverage |                     |                     |      |                  |
+
+</div>

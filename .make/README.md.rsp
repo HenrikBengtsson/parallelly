@@ -186,6 +186,7 @@ Contributing to this package is easy.  Just send a [pull request](https://help.g
 
 We abide to the [Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/) of Contributor Covenant.
 
+<div id="badges"><!-- pkgdown markup -->
 
 ## Software status
 
@@ -194,3 +195,5 @@ We abide to the [Code of Conduct](https://www.contributor-covenant.org/version/2
 | _Platforms:_  | _Multiple_          | _Multiple_          | _Linux & macOS_ | _Windows_        |
 | R CMD check   | <%=repos_status()%> | <%=github()%>       | <%=travis()%>   | <%=appveyor() %> |
 | Test coverage |                     |                     | <%=covr()%>     |                  |
+
+</div>
