@@ -147,6 +147,12 @@ options(parallelly.availableCores.custom = function() {
   min(0.75 * ncores, 4L)
 })
 message(paste("Number of cores available:", availableCores()))
+
+## What is available minus one core but at least one
+options(parallelly.availableCores.custom = function() {
+  max(1L, parallelly::availableCores() - 1L)
+})
+message(paste("Number of cores available:", availableCores()))
 }
 
 }
