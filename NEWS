@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.23.0-9000 [2021-03-05]
+Version: 1.23.0-9000 [2021-03-08]
 
 SIGNIFICANT CHANGES:
 
@@ -20,6 +20,10 @@ NEW FEATURES:
  * Add isForkedNode() to test if a cluster node runs in a forked process.
 
  * Add isLocalhostNode() to test if a cluster node runs on the current machine.
+
+ * Now availableCores() and availableWorkers() avoid recursive calls to the
+   custom function given by options 'parallelly.availableCores.custom' and
+   'parallelly.availableWorkers.custom', respectively.
 
  * availableWorkers() now recognizes the Slurm environment variable
    'SLURM_JOB_NODELIST', e.g. "dev1,n[3-4,095-120]". It will use

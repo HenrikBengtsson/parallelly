@@ -257,7 +257,12 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     } else if (method == "custom") {
       fcn <- getOption2("parallelly.availableCores.custom", NULL)
       if (!is.function(fcn)) next
-      n <- fcn()
+      n <- local({
+        ## Avoid calling the custom function recursively
+        oopts <- options(parallelly.availableCores.custom = NULL)
+        on.exit(options(oopts))
+        fcn()
+      })
       n <- as.integer(n)
       if (length(n) != 1L) {
         stop("Function specified by option 'parallelly.availableCores.custom' does not a single value")

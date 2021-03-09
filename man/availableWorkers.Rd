@@ -71,8 +71,9 @@ Then query Slurm environment variable \env{SLURM_JOB_CPUS_PER_NODE}
 (fallback \env{SLURM_TASKS_PER_NODE}) to infer how many CPU cores
 Slurm have alloted to each of the nodes.
 For example, if \code{SLURM_NODELIST="n1,n[03-05]"} (expands to
-\code{c("n1", "n03", "n04", "n05")}) and \code{SLURM_JOB_CPUS_PER_NODE="2,1,3,1"},
-then \code{c("n1", "n1", "n03", "n04", "n04", "n04", "n05")} is returned.
+\code{c("n1", "n03", "n04", "n05")}) and \code{SLURM_JOB_CPUS_PER_NODE="2(x2),3,1"}
+(expands to \code{c(2, 2, 3, 1)}), then
+\code{c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05")} is returned.
 
 \item \code{"custom"} -
 If option \option{parallelly.availableWorkers.custom} is set and a function,
@@ -84,7 +85,7 @@ hostnames of available workers.
 \section{Known limitations}{
 
 \code{availableWorkers(methods = "Slurm")} will expand \env{SLURM_JOB_NODELIST}
-using \command{scontrol show hostname "$SLURM_JOB_NODELIST"}, if available.
+using \command{scontrol show hostnames "$SLURM_JOB_NODELIST"}, if available.
 If not available, then it attempts to parse the compressed nodelist based
 on a best-guess understanding on what the possible syntax may be.
 One known limitation is that "multi-dimensional" ranges are not supported,

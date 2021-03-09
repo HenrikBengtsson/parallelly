@@ -219,7 +219,12 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
     } else if (method == "custom") {
       fcn <- getOption2("parallelly.availableWorkers.custom", NULL)
       if (!is.function(fcn)) next
-      w <- fcn()
+      w <- local({
+        ## Avoid calling the custom function recursively
+        oopts <- options(parallelly.availableWorkers.custom = NULL)
+        on.exit(options(oopts))
+        fcn()
+      })
       w <- as.character(w)
     } else {
       ## Fall back to querying option and system environment variable
