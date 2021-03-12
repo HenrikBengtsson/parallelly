@@ -50,11 +50,16 @@
 #'    to legacy \env{SLURM_NODELIST}) and parse set of nodes.
 #'    Then query Slurm environment variable \env{SLURM_JOB_CPUS_PER_NODE}
 #'    (fallback \env{SLURM_TASKS_PER_NODE}) to infer how many CPU cores
-#'    Slurm have alloted to each of the nodes.
+#'    Slurm have alloted to each of the nodes.  If \env{SLURM_CPUS_PER_TASK}
+#'    is set, which is always a scalar, then that is respected too, i.e.
+#'    if it is smaller, then that is used for all nodes.
 #'    For example, if `SLURM_NODELIST="n1,n[03-05]"` (expands to
-#'    `c("n1", "n03", "n04", "n05")`) and `SLURM_JOB_CPUS_PER_NODE="2(x2),3,1"`
-#'    (expands to `c(2, 2, 3, 1)`), then
-#'    `c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05")` is returned.
+#'    `c("n1", "n03", "n04", "n05")`) and `SLURM_JOB_CPUS_PER_NODE="2(x2),3,2"`
+#'    (expands to `c(2, 2, 3, 2, 2)`), then
+#'    `c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05", "n05")` is
+#'    returned.  If in addition, `SLURM_CPUS_PER_TASK=1`, which can happen
+#'    depending on hyperthreading configurations on the Slurm cluster, then 
+#'    `c("n1", "n03", "n04", "n05")` is returned.
 #'
 #'  \item `"custom"` -
 #'    If option \option{parallelly.availableWorkers.custom} is set and a function,
@@ -200,11 +205,24 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
           warning("Failed to parse 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE': ", sQuote(nodecounts))
           next
         }
+
         if (length(c) != length(w)) {
           warning(sprintf("Skipping Slurm settings because the number of elements in 'SLURM_JOB_CPUS_PER_NODE'/'SLURM_TASKS_PER_NODE' (%s) does not match parsed 'SLURM_JOB_NODELIST'/'SLURM_NODELIST' (%s): %d != %d", nodelist, nodecounts, length(c), length(w)))
           next
         }
-        
+
+        ## Always respect 'SLURM_CPUS_PER_TASK' (always a scalar), if that exists
+        n <- getenv("SLURM_CPUS_PER_TASK")
+        if (!is.na(n)) {
+          c0 <- c
+          c <- rep(n, times = length(w))
+          ## Is our assumption that SLURM_CPUS_PER_TASK <= SLURM_JOB_NODELIST, correct?
+          if (any(c < n)) {
+            c <- pmin(c, n)
+            warning(sprintf("Unexpected values of Slurm environment variable. 'SLURM_CPUS_PER_TASK' specifies CPU counts on one or more nodes that is strictly less than what 'SLURM_CPUS_PER_TASK' specifies. Will use the minimum of the two for each node: %s < %s", sQuote(nodecounts), n))
+          }
+        }
+
         ## Expand workers list
         w <- as.list(w)
         for (kk in seq_along(w)) {

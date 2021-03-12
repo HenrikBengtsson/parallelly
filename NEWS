@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.23.0-9000 [2021-03-08]
+Version: 1.23.0-9000 [2021-03-12]
 
 SIGNIFICANT CHANGES:
 
@@ -31,7 +31,9 @@ NEW FEATURES:
    on the current machine, otherwise it will attempt to parse and expand the
    nodelist specification using R.  If either of environment variable
    'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE' is set, then each
-   node in the nodelist will be represented that number of times.
+   node in the nodelist will be represented that number of times.  If in
+   addition, environment variable 'SLURM_CPUS_PER_TASK' (always a scalar),
+   then that is also respected.
  
 MISCELLANEOUS:
 
@@ -39,7 +41,7 @@ MISCELLANEOUS:
    'R_PARALLELLY_' prefix for environment variables.  Settings that use the
    corresponding 'future.' and 'R_FUTURE_' prefixes are still recognized.
 
-BUG FIX:
+BUG FIXES:
 
  * availableCores() did not respect environment variable 'SLURM_TASKS_PER_NODE'
    when the job was allocated more than one node.
