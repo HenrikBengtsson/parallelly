@@ -202,11 +202,16 @@ Query Slurm environment variable <code class="env">SLURM_JOB_NODELIST</code> (fa
 to legacy <code class="env">SLURM_NODELIST</code>) and parse set of nodes.
 Then query Slurm environment variable <code class="env">SLURM_JOB_CPUS_PER_NODE</code>
 (fallback <code class="env">SLURM_TASKS_PER_NODE</code>) to infer how many CPU cores
-Slurm have alloted to each of the nodes.
+Slurm have alloted to each of the nodes.  If <code class="env">SLURM_CPUS_PER_TASK</code>
+is set, which is always a scalar, then that is respected too, i.e.
+if it is smaller, then that is used for all nodes.
 For example, if <code>SLURM_NODELIST="n1,n[03-05]"</code> (expands to
-<code><a href='https://rdrr.io/r/base/c.html'>c("n1", "n03", "n04", "n05")</a></code>) and <code>SLURM_JOB_CPUS_PER_NODE="2(x2),3,1"</code>
-(expands to <code><a href='https://rdrr.io/r/base/c.html'>c(2, 2, 3, 1)</a></code>), then
-<code><a href='https://rdrr.io/r/base/c.html'>c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05")</a></code> is returned.</p></li>
+<code><a href='https://rdrr.io/r/base/c.html'>c("n1", "n03", "n04", "n05")</a></code>) and <code>SLURM_JOB_CPUS_PER_NODE="2(x2),3,2"</code>
+(expands to <code><a href='https://rdrr.io/r/base/c.html'>c(2, 2, 3, 2, 2)</a></code>), then
+<code><a href='https://rdrr.io/r/base/c.html'>c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05", "n05")</a></code> is
+returned.  If in addition, <code>SLURM_CPUS_PER_TASK=1</code>, which can happen
+depending on hyperthreading configurations on the Slurm cluster, then
+<code><a href='https://rdrr.io/r/base/c.html'>c("n1", "n03", "n04", "n05")</a></code> is returned.</p></li>
 <li><p><code>"custom"</code> -
 If option <span class="option">parallelly.availableWorkers.custom</span> is set and a function,
 then this function will be called (without arguments) and it's value

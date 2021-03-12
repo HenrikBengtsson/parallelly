@@ -145,7 +145,7 @@
 <li><p>Add isForkedNode() to test if a cluster node runs in a forked process.</p></li>
 <li><p>Add isLocalhostNode() to test if a cluster node runs on the current machine.</p></li>
 <li><p>Now availableCores() and availableWorkers() avoid recursive calls to the custom function given by options ‘parallelly.availableCores.custom’ and ‘parallelly.availableWorkers.custom’, respectively.</p></li>
-<li><p>availableWorkers() now recognizes the Slurm environment variable ‘SLURM_JOB_NODELIST’, e.g. “dev1,n[3-4,095-120]”. It will use ‘scontrol show hostnames “$SLURM_JOB_NODELIST”’ to expand it, if supported on the current machine, otherwise it will attempt to parse and expand the nodelist specification using R. If either of environment variable ‘SLURM_JOB_CPUS_PER_NODE’ or ‘SLURM_TASKS_PER_NODE’ is set, then each node in the nodelist will be represented that number of times.</p></li>
+<li><p>availableWorkers() now recognizes the Slurm environment variable ‘SLURM_JOB_NODELIST’, e.g. “dev1,n[3-4,095-120]”. It will use ‘scontrol show hostnames “$SLURM_JOB_NODELIST”’ to expand it, if supported on the current machine, otherwise it will attempt to parse and expand the nodelist specification using R. If either of environment variable ‘SLURM_JOB_CPUS_PER_NODE’ or ‘SLURM_TASKS_PER_NODE’ is set, then each node in the nodelist will be represented that number of times. If in addition, environment variable ‘SLURM_CPUS_PER_TASK’ (always a scalar), then that is also respected.</p></li>
 </ul>
 </div>
 <div id="miscellaneous" class="section level3">
