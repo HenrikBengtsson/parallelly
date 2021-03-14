@@ -5,11 +5,11 @@
 \title{Get Set of Available Workers}
 \usage{
 availableWorkers(
-  methods = getOption2("future.availableWorkers.methods", c("mc.cores",
+  methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores",
     "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system",
     "fallback")),
   na.rm = TRUE,
-  logical = getOption2("future.availableCores.logical", TRUE),
+  logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = "localhost",
   which = c("auto", "min", "max", "all")
 )
@@ -53,21 +53,54 @@ is given per line.
 An example of a job submission that results in this is
 \verb{qsub -l nodes = 4:ppn = 2}, which requests four nodes each
 with two cores.
+
 \item \code{"SGE"} -
 Query Sun/Oracle Grid Engine (SGE) environment variable
 \env{PE_HOSTFILE}.
 An example of a job submission that results in this is
 \verb{qsub -pe mpi 8} (or \verb{qsub -pe ompi 8}), which
 requests eight cores on a any number of machines.
+
 \item \code{"LSF"} -
 Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
+
+\item \code{"Slurm"} -
+Query Slurm environment variable \env{SLURM_JOB_NODELIST} (fallback
+to legacy \env{SLURM_NODELIST}) and parse set of nodes.
+Then query Slurm environment variable \env{SLURM_JOB_CPUS_PER_NODE}
+(fallback \env{SLURM_TASKS_PER_NODE}) to infer how many CPU cores
+Slurm have alloted to each of the nodes.  If \env{SLURM_CPUS_PER_TASK}
+is set, which is always a scalar, then that is respected too, i.e.
+if it is smaller, then that is used for all nodes.
+For example, if \code{SLURM_NODELIST="n1,n[03-05]"} (expands to
+\code{c("n1", "n03", "n04", "n05")}) and \code{SLURM_JOB_CPUS_PER_NODE="2(x2),3,2"}
+(expands to \code{c(2, 2, 3, 2, 2)}), then
+\code{c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05", "n05")} is
+returned.  If in addition, \code{SLURM_CPUS_PER_TASK=1}, which can happen
+depending on hyperthreading configurations on the Slurm cluster, then
+\code{c("n1", "n03", "n04", "n05")} is returned.
+
 \item \code{"custom"} -
-If option \option{future.availableWorkers.custom} is set and a function,
+If option \option{parallelly.availableWorkers.custom} is set and a function,
 then this function will be called (without arguments) and it's value
 will be coerced to a character vector, which will be interpreted as
 hostnames of available workers.
 }
 }
+\section{Known limitations}{
+
+\code{availableWorkers(methods = "Slurm")} will expand \env{SLURM_JOB_NODELIST}
+using \command{scontrol show hostnames "$SLURM_JOB_NODELIST"}, if available.
+If not available, then it attempts to parse the compressed nodelist based
+on a best-guess understanding on what the possible syntax may be.
+One known limitation is that "multi-dimensional" ranges are not supported,
+e.g. \code{"a[1-2]b[3-4]"} is expanded by \command{scontrol} to
+\code{c("a1b3", "a1b4", "a2b3", "a2b4")}.  If \command{scontrol} is not
+available, then any components that failed to be parsed are dropped with
+an informative warning message.  If no compents could be parsed, then
+the result of \code{methods = "Slurm"} will be empty.
+}
+
 \examples{
 message(paste("Available workers:",
         paste(sQuote(availableWorkers()), collapse = ", ")))

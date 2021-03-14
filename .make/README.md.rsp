@@ -178,13 +178,12 @@ Because of this and because this package also compiles native code, Windows user
 <% } # if (file.exists("INSTALL.md")) %>
 
 
-## Contributions
 
-This Git repository uses the [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model (the [`git flow`](https://github.com/petervanderdoes/gitflow-avh) extension is useful for this).  The [`develop`](https://github.com/<%=github_repos()%>/tree/develop) branch contains the latest contributions and other code that will appear in the next release, and the [`master`](https://github.com/<%=github_repos()%>) branch contains the code of the latest release<% if (cran() || bioc()) { %>, which is exactly what is currently on <%=repos_page()%><% } %>.
+<div id="badges"><!-- pkgdown markup -->
 
-Contributing to this package is easy.  Just send a [pull request](https://help.github.com/articles/using-pull-requests/).  When you send your PR, make sure `develop` is the destination branch on the [<%=pkg()%> repository](https://github.com/<%=github_repos()%>).  Your PR should pass `R CMD check --as-cran`, which will also be checked by <%=travis(text = TRUE)%> and <%=appveyor(text = TRUE)%> when the PR is submitted.
+## Contributing
 
-We abide to the [Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/) of Contributor Covenant.
+To contribute to this package, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 
 ## Software status
@@ -194,3 +193,5 @@ We abide to the [Code of Conduct](https://www.contributor-covenant.org/version/2
 | _Platforms:_  | _Multiple_          | _Multiple_          | _Linux & macOS_ | _Windows_        |
 | R CMD check   | <%=repos_status()%> | <%=github()%>       | <%=travis()%>   | <%=appveyor() %> |
 | Test coverage |                     |                     | <%=covr()%>     |                  |
+
+</div>

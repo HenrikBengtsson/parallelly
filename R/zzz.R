@@ -1,11 +1,11 @@
 ## covr: skip=all
 .onLoad <- function(libname, pkgname) {
-  debug <- isTRUE(as.logical(getEnvVar2("R_FUTURE_DEBUG", "FALSE")))
-  if (debug) options(future.debug = TRUE)
-  debug <- getOption2("future.debug", debug)
+  debug <- isTRUE(as.logical(getEnvVar2("R_PARALLELLY_DEBUG", "FALSE")))
+  if (debug) options(parallelly.debug = TRUE)
+  debug <- getOption2("parallelly.debug", debug)
   
   ## Automatically play nice when 'R CMD check' runs?
-  if (isTRUE(as.logical(getEnvVar2("R_FUTURE_R_CMD_CHECK_NICE", "TRUE"))) && inRCmdCheck()) {
+  if (isTRUE(as.logical(getEnvVar2("R_PARALLELLY_R_CMD_CHECK_NICE", "TRUE"))) && inRCmdCheck()) {
     if (debug) mdebug("Detected 'R CMD check':\n - adjusting defaults to be a good citizen")
     ## To be nicer to test environments (e.g. CRAN, Travis CI and AppVeyor CI),
     ## timeout much earlier than the default 30 days. This will also give a more
@@ -14,24 +14,23 @@
     ## NOTE: By using environment variables, instead of R options, we can make
     ## sure these settings are also passed down to child processes, including
     ## nested ones.
-    Sys.setenv(R_FUTURE_MAKENODEPSOCK_CONNECTTIMEOUT = 2 * 60)
-    Sys.setenv(R_FUTURE_MAKENODEPSOCK_TIMEOUT = 2 * 60)
-    Sys.setenv(R_FUTURE_WAIT_INTERVAL = 0.01) ## 0.01s (instead of default 0.2s)
+    Sys.setenv(R_PARALLELLY_MAKENODEPSOCK_CONNECTTIMEOUT = 2 * 60)
+    Sys.setenv(R_PARALLELLY_MAKENODEPSOCK_TIMEOUT = 2 * 60)
     
     ## Collect more session details from workers to helps troubleshooting on
     ## remote servers, e.g. CRAN servers
-    Sys.setenv(R_FUTURE_MAKENODEPSOCK_SESSIONINFO_PKGS = TRUE)
+    Sys.setenv(R_PARALLELLY_MAKENODEPSOCK_SESSIONINFO_PKGS = TRUE)
 
     ## Automatically kill stray cluster workers, if possible
-    Sys.setenv(R_FUTURE_MAKENODEPSOCK_AUTOKILL = TRUE)
+    Sys.setenv(R_PARALLELLY_MAKENODEPSOCK_AUTOKILL = TRUE)
 
     ## Label cluster workers, if possible
-    Sys.setenv(R_FUTURE_MAKENODEPSOCK_RSCRIPT_LABEL = TRUE)
+    Sys.setenv(R_PARALLELLY_MAKENODEPSOCK_RSCRIPT_LABEL = TRUE)
 
     ## Lower the risk for port clashes by using a large pool of random ports.
     ## The default 11000:11999 tend to fail occassionally on CRAN but also
     ## locally.
-    Sys.setenv(R_FUTURE_RANDOM_PORTS = "20000:39999")
+    Sys.setenv(R_PARALLELLY_RANDOM_PORTS = "20000:39999")
 
     ## Not all CRAN servers have _R_CHECK_LIMIT_CORES_ set [REF?]. Setting it
     ## to 'TRUE' when unset, will better emulate CRAN submission checks.
@@ -49,62 +48,62 @@
     mdebug(paste(c("parallelly-specific environment variables:", envs), collapse = "\n"))
   }
 
-  ## Unless already set, set option 'future.availableCores.fallback'
-  ## according to environment variable 'R_FUTURE_AVAILABLECORES_FALLBACK'.
-  ncores <- getOption2("future.availableCores.fallback", NULL)
+  ## Unless already set, set option 'parallelly.availableCores.fallback'
+  ## according to environment variable 'R_PARALLELLY_AVAILABLECORES_FALLBACK'.
+  ncores <- getOption2("parallelly.availableCores.fallback", NULL)
   if (is.null(ncores)) {
-    ncores <- trim(getEnvVar2("R_FUTURE_AVAILABLECORES_FALLBACK", ""))
+    ncores <- trim(getEnvVar2("R_PARALLELLY_AVAILABLECORES_FALLBACK", ""))
     if (nzchar(ncores)) {
-      if (debug) mdebugf("R_FUTURE_AVAILABLECORES_FALLBACK=%s", sQuote(ncores))
+      if (debug) mdebugf("R_PARALLELLY_AVAILABLECORES_FALLBACK=%s", sQuote(ncores))
       if (is.element(ncores, c("NA_integer_", "NA"))) {
         ncores <- NA_integer_
       } else {
         ncores <- as.integer(ncores)
       }
-      if (debug) mdebugf(" => options(future.availableCores.fallback = %d)", ncores)
-      options(future.availableCores.fallback = ncores)
+      if (debug) mdebugf(" => options(parallelly.availableCores.fallback = %d)", ncores)
+      options(parallelly.availableCores.fallback = ncores)
     }
-    ncores <- getOption2("future.availableCores.fallback", NULL)
+    ncores <- getOption2("parallelly.availableCores.fallback", NULL)
   }
   if (!is.null(ncores)) {
-    if (debug) mdebugf("Option 'future.availableCores.fallback = %d", ncores)
+    if (debug) mdebugf("Option 'parallelly.availableCores.fallback = %d", ncores)
   }
   
-  ## Unless already set, set option 'future.availableCores.system'
-  ## according to environment variable 'R_FUTURE_AVAILABLECORES_SYSTEM'.
-  ncores <- getOption2("future.availableCores.system")
+  ## Unless already set, set option 'parallelly.availableCores.system'
+  ## according to environment variable 'R_PARALLELLY_AVAILABLECORES_SYSTEM'.
+  ncores <- getOption2("parallelly.availableCores.system")
   if (is.null(ncores)) {
-    ncores <- trim(getEnvVar2("R_FUTURE_AVAILABLECORES_SYSTEM", ""))
+    ncores <- trim(getEnvVar2("R_PARALLELLY_AVAILABLECORES_SYSTEM", ""))
     if (nzchar(ncores)) {
-      if (debug) mdebugf("R_FUTURE_AVAILABLECORES_SYSTEM=%s", sQuote(ncores))
+      if (debug) mdebugf("R_PARALLELLY_AVAILABLECORES_SYSTEM=%s", sQuote(ncores))
       if (is.element(ncores, c("NA_integer_", "NA"))) {
         ncores <- NA_integer_
       } else {
         ncores <- as.integer(ncores)
       }
-      if (debug) mdebugf(" => options(future.availableCores.system = %d)", ncores)
-      options(future.availableCores.system = ncores)
+      if (debug) mdebugf(" => options(parallelly.availableCores.system = %d)", ncores)
+      options(parallelly.availableCores.system = ncores)
     }
-    ncores <- getOption2("future.availableCores.system", NULL)
+    ncores <- getOption2("parallelly.availableCores.system", NULL)
   }
   if (!is.null(ncores)) {
-    if (debug) mdebugf("Option 'future.availableCores.system = %d", ncores)
+    if (debug) mdebugf("Option 'parallelly.availableCores.system = %d", ncores)
   }
 
-  ## Unless already set, set option 'future.availableCores.logical'
-  ## according to environment variable 'R_FUTURE_AVAILABLECORES_LOGICAL'.
-  logical <- getOption2("future.availableCores.logical")
+  ## Unless already set, set option 'parallelly.availableCores.logical'
+  ## according to environment variable 'R_PARALLELLY_AVAILABLECORES_LOGICAL'.
+  logical <- getOption2("parallelly.availableCores.logical")
   if (is.null(logical)) {
-    logical <- trim(getEnvVar2("R_FUTURE_AVAILABLECORES_LOGICAL", ""))
+    logical <- trim(getEnvVar2("R_PARALLELLY_AVAILABLECORES_LOGICAL", ""))
     if (nzchar(logical)) {
-      if (debug) mdebugf("R_FUTURE_AVAILABLECORES_LOGICAL=%s", sQuote(logical))
+      if (debug) mdebugf("R_PARALLELLY_AVAILABLECORES_LOGICAL=%s", sQuote(logical))
       logical <- as.logical(logical)
-      if (debug) mdebugf(" => options(future.availableCores.logical = %s)", logical)
-      options(future.availableCores.logical = logical)
+      if (debug) mdebugf(" => options(parallelly.availableCores.logical = %s)", logical)
+      options(parallelly.availableCores.logical = logical)
     }
-    logical <- getOption2("future.availableCores.logical", NULL)
+    logical <- getOption2("parallelly.availableCores.logical", NULL)
   }
   if (!is.null(logical)) {
-    if (debug) mdebugf("Option 'future.availableCores.logical = %s", logical)
+    if (debug) mdebugf("Option 'parallelly.availableCores.logical = %s", logical)
   }
 }

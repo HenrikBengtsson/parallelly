@@ -1,6 +1,56 @@
 Package: parallelly
 ===================
 
+Version: 1.24.0 [2021-03-12]
+
+SIGNIFICANT CHANGES:
+
+ * The default SSH client on MS Windows is now, in order of availability:
+   (i) 'plink' of the PuTTY software, (ii) 'ssh' in the RStudio distribution,
+   and (iii) 'ssh' of Windows 10.  Previously, the latter was considered first
+   but that still has a bug preventing us from using reverse tunneling.
+
+NEW FEATURES:
+   
+ * makeClusterPSOCK(), or actually makeNodePSOCK(), gained argument 'quiet',
+   which can be used to silence output produced by 'manual = TRUE'.
+
+ * c() for 'cluster' objects now warns about duplicated cluster nodes.
+
+ * Add isForkedNode() to test if a cluster node runs in a forked process.
+
+ * Add isLocalhostNode() to test if a cluster node runs on the current machine.
+
+ * Now availableCores() and availableWorkers() avoid recursive calls to the
+   custom function given by options 'parallelly.availableCores.custom' and
+   'parallelly.availableWorkers.custom', respectively.
+
+ * availableWorkers() now recognizes the Slurm environment variable
+   'SLURM_JOB_NODELIST', e.g. "dev1,n[3-4,095-120]". It will use
+   'scontrol show hostnames "$SLURM_JOB_NODELIST"' to expand it, if supported
+   on the current machine, otherwise it will attempt to parse and expand the
+   nodelist specification using R.  If either of environment variable
+   'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE' is set, then each
+   node in the nodelist will be represented that number of times.  If in
+   addition, environment variable 'SLURM_CPUS_PER_TASK' (always a scalar),
+   then that is also respected.
+ 
+MISCELLANEOUS:
+
+ * All code is now using the 'parallelly.' prefix for options and the
+   'R_PARALLELLY_' prefix for environment variables.  Settings that use the
+   corresponding 'future.' and 'R_FUTURE_' prefixes are still recognized.
+
+BUG FIXES:
+
+ * availableCores() did not respect environment variable 'SLURM_TASKS_PER_NODE'
+   when the job was allocated more than one node.
+
+ * Above argument 'quiet' was introduced in future 1.19.1 but was mistakenly
+   dropped from parallelly 1.20.0 when that was released, and therefore also
+   from future (>= 1.20.0).
+
+
 Version: 1.23.0 [2021-01-03]
 
 NEW FEATURES:
@@ -536,4 +586,3 @@ NEW FEATURES:
  * availableCores("mc.cores") returns getOption("mc.cores") + 1L,
    because option 'mc.cores' specifies "allowed number of _additional_
    R processes" to be used in addition to the main R process.
-

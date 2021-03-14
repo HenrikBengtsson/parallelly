@@ -17,7 +17,7 @@
 #'
 #' @keywords internal
 #' @export
-freeCores <- function(memory = c("5min", "15min", "1min"), fraction = 0.90, logical = getOption2("future.availableCores.logical", TRUE), default = parallelly::availableCores()) {
+freeCores <- function(memory = c("5min", "15min", "1min"), fraction = 0.90, logical = getOption2("parallelly.availableCores.logical", TRUE), default = parallelly::availableCores()) {
   memory <- match.arg(memory, choices = c("5min", "15min", "1min"))
   stop_if_not(!is.na(fraction), fraction > 0, fraction <= 1)
 
@@ -29,7 +29,7 @@ freeCores <- function(memory = c("5min", "15min", "1min"), fraction = 0.90, logi
 
   ## Failed to infer the CPU load?
   if (is.na(loadavg[memory])) {
-    oopts <- options(future.availableCores.custom = NULL)
+    oopts <- options(parallelly.availableCores.custom = NULL)
     on.exit(options(oopts))
     default <- as.integer(default)
     stop_if_not(length(default) == 1L, is.integer(default), !is.na(default),

@@ -20,7 +20,7 @@
 #' the workers (via socket connections).  If an integer vector of ports, then a
 #' random one among those is chosen.  If `"random"`, then a random port in
 #' is chosen from `11000:11999`, or from the range specified by
-#' environment variable \env{R_FUTURE_RANDOM_PORTS}.
+#' environment variable \env{R_PARALLELLY_RANDOM_PORTS}.
 #' If `"auto"` (default), then the default (single) port is taken from
 #' environment variable \env{R_PARALLEL_PORT}, otherwise `"random"` is
 #' used.
@@ -56,7 +56,7 @@
 #'
 #' @importFrom parallel stopCluster
 #' @export
-makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOptionOrEnvVar("future.makeNodePSOCK.tries", 3L), delay = getOptionOrEnvVar("future.makeNodePSOCK.tries.delay", 15.0), validate = getOptionOrEnvVar("future.makeNodePSOCK.validate", TRUE), verbose = getOptionOrEnvVar("future.debug", FALSE)) {
+makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOptionOrEnvVar("parallelly.makeNodePSOCK.tries", 3L), delay = getOptionOrEnvVar("parallelly.makeNodePSOCK.tries.delay", 15.0), validate = getOptionOrEnvVar("parallelly.makeNodePSOCK.validate", TRUE), verbose = getOptionOrEnvVar("parallelly.debug", FALSE)) {
   if (is.numeric(workers)) {
     if (length(workers) != 1L) {
       stop("When numeric, argument 'workers' must be a single value: ", length(workers))
@@ -97,7 +97,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   if (is.character(port)) {
     port <- match.arg(port, choices = c("auto", "random"))
     if (identical(port, "auto")) {
-      port0 <- Sys.getenv("R_PARALLEL_PORT", "random")
+      port0 <- getEnvVar2("R_PARALLEL_PORT", "random")
       if (identical(port0, "random")) {
         port <- randomParallelPorts()
       } else {
@@ -293,7 +293,9 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' to a temporary file.  The log file name is available as an attribute
 #' as part of the return node object.
 #' _Warning: This only works with SSH clients that support option
-#' `-E out.log`._
+#' `-E out.log`_.  For example, PuTTY's \command{plink} does _not_ support
+#' this option, and any attempts to specify `rshlogfile` will cause the SSH
+#' connection to fail.
 #'
 #' @param user (optional) The user name to be used when communicating with
 #' another host.
@@ -309,6 +311,9 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @param dryrun If TRUE, nothing is set up, but a message suggesting how to
 #' launch the worker from the terminal is outputted.  This is useful for
 #' troubleshooting.
+#'
+#' @param quiet If TRUE, then no output will be produced other than that from
+#' using `verbose = TRUE`.
 #'
 #' @return `makeNodePSOCK()` returns a `"SOCKnode"` or
 #' `"SOCK0node"` object representing an established connection to a worker.
@@ -329,39 +334,41 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' 
 #' The default method for connecting to an external host is via SSH and the
 #' system executable for this is given by argument `rshcmd`.  The default
-#' is given by option \option{future.makeNodePSOCK.rshcmd}.  If that is not
-#' set, then the default is to use \command{ssh}.
-#' Most Unix-like systems, including macOS, have \command{ssh} preinstalled
-#' on the \env{PATH}.  This is also true for recent Windows 10
-#' (since version 1803, April 2018) (*).
+#' is given by option \option{parallelly.makeNodePSOCK.rshcmd}.  If that is not
+#' set, then the default is to use \command{ssh} on Unix-like systems,
+#' including macOS.  On MS Windows systems, including Windows 10, the
+#' default is to use (i) \command{plink} from the
+#' \href{https://www.putty.org/}{\command{PuTTY}} project,
+#' (ii) the \command{ssh} client that is distributed with RStudio, and lastly
+#' (iii) the \command{ssh} client that comes with Windows 10.
 #'
-#' For _Windows systems prior to Windows 10_, it is less common to find
-#' \command{ssh} on the \env{PATH}. Instead it is more likely that such
-#' systems have the \command{PuTTY} software and its SSH client
-#' \command{plink} installed.  PuTTY puts itself on the system \env{PATH}
-#' when installed, meaning this function will find PuTTY automatically if
-#' installed.  If not, to manually set specify PuTTY as the SSH client,
-#' specify the absolute pathname of \file{plink.exe} in the first element and
-#' option \command{-ssh} in the second as in
-#' `rshcmd = c("C:/Path/PuTTY/plink.exe", "-ssh")`.
+#' PuTTY puts itself on Windows' system \env{PATH} when installed, meaning this
+#' function will find PuTTY automatically if installed.  If not, to manually
+#' set specify PuTTY as the SSH client, specify the absolute pathname of
+#' \file{plink.exe} in the first element and option \command{-ssh} in the
+#' second as in `rshcmd = c("C:/Path/PuTTY/plink.exe", "-ssh")`.
 #' This is because all elements of `rshcmd` are individually "shell"
 #' quoted and element `rshcmd[1]` must be on the system \env{PATH}.
 #'
 #' Furthermore, when running \R from RStudio on Windows, the \command{ssh}
 #' client that is distributed with RStudio will also be considered.
-#' This client, which is from \href{http://www.mingw.org/wiki/msys}{MinGW MSYS},
-#' is searched for in the folder given by the \env{RSTUDIO_MSYS_SSH}
+#' This client, which is from \href{https://osdn.net/projects/mingw/}{MinGW}
+#' MSYS, is searched for in the folder given by the \env{RSTUDIO_MSYS_SSH}
 #' environment variable - a variable that is (only) set when running RStudio.
+#' To use this SSH client outside of RStudio, set \env{RSTUDIO_MSYS_SSH}
+#' accordingly.
 #'
 #' You can override the default set of SSH clients that are searched for
-#' by specifying them in `rshcmd` using the format `<...>`, e.g.
+#' by specifying them in argument `rshcmd` or via option
+#' \option{parallelly.makeNodePSOCK.rshcmd} using the format `<...>`, e.g.
 #' `rshcmd = c("<rstudio-ssh>", "<putty-plink>", "<ssh>")`.  See
 #' below for examples.
 #'
 #' If no SSH-client is found, an informative error message is produced.
 #'
-#' (*) _Known issue with the Windows 10 SSH client: There is a bug in the
-#' SSH client of Windows 10 that prevents it to work with reverse SSH tunneling
+#' (*) _Windows 10 has a \command{ssh} built-in since version 1803 (April 2018).
+#' However, there is a bug in that SSH client that prevents it to work with
+#' reverse SSH tunneling
 #' (\url{https://github.com/PowerShell/Win32-OpenSSH/issues/1265}; Oct 2018).
 #' The most recent version that we tested and that did _not_ work was
 #' OpenSSH_for_Windows_7.7p1, LibreSSL 2.6.5 (`ssh -V`) on
@@ -370,7 +377,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' RStudio SSH client until this bug has been resolved in Windows 10._
 #' 
 #' Additional SSH options may be specified via argument `rshopts`, which
-#' defaults to option \option{future.makeNodePSOCK.rshopts}. For instance, a
+#' defaults to option \option{parallelly.makeNodePSOCK.rshopts}. For instance, a
 #' private SSH key can be provided as
 #' `rshopts = c("-i", "~/.ssh/my_private_key")`.  PuTTY users should
 #' specify a PuTTY PPK file, e.g.
@@ -412,8 +419,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' The default is to use reverse SSH tunneling (`revtunnel = TRUE`) for
 #' workers running on other machines.  This avoids the complication of
 #' otherwise having to configure port forwarding in firewalls, which often
-#' requires static IP address as well as privileges to edit the firewall,
-#' something most users don't have.
+#' requires static IP address as well as privileges to edit the firewall
+#' on your outgoing router, something most users don't have.
 #' It also has the advantage of not having to know the internal and / or the
 #' public IP address / hostname of the master.
 #' Yet another advantage is that there will be no need for a DNS lookup by the
@@ -514,8 +521,9 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #'
 #' @rdname makeClusterPSOCK
 #' @importFrom tools pskill
+#' @importFrom utils flush.console
 #' @export
-makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("future.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("future.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOptionOrEnvVar("future.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("future.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("future.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, verbose = FALSE) {
+makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOptionOrEnvVar("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, verbose = FALSE) {
   localMachine <- is.element(worker, c("localhost", "127.0.0.1"))
 
   ## Could it be that the worker specifies the name of the localhost?
@@ -531,6 +539,9 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   dryrun <- as.logical(dryrun)
   stop_if_not(length(dryrun) == 1L, !is.na(dryrun))
+
+  quiet <- as.logical(quiet)
+  stop_if_not(length(quiet) == 1L, !is.na(quiet))
   
   ## Locate a default SSH client?
   if (identical(rshcmd, "")) rshcmd <- NULL
@@ -557,7 +568,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
     if (is.logical(rshlogfile)) {
       stop_if_not(!is.na(rshlogfile))
       if (rshlogfile) {
-        rshlogfile <- tempfile(pattern = "future_makeClusterPSOCK_", fileext = ".log")
+        rshlogfile <- tempfile(pattern = "parallelly_makeClusterPSOCK_", fileext = ".log")
       } else {
         rshlogfile <- NULL
       }
@@ -666,7 +677,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
   }
 
   ## Add Rscript "label"?
-  rscript_label <- getOptionOrEnvVar("future.makeNodePSOCK.rscript_label", NULL)
+  rscript_label <- getOptionOrEnvVar("parallelly.makeNodePSOCK.rscript_label", NULL)
   if (!is.null(rscript_label) && nzchar(rscript_label) && !isFALSE(as.logical(rscript_label))) {
     if (isTRUE(as.logical(rscript_label))) {
       script <- grep("[.]R$", commandArgs(), value = TRUE)[1]
@@ -841,20 +852,22 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
   is_worker_output_visible <- is.null(outfile)
 
   if (manual || dryrun) {
-    msg <- c("----------------------------------------------------------------------")
-    if (localMachine) {
-      msg <- c(msg, sprintf("Manually, start worker #%s on local machine %s with:", rank, sQuote(worker)), sprintf("\n  %s\n", cmd))
-    } else {
-      msg <- c(msg, sprintf("Manually, (i) login into external machine %s:", sQuote(worker)),
-               sprintf("\n  %s\n", rsh_call))
-      msg <- c(msg, sprintf("and (ii) start worker #%s from there:", rank),
-               sprintf("\n  %s\n", cmd))
-      msg <- c(msg, sprintf("Alternatively, start worker #%s from the local machine by combining both step in a single call:", rank),
-               sprintf("\n  %s\n", local_cmd))
+    if (!quiet) {
+      msg <- c("----------------------------------------------------------------------")
+      if (localMachine) {
+        msg <- c(msg, sprintf("Manually, start worker #%s on local machine %s with:", rank, sQuote(worker)), sprintf("\n  %s\n", cmd))
+      } else {
+        msg <- c(msg, sprintf("Manually, (i) login into external machine %s:", sQuote(worker)),
+                 sprintf("\n  %s\n", rsh_call))
+        msg <- c(msg, sprintf("and (ii) start worker #%s from there:", rank),
+                 sprintf("\n  %s\n", cmd))
+        msg <- c(msg, sprintf("Alternatively, start worker #%s from the local machine by combining both step in a single call:", rank),
+                 sprintf("\n  %s\n", local_cmd))
+      }
+      msg <- paste(c(msg, ""), collapse = "\n")
+      cat(msg)
+      flush.console()
     }
-    msg <- paste(c(msg, ""), collapse = "\n")
-    cat(msg)
-    utils::flush.console()
     if (dryrun) return(NULL)
   } else {
     if (verbose) {
@@ -1182,12 +1195,7 @@ find_rshcmd <- function(which = NULL, first = FALSE, must_work = TRUE) {
       ##   - Windows 10 version 1903 build 18362.720
       ##   - Windows 10 version 1909 build 18363.720
       ## So it's unlikely that this will work out of the box.
-      ver <- windows_build_version()
-      if (!is.null(ver) && ver > "10.0.17763.253") {
-        which <- c("ssh", which)
-      } else {
-        which <- c(which, "ssh")
-      }
+      which <- c(which, "ssh")
     } else {
       which <- c("ssh")
     }
@@ -1221,7 +1229,7 @@ find_rshcmd <- function(which = NULL, first = FALSE, must_work = TRUE) {
 
 
 #' @importFrom utils installed.packages
-session_info <- function(pkgs = getOptionOrEnvVar("future.makeNodePSOCK.sessionInfo.pkgs", FALSE)) {
+session_info <- function(pkgs = getOptionOrEnvVar("parallelly.makeNodePSOCK.sessionInfo.pkgs", FALSE)) {
   libs <- .libPaths()
   info <- list(
     r = c(R.version, os.type = .Platform$OS.type),
@@ -1258,7 +1266,7 @@ add_cluster_session_info <- local({
       ## Session information already collected?
       if (!is.null(node$session_info)) next
   
-      pkgs <- getOptionOrEnvVar("future.makeNodePSOCK.sessionInfo.pkgs", FALSE)
+      pkgs <- getOptionOrEnvVar("parallelly.makeNodePSOCK.sessionInfo.pkgs", FALSE)
       node$session_info <- clusterCall(cl[ii], fun = get_session_info, pkgs = pkgs)[[1]]
   
       ## Sanity check, iff possible
@@ -1299,7 +1307,7 @@ useWorkerPID <- local({
 
   makeResult <- function(rank) {
     if (is.null(parent_pid)) parent_pid <<- Sys.getpid()
-    pidfile <- tempfile(pattern = sprintf("worker.rank=%d.future.parent=%d.",
+    pidfile <- tempfile(pattern = sprintf("worker.rank=%d.parallelly.parent=%d.",
                    rank, parent_pid), fileext = ".pid")
     pidfile <- normalizePath(pidfile, winslash = "/", mustWork = FALSE)
     pidcode <- sprintf('try(suppressWarnings(cat(Sys.getpid(),file="%s")), silent = TRUE)', pidfile)
@@ -1308,7 +1316,7 @@ useWorkerPID <- local({
   }
   
   function(rscript, rank, force = FALSE, verbose = FALSE) {
-    autoKill <- getOptionOrEnvVar("future.makeNodePSOCK.autoKill", TRUE)
+    autoKill <- getOptionOrEnvVar("parallelly.makeNodePSOCK.autoKill", TRUE)
     if (!isTRUE(as.logical(autoKill))) return(list())
 
     result <- makeResult(rank)
@@ -1389,23 +1397,23 @@ readWorkerPID <- function(pidfile, wait = 0.5, maxTries = 8L, verbose = FALSE) {
 
 
 randomParallelPorts <- function(default = 11000:11999) {
-  random <- Sys.getenv("R_FUTURE_RANDOM_PORTS")
+  random <- getEnvVar2("R_PARALLELLY_RANDOM_PORTS", "")
   if (!nzchar(random)) return(default)
 
   pattern <- "^([[:digit:]]+)(|:([[:digit:]]+))$"
   if (!grepl(pattern, random)) {
-    warning(sprintf("Value of environment variable 'R_FUTURE_RANDOM_PORTS' does not match regular expression %s: %s", sQuote(pattern), sQuote(random)))
+    warning(sprintf("Value of environment variable 'R_PARALLELLY_RANDOM_PORTS' does not match regular expression %s: %s", sQuote(pattern), sQuote(random)))
     return(default)
   }
 
   from <- sub(pattern, "\\1", random)
   from <- as.integer(from)
   if (is.na(from)) {
-    warning("Value of environment variable 'R_FUTURE_RANDOM_PORTS' coerced to NA_integer_: ", sQuote(random))
+    warning("Value of environment variable 'R_PARALLELLY_RANDOM_PORTS' coerced to NA_integer_: ", sQuote(random))
     return(default)
   }
   if (from < 0L || from > 65535L) {
-    warning("Value of environment variable 'R_FUTURE_RANDOM_PORTS' does not specify ports in [0,65535]: ", sQuote(random))
+    warning("Value of environment variable 'R_PARALLELLY_RANDOM_PORTS' does not specify ports in [0,65535]: ", sQuote(random))
     return(default)
   }
 
@@ -1414,11 +1422,11 @@ randomParallelPorts <- function(default = 11000:11999) {
   
   to <- as.integer(to)
   if (is.na(to)) {
-    warning("Value of environment variable 'R_FUTURE_RANDOM_PORTS' coerced to NA_integer_: ", sQuote(random))
+    warning("Value of environment variable 'R_PARALLELLY_RANDOM_PORTS' coerced to NA_integer_: ", sQuote(random))
     return(default)
   }
   if (to < 0L || to > 65535L) {
-    warning("Value of environment variable 'R_FUTURE_RANDOM_PORTS' does not specify ports in [0,65535]: ", sQuote(random))
+    warning("Value of environment variable 'R_PARALLELLY_RANDOM_PORTS' does not specify ports in [0,65535]: ", sQuote(random))
     return(default)
   }
 

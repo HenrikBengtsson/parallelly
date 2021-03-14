@@ -34,20 +34,51 @@
 #'    An example of a job submission that results in this is
 #'    `qsub -l nodes = 4:ppn = 2`, which requests four nodes each
 #'    with two cores.
+#'
 #'  \item `"SGE"` -
 #'    Query Sun/Oracle Grid Engine (SGE) environment variable
 #'    \env{PE_HOSTFILE}.
 #'    An example of a job submission that results in this is
 #'    `qsub -pe mpi 8` (or `qsub -pe ompi 8`), which
 #'    requests eight cores on a any number of machines.
+#'
 #'  \item `"LSF"` -
 #'    Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
+#'
+#'  \item `"Slurm"` -
+#'    Query Slurm environment variable \env{SLURM_JOB_NODELIST} (fallback
+#'    to legacy \env{SLURM_NODELIST}) and parse set of nodes.
+#'    Then query Slurm environment variable \env{SLURM_JOB_CPUS_PER_NODE}
+#'    (fallback \env{SLURM_TASKS_PER_NODE}) to infer how many CPU cores
+#'    Slurm have alloted to each of the nodes.  If \env{SLURM_CPUS_PER_TASK}
+#'    is set, which is always a scalar, then that is respected too, i.e.
+#'    if it is smaller, then that is used for all nodes.
+#'    For example, if `SLURM_NODELIST="n1,n[03-05]"` (expands to
+#'    `c("n1", "n03", "n04", "n05")`) and `SLURM_JOB_CPUS_PER_NODE="2(x2),3,2"`
+#'    (expands to `c(2, 2, 3, 2, 2)`), then
+#'    `c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05", "n05")` is
+#'    returned.  If in addition, `SLURM_CPUS_PER_TASK=1`, which can happen
+#'    depending on hyperthreading configurations on the Slurm cluster, then 
+#'    `c("n1", "n03", "n04", "n05")` is returned.
+#'
 #'  \item `"custom"` -
-#'    If option \option{future.availableWorkers.custom} is set and a function,
+#'    If option \option{parallelly.availableWorkers.custom} is set and a function,
 #'    then this function will be called (without arguments) and it's value
 #'    will be coerced to a character vector, which will be interpreted as
 #'    hostnames of available workers.
 #' }
+#'
+#' @section Known limitations:
+#' `availableWorkers(methods = "Slurm")` will expand \env{SLURM_JOB_NODELIST}
+#' using \command{scontrol show hostnames "$SLURM_JOB_NODELIST"}, if available.
+#' If not available, then it attempts to parse the compressed nodelist based
+#' on a best-guess understanding on what the possible syntax may be.
+#' One known limitation is that "multi-dimensional" ranges are not supported,
+#' e.g. `"a[1-2]b[3-4]"` is expanded by \command{scontrol} to
+#' `c("a1b3", "a1b4", "a2b3", "a2b4")`.  If \command{scontrol} is not
+#' available, then any components that failed to be parsed are dropped with
+#' an informative warning message.  If no compents could be parsed, then
+#' the result of `methods = "Slurm"` will be empty.
 #'
 #' @examples
 #' message(paste("Available workers:",
@@ -74,7 +105,7 @@
 #'
 #' @importFrom utils file_test
 #' @export
-availableWorkers <- function(methods = getOption2("future.availableWorkers.methods", c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("future.availableCores.logical", TRUE), default = "localhost", which = c("auto", "min", "max", "all")) {
+availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = "localhost", which = c("auto", "min", "max", "all")) {
   ## Local functions
   getenv <- function(name) {
     as.character(trim(Sys.getenv(name, NA_character_)))
@@ -139,8 +170,7 @@ availableWorkers <- function(methods = getOption2("future.availableWorkers.metho
         warning(sprintf("Environment variable %s was set but no such file %s exists", sQuote("PE_HOSTFILE"), sQuote(pathname)))
         next
       }
-      data <- read_pe_hostfile(pathname)
-      w <- expand_nodes(data)
+      w <- read_pe_hostfile(pathname, expand = TRUE)
 
       ## Sanity checks
       nslots <- as.integer(getenv("NSLOTS"))
@@ -150,21 +180,69 @@ availableWorkers <- function(methods = getOption2("future.availableWorkers.metho
     } else if (method == "Slurm") {
       ## From 'man sbatch':
       ## SLURM_JOB_NODELIST (and SLURM_NODELIST for backwards compatibility)
-      #  List of nodes allocated to the job.
-      data <- getenv("SLURM_JOB_NODELIST")
-      if (is.na(data)) data <- getenv("SLURM_NODELIST")
+      ## List of nodes allocated to the job.
+      ## Example:
+      ## SLURM_JOB_NODELIST=n1,n[3-8],n[23-25]
+      nodelist <- getenv("SLURM_JOB_NODELIST")
+      if (is.na(nodelist)) data <- getenv("SLURM_NODELIST")
+      if (is.na(nodelist)) next
 
-      ## TODO: Parse 'data' into a hostnames /HB 2020-09-18
-      ## ...
-      next
+      ## Parse and expand nodelist
+      w <- slurm_expand_nodelist(nodelist)
+
+      ## Failed to parse?
+      if (length(w) == 0) next
+
+      ## SLURM_JOB_CPUS_PER_NODE=64,12,...
+      nodecounts <- getenv("SLURM_JOB_CPUS_PER_NODE")
+      if (is.na(nodecounts)) nodecounts <- getenv("SLURM_TASKS_PER_NODE")
+      if (is.na(nodecounts)) {
+        warning("Expected either environment variable 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE' to be set. Will assume one core per node.")
+      } else {
+        ## Parse counts
+	c <- slurm_expand_nodecounts(nodecounts)
+        if (any(is.na(c))) {
+          warning("Failed to parse 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE': ", sQuote(nodecounts))
+          next
+        }
+
+        if (length(c) != length(w)) {
+          warning(sprintf("Skipping Slurm settings because the number of elements in 'SLURM_JOB_CPUS_PER_NODE'/'SLURM_TASKS_PER_NODE' (%s) does not match parsed 'SLURM_JOB_NODELIST'/'SLURM_NODELIST' (%s): %d != %d", nodelist, nodecounts, length(c), length(w)))
+          next
+        }
+
+        ## Always respect 'SLURM_CPUS_PER_TASK' (always a scalar), if that exists
+        n <- getenv("SLURM_CPUS_PER_TASK")
+        if (!is.na(n)) {
+          c0 <- c
+          c <- rep(n, times = length(w))
+          ## Is our assumption that SLURM_CPUS_PER_TASK <= SLURM_JOB_NODELIST, correct?
+          if (any(c < n)) {
+            c <- pmin(c, n)
+            warning(sprintf("Unexpected values of Slurm environment variable. 'SLURM_CPUS_PER_TASK' specifies CPU counts on one or more nodes that is strictly less than what 'SLURM_CPUS_PER_TASK' specifies. Will use the minimum of the two for each node: %s < %s", sQuote(nodecounts), n))
+          }
+        }
+
+        ## Expand workers list
+        w <- as.list(w)
+        for (kk in seq_along(w)) {
+          w[[kk]] <- rep(w[[kk]], times = c[kk])
+        }
+        w <- unlist(w, use.names = FALSE)
+      }
     } else if (method == "LSF") {
       data <- getenv("LSB_HOSTS")
       if (is.na(data)) next
       w <- split(data)
     } else if (method == "custom") {
-      fcn <- getOption2("future.availableWorkers.custom", NULL)
+      fcn <- getOption2("parallelly.availableWorkers.custom", NULL)
       if (!is.function(fcn)) next
-      w <- fcn()
+      w <- local({
+        ## Avoid calling the custom function recursively
+        oopts <- options(parallelly.availableWorkers.custom = NULL)
+        on.exit(options(oopts))
+        fcn()
+      })
       w <- as.character(w)
     } else {
       ## Fall back to querying option and system environment variable
@@ -257,7 +335,7 @@ read_pbs_nodefile <- function(pathname, sort = TRUE) {
 
 
 #' @importFrom utils read.table
-read_pe_hostfile <- function(pathname, sort = TRUE) {
+read_pe_hostfile <- function(pathname, sort = TRUE, expand = FALSE) {
   ## One (node, ncores, queue, comment) per line, e.g.
   ## opt88 3 short.q@opt88 UNDEFINED
   ## iq242 2 short.q@iq242 UNDEFINED
@@ -284,17 +362,208 @@ read_pe_hostfile <- function(pathname, sort = TRUE) {
   if (sort) {
     data <- data[order(data$node, data$count), , drop = FALSE]
   }
+
+  if (expand) {
+    data <- sge_expand_node_count_pairs(data)
+  }
   
   data
 }
 
 ## Used after read_pe_hostfile()
-expand_nodes <- function(data) {
+sge_expand_node_count_pairs <- function(data) {
   nodes <- mapply(data$node, data$count, FUN = function(node, count) {
     rep(node, times = count)
   }, SIMPLIFY = FALSE, USE.NAMES = FALSE)
   unlist(nodes, recursive = FALSE, use.names = FALSE)
 }
+
+
+#' @importFrom utils file_test
+call_slurm_show_hostname <- function(nodelist, bin = Sys.which("scontrol")) {
+  stop_if_not(file_test("-x", bin))
+  
+  args <- c("show", "hostname", shQuote(nodelist))
+  res <- system2(bin, args = args, stdout = TRUE)
+  status <- attr(res, "status")
+  if (!is.null(status)) {
+    call <- sprintf("%s %s", shQuote(bin), paste(args, collapse = " "))
+    msg <- sprintf("%s failed with exit code %s", call, status)
+    stop(msg)
+  }
+  
+  res
+}
+
+supports_scontrol_show_hostname <- local({
+  res <- NA
+  function() {
+    if (!is.na(res)) return(res)
+
+    ## Look for 'scontrol'
+    bin <- Sys.which("scontrol")
+    if (!nzchar(bin)) {
+      res <<- FALSE
+      return(res)
+    }
+
+    ## Try a conversion
+    truth <- c("a1", "b02", "b03", "b04", "b6", "b7")
+    nodelist <- "a1,b[02-04,6-7]"
+    
+    hosts <- tryCatch({
+      call_slurm_show_hostname(nodelist, bin = bin)
+    }, error = identity)
+    
+    if (inherits(hosts, "error")) {
+      res <<- FALSE
+      return(res)
+    }
+
+    ## Sanity check
+    if (!isTRUE(all.equal(sort(hosts), sort(truth)))) {
+      msg <- sprintf("Internal availableWorkers() validation failed: 'scontrol show hostnames %s' did not return the expected results.  Expected c(%s) but got c(%s).  Will still use it this methods but please report this to the maintainer of the 'parallelly' package", shQuote(nodelist), commaq(truth), commaq(hosts))
+      warning(msg, immediate. = TRUE)
+    }
+    
+    value <- TRUE
+    attr(value, "scontrol") <- bin
+    res <<- value
+    
+    res
+  }
+})
+
+
+## SLURM_JOB_NODELIST="a1,b[02-04,6-7]"
+slurm_expand_nodelist <- function(nodelist, manual = getOption("parallelly.slurm_expand_nodelist.manual", FALSE)) {
+  ## Alt 1. Is 'scontrol show hostnames' supported?
+  if (!manual && supports_scontrol_show_hostname()) {
+    hosts <- call_slurm_show_hostname(nodelist)
+    return(hosts)
+  }
+
+  ## Alt 2. Manually parse the nodelist specification
+  data <- nodelist
+
+  ## Replace whitespace *within* square brackets with zeros
+  ## Source: scontrol show hostnames treats "n[1,  3-4]" == "n[1,003-4]"
+  pattern <- "\\[([[:digit:],-]*)[[:space:]]([[:digit:][:space:],-]*)"
+  while (grepl(pattern, data)) {
+    data <- gsub(pattern, "[\\10\\2", data)
+  }
+
+  ## Replace any commas *within* square brackets with semicolons
+  pattern <- "\\[([[:digit:][:space:];-]*),([[:digit:][:space:];-]*)"
+  while (grepl(pattern, data)) {
+    data <- gsub(pattern, "[\\1;\\2", data)
+  }
+
+  data <- strsplit(data, split = "[,[:space:]]", fixed = FALSE)
+  data <- as.list(unlist(data, use.names = FALSE))
+
+  ## Keep only non-empty entries, which may happen due to whitespace or
+  ## extra commas.  This should not happen but 'scontrol show hostnames'
+  ## handles those cases too.
+  data <- data[nzchar(data)]
+
+  for (ii in seq_along(data)) {
+    spec <- data[[ii]]
+
+    ## Already expanded?
+    if (length(spec) > 1L) next
+    
+    ## 1. Expand square-bracket specifications
+    ##    e.g. "a1,b[02-04,6-7]" => c("a1", "b02", "b03", "b04", "b6", "b7")
+    pattern <- "^(.*)\\[([[:digit:];-]+)\\]$"
+    if (grepl(pattern, spec)) {
+      prefix <- gsub(pattern, "\\1", spec)
+      set <- gsub(pattern, "\\2", spec)
+
+      sets <- strsplit(set, split = ";", fixed = TRUE)
+      sets <- unlist(sets, use.names = FALSE)
+      sets <- as.list(sets)
+      
+      for (jj in seq_along(sets)) {
+        set <- sets[[jj]]
+        ## Expand by evaluating them as R expressions
+        idxs <- tryCatch({
+          expr <- parse(text = gsub("-", ":", set, fixed = TRUE))
+          eval(expr, envir = baseenv())
+        }, error = function(e) NA_integer_)
+        idxs <- as.character(idxs)
+        
+        ## Pad with zeros?
+        pattern <- "^([0]*)[[:digit:]]+.*"
+        if (grepl(pattern, set)) {
+          pad <- gsub(pattern, "\\1", set)
+          idxs <- paste(pad, idxs, sep = "")
+        }
+
+        set <- paste(prefix, idxs, sep = "")
+        sets[[jj]] <- set
+      } ## for (jj ...)
+
+      sets <- unlist(sets, use.names = FALSE)
+      data[[ii]] <- sets
+    }
+  } ## for (ii in ...)
+  
+  hosts <- unlist(data, recursive = FALSE, use.names = FALSE)
+
+  ## Sanity check
+  if (any(!nzchar(hosts))) {
+    warning(sprintf("Unexpected result from parallelly:::slurm_expand_nodelist(..., manual = TRUE), which resulted in %d empty hostname based on nodelist specification %s", sum(!nzchar(hosts)), sQuote(nodelist)))
+    hosts <- hosts[nzchar(hosts)]
+  }
+
+  ## Failed to expand all compressed ranges?  This may happen because 
+  ## "multi-dimensional" ranges are given, e.g. "a[1-2]b[3-4]". This is
+  ## currently not supported by the above manual parser. /HB 2021-03-05
+  invalid <- grep("(\\[|\\]|,|;|[[:space:]])", hosts, value = TRUE)
+  if (length(invalid) > 0) {
+    warning(sprintf("Failed to parse the compressed Slurm nodelist %s. Detected invalid node names, which are dropped: %s", sQuote(nodelist), commaq(invalid)))
+    hosts <- setdiff(hosts, invalid)
+  }
+
+  hosts
+}
+
+
+SLURM_TASKS_PER_NODE="2(x2),1(x3)"  # Source: 'man sbatch'
+slurm_expand_nodecounts <- function(nodecounts) {
+  counts <- strsplit(nodecounts, split = ",", fixed = TRUE)
+  counts <- unlist(counts, use.names = TRUE)
+  counts <- counts[nzchar(counts)]
+  counts <- as.list(counts)
+  counts <- lapply(counts, FUN = function(count) {
+    ## Drop whitespace
+    count <- gsub("[[:space:]]", "", count)
+    pattern <- "^([[:digit:]]+)[(]x([[:digit:]]+)[)]$"
+    if (grepl(pattern, count)) {
+      times <- gsub(pattern, "\\2", count)
+      times <- as.integer(times)
+      if (is.na(times)) return(NA_integer_)
+      
+      count <- gsub(pattern, "\\1", count)
+      count <- as.integer(count)
+      if (is.na(count)) return(NA_integer_)
+
+      count <- rep(count, times = times)
+    } else {
+      count <- as.integer(count)
+    }
+  })
+  counts <- unlist(counts, use.names = TRUE)
+  
+  if (any(is.na(counts))) {
+    warning("Failed to parse Slurm node counts specification: ", nodecounts)
+  }
+  
+  counts
+}
+
+
 
 ## Used by availableWorkers()
 apply_fallback <- function(workers) {

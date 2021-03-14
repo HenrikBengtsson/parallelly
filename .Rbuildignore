@@ -7,7 +7,9 @@
 ^INSTALL[.]md$
 ^OVERVIEW[.]md$
 ^CONDUCT[.]md$
-^docs/
+^CONTRIBUTING[.]md$
+^docs
+^pkgdown
 
 #----------------------------
 # devtools

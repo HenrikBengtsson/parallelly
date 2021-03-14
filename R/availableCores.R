@@ -79,7 +79,7 @@
 #'    Jobs with multiple (CPU) slots can be submitted on LSF using
 #'    `bsub -n 2 -R "span[hosts=1]" < hello.sh`.
 #'  \item `"custom"` -
-#'    If option \option{future.availableCores.custom} is set and a function,
+#'    If option \option{parallelly.availableCores.custom} is set and a function,
 #'    then this function will be called (without arguments) and it's value
 #'    will be coerced to an integer, which will be interpreted as a number
 #'    of available cores.  If the value is NA, then it will be ignored.
@@ -106,7 +106,7 @@
 #' It is possible to override the maximum number of cores on the machine
 #' as reported by `availableCores(methods = "system")`.  This can be
 #' done by first specifying
-#' `options(future.availableCores.methods = "mc.cores")` and
+#' `options(parallelly.availableCores.methods = "mc.cores")` and
 #' then the number of cores to use, e.g. `options(mc.cores = 8)`.
 #'
 #' @examples
@@ -131,6 +131,12 @@
 #'   min(0.75 * ncores, 4L)
 #' })
 #' message(paste("Number of cores available:", availableCores()))
+#'
+#' ## What is available minus one core but at least one
+#' options(parallelly.availableCores.custom = function() {
+#'   max(1L, parallelly::availableCores() - 1L)
+#' })
+#' message(paste("Number of cores available:", availableCores()))
 #' }
 #'
 #' @seealso
@@ -139,14 +145,18 @@
 #'
 #' @importFrom parallel detectCores
 #' @export
-availableCores <- function(constraints = NULL, methods = getOption2("future.availableCores.methods", c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("future.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all")) {
+availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all")) {
   ## Local functions
-  getenv <- function(name) {
-    as.integer(trim(Sys.getenv(name, NA_character_)))
+  getenv <- function(name, mode = "integer") {
+    value <- trim(Sys.getenv(name, NA_character_))
+    storage.mode(value) <- mode
+    value
   } # getenv()
 
-  getopt <- function(name) {
-    as.integer(getOption(name, NA_integer_))
+  getopt <- function(name, mode = "integer") {
+    value <- getOption(name, NA_integer_)
+    storage.mode(value) <- mode
+    value
   } # getopt()
 
   which <- match.arg(which, choices = c("min", "max", "all"))
@@ -184,14 +194,17 @@ availableCores <- function(constraints = NULL, methods = getOption2("future.avai
           n <- getenv("SLURM_CPUS_ON_NODE")
         } else {
           ## Parse `SLURM_TASKS_PER_NODE`
-          ntasks_per_node <- Sys.getenv("SLURM_TASKS_PER_NODE", NA_character_)
-          if (!is.na(ntasks_per_node)) {
+          nodecounts <- getenv("SLURM_TASKS_PER_NODE", mode = "character")
+          if (!is.na(nodecounts)) {
             ## Examples:
             ## SLURM_TASKS_PER_NODE=5,2
-            ## SLURM_TASKS_PER_NODE=2(x2),1(x3)
-            ntasks_per_node <- strsplit(ntasks_per_node, split = ",", fixed = TRUE)[[1]]
-            ## TODO: Parse ... /HB 2020-09-16
-            ## TODO: How do we infer which component to use on this host? /HB 2020-09-16
+            ## SLURM_TASKS_PER_NODE=2(x2),1(x3)  # Source: 'man sbatch'
+            n <- slurm_expand_nodecounts(nodecounts)
+            if (any(is.na(n))) next
+
+            ## ASSUMPTION: We assume that it is the first component on the list that
+            ## corresponds to the current machine. /HB 2021-03-05
+            n <- n[1]
           }
         }
       }
@@ -244,16 +257,21 @@ availableCores <- function(constraints = NULL, methods = getOption2("future.avai
       ## Number of cores according Unix 'nproc'
       n <- getNproc()
     } else if (method == "fallback") {
-      ## Number of cores available according to future.availableCores.fallback
-      n <- getOption2("future.availableCores.fallback", NA_integer_)
+      ## Number of cores available according to parallelly.availableCores.fallback
+      n <- getOption2("parallelly.availableCores.fallback", NA_integer_)
       n <- as.integer(n)
     } else if (method == "custom") {
-      fcn <- getOption2("future.availableCores.custom", NULL)
+      fcn <- getOption2("parallelly.availableCores.custom", NULL)
       if (!is.function(fcn)) next
-      n <- fcn()
+      n <- local({
+        ## Avoid calling the custom function recursively
+        oopts <- options(parallelly.availableCores.custom = NULL)
+        on.exit(options(oopts))
+        fcn()
+      })
       n <- as.integer(n)
       if (length(n) != 1L) {
-        stop("Function specified by option 'future.availableCores.custom' does not a single value")
+        stop("Function specified by option 'parallelly.availableCores.custom' does not a single value")
       }
     } else {
       ## covr: skip=3

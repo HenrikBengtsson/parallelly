@@ -11,18 +11,18 @@ makeClusterPSOCK(
   port = c("auto", "random"),
   ...,
   autoStop = FALSE,
-  tries = getOptionOrEnvVar("future.makeNodePSOCK.tries", 3L),
-  delay = getOptionOrEnvVar("future.makeNodePSOCK.tries.delay", 15),
-  validate = getOptionOrEnvVar("future.makeNodePSOCK.validate", TRUE),
-  verbose = getOptionOrEnvVar("future.debug", FALSE)
+  tries = getOptionOrEnvVar("parallelly.makeNodePSOCK.tries", 3L),
+  delay = getOptionOrEnvVar("parallelly.makeNodePSOCK.tries.delay", 15),
+  validate = getOptionOrEnvVar("parallelly.makeNodePSOCK.validate", TRUE),
+  verbose = getOptionOrEnvVar("parallelly.debug", FALSE)
 )
 
 makeNodePSOCK(
   worker = "localhost",
   master = NULL,
   port,
-  connectTimeout = getOptionOrEnvVar("future.makeNodePSOCK.connectTimeout", 2 * 60),
-  timeout = getOptionOrEnvVar("future.makeNodePSOCK.timeout", 30 * 24 * 60 * 60),
+  connectTimeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.connectTimeout", 2 * 60),
+  timeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60),
   rscript = NULL,
   homogeneous = NULL,
   rscript_args = NULL,
@@ -30,17 +30,18 @@ makeNodePSOCK(
   rscript_libs = NULL,
   rscript_startup = NULL,
   methods = TRUE,
-  useXDR = getOptionOrEnvVar("future.makeNodePSOCK.useXDR", FALSE),
+  useXDR = getOptionOrEnvVar("parallelly.makeNodePSOCK.useXDR", FALSE),
   outfile = "/dev/null",
   renice = NA_integer_,
-  rshcmd = getOptionOrEnvVar("future.makeNodePSOCK.rshcmd", NULL),
+  rshcmd = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshcmd", NULL),
   user = NULL,
   revtunnel = TRUE,
   rshlogfile = NULL,
-  rshopts = getOptionOrEnvVar("future.makeNodePSOCK.rshopts", NULL),
+  rshopts = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshopts", NULL),
   rank = 1L,
   manual = FALSE,
   dryrun = FALSE,
+  quiet = FALSE,
   verbose = FALSE
 )
 }
@@ -55,7 +56,7 @@ of localhost workers (as a positive integer).}
 the workers (via socket connections).  If an integer vector of ports, then a
 random one among those is chosen.  If \code{"random"}, then a random port in
 is chosen from \code{11000:11999}, or from the range specified by
-environment variable \env{R_FUTURE_RANDOM_PORTS}.
+environment variable \env{R_PARALLELLY_RANDOM_PORTS}.
 If \code{"auto"} (default), then the default (single) port is taken from
 environment variable \env{R_PARALLEL_PORT}, otherwise \code{"random"} is
 used.
@@ -163,7 +164,9 @@ If FALSE, then the worker will try to connect directly to port \code{port} on
 to a temporary file.  The log file name is available as an attribute
 as part of the return node object.
 \emph{Warning: This only works with SSH clients that support option
-\verb{-E out.log}.}}
+\verb{-E out.log}}.  For example, PuTTY's \command{plink} does \emph{not} support
+this option, and any attempts to specify \code{rshlogfile} will cause the SSH
+connection to fail.}
 
 \item{rank}{A unique one-based index for each worker (automatically set).}
 
@@ -173,6 +176,9 @@ to run will be displayed.}
 \item{dryrun}{If TRUE, nothing is set up, but a message suggesting how to
 launch the worker from the terminal is outputted.  This is useful for
 troubleshooting.}
+
+\item{quiet}{If TRUE, then no output will be produced other than that from
+using \code{verbose = TRUE}.}
 }
 \value{
 An object of class \code{c("RichSOCKcluster", "SOCKcluster", "cluster")}
@@ -212,39 +218,41 @@ to an external host.
 
 The default method for connecting to an external host is via SSH and the
 system executable for this is given by argument \code{rshcmd}.  The default
-is given by option \option{future.makeNodePSOCK.rshcmd}.  If that is not
-set, then the default is to use \command{ssh}.
-Most Unix-like systems, including macOS, have \command{ssh} preinstalled
-on the \env{PATH}.  This is also true for recent Windows 10
-(since version 1803, April 2018) (*).
+is given by option \option{parallelly.makeNodePSOCK.rshcmd}.  If that is not
+set, then the default is to use \command{ssh} on Unix-like systems,
+including macOS.  On MS Windows systems, including Windows 10, the
+default is to use (i) \command{plink} from the
+\href{https://www.putty.org/}{\command{PuTTY}} project,
+(ii) the \command{ssh} client that is distributed with RStudio, and lastly
+(iii) the \command{ssh} client that comes with Windows 10.
 
-For \emph{Windows systems prior to Windows 10}, it is less common to find
-\command{ssh} on the \env{PATH}. Instead it is more likely that such
-systems have the \command{PuTTY} software and its SSH client
-\command{plink} installed.  PuTTY puts itself on the system \env{PATH}
-when installed, meaning this function will find PuTTY automatically if
-installed.  If not, to manually set specify PuTTY as the SSH client,
-specify the absolute pathname of \file{plink.exe} in the first element and
-option \command{-ssh} in the second as in
-\code{rshcmd = c("C:/Path/PuTTY/plink.exe", "-ssh")}.
+PuTTY puts itself on Windows' system \env{PATH} when installed, meaning this
+function will find PuTTY automatically if installed.  If not, to manually
+set specify PuTTY as the SSH client, specify the absolute pathname of
+\file{plink.exe} in the first element and option \command{-ssh} in the
+second as in \code{rshcmd = c("C:/Path/PuTTY/plink.exe", "-ssh")}.
 This is because all elements of \code{rshcmd} are individually "shell"
 quoted and element \code{rshcmd[1]} must be on the system \env{PATH}.
 
 Furthermore, when running \R from RStudio on Windows, the \command{ssh}
 client that is distributed with RStudio will also be considered.
-This client, which is from \href{http://www.mingw.org/wiki/msys}{MinGW MSYS},
-is searched for in the folder given by the \env{RSTUDIO_MSYS_SSH}
+This client, which is from \href{https://osdn.net/projects/mingw/}{MinGW}
+MSYS, is searched for in the folder given by the \env{RSTUDIO_MSYS_SSH}
 environment variable - a variable that is (only) set when running RStudio.
+To use this SSH client outside of RStudio, set \env{RSTUDIO_MSYS_SSH}
+accordingly.
 
 You can override the default set of SSH clients that are searched for
-by specifying them in \code{rshcmd} using the format \verb{<...>}, e.g.
+by specifying them in argument \code{rshcmd} or via option
+\option{parallelly.makeNodePSOCK.rshcmd} using the format \verb{<...>}, e.g.
 \code{rshcmd = c("<rstudio-ssh>", "<putty-plink>", "<ssh>")}.  See
 below for examples.
 
 If no SSH-client is found, an informative error message is produced.
 
-(*) \emph{Known issue with the Windows 10 SSH client: There is a bug in the
-SSH client of Windows 10 that prevents it to work with reverse SSH tunneling
+(*) \emph{Windows 10 has a \command{ssh} built-in since version 1803 (April 2018).
+However, there is a bug in that SSH client that prevents it to work with
+reverse SSH tunneling
 (\url{https://github.com/PowerShell/Win32-OpenSSH/issues/1265}; Oct 2018).
 The most recent version that we tested and that did \emph{not} work was
 OpenSSH_for_Windows_7.7p1, LibreSSL 2.6.5 (\code{ssh -V}) on
@@ -253,7 +261,7 @@ Because of this, it is recommended to use the PuTTY SSH client or the
 RStudio SSH client until this bug has been resolved in Windows 10.}
 
 Additional SSH options may be specified via argument \code{rshopts}, which
-defaults to option \option{future.makeNodePSOCK.rshopts}. For instance, a
+defaults to option \option{parallelly.makeNodePSOCK.rshopts}. For instance, a
 private SSH key can be provided as
 \code{rshopts = c("-i", "~/.ssh/my_private_key")}.  PuTTY users should
 specify a PuTTY PPK file, e.g.
@@ -301,8 +309,8 @@ for "ssh key authentication".
 The default is to use reverse SSH tunneling (\code{revtunnel = TRUE}) for
 workers running on other machines.  This avoids the complication of
 otherwise having to configure port forwarding in firewalls, which often
-requires static IP address as well as privileges to edit the firewall,
-something most users don't have.
+requires static IP address as well as privileges to edit the firewall
+on your outgoing router, something most users don't have.
 It also has the advantage of not having to know the internal and / or the
 public IP address / hostname of the master.
 Yet another advantage is that there will be no need for a DNS lookup by the

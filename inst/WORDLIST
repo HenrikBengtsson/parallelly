@@ -116,3 +116,9 @@ cpuLoad
 freeCores
 availableConnections
 freeConnections
+isForkedNode
+isLocalhostNode
+nodelist
+NODELIST
+scontrol
+dev
