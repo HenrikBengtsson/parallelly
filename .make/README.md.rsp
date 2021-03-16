@@ -177,9 +177,7 @@ optional_badges <- function() {
 <%=optional_badges()%>
 </div>
 
-<% if (file.exists(file <- "man/figures/logo.png")) { cat(img(file, alt="The 'future' hexlogo", align="right")) } %>
-
-# <%=pkg()%>: <%=pkg_title()%>
+# <%=pkg()%>: <%=pkg_title()%> <% if (file.exists(file <- "man/figures/logo.png")) { cat(img(file, alt="The 'future' hexlogo", align="right")) } %>
 
 <% if (file.exists("OVERVIEW.md")) { R.rsp::rcat(file="OVERVIEW.md") } %>
 
