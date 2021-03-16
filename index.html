@@ -74,10 +74,10 @@
   <div class="contents col-md-9">
 
 
-<p><img border="0" src="reference/figures/logo.png" alt="The 'future' hexlogo" align="right"></p>
 <div id="parallelly-enhancing-the-parallel-package" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#parallelly-enhancing-the-parallel-package" class="anchor"></a>parallelly: Enhancing the ‘parallel’ Package</h1></div>
+<a href="#parallelly-enhancing-the-parallel-package" class="anchor"></a>parallelly: Enhancing the ‘parallel’ Package <img border="0" src="reference/figures/logo.png" alt="The 'future' hexlogo" align="right">
+</h1></div>
 <p>The <strong>parallelly</strong> package provides functions that enhance the <strong>parallel</strong> packages. For example, <code><a href="reference/availableCores.html">availableCores()</a></code> gives the number of CPU cores available to your R process as given by R options and environment variables, including those set by job schedulers on high-performance compute (HPC) clusters. If R runs under ‘cgroups’ or a Linux container, then their settings are acknowledges too. If nothing else is set, the it will fall back to <code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">parallel::detectCores()</a></code>. Another example is <code><a href="reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code>, which is backward compatible with <code><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::makePSOCKcluster()</a></code> while doing a better job in setting up remote cluster workers without having to know your local public IP address and configuring the firewall to do port-forwarding to your local computer. The functions and features added to this package are written to be backward compatible with the <strong>parallel</strong> package, such that they may be incorporated there later. The <strong>parallelly</strong> package comes with an open invitation for the R Core Team to adopt all or parts of its code into the <strong>parallel</strong> package.</p>
 <div id="feature-comparison-parallelly-vs-parallel" class="section level2">
 <h2 class="hasAnchor">
