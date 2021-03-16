@@ -3,6 +3,8 @@
  md <- R.rsp::rfile("README.md.rsp", postprocess=FALSE)
  ------------------------------------------------------------------------%>
 <%
+format <- c("markdown", "html")[2]
+
 pkg <- local({
   name <- NULL
   function() {
@@ -71,6 +73,30 @@ repos <- function() {
   if (cran()) "CRAN" else if (bioc()) "Bioconductor" else "GitHub"
 }
 
+a <- function(url, ..., body) {
+  url <- sprintf(url, ...)
+  if (format == "markdown") {
+    sprintf('[%s](%s)', body, url)
+  } else if (format == "html") {
+    sprintf('<a href="%s">%s</a>', url, body)
+  } else {
+    stop("Unknown format: ", sQuote(format))
+  }
+}
+
+img <- function(url, ..., alt, align=NULL) {
+  url <- sprintf(url, ...)
+  if (format == "markdown") {
+    sprintf('![%s](%s)', alt, url)
+  } else if (format == "html") {
+    attrs <- ""
+    if (!is.null(align)) attrs <- paste(attrs, sprintf('align="%s"', align))
+    sprintf('<img border="0" src="%s" alt="%s"%s></a>', url, alt, attrs)
+  } else {
+    stop("Unknown format: ", sQuote(format))
+  }
+}
+
 repos_page <- function() {
   if (cran()) {
     sprintf("[CRAN](https://cran.r-project.org/package=%s)", pkg())
@@ -81,11 +107,11 @@ repos_page <- function() {
  
 repos_status <- function() {
   if (cran()) {
-    sprintf('<a href="https://cran.r-project.org/web/checks/check_results_%s.html"><img border="0" src="http://www.r-pkg.org/badges/version/%s" alt="CRAN version"></a>', pkg(), pkg())
+    a("https://CRAN.R-project.org/web/checks/check_results_%s.html", pkg(), body = img("https://www.r-pkg.org/badges/version/%s", pkg(), alt="CRAN check status"))
   } else if (bioc()) {
     biocURL <- function(type) {
-      sprintf('<a href="https://bioconductor.org/checkResults/%s/bioc-LATEST/%s/"><img border="0" src="https://bioconductor.org/shields/build/%s/bioc/%s.svg" alt="Build status"></a> (%s)', type, pkg(), type, pkg(), type)
-	}
+      a("https://bioconductor.org/checkResults/%s/bioc-LATEST/%s/", type, pkg(), body = img("https://bioconductor.org/shields/build/%s/bioc/%s.svg", type, pkg(), alt="Bioconductor build status"))
+    }
     paste(biocURL(c("release", "devel")), collapse="</br>")
   } else {
     ""
@@ -95,18 +121,18 @@ repos_status <- function() {
 github <- function(text = FALSE) {
   if (!file.exists(".github/workflows/R-CMD-check.yaml")) return("")
   repos <- github_repos()
-  sprintf("[![R build status](https://github.com/%s/workflows/R-CMD-check/badge.svg?branch=develop)](https://github.com/%s/actions?query=workflow%%3AR-CMD-check)", repos, repos)
-  body <- sprintf('<img src="https://github.com/%s/workflows/R-CMD-check/badge.svg?branch=develop" alt="Build status">', github_repos())
+  #a("https://github.com/%s/actions?query=workflow%%3AR-CMD-check", repos, body = img("https://github.com/%s/workflows/R-CMD-check/badge.svg?branch=develop", repos, alt="R build status"))
+  body <- img("https://github.com/%s/workflows/R-CMD-check/badge.svg?branch=develop", github_repos(), alt="Build status")
   if (text) body <- "GitHub Actions"
-  sprintf('<a href="https://github.com/%s/actions?query=workflow%%3AR-CMD-check">%s</a>', repos, body)
+  a("https://github.com/%s/actions?query=workflow%%3AR-CMD-check", repos, body=body)
 }
 
 travis <- function(text = FALSE) {
   if (!file.exists(".travis.yml")) return("")
   repos <- github_repos()
-  body <- sprintf('<img src="https://travis-ci.org/%s.svg" alt="Build status">', repos)
+  body <- img("https://travis-ci.org/%s.svg", repos, alt="Build status")
   if (text) body <- "Travis CI"
-  sprintf('<a href="https://travis-ci.org/%s">%s</a>', repos, body)
+  a("https://travis-ci.org/%s", repos, body=body)
 }
 
 appveyor <- function(text = FALSE) {
@@ -115,9 +141,9 @@ appveyor <- function(text = FALSE) {
   repos <- strsplit(repos, split="/")[[1]]
   repos[2] <- gsub("[.]", "-", tolower(repos[2]))
   repos <- paste(repos, collapse="/")
-  body <- sprintf('<img src="https://ci.appveyor.com/api/projects/status/github/%s?svg=true" alt="Build status">', github_repos())
+  body <- img("https://ci.appveyor.com/api/projects/status/github/%s?svg=true", github_repos(), alt="Build status")
   if (text) body <- "AppVeyor CI"
-  sprintf('<a href="https://ci.appveyor.com/project/%s">%s</a>', repos, body)
+  a("https://ci.appveyor.com/project/%s", repos, body=body)
 }
 
 covr <- function() {
@@ -125,15 +151,33 @@ covr <- function() {
   bfr <- readLines(".travis.yml")
   codecov <- any(grepl("covr::codecov", bfr, fixed=TRUE))
   if (codecov) {
-    sprintf('<a href="https://codecov.io/gh/%s"><img src="https://codecov.io/gh/%s/branch/develop/graph/badge.svg" alt="Coverage Status"/></a>', github_repos(), github_repos())
+    a("https://codecov.io/gh/%s", github_repos(), body=img("https://codecov.io/gh/%s/branch/develop/graph/badge.svg", github_repos(), alt="Coverage Status"))
   } else {
     if (!file.exists(".covr.R")) return("")
-    sprintf('<a href="https://coveralls.io/r/%s"><img src="https://coveralls.io/repos/%s/badge.svg?branch=develop" alt="Coverage Status"/></a>', github_repos(), github_repos())
+    a("https://coveralls.io/r/%s", github_repos(), body=img("https://coveralls.io/repos/%s/badge.svg?branch=develop", github_repos(), alt="Coverage Status"))
   }
 }
 %>
 
-<% if (file.exists(file <- "man/figures/logo.png")) { %><img src="<%= file %>" align="right" /><% } %>
+<%
+optional_badges <- function() {
+  if (file.exists(file <- ".make/extra_badges.md")) {
+    bfr <- readLines(file, warn=FALSE)
+    R.rsp::rstring(bfr)
+  }
+}
+%>
+
+<div id="badges"><!-- pkgdown markup -->
+<%=repos_status()%>
+<%=github()%>
+<%=travis()%>
+<%=appveyor() %>
+<%=covr()%>
+<%=optional_badges()%>
+</div>
+
+<% if (file.exists(file <- "man/figures/logo.png")) { cat(img(file, alt="The 'future' hexlogo", align="right")) } %>
 
 # <%=pkg()%>: <%=pkg_title()%>
 
@@ -160,7 +204,7 @@ R package <%=pkg()%> is only available via [GitHub](https://github.com/<%=github
 ```r
 remotes::install_github("<%=github_repos()%>", ref="master")
 <%---
-source("http://callr.org/install#<%=github_repos()%>")
+source("https://callr.org/install#<%=github_repos()%>")
 ---%>
 ```
 <% } %>
@@ -179,19 +223,8 @@ Because of this and because this package also compiles native code, Windows user
 
 
 
-<div id="badges"><!-- pkgdown markup -->
+<!-- pkgdown-drop-below -->
 
 ## Contributing
 
 To contribute to this package, please see [CONTRIBUTING.md](CONTRIBUTING.md).
-
-
-## Software status
-
-| Resource      | <%=repos()%>        | GitHub Actions      | Travis CI       | AppVeyor CI      |
-| ------------- | ------------------- | ------------------- | --------------- | ---------------- |
-| _Platforms:_  | _Multiple_          | _Multiple_          | _Linux & macOS_ | _Windows_        |
-| R CMD check   | <%=repos_status()%> | <%=github()%>       | <%=travis()%>   | <%=appveyor() %> |
-| Test coverage |                     |                     | <%=covr()%>     |                  |
-
-</div>
