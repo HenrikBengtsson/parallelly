@@ -23,7 +23,7 @@
 #' settings are available.
 #'
 #' @param which A character specifying which settings to return.
-#' If `"min"`, the minimum value is returned.
+#' If `"min"` (the default), the minimum value is returned.
 #' If `"max"`, the maximum value is returned (be careful!)
 #' If `"all"`, all values are returned.
 #'
