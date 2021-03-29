@@ -49,7 +49,7 @@
 <meta property="og:title" content="Checks if a Connection is Valid — isConnectionValid" />
 <meta property="og:description" content="Get a unique identifier for an R connection
 and check whether or not the connection is still valid." />
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="https://parallelly.futureverse.org/logo.png" />
 
 
 
@@ -65,6 +65,9 @@ and check whether or not the connection is still valid." />
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+
+
+<!-- dependencies from examples -->
 
 
   
@@ -244,7 +247,7 @@ indices. To get a connection by its index, use <code><a href='https://rdrr.io/r/
 </div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='fu'>isConnectionValid</span><span class='op'>(</span><span class='va'>y</span><span class='op'>$</span><span class='va'>con</span><span class='op'>)</span>     <span class='co'>## FALSE with attribute 'reason'</span>
 </div><div class='output co'>#&gt; [1] FALSE
 #&gt; attr(,"reason")
-#&gt; [1] "Connection (connection: index=4, description=\"/tmp/hb/RtmpMARLyw/file1c5f4e31619d\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=-1) is no longer valid. It differ from the currently registered R connection with the same index 4 (connection: index=4, description=\"/tmp/hb/RtmpMARLyw/file1c5f4e31619d\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=1726, raw_id=\"&lt;pointer: 0x6be&gt;\")"</div><div class='input'><span class='fu'>connectionId</span><span class='op'>(</span><span class='va'>y</span><span class='op'>$</span><span class='va'>con</span><span class='op'>)</span>          <span class='co'>## -1L</span>
+#&gt; [1] "Connection (connection: index=4, description=\"/tmp/hb/RtmpmEaMOW/file731e26749453\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=-1) is no longer valid. It differ from the currently registered R connection with the same index 4 (connection: index=4, description=\"/tmp/hb/RtmpmEaMOW/file731e26749453\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=1726, raw_id=\"&lt;pointer: 0x6be&gt;\")"</div><div class='input'><span class='fu'>connectionId</span><span class='op'>(</span><span class='va'>y</span><span class='op'>$</span><span class='va'>con</span><span class='op'>)</span>          <span class='co'>## -1L</span>
 </div><div class='output co'>#&gt; [1] -1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/connections.html'>close</a></span><span class='op'>(</span><span class='va'>con</span><span class='op'>)</span>
 
 </div></pre>
@@ -263,7 +266,7 @@ indices. To get a connection by its index, use <code><a href='https://rdrr.io/r/
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9000.</p>
 </div>
 
       </footer>
