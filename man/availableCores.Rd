@@ -12,7 +12,8 @@ availableCores(
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = c(current = 1L),
-  which = c("min", "max", "all")
+  which = c("min", "max", "all"),
+  reserve = getOption2("parallelly.availableCores.reserve", 0L)
 )
 }
 \arguments{
@@ -39,6 +40,8 @@ settings are available.}
 If \code{"min"}, the minimum value is returned.
 If \code{"max"}, the maximum value is returned (be careful!)
 If \code{"all"}, all values are returned.}
+
+\item{reserve}{(integer; non-negative) Number of cores to not include.}
 }
 \value{
 Return a positive (>= 1) integer.
@@ -108,12 +111,17 @@ variable is queried.  If neither is set, a missing value is returned.
 }
 \section{Avoid ending up with zero cores}{
 
-Note that \code{availableCores()} may return a single core.  Because of this,
-using something like:\if{html}{\out{<div class="r">}}\preformatted{ncores <- availableCores() - 1
+Note that some machines might have a limited number of cores, or the R
+process runs in a container or a cgroup that only provides a small number
+of cores.  In such cases:\if{html}{\out{<div class="r">}}\preformatted{ncores <- availableCores() - 1
 }\if{html}{\out{</div>}}
 
-may return zero, which is often not intended.  Instead, use:\if{html}{\out{<div class="r">}}\preformatted{ncores <- max(1, availableCores() - 1)
+may return zero, or even a negative number, which is often not intended
+and is likely to give an error downstream.  Instead, use:\if{html}{\out{<div class="r">}}\preformatted{ncores <- availableCores(reserve = 1)
 }\if{html}{\out{</div>}}
+
+to put aside one of the cores from being used.  Regardless how many cores
+you put aside, this function is guaranteed to return at least one core.
 }
 
 \section{Advanced usage}{
@@ -136,7 +144,8 @@ message(paste("Number of cores available:", availableCores()))
 \dontrun{
 ## IMPORTANT: availableCores() may return 1L
 options(mc.cores = 1L)
-ncores <- max(1, availableCores() - 1)
+ncores <- availableCores() - 1         ## ncores = 0
+ncores <- availableCores(reserve = 1)  ## ncores = 1
 message(paste("Number of cores to use:", ncores))
 }
 
@@ -144,7 +153,8 @@ message(paste("Number of cores to use:", ncores))
 ## Use 75\% of the cores on the system but never more than four
 options(parallelly.availableCores.custom = function() {
   ncores <- max(parallel::detectCores(), 1L, na.rm = TRUE)
-  min(0.75 * ncores, 4L)
+  ncores <- min(as.integer(0.75 * ncores), 4L)
+  max(1L, ncores)
 })
 message(paste("Number of cores available:", availableCores()))
 

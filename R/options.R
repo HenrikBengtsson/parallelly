@@ -37,6 +37,8 @@
 #' 
 #'  \item{\option{parallelly.availableCores.system} / \option{future.availableCores.system}:}{(integer) Number of "system" cores used instead of what is reported by \code{\link{availableCores}(which = "system")}. If not specified, this option is set according to system environment variable \env{R_PARALLELLY_AVAILABLECORES_SYSTEM} when the \pkg{parallelly} package is _loaded_. This option allows you to effectively override what `parallel::detectCores()` reports the system has.}
 #'
+#'  \item{\option{parallelly.availableCores.reserve} / \option{future.availableCores.reserve}:}{(integer) Number of cores to set aside, i.e. not to include.  If not specified, this option is set according to system environment variable \env{R_PARALLELLY_AVAILABLECORES_RESERVE} when the \pkg{parallelly} package is _loaded_.}
+#'
 #'  \item{\option{parallelly.availableWorkers.methods} / \option{future.availableWorkers.methods}:}{(character vector) Default lookup methods for [availableWorkers()]. (Default: `c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")`)}
 #'
 #'  \item{\option{parallelly.availableWorkers.custom} / \option{future.availableWorkers.custom}:}{(function) If set and a function, then this function will be called (without arguments) by [availableWorkers()] where its value, coerced to a character vector, is interpreted as hostnames of available workers.}
@@ -62,6 +64,7 @@
 #' parallelly.availableCores.custom
 #' parallelly.availableCores.methods
 #' parallelly.availableCores.fallback R_PARALLELLY_AVAILABLECORES_FALLBACK
+#' parallelly.availableCores.reserve R_PARALLELLY_AVAILABLECORES_RESERVE
 #' parallelly.availableCores.system R_PARALLELLY_AVAILABLECORES_SYSTEM
 #' parallelly.availableWorkers.methods
 #' parallelly.fork.enable R_PARALLELLY_FORK_ENABLE

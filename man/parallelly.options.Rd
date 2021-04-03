@@ -7,6 +7,8 @@
 \alias{parallelly.availableCores.methods}
 \alias{parallelly.availableCores.fallback}
 \alias{R_PARALLELLY_AVAILABLECORES_FALLBACK}
+\alias{parallelly.availableCores.reserve}
+\alias{R_PARALLELLY_AVAILABLECORES_RESERVE}
 \alias{parallelly.availableCores.system}
 \alias{R_PARALLELLY_AVAILABLECORES_SYSTEM}
 \alias{parallelly.availableWorkers.methods}
@@ -68,6 +70,8 @@ by options and environment variables with prefixes \code{future.} and
 \item{\option{parallelly.availableCores.fallback} / \option{future.availableCores.fallback}:}{(integer) Number of cores to use when no core-specifying settings are detected other than \code{"system"}. If not specified, this option is set according to system environment variable \env{R_PARALLELLY_AVAILABLECORES_FALLBACK} when the \pkg{parallelly} package is \emph{loaded}. This options makes it possible to set the default number of cores returned by \code{availableCores()} / \code{availableWorkers()} yet allow users and schedulers to override it. In multi-tenant environment, such as HPC clusters, it is useful to set \env{R_PARALLELLY_AVAILABLECORES_FALLBACK} to \code{1}.}
 
 \item{\option{parallelly.availableCores.system} / \option{future.availableCores.system}:}{(integer) Number of "system" cores used instead of what is reported by \code{\link{availableCores}(which = "system")}. If not specified, this option is set according to system environment variable \env{R_PARALLELLY_AVAILABLECORES_SYSTEM} when the \pkg{parallelly} package is \emph{loaded}. This option allows you to effectively override what \code{parallel::detectCores()} reports the system has.}
+
+\item{\option{parallelly.availableCores.reserve} / \option{future.availableCores.reserve}:}{(integer) Number of cores to set aside, i.e. not to include.  If not specified, this option is set according to system environment variable \env{R_PARALLELLY_AVAILABLECORES_RESERVE} when the \pkg{parallelly} package is \emph{loaded}.}
 
 \item{\option{parallelly.availableWorkers.methods} / \option{future.availableWorkers.methods}:}{(character vector) Default lookup methods for \code{\link[=availableWorkers]{availableWorkers()}}. (Default: \code{c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")})}
 
