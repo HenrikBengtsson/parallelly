@@ -25,7 +25,7 @@ of available cores.}
 \item{default}{The default set of workers.}
 
 \item{which}{A character specifying which set / sets to return.
-If \code{"auto"}, the first non-empty set found.
+If \code{"auto"} (default), the first non-empty set found.
 If \code{"min"}, the minimum value is returned.
 If \code{"max"}, the maximum value is returned (be careful!)
 If \code{"all"}, all values are returned.}

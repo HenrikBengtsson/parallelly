@@ -37,7 +37,7 @@ This argument is only if argument \code{methods} includes \code{"system"}.}
 settings are available.}
 
 \item{which}{A character specifying which settings to return.
-If \code{"min"}, the minimum value is returned.
+If \code{"min"} (default), the minimum value is returned.
 If \code{"max"}, the maximum value is returned (be careful!)
 If \code{"all"}, all values are returned.}
 

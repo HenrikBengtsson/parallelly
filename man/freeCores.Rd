@@ -12,7 +12,8 @@ freeCores(
 )
 }
 \arguments{
-\item{memory}{(character) The time period used to infer the system load.}
+\item{memory}{(character) The time period used to infer the system load,
+with alternatives being 5 minutes (default), 15 minutes, or 1 minute.}
 
 \item{fraction}{(non-negative numeric) A scale factor.}
 
