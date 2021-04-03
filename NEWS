@@ -1,10 +1,18 @@
 Package: parallelly
 ===================
 
-Version: 1.24.0-9000 [2021-03-14]
+Version: 1.24.0-9001 [2021-04-03]
 
- * ...
- 
+SIGNIFICANT CHANGES:
+
+ * The default SSH client on MS Windows 10 is now the built in 'ssh' client.
+   This means that regardless whether you are on Linux, macOS, or Windows 10,
+   setting up parallel workers on external machines over SSH finally works out
+   of the box without having to install PuTTY or other SSH clients. This was
+   possible because a workaround was found against its bug that prevents it
+   from using reverse tunneling over SSH.  It turns out the bug reveals itself
+   when using hostname 'localhost' but not '127.0.0.1'.
+   
 
 Version: 1.24.0 [2021-03-12]
 
