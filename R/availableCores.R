@@ -55,7 +55,7 @@
 #'  \item `"PBS"` -
 #'    Query TORQUE/PBS environment variables \env{PBS_NUM_PPN} and \env{NCPUS}.
 #'    Depending on PBS system configuration, these _resource_
-#'    parameter may or may not default to one.
+#'    parameters may or may not default to one.
 #'    An example of a job submission that results in this is
 #'    `qsub -l nodes=1:ppn=2`, which requests one node with two cores.
 #'  \item `"SGE"` -

@@ -11,7 +11,7 @@ Description: Utility functions that enhance the 'parallel' package and support t
 License: LGPL (>= 2.1)
 LazyLoad: TRUE
 ByteCompile: TRUE
-URL: https://github.com/HenrikBengtsson/parallelly
+URL: https://parallelly.futureverse.org, https://github.com/HenrikBengtsson/parallelly
 BugReports: https://github.com/HenrikBengtsson/parallelly/issues
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
