@@ -327,8 +327,8 @@ variable is queried.  If neither is set, a missing value is returned.</p>
 process runs in a container or a cgroup that only provides a small number
 of cores.  In such cases:<div class="r"></p><pre><span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span>
 </pre><p></div></p>
-<p>may return zero, or even a negative number, which is often not intended
-and is likely to give an error downstream.  Instead, use:<div class="r"></p><pre><span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'>availableCores</span><span class='op'>(</span>reserve <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<p>may return zero, which is often not intended and is likely to give an
+error downstream.  Instead, use:<div class="r"></p><pre><span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'>availableCores</span><span class='op'>(</span>reserve <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 </pre><p></div></p>
 <p>to put aside one of the cores from being used.  Regardless how many cores
 you put aside, this function is guaranteed to return at least one core.</p>
