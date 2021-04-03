@@ -116,8 +116,8 @@ process runs in a container or a cgroup that only provides a small number
 of cores.  In such cases:\if{html}{\out{<div class="r">}}\preformatted{ncores <- availableCores() - 1
 }\if{html}{\out{</div>}}
 
-may return zero, or even a negative number, which is often not intended
-and is likely to give an error downstream.  Instead, use:\if{html}{\out{<div class="r">}}\preformatted{ncores <- availableCores(reserve = 1)
+may return zero, which is often not intended and is likely to give an
+error downstream.  Instead, use:\if{html}{\out{<div class="r">}}\preformatted{ncores <- availableCores(reserve = 1)
 }\if{html}{\out{</div>}}
 
 to put aside one of the cores from being used.  Regardless how many cores

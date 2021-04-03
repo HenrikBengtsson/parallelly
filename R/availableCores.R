@@ -99,8 +99,8 @@
 #' ncores <- availableCores() - 1
 #' ```
 #'
-#' may return zero, or even a negative number, which is often not intended
-#' and is likely to give an error downstream.  Instead, use:
+#' may return zero, which is often not intended and is likely to give an
+#' error downstream.  Instead, use:
 #'
 #' ```r
 #' ncores <- availableCores(reserve = 1)
