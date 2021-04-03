@@ -580,7 +580,10 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   if (is.null(master)) {
     if (localMachine || revtunnel) {
-      master <- "localhost"
+      ## Workaround for bug in Windows 10's ssh client:
+      ## https://github.com/PowerShell/Win32-OpenSSH/issues/1265#issuecomment-637085238
+      master <- if (.Platform$OS.type == "windows") "127.0.0.1" else "localhost"
+      master <- getOption("parallelly.localhost.hostname", master)
     } else {
       master <- Sys.info()[["nodename"]]
     }

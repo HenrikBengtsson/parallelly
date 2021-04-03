@@ -115,10 +115,3 @@ To install the pre-release version that is available in Git branch `develop` on 
 remotes::install_github("HenrikBengtsson/parallelly", ref="develop")
 ```
 This will install the package from source.  
-
-
-<!-- pkgdown-drop-below -->
-
-## Contributing
-
-To contribute to this package, please see [CONTRIBUTING.md](CONTRIBUTING.md).
