@@ -102,7 +102,7 @@ number of cores available is always at least one." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.24.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.24.0-9001</span>
       </span>
     </div>
 
@@ -210,7 +210,8 @@ number of cores available is always at least one.</p>
   na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
   logical <span class='op'>=</span> <span class='fu'>getOption2</span><span class='op'>(</span><span class='st'>"parallelly.availableCores.logical"</span>, <span class='cn'>TRUE</span><span class='op'>)</span>,
   default <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>current <span class='op'>=</span> <span class='fl'>1L</span><span class='op'>)</span>,
-  which <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"min"</span>, <span class='st'>"max"</span>, <span class='st'>"all"</span><span class='op'>)</span>
+  which <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"min"</span>, <span class='st'>"max"</span>, <span class='st'>"all"</span><span class='op'>)</span>,
+  reserve <span class='op'>=</span> <span class='fu'>getOption2</span><span class='op'>(</span><span class='st'>"parallelly.availableCores.reserve"</span>, <span class='fl'>0L</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -248,9 +249,13 @@ settings are available.</p></td>
     <tr>
       <th>which</th>
       <td><p>A character specifying which settings to return.
-If <code>"min"</code>, the minimum value is returned.
+If <code>"min"</code> (default), the minimum value is returned.
 If <code>"max"</code>, the maximum value is returned (be careful!)
 If <code>"all"</code>, all values are returned.</p></td>
+    </tr>
+    <tr>
+      <th>reserve</th>
+      <td><p>(integer; non-negative) Number of cores to not include.</p></td>
     </tr>
     </table>
 
@@ -283,7 +288,7 @@ package.</p></li>
 <li><p><code>"PBS"</code> -
 Query TORQUE/PBS environment variables <code class="env">PBS_NUM_PPN</code> and <code class="env">NCPUS</code>.
 Depending on PBS system configuration, these <em>resource</em>
-parameter may or may not default to one.
+parameters may or may not default to one.
 An example of a job submission that results in this is
 <code>qsub -l nodes=1:ppn=2</code>, which requests one node with two cores.</p></li>
 <li><p><code>"SGE"</code> -
@@ -318,11 +323,15 @@ variable is queried.  If neither is set, a missing value is returned.</p>
 
     
 
-<p>Note that <code>availableCores()</code> may return a single core.  Because of this,
-using something like:<div class="r"></p><pre><span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span>
+<p>Note that some machines might have a limited number of cores, or the R
+process runs in a container or a cgroup that only provides a small number
+of cores.  In such cases:<div class="r"></p><pre><span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span>
 </pre><p></div></p>
-<p>may return zero, which is often not intended.  Instead, use:<div class="r"></p><pre><span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span>
+<p>may return zero, or even a negative number, which is often not intended
+and is likely to give an error downstream.  Instead, use:<div class="r"></p><pre><span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'>availableCores</span><span class='op'>(</span>reserve <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 </pre><p></div></p>
+<p>to put aside one of the cores from being used.  Regardless how many cores
+you put aside, this function is guaranteed to return at least one core.</p>
     <h2 class="hasAnchor" id="advanced-usage"><a class="anchor" href="#advanced-usage"></a>Advanced usage</h2>
 
     
@@ -348,7 +357,8 @@ see <code><a href='availableWorkers.html'>availableWorkers()</a></code>.</p></di
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'>## IMPORTANT: availableCores() may return 1L</span>
 <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>mc.cores <span class='op'>=</span> <span class='fl'>1L</span><span class='op'>)</span>
-<span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span>         <span class='co'>## ncores = 0</span>
+<span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'>availableCores</span><span class='op'>(</span>reserve <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>  <span class='co'>## ncores = 1</span>
 <span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"Number of cores to use:"</span>, <span class='va'>ncores</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
 
@@ -356,7 +366,8 @@ see <code><a href='availableWorkers.html'>availableWorkers()</a></code>.</p></di
 <span class='co'>## Use 75% of the cores on the system but never more than four</span>
 <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>parallelly.availableCores.custom <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fl'>1L</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='fl'>0.75</span> <span class='op'>*</span> <span class='va'>ncores</span>, <span class='fl'>4L</span><span class='op'>)</span>
+  <span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fl'>0.75</span> <span class='op'>*</span> <span class='va'>ncores</span><span class='op'>)</span>, <span class='fl'>4L</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fl'>1L</span>, <span class='va'>ncores</span><span class='op'>)</span>
 <span class='op'>}</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"Number of cores available:"</span>, <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 

@@ -106,7 +106,7 @@ further notice." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.24.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.24.0-9001</span>
       </span>
     </div>
 
@@ -250,6 +250,8 @@ by options and environment variables with prefixes <code>future.</code> and
 <dt><span class="option">parallelly.availableCores.fallback</span> / <span class="option">future.availableCores.fallback</span>:</dt><dd><p>(integer) Number of cores to use when no core-specifying settings are detected other than <code>"system"</code>. If not specified, this option is set according to system environment variable <code class="env">R_PARALLELLY_AVAILABLECORES_FALLBACK</code> when the <span class="pkg">parallelly</span> package is <em>loaded</em>. This options makes it possible to set the default number of cores returned by <code><a href='availableCores.html'>availableCores()</a></code> / <code><a href='availableWorkers.html'>availableWorkers()</a></code> yet allow users and schedulers to override it. In multi-tenant environment, such as HPC clusters, it is useful to set <code class="env">R_PARALLELLY_AVAILABLECORES_FALLBACK</code> to <code>1</code>.</p></dd>
 
 <dt><span class="option">parallelly.availableCores.system</span> / <span class="option">future.availableCores.system</span>:</dt><dd><p>(integer) Number of "system" cores used instead of what is reported by <code><a href='availableCores.html'>availableCores</a>(which = "system")</code>. If not specified, this option is set according to system environment variable <code class="env">R_PARALLELLY_AVAILABLECORES_SYSTEM</code> when the <span class="pkg">parallelly</span> package is <em>loaded</em>. This option allows you to effectively override what <code><a href='https://rdrr.io/r/parallel/detectCores.html'>parallel::detectCores()</a></code> reports the system has.</p></dd>
+
+<dt><span class="option">parallelly.availableCores.reserve</span> / <span class="option">future.availableCores.reserve</span>:</dt><dd><p>(integer) Number of cores to set aside, i.e. not to include.  If not specified, this option is set according to system environment variable <code class="env">R_PARALLELLY_AVAILABLECORES_RESERVE</code> when the <span class="pkg">parallelly</span> package is <em>loaded</em>.</p></dd>
 
 <dt><span class="option">parallelly.availableWorkers.methods</span> / <span class="option">future.availableWorkers.methods</span>:</dt><dd><p>(character vector) Default lookup methods for <code><a href='availableWorkers.html'>availableWorkers()</a></code>. (Default: <code><a href='https://rdrr.io/r/base/c.html'>c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")</a></code>)</p></dd>
 

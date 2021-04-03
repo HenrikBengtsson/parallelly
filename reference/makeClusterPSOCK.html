@@ -109,7 +109,7 @@ R workers, and how to connect to external machines." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.24.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.24.0-9001</span>
       </span>
     </div>
 
@@ -480,11 +480,11 @@ to an external host.</p>
 system executable for this is given by argument <code>rshcmd</code>.  The default
 is given by option <span class="option">parallelly.makeNodePSOCK.rshcmd</span>.  If that is not
 set, then the default is to use <code class='command'>ssh</code> on Unix-like systems,
-including macOS.  On MS Windows systems, including Windows 10, the
-default is to use (i) <code class='command'>plink</code> from the
-<a href='https://www.putty.org/'><code class='command'>PuTTY</code></a> project,
-(ii) the <code class='command'>ssh</code> client that is distributed with RStudio, and lastly
-(iii) the <code class='command'>ssh</code> client that comes with Windows 10.</p>
+including macOS as well as Windows 10.  On older MS Windows versions, which
+does not have a built-in <code class='command'>ssh</code> client, the default is to use
+(i) <code class='command'>plink</code> from the <a href='https://www.putty.org/'><code class='command'>PuTTY</code></a>
+project, and then (ii) the <code class='command'>ssh</code> client that is distributed with
+RStudio.</p>
 <p>PuTTY puts itself on Windows' system <code class="env">PATH</code> when installed, meaning this
 function will find PuTTY automatically if installed.  If not, to manually
 set specify PuTTY as the SSH client, specify the absolute pathname of
@@ -505,15 +505,6 @@ by specifying them in argument <code>rshcmd</code> or via option
 <code>rshcmd = c("&lt;rstudio-ssh&gt;", "&lt;putty-plink&gt;", "&lt;ssh&gt;")</code>.  See
 below for examples.</p>
 <p>If no SSH-client is found, an informative error message is produced.</p>
-<p>(*) <em>Windows 10 has a <code class='command'>ssh</code> built-in since version 1803 (April 2018).
-However, there is a bug in that SSH client that prevents it to work with
-reverse SSH tunneling
-(<a href='https://github.com/PowerShell/Win32-OpenSSH/issues/1265'>https://github.com/PowerShell/Win32-OpenSSH/issues/1265</a>; Oct 2018).
-The most recent version that we tested and that did <em>not</em> work was
-OpenSSH_for_Windows_7.7p1, LibreSSL 2.6.5 (<code>ssh -V</code>) on
-Windows 10 (version 1909, OS build 18363.720) (<code>ver</code>).
-Because of this, it is recommended to use the PuTTY SSH client or the
-RStudio SSH client until this bug has been resolved in Windows 10.</em></p>
 <p>Additional SSH options may be specified via argument <code>rshopts</code>, which
 defaults to option <span class="option">parallelly.makeNodePSOCK.rshopts</span>. For instance, a
 private SSH key can be provided as

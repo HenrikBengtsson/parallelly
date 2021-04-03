@@ -101,7 +101,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.24.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.24.0-9001</span>
       </span>
     </div>
 
@@ -212,7 +212,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>memory</th>
-      <td><p>(character) The time period used to infer the system load.</p></td>
+      <td><p>(character) The time period used to infer the system load,
+with alternatives being 5 minutes (default), 15 minutes, or 1 minute.</p></td>
     </tr>
     <tr>
       <th>fraction</th>
@@ -241,7 +242,7 @@ argument <code>fraction</code> (numeric).</p>
 </div><div class='output co'>#&gt; [1] 6
 #&gt; attr(,"loadavg")
 #&gt;  1min  5min 15min 
-#&gt;  0.47  0.47  0.49 
+#&gt;  0.49  0.81  0.85 
 #&gt; attr(,"maxCores")
 #&gt; system 
 #&gt;      8 
