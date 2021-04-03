@@ -580,7 +580,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   if (is.null(master)) {
     if (localMachine || revtunnel) {
-      master <- "localhost"
+      master <- getOptionOrEnvVar("parallelly.localhost.hostname", "localhost")
     } else {
       master <- Sys.info()[["nodename"]]
     }
@@ -823,10 +823,13 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
     ## Reverse tunneling?
     if (revtunnel) {
-      if (isTRUE(attr(rshcmd, "OpenSSH_for_Windows"))) {
-         ## WORKAROUND: Avoid revtunnel bug in Windows 10's ssh client:
-         ## https://github.com/PowerShell/Win32-OpenSSH/issues/1265#issuecomment-637085238
-         if (master == "localhost") master <- "127.0.0.1"
+      ## WORKAROUND: Avoid revtunnel bug in Windows 10's ssh client:
+      ## https://github.com/PowerShell/Win32-OpenSSH/issues/1265#issuecomment-637085238
+      if (master == "localhost" && .Platform$OS.type == "windows" && (
+           isTRUE(attr(rshcmd, "OpenSSH_for_Windows")) ||
+           basename(rshcmd) == "ssh"
+         )) {
+        master <- "127.0.0.1"
       }
       rshopts <- c(sprintf("-R %d:%s:%d", rscript_port, master, port), rshopts)
     }
