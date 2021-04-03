@@ -580,10 +580,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   if (is.null(master)) {
     if (localMachine || revtunnel) {
-      ## Workaround for bug in Windows 10's ssh client:
-      ## https://github.com/PowerShell/Win32-OpenSSH/issues/1265#issuecomment-637085238
-      master <- if (.Platform$OS.type == "windows") "127.0.0.1" else "localhost"
-      master <- getOption("parallelly.localhost.hostname", master)
+      master <- "localhost"
     } else {
       master <- Sys.info()[["nodename"]]
     }
@@ -826,15 +823,12 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
     ## Reverse tunneling?
     if (revtunnel) {
-      rshopts <- c(sprintf("-R %d:%s:%d", rscript_port, master, port), rshopts)
-      ## AD HOC: Warn about Windows 10 SSH bug with rev tunneling
       if (isTRUE(attr(rshcmd, "OpenSSH_for_Windows"))) {
-         ver <- windows_build_version()
-         if (!is.null(ver) && ver <= "10.0.17763.253") {
-           msg <- sprintf("WARNING: You're running Windows 10 (build %s) where this 'rshcmd' (%s) may not support reverse tunneling (revtunnel = TRUE) resulting in worker failing to launch", ver, paste(sQuote(rshcmd), collapse = ", "), rshcmd_label)
-           if (verbose) message(c(verbose_prefix, msg))
-         }
+         ## WORKAROUND: Avoid revtunnel bug in Windows 10's ssh client:
+         ## https://github.com/PowerShell/Win32-OpenSSH/issues/1265#issuecomment-637085238
+         if (master == "localhost") master <- "127.0.0.1"
       }
+      rshopts <- c(sprintf("-R %d:%s:%d", rscript_port, master, port), rshopts)
     }
     
     ## SSH log file?
