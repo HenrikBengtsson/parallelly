@@ -9,9 +9,9 @@ SIGNIFICANT CHANGES:
    This means that regardless whether you are on Linux, macOS, or Windows 10,
    setting up parallel workers on external machines over SSH finally works out
    of the box without having to install PuTTY or other SSH clients. This was
-   possible because a workaround was found against its bug that prevents it
+   possible because a workaround was found for a Windows 10 bug preventing us
    from using reverse tunneling over SSH.  It turns out the bug reveals itself
-   when using hostname 'localhost' but not '127.0.0.1'.
+   when using hostname 'localhost' but not '127.0.0.1', so we use the latter.
    
 NEW FEATURES:
    
