@@ -61,6 +61,8 @@ cl <- parallelly::makeClusterPSOCK(2, autoStop = TRUE)
 
 The `availableCores()` function is designed as a better, safer alternative to `detectCores()` of the **parallel** package.  It is designed to be a worry-free solution for developers and end-users to query the number of available cores - a solution that plays nice on multi-tenant systems, high-performance compute (HPC) cluster, CRAN check servers, and elsewhere.
 
+Did you know that `parallel::detectCores()` might return NA on some systems, or that `parallel::detectCores() - 1` might return 0 on some systems, e.g. old hardware and virtual machines?  Because of this, you have to use `min(1, parallel::detectCores() - 1, na.rm = TRUE)` to get it correct.  In contrast, `parallelly::availableCores()` is guaranteed to return a positive integer, and you can use `parallelly::availableCores(reserve = 1)` to return all but one core and always at least 1.
+
 Just like other software tools that "hijacks" all cores by default, R scripts, and packages that defaults to `detectCores()` number of parallel workers cause lots of suffering for fellow end-users and system administrators.  For instance, a shared server with 48 cores will come to a halt already after a few users run parallel processing using `detectCores()` number of parallel workers.  This problem gets worse on machines with many cores because they can host even more concurrent users.  If these R users would have used `availableCores()` instead, then the system administrator can limit the number of cores each user get to, say, 2, by setting the environment variable `R_PARALLELLY_AVAILABLECORES_FALLBACK=2`.
 In contrast, it is _not_ possible to override what `parallel::detectCores()` returns, cf. [PR#17641 - WISH: Make parallel::detectCores() agile to new env var R_DEFAULT_CORES ](https://bugs.r-project.org/bugzilla/show_bug.cgi?id=17641).
 
@@ -72,11 +74,12 @@ The below table summarize the benefits:
 
 |                                         | availableCores() |    parallel::detectCores()    |
 | --------------------------------------- | :--------------: | :---------------------------: |
-| Guaranteed to return a positive integer |        ✓         | no (may return `NA_integer_`) |
-| Can be overridden, e.g. by a sysadm     |        ✓         |              no              |
-| Respects cgroups and Linux containers   |        ✓         |              no              |
-| Respects job scheduler allocations      |        ✓         |              no              |
-| Respects CRAN policies                  |        ✓         |              no              |
+| Guaranteed to return a positive integer |        ✓        | no (may return `NA_integer_`) |
+| Safely use all but some cores           |        ✓        | no (may return zero or less)  |
+| Can be overridden, e.g. by a sysadm     |        ✓        |              no               |
+| Respects cgroups and Linux containers   |        ✓        |              no               |
+| Respects job scheduler allocations      |        ✓        |              no               |
+| Respects CRAN policies                  |        ✓        |              no               |
 
 
 
