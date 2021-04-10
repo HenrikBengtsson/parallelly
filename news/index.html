@@ -219,7 +219,7 @@
 <h3 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New Features</h3>
 <ul>
-<li>availableCores() gained argument ‘reserve’ to make it easier to put aside zero or more cores from being used in parallel processing. For example, on a system with four cores, availableCores(reserve = 1) returns 3. Importantly, since availableCores() is guaranteed to always return a positive integer, availableCores(reserve = 4) == 1, even on systems with four or fewer cores. Using availableCores() - 4 on such systems would return a non-positive value, which would give an error downstreams.</li>
+<li>availableCores() gained argument ‘reserve’ to make it easier to put aside zero or more cores from being used in parallel processing. For example, on a system with four cores, availableCores(reserve = 1) returns 3. Importantly, since availableCores() is guaranteed to always return a positive integer, availableCores(reserve = 4) == 1, even on systems with four or fewer cores. Using availableCores() - 4 on such systems would return a non-positive value, which would give an error downstream.</li>
 </ul>
 </div>
 </div>
