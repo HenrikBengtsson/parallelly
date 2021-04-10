@@ -21,7 +21,7 @@ NEW FEATURES:
    Importantly, since availableCores() is guaranteed to always return a
    positive integer, availableCores(reserve = 4) == 1, even on systems with
    four or fewer cores.  Using availableCores() - 4 on such systems would
-   return a non-positive value, which would give an error downstreams.
+   return a non-positive value, which would give an error downstream.
    
 
 Version: 1.24.0 [2021-03-12]
