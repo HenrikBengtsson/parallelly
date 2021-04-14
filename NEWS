@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.24.0-9001 [2021-04-03]
+Version: 1.24.0-9001 [2021-04-14]
 
 SIGNIFICANT CHANGES:
 
@@ -22,7 +22,13 @@ NEW FEATURES:
    positive integer, availableCores(reserve = 4) == 1, even on systems with
    four or fewer cores.  Using availableCores() - 4 on such systems would
    return a non-positive value, which would give an error downstream.
-   
+
+BUG FIXES:
+
+ * makeClusterPSOCK(), or actually makeNodePSOCK(), did not accept all types
+   of environment variable names when using 'rscript_envs', e.g. it would
+   give an error if we tried to pass '_R_CLASS_MATRIX_ARRAY_'.
+
 
 Version: 1.24.0 [2021-03-12]
 

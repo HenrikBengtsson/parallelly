@@ -727,7 +727,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
     }
     ## Any environment variables to set?
     if (length(names) > 0L) {
-      code <- sprintf('%s="%s"', names, rscript_envs)
+      code <- sprintf('"%s"="%s"', names, rscript_envs)
       code <- paste(code, collapse = ", ")
       code <- paste0("Sys.setenv(", code, ")")
       tryCatch({
