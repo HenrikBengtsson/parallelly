@@ -1,8 +1,8 @@
 pandoc: 1.19.2.4
 pkgdown: 1.6.1.9001
-pkgdown_sha: c6bd498aa2e0ae2e15e267891aaa69c6c15ab79f
+pkgdown_sha: 8e0838e273462cec420dfa20f240c684a33425d9
 articles: {}
-last_built: 2021-04-14T21:23Z
+last_built: 2021-04-15T16:29Z
 urls:
   reference: https://parallelly.futureverse.org/reference
   article: https://parallelly.futureverse.org/articles
