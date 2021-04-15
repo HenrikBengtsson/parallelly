@@ -30,8 +30,8 @@ is supported in the current \R session.
 }
 \section{Support for process forking}{
 
-The Microsoft Windows operating system does not support processes forking.
-Unix-like operating system such as Linux and macOS support forking.
+While R supports forked processing on Unix-like operating system such as
+Linux and macOS, it does not on the Microsoft Windows operating system.
 
 For some R environments it is considered unstable to perform parallel
 processing based on \emph{forking}.
