@@ -263,7 +263,7 @@ by options and environment variables with prefixes <code>future.</code> and
 
 <dt><span class="option">parallelly.availableCores.system</span> / <span class="option">future.availableCores.system</span>:</dt><dd><p>(integer) Number of "system" cores used instead of what is reported by <code><a href='availableCores.html'>availableCores</a>(which = "system")</code>. If not specified, this option is set according to system environment variable <code class="env">R_PARALLELLY_AVAILABLECORES_SYSTEM</code> when the <span class="pkg">parallelly</span> package is <em>loaded</em>. This option allows you to effectively override what <code><a href='https://rdrr.io/r/parallel/detectCores.html'>parallel::detectCores()</a></code> reports the system has.</p></dd>
 
-<dt><span class="option">parallelly.availableCores.reserve</span> / <span class="option">future.availableCores.reserve</span>:</dt><dd><p>(integer) Number of cores to set aside, i.e. not to include.  If not specified, this option is set according to system environment variable <code class="env">R_PARALLELLY_AVAILABLECORES_RESERVE</code> when the <span class="pkg">parallelly</span> package is <em>loaded</em>.</p></dd>
+<dt><span class="option">parallelly.availableCores.omit</span> / <span class="option">future.availableCores.omit</span>:</dt><dd><p>(integer) Number of cores to set aside, i.e. not to include.  If not specified, this option is set according to system environment variable <code class="env">R_PARALLELLY_AVAILABLECORES_OMIT</code> when the <span class="pkg">parallelly</span> package is <em>loaded</em>.</p></dd>
 
 <dt><span class="option">parallelly.availableWorkers.methods</span> / <span class="option">future.availableWorkers.methods</span>:</dt><dd><p>(character vector) Default lookup methods for <code><a href='availableWorkers.html'>availableWorkers()</a></code>. (Default: <code><a href='https://rdrr.io/r/base/c.html'>c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")</a></code>)</p></dd>
 
@@ -303,7 +303,7 @@ by options and environment variables with prefixes <code>future.</code> and
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9001.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9002.</p>
 </div>
 
       </footer>
