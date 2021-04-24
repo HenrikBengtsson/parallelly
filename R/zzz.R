@@ -3,7 +3,10 @@
   debug <- isTRUE(as.logical(getEnvVar2("R_PARALLELLY_DEBUG", "FALSE")))
   if (debug) options(parallelly.debug = TRUE)
   debug <- getOption2("parallelly.debug", debug)
-  
+
+  ## Set package options based on environment variables
+  update_package_options(debug = debug)
+
   ## Automatically play nice when 'R CMD check' runs?
   if (isTRUE(as.logical(getEnvVar2("R_PARALLELLY_R_CMD_CHECK_NICE", "TRUE"))) && inRCmdCheck()) {
     if (debug) mdebug("Detected 'R CMD check':\n - adjusting defaults to be a good citizen")
@@ -46,83 +49,5 @@
     envs <- envs[grep(pattern, names(envs))]
     envs <- sprintf("- %s=%s", names(envs), sQuote(envs))
     mdebug(paste(c("parallelly-specific environment variables:", envs), collapse = "\n"))
-  }
-
-  ## Unless already set, set option 'parallelly.availableCores.fallback'
-  ## according to environment variable 'R_PARALLELLY_AVAILABLECORES_FALLBACK'.
-  ncores <- getOption2("parallelly.availableCores.fallback", NULL)
-  if (is.null(ncores)) {
-    ncores <- trim(getEnvVar2("R_PARALLELLY_AVAILABLECORES_FALLBACK", ""))
-    if (nzchar(ncores)) {
-      if (debug) mdebugf("R_PARALLELLY_AVAILABLECORES_FALLBACK=%s", sQuote(ncores))
-      if (is.element(ncores, c("NA_integer_", "NA"))) {
-        ncores <- NA_integer_
-      } else {
-        ncores <- as.integer(ncores)
-      }
-      if (debug) mdebugf(" => options(parallelly.availableCores.fallback = %d)", ncores)
-      options(parallelly.availableCores.fallback = ncores)
-    }
-    ncores <- getOption2("parallelly.availableCores.fallback", NULL)
-  }
-  if (!is.null(ncores)) {
-    if (debug) mdebugf("Option 'parallelly.availableCores.fallback = %d", ncores)
-  }
-  
-  ## Unless already set, set option 'parallelly.availableCores.system'
-  ## according to environment variable 'R_PARALLELLY_AVAILABLECORES_SYSTEM'.
-  ncores <- getOption2("parallelly.availableCores.system")
-  if (is.null(ncores)) {
-    ncores <- trim(getEnvVar2("R_PARALLELLY_AVAILABLECORES_SYSTEM", ""))
-    if (nzchar(ncores)) {
-      if (debug) mdebugf("R_PARALLELLY_AVAILABLECORES_SYSTEM=%s", sQuote(ncores))
-      if (is.element(ncores, c("NA_integer_", "NA"))) {
-        ncores <- NA_integer_
-      } else {
-        ncores <- as.integer(ncores)
-      }
-      if (debug) mdebugf(" => options(parallelly.availableCores.system = %d)", ncores)
-      options(parallelly.availableCores.system = ncores)
-    }
-    ncores <- getOption2("parallelly.availableCores.system", NULL)
-  }
-  if (!is.null(ncores)) {
-    if (debug) mdebugf("Option 'parallelly.availableCores.system = %d", ncores)
-  }
-
-  ## Unless already set, set option 'parallelly.availableCores.logical'
-  ## according to environment variable 'R_PARALLELLY_AVAILABLECORES_LOGICAL'.
-  logical <- getOption2("parallelly.availableCores.logical")
-  if (is.null(logical)) {
-    logical <- trim(getEnvVar2("R_PARALLELLY_AVAILABLECORES_LOGICAL", ""))
-    if (nzchar(logical)) {
-      if (debug) mdebugf("R_PARALLELLY_AVAILABLECORES_LOGICAL=%s", sQuote(logical))
-      logical <- as.logical(logical)
-      if (debug) mdebugf(" => options(parallelly.availableCores.logical = %s)", logical)
-      options(parallelly.availableCores.logical = logical)
-    }
-    logical <- getOption2("parallelly.availableCores.logical", NULL)
-  }
-  if (!is.null(logical)) {
-    if (debug) mdebugf("Option 'parallelly.availableCores.logical = %s", logical)
-  }
-
-  ## Unless already set, set option 'parallelly.availableCores.omit'
-  ## according to environment variable 'R_PARALLELLY_AVAILABLECORES_OMIT'.
-  omit <- getOption2("parallelly.availableCores.omit")
-  if (is.null(omit)) {
-    omit <- trim(getEnvVar2("R_PARALLELLY_AVAILABLECORES_OMIT", ""))
-    if (nzchar(omit)) {
-      if (debug) mdebugf("R_PARALLELLY_AVAILABLECORES_OMIT=%s", sQuote(omit))
-      if (!is.element(omit, c("NA_integer_", "NA"))) {
-        omit <- as.integer(omit)
-        if (debug) mdebugf(" => options(parallelly.availableCores.omit = %d)", omit)
-        options(parallelly.availableCores.omit = omit)
-      }
-    }
-    omit <- getOption2("parallelly.availableCores.omit", NULL)
-  }
-  if (!is.null(omit)) {
-    if (debug) mdebugf("Option 'parallelly.availableCores.omit = %d", omit)
   }
 }
