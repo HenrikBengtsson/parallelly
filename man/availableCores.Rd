@@ -13,7 +13,7 @@ availableCores(
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = c(current = 1L),
   which = c("min", "max", "all"),
-  reserve = getOption2("parallelly.availableCores.reserve", 0L)
+  omit = getOption2("parallelly.availableCores.omit", 0L)
 )
 }
 \arguments{
@@ -41,7 +41,7 @@ If \code{"min"} (default), the minimum value is returned.
 If \code{"max"}, the maximum value is returned (be careful!)
 If \code{"all"}, all values are returned.}
 
-\item{reserve}{(integer; non-negative) Number of cores to not include.}
+\item{omit}{(integer; non-negative) Number of cores to not include.}
 }
 \value{
 Return a positive (>= 1) integer.
@@ -117,7 +117,7 @@ of cores.  In such cases:\if{html}{\out{<div class="r">}}\preformatted{ncores <-
 }\if{html}{\out{</div>}}
 
 may return zero, which is often not intended and is likely to give an
-error downstream.  Instead, use:\if{html}{\out{<div class="r">}}\preformatted{ncores <- availableCores(reserve = 1)
+error downstream.  Instead, use:\if{html}{\out{<div class="r">}}\preformatted{ncores <- availableCores(omit = 1)
 }\if{html}{\out{</div>}}
 
 to put aside one of the cores from being used.  Regardless how many cores
@@ -144,8 +144,8 @@ message(paste("Number of cores available:", availableCores()))
 \dontrun{
 ## IMPORTANT: availableCores() may return 1L
 options(mc.cores = 1L)
-ncores <- availableCores() - 1         ## ncores = 0
-ncores <- availableCores(reserve = 1)  ## ncores = 1
+ncores <- availableCores() - 1      ## ncores = 0
+ncores <- availableCores(omit = 1)  ## ncores = 1
 message(paste("Number of cores to use:", ncores))
 }
 

@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.24.0-9001 [2021-04-14]
+Version: 1.24.0-9001 [2021-04-23]
 
 SIGNIFICANT CHANGES:
 
@@ -15,11 +15,11 @@ SIGNIFICANT CHANGES:
    
 NEW FEATURES:
    
- * availableCores() gained argument 'reserve' to make it easier to put aside
+ * availableCores() gained argument 'omit' to make it easier to put aside
    zero or more cores from being used in parallel processing.  For example,
-   on a system with four cores, availableCores(reserve = 1) returns 3.
+   on a system with four cores, availableCores(omit = 1) returns 3.
    Importantly, since availableCores() is guaranteed to always return a
-   positive integer, availableCores(reserve = 4) == 1, even on systems with
+   positive integer, availableCores(omit = 4) == 1, even on systems with
    four or fewer cores.  Using availableCores() - 4 on such systems would
    return a non-positive value, which would give an error downstream.
 

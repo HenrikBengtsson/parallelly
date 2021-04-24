@@ -27,7 +27,7 @@
 #' If `"max"`, the maximum value is returned (be careful!)
 #' If `"all"`, all values are returned.
 #'
-#' @param reserve (integer; non-negative) Number of cores to not include.
+#' @param omit (integer; non-negative) Number of cores to not include.
 #'
 #' @return Return a positive (>= 1) integer.
 #' If `which = "all"`, then more than one value may be returned.
@@ -103,7 +103,7 @@
 #' error downstream.  Instead, use:
 #'
 #' ```r
-#' ncores <- availableCores(reserve = 1)
+#' ncores <- availableCores(omit = 1)
 #' ```
 #'
 #' to put aside one of the cores from being used.  Regardless how many cores
@@ -127,8 +127,8 @@
 #' \dontrun{
 #' ## IMPORTANT: availableCores() may return 1L
 #' options(mc.cores = 1L)
-#' ncores <- availableCores() - 1         ## ncores = 0
-#' ncores <- availableCores(reserve = 1)  ## ncores = 1
+#' ncores <- availableCores() - 1      ## ncores = 0
+#' ncores <- availableCores(omit = 1)  ## ncores = 1
 #' message(paste("Number of cores to use:", ncores))
 #' }
 #'
@@ -154,7 +154,7 @@
 #'
 #' @importFrom parallel detectCores
 #' @export
-availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), reserve = getOption2("parallelly.availableCores.reserve", 0L)) {
+availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
   ## Local functions
   getenv <- function(name, mode = "integer") {
     value <- trim(Sys.getenv(name, NA_character_))
@@ -171,9 +171,9 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
   which <- match.arg(which, choices = c("min", "max", "all"))
   stop_if_not(length(default) == 1, is.finite(default), default >= 1L)
 
-  stop_if_not(length(reserve) == 1L, is.numeric(reserve),
-              is.finite(reserve), reserve >= 0L)
-  reserve <- as.integer(reserve)
+  stop_if_not(length(omit) == 1L, is.numeric(omit),
+              is.finite(omit), omit >= 0L)
+  omit <- as.integer(omit)
   
   ncores <- rep(NA_integer_, times = length(methods))
   names(ncores) <- methods
@@ -347,9 +347,9 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     }
   }
 
-  ## Reserve some of the cores?
-  if (reserve > 0L) {
-    ncores <- ncores - reserve
+  ## Omit some of the cores?
+  if (omit > 0L) {
+    ncores <- ncores - omit
     ncores[ncores < 1L] <- 1L
   }
 

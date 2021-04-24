@@ -107,22 +107,22 @@
     if (debug) mdebugf("Option 'parallelly.availableCores.logical = %s", logical)
   }
 
-  ## Unless already set, set option 'parallelly.availableCores.reserve'
-  ## according to environment variable 'R_PARALLELLY_AVAILABLECORES_RESERVE'.
-  reserve <- getOption2("parallelly.availableCores.reserve")
-  if (is.null(reserve)) {
-    reserve <- trim(getEnvVar2("R_PARALLELLY_AVAILABLECORES_RESERVE", ""))
-    if (nzchar(reserve)) {
-      if (debug) mdebugf("R_PARALLELLY_AVAILABLECORES_RESERVE=%s", sQuote(reserve))
-      if (!is.element(reserve, c("NA_integer_", "NA"))) {
-        reserve <- as.integer(reserve)
-        if (debug) mdebugf(" => options(parallelly.availableCores.reserve = %d)", reserve)
-        options(parallelly.availableCores.reserve = reserve)
+  ## Unless already set, set option 'parallelly.availableCores.omit'
+  ## according to environment variable 'R_PARALLELLY_AVAILABLECORES_OMIT'.
+  omit <- getOption2("parallelly.availableCores.omit")
+  if (is.null(omit)) {
+    omit <- trim(getEnvVar2("R_PARALLELLY_AVAILABLECORES_OMIT", ""))
+    if (nzchar(omit)) {
+      if (debug) mdebugf("R_PARALLELLY_AVAILABLECORES_OMIT=%s", sQuote(omit))
+      if (!is.element(omit, c("NA_integer_", "NA"))) {
+        omit <- as.integer(omit)
+        if (debug) mdebugf(" => options(parallelly.availableCores.omit = %d)", omit)
+        options(parallelly.availableCores.omit = omit)
       }
     }
-    reserve <- getOption2("parallelly.availableCores.reserve", NULL)
+    omit <- getOption2("parallelly.availableCores.omit", NULL)
   }
-  if (!is.null(reserve)) {
-    if (debug) mdebugf("Option 'parallelly.availableCores.reserve = %d", reserve)
+  if (!is.null(omit)) {
+    if (debug) mdebugf("Option 'parallelly.availableCores.omit = %d", omit)
   }
 }
