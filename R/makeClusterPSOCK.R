@@ -803,6 +803,10 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
       if (is.null(attr(rshcmd, "type"))) attr(rshcmd, "type") <- "<unknown>"
       if (is.null(attr(rshcmd, "version"))) attr(rshcmd, "version") <- "<unknown>"
     }
+    
+    ## Holds a pathname with an optional set of command-line options
+    stop_if_not(is.character(rshcmd), length(rshcmd) >= 1L)
+    
     s <- sprintf("type=%s, version=%s", sQuote(attr(rshcmd, "type")), sQuote(attr(rshcmd, "version")))
     rshcmd_label <- sprintf("%s [%s]", paste(sQuote(rshcmd), collapse = ", "), s)
 
@@ -817,7 +821,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
       ## https://github.com/PowerShell/Win32-OpenSSH/issues/1265#issuecomment-637085238
       if (master == "localhost" && .Platform$OS.type == "windows" && (
            isTRUE(attr(rshcmd, "OpenSSH_for_Windows")) ||
-           basename(rshcmd) == "ssh"
+           basename(rshcmd[1]) == "ssh"
          )) {
         master <- "127.0.0.1"
       }
@@ -980,7 +984,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
        ## Log file?
        if (is.character(rshlogfile)) {
-         smsg <- sprintf("Inspect the content of log file %s for %s.", sQuote(rshlogfile), sQuote(rshcmd))
+         smsg <- sprintf("Inspect the content of log file %s for %s.", sQuote(rshlogfile), paste(sQuote(rshcmd), collapse = " "))
          lmsg <- tryCatch(readLines(rshlogfile, n = 15L, warn = FALSE), error = function(ex) NULL)
          if (length(lmsg) > 0) {
            lmsg <- sprintf("     %2d: %s", seq_along(lmsg), lmsg)
@@ -988,7 +992,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
          }
          suggestions <- c(suggestions, smsg)
        } else {
-         suggestions <- c(suggestions, sprintf("Set 'rshlogfile=TRUE' to enable logging for %s.", sQuote(rshcmd)))
+         suggestions <- c(suggestions, sprintf("Set 'rshlogfile=TRUE' to enable logging for %s.", paste(sQuote(rshcmd), collapse = " ")))
        }
        
        ## Special: Windows 10 ssh client may not support reverse tunneling. /2018-11-10
@@ -1120,6 +1124,9 @@ is_fqdn <- function(worker) {
 #' is produced, otherwise only a warning.
 #'
 #' @return A named list of pathnames to all located SSH clients.
+#' The pathnames may be followed by zero or more command-line options,
+#' i.e. the elements of the returned list are character vectors of length
+#' one or more.
 #' If `first = TRUE`, only the first one is returned.
 #' Attribute `version` contains the output from querying the
 #' executable for its version (via command-line option `-V`).
@@ -1128,7 +1135,9 @@ is_fqdn <- function(worker) {
 find_rshcmd <- function(which = NULL, first = FALSE, must_work = TRUE) {
   query_version <- function(bin, args = "-V") {
     v <- suppressWarnings(system2(bin, args = args, stdout = TRUE, stderr = TRUE))
-    paste(v, collapse = "; ")
+    v <- paste(v, collapse = "; ")
+    stop_if_not(length(v) == 1L)
+    v
   }
   
   find_rstudio_ssh <- function() {
