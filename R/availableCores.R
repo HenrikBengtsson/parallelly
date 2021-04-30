@@ -23,9 +23,11 @@
 #' settings are available.
 #'
 #' @param which A character specifying which settings to return.
-#' If `"min"`, the minimum value is returned.
+#' If `"min"` (default), the minimum value is returned.
 #' If `"max"`, the maximum value is returned (be careful!)
 #' If `"all"`, all values are returned.
+#'
+#' @param omit (integer; non-negative) Number of cores to not include.
 #'
 #' @return Return a positive (>= 1) integer.
 #' If `which = "all"`, then more than one value may be returned.
@@ -55,7 +57,7 @@
 #'  \item `"PBS"` -
 #'    Query TORQUE/PBS environment variables \env{PBS_NUM_PPN} and \env{NCPUS}.
 #'    Depending on PBS system configuration, these _resource_
-#'    parameter may or may not default to one.
+#'    parameters may or may not default to one.
 #'    An example of a job submission that results in this is
 #'    `qsub -l nodes=1:ppn=2`, which requests one node with two cores.
 #'  \item `"SGE"` -
@@ -89,18 +91,23 @@
 #' variable is queried.  If neither is set, a missing value is returned.
 #'
 #' @section Avoid ending up with zero cores:
-#' Note that `availableCores()` may return a single core.  Because of this,
-#' using something like:
+#' Note that some machines might have a limited number of cores, or the R
+#' process runs in a container or a cgroup that only provides a small number
+#' of cores.  In such cases:
 #'
 #' ```r
 #' ncores <- availableCores() - 1
 #' ```
 #'
-#' may return zero, which is often not intended.  Instead, use:
+#' may return zero, which is often not intended and is likely to give an
+#' error downstream.  Instead, use:
 #'
 #' ```r
-#' ncores <- max(1, availableCores() - 1)
+#' ncores <- availableCores(omit = 1)
 #' ```
+#'
+#' to put aside one of the cores from being used.  Regardless how many cores
+#' you put aside, this function is guaranteed to return at least one core.
 #'
 #' @section Advanced usage:
 #' It is possible to override the maximum number of cores on the machine
@@ -120,7 +127,8 @@
 #' \dontrun{
 #' ## IMPORTANT: availableCores() may return 1L
 #' options(mc.cores = 1L)
-#' ncores <- max(1, availableCores() - 1)
+#' ncores <- availableCores() - 1      ## ncores = 0
+#' ncores <- availableCores(omit = 1)  ## ncores = 1
 #' message(paste("Number of cores to use:", ncores))
 #' }
 #'
@@ -128,7 +136,8 @@
 #' ## Use 75% of the cores on the system but never more than four
 #' options(parallelly.availableCores.custom = function() {
 #'   ncores <- max(parallel::detectCores(), 1L, na.rm = TRUE)
-#'   min(0.75 * ncores, 4L)
+#'   ncores <- min(as.integer(0.75 * ncores), 4L)
+#'   max(1L, ncores)
 #' })
 #' message(paste("Number of cores available:", availableCores()))
 #'
@@ -145,7 +154,7 @@
 #'
 #' @importFrom parallel detectCores
 #' @export
-availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all")) {
+availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
   ## Local functions
   getenv <- function(name, mode = "integer") {
     value <- trim(Sys.getenv(name, NA_character_))
@@ -162,6 +171,10 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
   which <- match.arg(which, choices = c("min", "max", "all"))
   stop_if_not(length(default) == 1, is.finite(default), default >= 1L)
 
+  stop_if_not(length(omit) == 1L, is.numeric(omit),
+              is.finite(omit), omit >= 0L)
+  omit <- as.integer(omit)
+  
   ncores <- rep(NA_integer_, times = length(methods))
   names(ncores) <- methods
   for (kk in seq_along(methods)) {
@@ -332,6 +345,12 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
       ## to reflect that only a single core is available
       if (!supportsMulticore()) ncores[] <- 1L
     }
+  }
+
+  ## Omit some of the cores?
+  if (omit > 0L) {
+    ncores <- ncores - omit
+    ncores[ncores < 1L] <- 1L
   }
 
   ## Sanity check

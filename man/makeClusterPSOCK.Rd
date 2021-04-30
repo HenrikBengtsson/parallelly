@@ -220,11 +220,11 @@ The default method for connecting to an external host is via SSH and the
 system executable for this is given by argument \code{rshcmd}.  The default
 is given by option \option{parallelly.makeNodePSOCK.rshcmd}.  If that is not
 set, then the default is to use \command{ssh} on Unix-like systems,
-including macOS.  On MS Windows systems, including Windows 10, the
-default is to use (i) \command{plink} from the
-\href{https://www.putty.org/}{\command{PuTTY}} project,
-(ii) the \command{ssh} client that is distributed with RStudio, and lastly
-(iii) the \command{ssh} client that comes with Windows 10.
+including macOS as well as Windows 10.  On older MS Windows versions, which
+does not have a built-in \command{ssh} client, the default is to use
+(i) \command{plink} from the \href{https://www.putty.org/}{\command{PuTTY}}
+project, and then (ii) the \command{ssh} client that is distributed with
+RStudio.
 
 PuTTY puts itself on Windows' system \env{PATH} when installed, meaning this
 function will find PuTTY automatically if installed.  If not, to manually
@@ -249,16 +249,6 @@ by specifying them in argument \code{rshcmd} or via option
 below for examples.
 
 If no SSH-client is found, an informative error message is produced.
-
-(*) \emph{Windows 10 has a \command{ssh} built-in since version 1803 (April 2018).
-However, there is a bug in that SSH client that prevents it to work with
-reverse SSH tunneling
-(\url{https://github.com/PowerShell/Win32-OpenSSH/issues/1265}; Oct 2018).
-The most recent version that we tested and that did \emph{not} work was
-OpenSSH_for_Windows_7.7p1, LibreSSL 2.6.5 (\code{ssh -V}) on
-Windows 10 (version 1909, OS build 18363.720) (\code{ver}).
-Because of this, it is recommended to use the PuTTY SSH client or the
-RStudio SSH client until this bug has been resolved in Windows 10.}
 
 Additional SSH options may be specified via argument \code{rshopts}, which
 defaults to option \option{parallelly.makeNodePSOCK.rshopts}. For instance, a
@@ -423,9 +413,10 @@ calling \code{makeClusterPSOCK()}.
 }
 
 \examples{
+options(parallelly.debug = TRUE)
+
 ## NOTE: Drop 'dryrun = TRUE' below in order to actually connect.  Add
 ## 'verbose = TRUE' if you run into problems and need to troubleshoot.
-
 
 ## EXAMPLE: Two workers on the local machine
 workers <- c("localhost", "localhost")

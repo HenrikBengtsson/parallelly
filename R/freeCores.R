@@ -1,6 +1,7 @@
 #' Get the Average Number of Free CPU Cores
 #'
-#' @param memory (character) The time period used to infer the system load.
+#' @param memory (character) The time period used to infer the system load,
+#' with alternatives being 5 minutes (default), 15 minutes, or 1 minute.
 #'
 #' @param fraction (non-negative numeric) A scale factor.
 #'

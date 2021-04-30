@@ -20,8 +20,8 @@
 #'         otherwise FALSE.
 #'
 #' @section Support for process forking:
-#' The Microsoft Windows operating system does not support processes forking.
-#' Unix-like operating system such as Linux and macOS support forking.
+#' While R supports forked processing on Unix-like operating system such as
+#' Linux and macOS, it does not on the Microsoft Windows operating system.
 #'
 #' For some R environments it is considered unstable to perform parallel
 #' processing based on _forking_.
@@ -33,12 +33,12 @@
 #' time time this function is called in an \R session.
 #' This warning can be disabled by setting R option
 #' \option{parallelly.supportsMulticore.unstable}, or environment variable
-#' \env{R_FUTURE_SUPPORTSMULTICORE_UNSTABLE} to `"quiet"`.
+#' \env{R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE} to `"quiet"`.
 #'
 #' @section Enable or disable forked processing:
 #' It is possible to disable forked processing for futures by setting \R
 #' option \option{parallelly.fork.enable} to `FALSE`.  Alternatively, one can
-#' set environment variable \env{R_FUTURE_FORK_ENABLE} to `false`.
+#' set environment variable \env{R_PARALLELLY_FORK_ENABLE} to `false`.
 #' Analogously, it is possible to override disabled forking by setting one
 #' of these to `TRUE`.
 #'

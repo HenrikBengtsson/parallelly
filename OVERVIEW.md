@@ -1,5 +1,3 @@
-![Life cycle: maturing](man/figures/lifecycle-maturing-blue.svg)
-
 The **parallelly** package provides functions that enhance the **parallel** packages.  For example, `availableCores()` gives the number of CPU cores available to your R process as given by R options and environment variables, including those set by job schedulers on high-performance compute (HPC) clusters.  If R runs under 'cgroups' or a Linux container, then their settings are acknowledges too.  If nothing else is set, the it will fall back to `parallel::detectCores()`.  Another example is `makeClusterPSOCK()`, which is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up remote cluster workers without having to know your local public IP address and configuring the firewall to do port-forwarding to your local computer.  The functions and features added to this package are written to be backward compatible with the **parallel** package, such that they may be incorporated there later.  The **parallelly** package comes with an open invitation for the R Core Team to adopt all or parts of its code into the **parallel** package.
 
 ## Feature Comparison 'parallelly' vs 'parallel' 
@@ -50,6 +48,8 @@ cl <- parallelly::makeClusterPSOCK(2, autoStop = TRUE)
 
 The `availableCores()` function is designed as a better, safer alternative to `detectCores()` of the **parallel** package.  It is designed to be a worry-free solution for developers and end-users to query the number of available cores - a solution that plays nice on multi-tenant systems, high-performance compute (HPC) cluster, CRAN check servers, and elsewhere.
 
+Did you know that `parallel::detectCores()` might return NA on some systems, or that `parallel::detectCores() - 1` might return 0 on some systems, e.g. old hardware and virtual machines?  Because of this, you have to use `min(1, parallel::detectCores() - 1, na.rm = TRUE)` to get it correct.  In contrast, `parallelly::availableCores()` is guaranteed to return a positive integer, and you can use `parallelly::availableCores(omit = 1)` to return all but one core and always at least 1.
+
 Just like other software tools that "hijacks" all cores by default, R scripts, and packages that defaults to `detectCores()` number of parallel workers cause lots of suffering for fellow end-users and system administrators.  For instance, a shared server with 48 cores will come to a halt already after a few users run parallel processing using `detectCores()` number of parallel workers.  This problem gets worse on machines with many cores because they can host even more concurrent users.  If these R users would have used `availableCores()` instead, then the system administrator can limit the number of cores each user get to, say, 2, by setting the environment variable `R_PARALLELLY_AVAILABLECORES_FALLBACK=2`.
 In contrast, it is _not_ possible to override what `parallel::detectCores()` returns, cf. [PR#17641 - WISH: Make parallel::detectCores() agile to new env var R_DEFAULT_CORES ](https://bugs.r-project.org/bugzilla/show_bug.cgi?id=17641).
 
@@ -61,17 +61,18 @@ The below table summarize the benefits:
 
 |                                         | availableCores() |    parallel::detectCores()    |
 | --------------------------------------- | :--------------: | :---------------------------: |
-| Guaranteed to return a positive integer |        ✓         | no (may return `NA_integer_`) |
-| Can be overridden, e.g. by a sysadm     |        ✓         |              no              |
-| Respects cgroups and Linux containers   |        ✓         |              no              |
-| Respects job scheduler allocations      |        ✓         |              no              |
-| Respects CRAN policies                  |        ✓         |              no              |
+| Guaranteed to return a positive integer |        ✓        | no (may return `NA_integer_`) |
+| Safely use all but some cores           |        ✓        | no (may return zero or less)  |
+| Can be overridden, e.g. by a sysadm     |        ✓        |              no               |
+| Respects cgroups and Linux containers   |        ✓        |              no               |
+| Respects job scheduler allocations      |        ✓        |              no               |
+| Respects CRAN policies                  |        ✓        |              no               |
 
 
 
 ## Backward compatibility with the future package
 
-The functions in this package originate from the **[future](https://cran.r-project.org/package=future)** package where we have used and validated them for several years.  I moved these functions to this separate package, because they are also useful outside of the future framework.  For backward-compatibility reasons of the future framework, the names of R options and environment variables are still prefixed as `future.*` and `R_FUTURE_*`.  However, ditto prefixed with `parallelly.*` and `R_PARALLELLY_*` are also recognized.  The latter will eventually become the new defaults.
+The functions in this package originate from the **[future](https://cran.r-project.org/package=future)** package where we have used and validated them for several years.  I moved these functions to this separate package, because they are also useful outside of the future framework.  For backward-compatibility reasons of the future framework, the R options and environment variables that are prefixed with `parallelly.*` and `R_PARALLELLY_*` can for the time being also be set with `future.*` and `R_FUTURE_*` prefixes.
 
 
 ## Roadmap

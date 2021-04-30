@@ -10,7 +10,7 @@
 #' @param default The default set of workers.
 #'
 #' @param which A character specifying which set / sets to return.
-#' If `"auto"`, the first non-empty set found.
+#' If `"auto"` (default), the first non-empty set found.
 #' If `"min"`, the minimum value is returned.
 #' If `"max"`, the maximum value is returned (be careful!)
 #' If `"all"`, all values are returned.

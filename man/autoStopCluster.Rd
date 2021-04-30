@@ -21,6 +21,8 @@ Registers a finalizer to a cluster such that the cluster will
 be stopped when garbage collected
 }
 \examples{
+options(parallelly.debug = TRUE)
+
 cl <- makeClusterPSOCK(2, dryrun = TRUE)
 cl <- autoStopCluster(cl)
 print(cl)
