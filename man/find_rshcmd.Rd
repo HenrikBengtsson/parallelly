@@ -19,6 +19,9 @@ is produced, otherwise only a warning.}
 }
 \value{
 A named list of pathnames to all located SSH clients.
+The pathnames may be followed by zero or more command-line options,
+i.e. the elements of the returned list are character vectors of length
+one or more.
 If \code{first = TRUE}, only the first one is returned.
 Attribute \code{version} contains the output from querying the
 executable for its version (via command-line option \code{-V}).

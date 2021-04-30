@@ -413,9 +413,10 @@ calling \code{makeClusterPSOCK()}.
 }
 
 \examples{
+options(parallelly.debug = TRUE)
+
 ## NOTE: Drop 'dryrun = TRUE' below in order to actually connect.  Add
 ## 'verbose = TRUE' if you run into problems and need to troubleshoot.
-
 
 ## EXAMPLE: Two workers on the local machine
 workers <- c("localhost", "localhost")

@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.25.0 [2021-04-28]
+Version: 1.25.0 [2021-04-30]
 
 SIGNIFICANT CHANGES:
 
@@ -29,7 +29,10 @@ BUG FIXES:
    of environment variable names when using 'rscript_envs', e.g. it would
    give an error if we tried to pass '_R_CLASS_MATRIX_ARRAY_'.
 
-
+ * makeClusterPSOCK() had a "length > 1 in coercion to logical" bug that
+   could affect especially MS Windows 10 users.
+   
+ 
 Version: 1.24.0 [2021-03-12]
 
 SIGNIFICANT CHANGES:
