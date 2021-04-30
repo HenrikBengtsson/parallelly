@@ -115,7 +115,7 @@ R workers, and how to connect to external machines." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.24.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.25.0</span>
       </span>
     </div>
 
@@ -667,28 +667,29 @@ workers by adding <code>rscript_args = c("-e", shQuote("getRversion()"))</code> 
 calling <code>makeClusterPSOCK()</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## NOTE: Drop 'dryrun = TRUE' below in order to actually connect.  Add</span>
-<span class='co'>## 'verbose = TRUE' if you run into problems and need to troubleshoot.</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>parallelly.debug <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
+<span class='co'>## NOTE: Drop 'dryrun = TRUE' below in order to actually connect.  Add</span>
+<span class='co'>## 'verbose = TRUE' if you run into problems and need to troubleshoot.</span>
 
 <span class='co'>## EXAMPLE: Two workers on the local machine</span>
 <span class='va'>workers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"localhost"</span>, <span class='st'>"localhost"</span><span class='op'>)</span>
 <span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>makeClusterPSOCK</span><span class='op'>(</span><span class='va'>workers</span>, dryrun <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ----------------------------------------------------------------------
+</div><div class='output co'>#&gt; <span class='message'>[local output] Workers: [n = 2] ‘localhost’, ‘localhost’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Base port: 11172</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 2 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, start worker #1 on local machine ‘localhost’ with:
 #&gt; 
 #&gt;   '/home/hb/shared/software/CBI/R-4.0.4/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE
-#&gt; 
-#&gt; ----------------------------------------------------------------------
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 2 ... done</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 2 of 2 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, start worker #2 on local machine ‘localhost’ with:
 #&gt; 
 #&gt;   '/home/hb/shared/software/CBI/R-4.0.4/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE
-#&gt; </div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 2 of 2 ... done</span></div><div class='input'>
 <span class='co'>## EXAMPLE: Three remote workers</span>
 <span class='co'>## Setup of three R workers on two remote machines are set up</span>
 <span class='va'>workers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n1.remote.org"</span>, <span class='st'>"n2.remote.org"</span>, <span class='st'>"n1.remote.org"</span><span class='op'>)</span>
 <span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>makeClusterPSOCK</span><span class='op'>(</span><span class='va'>workers</span>, dryrun <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ----------------------------------------------------------------------
+</div><div class='output co'>#&gt; <span class='message'>[local output] Workers: [n = 3] ‘n1.remote.org’, ‘n2.remote.org’, ‘n1.remote.org’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Base port: 11172</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 3 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; <span class='message'>[local output] Will search for all 'rshcmd' available</span></div><div class='output co'>#&gt; <span class='message'>[local output] Found the following available 'rshcmd':</span>
+#&gt; <span class='message'>[local output]  1. ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; <span class='message'>[local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, (i) login into external machine ‘n1.remote.org’:
 #&gt; 
 #&gt;   '/usr/bin/ssh' -R 11172:localhost:11172 n1.remote.org
@@ -700,8 +701,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 #&gt; Alternatively, start worker #1 from the local machine by combining both step in a single call:
 #&gt; 
 #&gt;   '/usr/bin/ssh' -R 11172:localhost:11172 n1.remote.org "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE"
-#&gt; 
-#&gt; ----------------------------------------------------------------------
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 3 ... done</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 2 of 3 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; <span class='message'>[local output] Will search for all 'rshcmd' available</span></div><div class='output co'>#&gt; <span class='message'>[local output] Found the following available 'rshcmd':</span>
+#&gt; <span class='message'>[local output]  1. ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; <span class='message'>[local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, (i) login into external machine ‘n2.remote.org’:
 #&gt; 
 #&gt;   '/usr/bin/ssh' -R 11173:localhost:11172 n2.remote.org
@@ -713,8 +714,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 #&gt; Alternatively, start worker #2 from the local machine by combining both step in a single call:
 #&gt; 
 #&gt;   '/usr/bin/ssh' -R 11173:localhost:11172 n2.remote.org "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11173 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE"
-#&gt; 
-#&gt; ----------------------------------------------------------------------
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 2 of 3 ... done</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 3 of 3 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; <span class='message'>[local output] Will search for all 'rshcmd' available</span></div><div class='output co'>#&gt; <span class='message'>[local output] Found the following available 'rshcmd':</span>
+#&gt; <span class='message'>[local output]  1. ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; <span class='message'>[local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, (i) login into external machine ‘n1.remote.org’:
 #&gt; 
 #&gt;   '/usr/bin/ssh' -R 11174:localhost:11172 n1.remote.org
@@ -726,7 +727,7 @@ calling <code>makeClusterPSOCK()</code>.</p>
 #&gt; Alternatively, start worker #3 from the local machine by combining both step in a single call:
 #&gt; 
 #&gt;   '/usr/bin/ssh' -R 11174:localhost:11172 n1.remote.org "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11174 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE"
-#&gt; </div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 3 of 3 ... done</span></div><div class='input'>
 
 <span class='co'>## EXAMPLE: Local and remote workers</span>
 <span class='co'>## Same setup when the two machines are on the local network and</span>
@@ -736,7 +737,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
   revtunnel <span class='op'>=</span> <span class='cn'>FALSE</span>, homogeneous <span class='op'>=</span> <span class='cn'>TRUE</span>,
   dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; ----------------------------------------------------------------------
+</div><div class='output co'>#&gt; <span class='message'>[local output] Workers: [n = 3] ‘n1.remote.org’, ‘n2.remote.org’, ‘n1.remote.org’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Base port: 11172</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 3 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; <span class='message'>[local output] Will search for all 'rshcmd' available</span></div><div class='output co'>#&gt; <span class='message'>[local output] Found the following available 'rshcmd':</span>
+#&gt; <span class='message'>[local output]  1. ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; <span class='message'>[local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, (i) login into external machine ‘n1.remote.org’:
 #&gt; 
 #&gt;   '/usr/bin/ssh'  n1.remote.org
@@ -748,8 +750,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 #&gt; Alternatively, start worker #1 from the local machine by combining both step in a single call:
 #&gt; 
 #&gt;   '/usr/bin/ssh'  n1.remote.org "'/home/hb/shared/software/CBI/R-4.0.4/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=hb-x1 PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE"
-#&gt; 
-#&gt; ----------------------------------------------------------------------
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 3 ... done</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 2 of 3 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; <span class='message'>[local output] Will search for all 'rshcmd' available</span></div><div class='output co'>#&gt; <span class='message'>[local output] Found the following available 'rshcmd':</span>
+#&gt; <span class='message'>[local output]  1. ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; <span class='message'>[local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, (i) login into external machine ‘n2.remote.org’:
 #&gt; 
 #&gt;   '/usr/bin/ssh'  n2.remote.org
@@ -761,8 +763,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 #&gt; Alternatively, start worker #2 from the local machine by combining both step in a single call:
 #&gt; 
 #&gt;   '/usr/bin/ssh'  n2.remote.org "'/home/hb/shared/software/CBI/R-4.0.4/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=hb-x1 PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE"
-#&gt; 
-#&gt; ----------------------------------------------------------------------
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 2 of 3 ... done</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 3 of 3 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; <span class='message'>[local output] Will search for all 'rshcmd' available</span></div><div class='output co'>#&gt; <span class='message'>[local output] Found the following available 'rshcmd':</span>
+#&gt; <span class='message'>[local output]  1. ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; <span class='message'>[local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, (i) login into external machine ‘n1.remote.org’:
 #&gt; 
 #&gt;   '/usr/bin/ssh'  n1.remote.org
@@ -774,7 +776,7 @@ calling <code>makeClusterPSOCK()</code>.</p>
 #&gt; Alternatively, start worker #3 from the local machine by combining both step in a single call:
 #&gt; 
 #&gt;   '/usr/bin/ssh'  n1.remote.org "'/home/hb/shared/software/CBI/R-4.0.4/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=hb-x1 PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE"
-#&gt; </div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 3 of 3 ... done</span></div><div class='input'>
 <span class='co'>## EXAMPLE: Remote workers with specific setup</span>
 <span class='co'>## Setup of remote worker with more detailed control on</span>
 <span class='co'>## authentication and reverse SSH tunnelling</span>
@@ -789,7 +791,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
   rscript_args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"--vanilla"</span><span class='op'>)</span>,
   dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; ----------------------------------------------------------------------
+</div><div class='output co'>#&gt; <span class='message'>[local output] Workers: [n = 1] ‘remote.server.org’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Base port: 11942</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 1 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; <span class='message'>[local output] Will search for all 'rshcmd' available</span></div><div class='output co'>#&gt; <span class='message'>[local output] Found the following available 'rshcmd':</span>
+#&gt; <span class='message'>[local output]  1. ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; <span class='message'>[local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, (i) login into external machine ‘remote.server.org’:
 #&gt; 
 #&gt;   '/usr/bin/ssh' -l johnny -v -R 11000:gateway:11942 remote.server.org
@@ -801,7 +804,7 @@ calling <code>makeClusterPSOCK()</code>.</p>
 #&gt; Alternatively, start worker #1 from the local machine by combining both step in a single call:
 #&gt; 
 #&gt;   '/usr/bin/ssh' -l johnny -v -R 11000:gateway:11942 remote.server.org "'nice' '/path/to/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods --vanilla -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=gateway PORT=11942 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE"
-#&gt; </div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 1 ... done</span></div><div class='input'>
 <span class='co'>## EXAMPLE: Two workers running in Docker on the local machine</span>
 <span class='co'>## Setup of 2 Docker workers running rocker/r-parallel</span>
 <span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>makeClusterPSOCK</span><span class='op'>(</span>
@@ -819,16 +822,15 @@ calling <code>makeClusterPSOCK()</code>.</p>
   <span class='co'># master = "host.docker.internal",  # &lt;= macOS &amp; Windows</span>
   dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; ----------------------------------------------------------------------
+</div><div class='output co'>#&gt; <span class='message'>[local output] Workers: [n = 2] ‘localhost’, ‘localhost’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Base port: 11172</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 2 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, start worker #1 on local machine ‘localhost’ with:
 #&gt; 
 #&gt;   '/usr/bin/docker' 'run' '--net=host' 'rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE
-#&gt; 
-#&gt; ----------------------------------------------------------------------
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 2 ... done</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 2 of 2 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, start worker #2 on local machine ‘localhost’ with:
 #&gt; 
 #&gt;   '/usr/bin/docker' 'run' '--net=host' 'rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE
-#&gt; </div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 2 of 2 ... done</span></div><div class='input'>
 
 <span class='co'>## EXAMPLE: Two workers running in Singularity on the local machine</span>
 <span class='co'>## Setup of 2 Singularity workers running rocker/r-parallel</span>
@@ -841,16 +843,15 @@ calling <code>makeClusterPSOCK()</code>.</p>
   <span class='op'>)</span>,
   dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; ----------------------------------------------------------------------
+</div><div class='output co'>#&gt; <span class='message'>[local output] Workers: [n = 2] ‘localhost’, ‘localhost’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Base port: 11172</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 2 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, start worker #1 on local machine ‘localhost’ with:
 #&gt; 
 #&gt;   '/usr/local/bin/singularity' 'exec' 'docker://rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE
-#&gt; 
-#&gt; ----------------------------------------------------------------------
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 2 ... done</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 2 of 2 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, start worker #2 on local machine ‘localhost’ with:
 #&gt; 
 #&gt;   '/usr/local/bin/singularity' 'exec' 'docker://rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE
-#&gt; </div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 2 of 2 ... done</span></div><div class='input'>
 
 <span class='co'>## EXAMPLE: One worker running in udocker on the local machine</span>
 <span class='co'>## Setup of a single udocker.py worker running rocker/r-parallel</span>
@@ -868,11 +869,11 @@ calling <code>makeClusterPSOCK()</code>.</p>
   <span class='op'>)</span>,
   dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; ----------------------------------------------------------------------
+</div><div class='output co'>#&gt; <span class='message'>[local output] Workers: [n = 1] ‘localhost’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Base port: 11172</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 1 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, start worker #1 on local machine ‘localhost’ with:
 #&gt; 
 #&gt;   'udocker.py' 'run' 'rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e "'parallel:::.slaveRSOCK()'" MASTER=localhost PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE
-#&gt; </div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 1 ... done</span></div><div class='input'>
 
 <span class='co'>## EXAMPLE: Remote worker running on AWS</span>
 <span class='co'>## Launching worker on Amazon AWS EC2 running one of the</span>
@@ -901,7 +902,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
   <span class='op'>}</span><span class='op'>)</span><span class='op'>)</span>,
   dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; ----------------------------------------------------------------------
+</div><div class='output co'>#&gt; <span class='message'>[local output] Workers: [n = 1] ‘1.2.3.4’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Base port: 11172</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 1 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; <span class='message'>[local output] Will search for all 'rshcmd' available</span></div><div class='output co'>#&gt; <span class='message'>[local output] Found the following available 'rshcmd':</span>
+#&gt; <span class='message'>[local output]  1. ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; <span class='message'>[local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, (i) login into external machine ‘1.2.3.4’:
 #&gt; 
 #&gt;   '/usr/bin/ssh' -R 11172:localhost:11172 -l ubuntu -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -i ~/.ssh/my-private-aws-key.pem 1.2.3.4
@@ -913,7 +915,7 @@ calling <code>makeClusterPSOCK()</code>.</p>
 #&gt; Alternatively, start worker #1 from the local machine by combining both step in a single call:
 #&gt; 
 #&gt;   '/usr/bin/ssh' -R 11172:localhost:11172 -l ubuntu -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -i ~/.ssh/my-private-aws-key.pem 1.2.3.4 "'Rscript' -e 'invisible({local({;    p &lt;- Sys.getenv(\"R_LIBS_USER\");    dir.create(p, recursive = TRUE, showWarnings = FALSE);    .libPaths(p);    install.packages(\"future\");})})' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE"
-#&gt; </div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 1 ... done</span></div><div class='input'>
 
 <span class='co'>## EXAMPLE: Remote worker running on GCE</span>
 <span class='co'>## Launching worker on Google Cloud Engine (GCE) running a</span>
@@ -939,7 +941,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
   <span class='op'>)</span>,
   dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; ----------------------------------------------------------------------
+</div><div class='output co'>#&gt; <span class='message'>[local output] Workers: [n = 1] ‘1.2.3.4’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Base port: 11172</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 1 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; <span class='message'>[local output] Will search for all 'rshcmd' available</span></div><div class='output co'>#&gt; <span class='message'>[local output] Found the following available 'rshcmd':</span>
+#&gt; <span class='message'>[local output]  1. ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; <span class='message'>[local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.3, OpenSSL 1.0.2n  7 Dec 2017’]</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, (i) login into external machine ‘1.2.3.4’:
 #&gt; 
 #&gt;   '/usr/bin/ssh' -R 11172:localhost:11172 -l johnny -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -i ~/.ssh/google_compute_engine 1.2.3.4
@@ -951,7 +954,7 @@ calling <code>makeClusterPSOCK()</code>.</p>
 #&gt; Alternatively, start worker #1 from the local machine by combining both step in a single call:
 #&gt; 
 #&gt;   '/usr/bin/ssh' -R 11172:localhost:11172 -l johnny -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -i ~/.ssh/google_compute_engine 1.2.3.4 "'docker' 'run' '--net=host' 'rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE"
-#&gt; </div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 1 ... done</span></div><div class='input'>
 
 <span class='co'>## EXAMPLE: Remote worker running on Linux from Windows machine</span>
 <span class='co'>## Connect to remote Unix machine 'remote.server.org' on port 2200</span>
@@ -965,7 +968,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
   rshopts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"-P"</span>, <span class='fl'>2200</span>, <span class='st'>"-i"</span>, <span class='st'>"C:/Users/bobby/.ssh/putty.ppk"</span><span class='op'>)</span>,
   dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; ----------------------------------------------------------------------
+</div><div class='output co'>#&gt; <span class='message'>[local output] Workers: [n = 1] ‘remote.server.org’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Base port: 11172</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 1 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; <span class='message'>[local output] Will search for specified 'rshcmd' types: ‘&lt;putty-plink&gt;’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Found the following available 'rshcmd':</span>
+#&gt; <span class='message'>[local output]  1. ‘/home/hb/bin/plink’, ‘-ssh’ [type=‘putty-plink’, version=‘usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec];            [-D [bind_address:]port] [-E log_file] [-e escape_char];            [-F configfile] [-I pkcs11] [-i identity_file];            [-J [user@]host[:port]] [-L address] [-l login_name] [-m mac_spec];            [-O ctl_cmd] [-o option] [-p port] [-Q query_option] [-R address];            [-S ctl_path] [-W host:port] [-w local_tun[:remote_tun]];            [user@]hostname [command]’]</span></div><div class='output co'>#&gt; <span class='message'>[local output] Using 'rshcmd': ‘/home/hb/bin/plink’, ‘-ssh’ [type=‘putty-plink’, version=‘usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec];            [-D [bind_address:]port] [-E log_file] [-e escape_char];            [-F configfile] [-I pkcs11] [-i identity_file];            [-J [user@]host[:port]] [-L address] [-l login_name] [-m mac_spec];            [-O ctl_cmd] [-o option] [-p port] [-Q query_option] [-R address];            [-S ctl_path] [-W host:port] [-w local_tun[:remote_tun]];            [user@]hostname [command]’]</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, (i) login into external machine ‘remote.server.org’:
 #&gt; 
 #&gt;   '/home/hb/bin/plink' '-ssh' -R 11172:localhost:11172 -l bob -P 2200 -i C:/Users/bobby/.ssh/putty.ppk remote.server.org
@@ -977,7 +981,7 @@ calling <code>makeClusterPSOCK()</code>.</p>
 #&gt; Alternatively, start worker #1 from the local machine by combining both step in a single call:
 #&gt; 
 #&gt;   '/home/hb/bin/plink' '-ssh' -R 11172:localhost:11172 -l bob -P 2200 -i C:/Users/bobby/.ssh/putty.ppk remote.server.org "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE"
-#&gt; </div><div class='input'>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 1 ... done</span></div><div class='input'>
 
 <span class='co'>## EXAMPLE: Remote worker running on Linux from RStudio on Windows</span>
 <span class='co'>## Connect to remote Unix machine 'remote.server.org' on port 2200</span>
@@ -989,7 +993,7 @@ calling <code>makeClusterPSOCK()</code>.</p>
   <span class='st'>"remote.server.org"</span>, user <span class='op'>=</span> <span class='st'>"bob"</span>, rshcmd <span class='op'>=</span> <span class='st'>"&lt;rstudio-ssh&gt;"</span>,
   dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Failed to locate a default SSH client (checked: ‘rstudio-ssh’). Please specify one via argument 'rshcmd'. Will still try with ‘ssh’.</span></div><div class='output co'>#&gt; ----------------------------------------------------------------------
+</div><div class='output co'>#&gt; <span class='message'>[local output] Workers: [n = 1] ‘remote.server.org’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Base port: 11172</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 1 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] - setting up node</span></div><div class='output co'>#&gt; <span class='message'>[local output] - attempt #1 of 3</span></div><div class='output co'>#&gt; <span class='message'>[local output] Will search for specified 'rshcmd' types: ‘&lt;rstudio-ssh&gt;’</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Failed to locate a default SSH client (checked: ‘rstudio-ssh’). Please specify one via argument 'rshcmd'. Will still try with ‘ssh’.</span></div><div class='output co'>#&gt; <span class='message'>[local output] Found the following available 'rshcmd':</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; ----------------------------------------------------------------------
 #&gt; Manually, (i) login into external machine ‘remote.server.org’:
 #&gt; 
 #&gt;   'ssh' -R 11172:localhost:11172 -l bob remote.server.org
@@ -1001,7 +1005,7 @@ calling <code>makeClusterPSOCK()</code>.</p>
 #&gt; Alternatively, start worker #1 from the local machine by combining both step in a single call:
 #&gt; 
 #&gt;   'ssh' -R 11172:localhost:11172 -l bob remote.server.org "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'workRSOCK &lt;- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()' MASTER=localhost PORT=11172 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE"
-#&gt; </div></pre>
+#&gt; </div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='output co'>#&gt; <span class='message'>[local output] Creating node 1 of 1 ... done</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

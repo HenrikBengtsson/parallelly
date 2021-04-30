@@ -105,7 +105,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.24.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.25.0</span>
       </span>
     </div>
 
@@ -236,6 +236,9 @@ is produced, otherwise only a warning.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A named list of pathnames to all located SSH clients.
+The pathnames may be followed by zero or more command-line options,
+i.e. the elements of the returned list are character vectors of length
+one or more.
 If <code>first = TRUE</code>, only the first one is returned.
 Attribute <code>version</code> contains the output from querying the
 executable for its version (via command-line option <code>-V</code>).</p>
