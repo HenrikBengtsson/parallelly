@@ -34,8 +34,6 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -48,12 +46,18 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.25.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.25.0-9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -106,6 +110,9 @@
       <a href="https://listenv.futureverse.org">listenv</a>
     </li>
     <li>
+      <a href="https://marshal.futureverse.org">marshal</a>
+    </li>
+    <li>
       <a href="https://parallelly.futureverse.org">parallelly</a>
     </li>
     <li>
@@ -149,11 +156,11 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#parallelly-enhancing-the-parallel-package" class="anchor"></a>parallelly: Enhancing the ‘parallel’ Package <img border="0" src="reference/figures/logo.png" alt="The 'future' hexlogo" align="right">
 </h1></div>
-<p>The <strong>parallelly</strong> package provides functions that enhance the <strong>parallel</strong> packages. For example, <code><a href="reference/availableCores.html">availableCores()</a></code> gives the number of CPU cores available to your R process as given by R options and environment variables, including those set by job schedulers on high-performance compute (HPC) clusters. If R runs under ‘cgroups’ or a Linux container, then their settings are acknowledges too. If nothing else is set, the it will fall back to <code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">parallel::detectCores()</a></code>. Another example is <code><a href="reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code>, which is backward compatible with <code><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::makePSOCKcluster()</a></code> while doing a better job in setting up remote cluster workers without having to know your local public IP address and configuring the firewall to do port-forwarding to your local computer. The functions and features added to this package are written to be backward compatible with the <strong>parallel</strong> package, such that they may be incorporated there later. The <strong>parallelly</strong> package comes with an open invitation for the R Core Team to adopt all or parts of its code into the <strong>parallel</strong> package.</p>
+<p>The <strong>parallelly</strong> package provides functions that enhance the <strong>parallel</strong> packages. For example, <code><a href="reference/availableCores.html">availableCores()</a></code> gives the number of CPU cores available to your R process as given by R options and environment variables, including those set by job schedulers on high-performance compute (HPC) clusters. If R runs under ‘cgroups’ or a Linux container, then their settings are acknowledges too. If nothing else is set, the it will fall back to <code><a href="https://rdrr.io/r/parallel/detectCores.html">parallel::detectCores()</a></code>. Another example is <code><a href="reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code>, which is backward compatible with <code><a href="https://rdrr.io/r/parallel/makeCluster.html">parallel::makePSOCKcluster()</a></code> while doing a better job in setting up remote cluster workers without having to know your local public IP address and configuring the firewall to do port-forwarding to your local computer. The functions and features added to this package are written to be backward compatible with the <strong>parallel</strong> package, such that they may be incorporated there later. The <strong>parallelly</strong> package comes with an open invitation for the R Core Team to adopt all or parts of its code into the <strong>parallel</strong> package.</p>
 <div id="feature-comparison-parallelly-vs-parallel" class="section level2">
 <h2 class="hasAnchor">
 <a href="#feature-comparison-parallelly-vs-parallel" class="anchor"></a>Feature Comparison ‘parallelly’ vs ‘parallel’</h2>
-<table style="width:86%;" class="table">
+<table class="table">
 <colgroup>
 <col width="48%">
 <col width="22%">
@@ -271,10 +278,10 @@
 <div id="compatibility-with-the-parallel-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#compatibility-with-the-parallel-package" class="anchor"></a>Compatibility with the parallel package</h2>
-<p>Any cluster created by the <strong>parallelly</strong> package is fully compatible with the clusters created by the <strong>parallel</strong> package and can be used by all of <strong>parallel</strong>’s functions for cluster processing, e.g. <code><a href="https://rdrr.io/r/parallel/clusterApply.html" class="external-link">parallel::clusterEvalQ()</a></code> and <code><a href="https://rdrr.io/r/parallel/clusterApply.html" class="external-link">parallel::parLapply()</a></code>. The <code><a href="reference/makeClusterPSOCK.html">parallelly::makeClusterPSOCK()</a></code> function can be used as a stand-in replacement of the <code><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::makePSOCKcluster()</a></code>, or equivalently, <code><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::makeCluster(..., type = "PSOCK")</a></code>.</p>
+<p>Any cluster created by the <strong>parallelly</strong> package is fully compatible with the clusters created by the <strong>parallel</strong> package and can be used by all of <strong>parallel</strong>’s functions for cluster processing, e.g. <code><a href="https://rdrr.io/r/parallel/clusterApply.html">parallel::clusterEvalQ()</a></code> and <code><a href="https://rdrr.io/r/parallel/clusterApply.html">parallel::parLapply()</a></code>. The <code><a href="reference/makeClusterPSOCK.html">parallelly::makeClusterPSOCK()</a></code> function can be used as a stand-in replacement of the <code><a href="https://rdrr.io/r/parallel/makeCluster.html">parallel::makePSOCKcluster()</a></code>, or equivalently, <code><a href="https://rdrr.io/r/parallel/makeCluster.html">parallel::makeCluster(..., type = "PSOCK")</a></code>.</p>
 <p>Most of <strong>parallelly</strong> functions apply also to clusters created by the <strong>parallel</strong> package. For example,</p>
 <div class="sourceCode"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">makeCluster</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html">makeCluster</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
 <span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">parallelly</span><span class="fu">::</span><span class="fu"><a href="reference/autoStopCluster.html">autoStopCluster</a></span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></code></pre></div>
 <p>makes the cluster created by <strong>parallel</strong> to shut down automatically when R’s garbage collector removes the cluster object. This lowers the risk for leaving stray R worker processes running in the background by mistake. Another way to achieve the above in a single call is to use:</p>
 <div class="sourceCode"><pre class="downlit sourceCode r">
@@ -283,10 +290,10 @@
 <h3 class="hasAnchor">
 <a href="#availablecores-vs-paralleldetectcores" class="anchor"></a>availableCores() vs parallel::detectCores()</h3>
 <p>The <code><a href="reference/availableCores.html">availableCores()</a></code> function is designed as a better, safer alternative to <code>detectCores()</code> of the <strong>parallel</strong> package. It is designed to be a worry-free solution for developers and end-users to query the number of available cores - a solution that plays nice on multi-tenant systems, high-performance compute (HPC) cluster, CRAN check servers, and elsewhere.</p>
-<p>Did you know that <code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">parallel::detectCores()</a></code> might return NA on some systems, or that <code>parallel::detectCores() - 1</code> might return 0 on some systems, e.g. old hardware and virtual machines? Because of this, you have to use <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min(1, parallel::detectCores() - 1, na.rm = TRUE)</a></code> to get it correct. In contrast, <code><a href="reference/availableCores.html">parallelly::availableCores()</a></code> is guaranteed to return a positive integer, and you can use <code><a href="reference/availableCores.html">parallelly::availableCores(omit = 1)</a></code> to return all but one core and always at least 1.</p>
-<p>Just like other software tools that “hijacks” all cores by default, R scripts, and packages that defaults to <code>detectCores()</code> number of parallel workers cause lots of suffering for fellow end-users and system administrators. For instance, a shared server with 48 cores will come to a halt already after a few users run parallel processing using <code>detectCores()</code> number of parallel workers. This problem gets worse on machines with many cores because they can host even more concurrent users. If these R users would have used <code><a href="reference/availableCores.html">availableCores()</a></code> instead, then the system administrator can limit the number of cores each user get to, say, 2, by setting the environment variable <code>R_PARALLELLY_AVAILABLECORES_FALLBACK=2</code>. In contrast, it is <em>not</em> possible to override what <code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">parallel::detectCores()</a></code> returns, cf. <a href="https://bugs.r-project.org/bugzilla/show_bug.cgi?id=17641" class="external-link">PR#17641 - WISH: Make parallel::detectCores() agile to new env var R_DEFAULT_CORES</a>.</p>
+<p>Did you know that <code><a href="https://rdrr.io/r/parallel/detectCores.html">parallel::detectCores()</a></code> might return NA on some systems, or that <code>parallel::detectCores() - 1</code> might return 0 on some systems, e.g. old hardware and virtual machines? Because of this, you have to use <code><a href="https://rdrr.io/r/base/Extremes.html">min(1, parallel::detectCores() - 1, na.rm = TRUE)</a></code> to get it correct. In contrast, <code><a href="reference/availableCores.html">parallelly::availableCores()</a></code> is guaranteed to return a positive integer, and you can use <code><a href="reference/availableCores.html">parallelly::availableCores(omit = 1)</a></code> to return all but one core and always at least 1.</p>
+<p>Just like other software tools that “hijacks” all cores by default, R scripts, and packages that defaults to <code>detectCores()</code> number of parallel workers cause lots of suffering for fellow end-users and system administrators. For instance, a shared server with 48 cores will come to a halt already after a few users run parallel processing using <code>detectCores()</code> number of parallel workers. This problem gets worse on machines with many cores because they can host even more concurrent users. If these R users would have used <code><a href="reference/availableCores.html">availableCores()</a></code> instead, then the system administrator can limit the number of cores each user get to, say, 2, by setting the environment variable <code>R_PARALLELLY_AVAILABLECORES_FALLBACK=2</code>. In contrast, it is <em>not</em> possible to override what <code><a href="https://rdrr.io/r/parallel/detectCores.html">parallel::detectCores()</a></code> returns, cf. <a href="https://bugs.r-project.org/bugzilla/show_bug.cgi?id=17641">PR#17641 - WISH: Make parallel::detectCores() agile to new env var R_DEFAULT_CORES</a>.</p>
 <p>At the same time, if this is on an HPC cluster with a job scheduler, a script that uses <code><a href="reference/availableCores.html">availableCores()</a></code> will run the number of parallel workers that the job scheduler has assigned to the job. For example, if we submit a Slurm job as <code>sbatch --cpus-per-task=16 ...</code>, then <code><a href="reference/availableCores.html">availableCores()</a></code> will return 16 because it respects the <code>SLURM_*</code> environment variables set by the scheduler. See <code><a href="reference/availableCores.html">help("availableCores", package = "parallelly")</a></code> for currently supported job schedulers.</p>
-<p>Besides job schedulers, <code><a href="reference/availableCores.html">availableCores()</a></code> respects R options and environment variables commonly used to specify the number of parallel workers, e.g. R option <code>mc.cores</code>. It will detect when running <code>R CMD check</code> and return 2, which is the maximum number of parallel workers allowed by the <a href="https://cran.r-project.org/web/packages/policies.html" class="external-link">CRAN Policies</a>. If nothing is set that limits the number of cores, then <code><a href="reference/availableCores.html">availableCores()</a></code> falls back to <code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">parallel::detectCores()</a></code> and if that returns <code>NA_integer_</code> then <code>1</code> is returned.</p>
+<p>Besides job schedulers, <code><a href="reference/availableCores.html">availableCores()</a></code> respects R options and environment variables commonly used to specify the number of parallel workers, e.g. R option <code>mc.cores</code>. It will detect when running <code>R CMD check</code> and return 2, which is the maximum number of parallel workers allowed by the <a href="https://cran.r-project.org/web/packages/policies.html">CRAN Policies</a>. If nothing is set that limits the number of cores, then <code><a href="reference/availableCores.html">availableCores()</a></code> falls back to <code><a href="https://rdrr.io/r/parallel/detectCores.html">parallel::detectCores()</a></code> and if that returns <code>NA_integer_</code> then <code>1</code> is returned.</p>
 <p>The below table summarize the benefits:</p>
 <table class="table">
 <thead><tr class="header">
@@ -332,7 +339,7 @@
 <div id="backward-compatibility-with-the-future-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#backward-compatibility-with-the-future-package" class="anchor"></a>Backward compatibility with the future package</h2>
-<p>The functions in this package originate from the <strong><a href="https://cran.r-project.org/package=future" class="external-link">future</a></strong> package where we have used and validated them for several years. I moved these functions to this separate package, because they are also useful outside of the future framework. For backward-compatibility reasons of the future framework, the R options and environment variables that are prefixed with <code>parallelly.*</code> and <code>R_PARALLELLY_*</code> can for the time being also be set with <code>future.*</code> and <code>R_FUTURE_*</code> prefixes.</p>
+<p>The functions in this package originate from the <strong><a href="https://cran.r-project.org/package=future">future</a></strong> package where we have used and validated them for several years. I moved these functions to this separate package, because they are also useful outside of the future framework. For backward-compatibility reasons of the future framework, the R options and environment variables that are prefixed with <code>parallelly.*</code> and <code>R_PARALLELLY_*</code> can for the time being also be set with <code>future.*</code> and <code>R_FUTURE_*</code> prefixes.</p>
 </div>
 <div id="roadmap" class="section level2">
 <h2 class="hasAnchor">
@@ -342,7 +349,7 @@
 <li><p>[x] Update the <strong>future</strong> package to import and re-export the functions from the <strong>parallelly</strong> to maximize backward compatibility in the future framework (<strong>future</strong> 1.20.1 on CRAN as of 2020-11-03)</p></li>
 <li><p>[x] Switch to use 10-15% faster <code>useXDR=FALSE</code></p></li>
 <li><p>[x] After having validated that there is no negative impact on the future framework, allow for changes in the <strong>parallelly</strong> package, e.g. renaming the R options and environment variable to be <code>parallelly.*</code> and <code>R_PARALLELLY_*</code> while falling back to <code>future.*</code> and <code>R_FUTURE_*</code></p></li>
-<li><p>[ ] Migrate, currently internal, UUID functions and export them, e.g. <code>uuid()</code>, <code>connectionUuid()</code>, and <code>sessionUuid()</code> (<a href="https://github.com/HenrikBengtsson/Wishlist-for-R/issues/96" class="external-link uri">https://github.com/HenrikBengtsson/Wishlist-for-R/issues/96</a>). Because <a href="https://github.com/HenrikBengtsson/Wishlist-for-R/issues/21" class="external-link">R does not have a built-in md5 checksum function that operates on object</a>, these functions require us adding a dependency on the <strong><a href="https://cran.r-project.org/package=digest" class="external-link">digest</a></strong> package.</p></li>
+<li><p>[ ] Migrate, currently internal, UUID functions and export them, e.g. <code>uuid()</code>, <code>connectionUuid()</code>, and <code>sessionUuid()</code> (<a href="https://github.com/HenrikBengtsson/Wishlist-for-R/issues/96" class="uri">https://github.com/HenrikBengtsson/Wishlist-for-R/issues/96</a>). Because <a href="https://github.com/HenrikBengtsson/Wishlist-for-R/issues/21">R does not have a built-in md5 checksum function that operates on object</a>, these functions require us adding a dependency on the <strong><a href="https://cran.r-project.org/package=digest">digest</a></strong> package.</p></li>
 <li><p>[ ] Add vignettes on how to set up cluster running on local or remote machines, including in Linux containers and on popular cloud services, and vignettes on common problems and how to troubleshoot them</p></li>
 </ul>
 <p>Initially, backward compatibility for the <strong>future</strong> package is of top priority.</p>
@@ -350,15 +357,15 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>R package parallelly is available on <a href="https://cran.r-project.org/package=parallelly" class="external-link">CRAN</a> and can be installed in R as:</p>
+<p>R package parallelly is available on <a href="https://cran.r-project.org/package=parallelly">CRAN</a> and can be installed in R as:</p>
 <div class="sourceCode"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"parallelly"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"parallelly"</span><span class="op">)</span></code></pre></div>
 <div id="pre-release-version" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pre-release-version" class="anchor"></a>Pre-release version</h3>
 <p>To install the pre-release version that is available in Git branch <code>develop</code> on GitHub, use:</p>
 <div class="sourceCode"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"HenrikBengtsson/parallelly"</span>, ref<span class="op">=</span><span class="st">"develop"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"HenrikBengtsson/parallelly"</span>, ref<span class="op">=</span><span class="st">"develop"</span><span class="op">)</span></code></pre></div>
 <p>This will install the package from source.</p>
 </div>
 </div>
@@ -368,7 +375,7 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2 data-toc-skip>Links</h2>
+<h2>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=parallelly">https://​cloud.r-project.org/​package=parallelly</a>
 </li>
@@ -382,49 +389,43 @@
 </li>
 </ul>
 </div>
-
 <div class="license">
-<h2 data-toc-skip>License</h2>
+<h2>License</h2>
 <ul class="list-unstyled">
 <li>LGPL (&gt;= 2.1)</li>
 </ul>
 </div>
-
 <div class="community">
-<h2 data-toc-skip>Community</h2>
+<h2>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 </ul>
 </div>
-
 <div class="developers">
-<h2 data-toc-skip>Developers</h2>
+<h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Henrik Bengtsson <br><small class="roles"> Author, maintainer, copyright holder </small>  </li>
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
+  <div class="dev-status">
+<h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://CRAN.R-project.org/web/checks/check_results_parallelly.html" class="external-link"><img border="0" src="https://www.r-pkg.org/badges/version/parallelly" alt="CRAN check status"></a></li>
-<li><a href="https://github.com/HenrikBengtsson/parallelly/actions?query=workflow%3AR-CMD-check" class="external-link"><img border="0" src="https://github.com/HenrikBengtsson/parallelly/workflows/R-CMD-check/badge.svg?branch=develop" alt="Build status"></a></li>
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img border="0" src="reference/figures/lifecycle-maturing-blue.svg" alt="Life cycle: maturing"></a></li>
+<li><a href="https://CRAN.R-project.org/web/checks/check_results_parallelly.html"><img border="0" src="https://www.r-pkg.org/badges/version/parallelly" alt="CRAN check status"></a></li>
+<li><a href="https://github.com/HenrikBengtsson/parallelly/actions?query=workflow%3AR-CMD-check"><img border="0" src="https://github.com/HenrikBengtsson/parallelly/workflows/R-CMD-check/badge.svg?branch=develop" alt="Build status"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html"><img border="0" src="reference/figures/lifecycle-maturing-blue.svg" alt="Life cycle: maturing"></a></li>
 </ul>
 </div>
-
-  </div>
+</div>
 </div>
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Henrik Bengtsson.</p>
+  <p>Developed by Henrik Bengtsson.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9002.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9002.</p>
 </div>
 
       </footer>

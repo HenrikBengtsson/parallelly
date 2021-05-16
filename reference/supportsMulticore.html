@@ -71,8 +71,6 @@ is supported in the current R session." />
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -94,18 +92,9 @@ is supported in the current R session." />
 </script>
 
 
-<!-- dependencies from examples -->
-
-
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -119,13 +108,19 @@ is supported in the current R session." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.25.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.25.0-9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -177,6 +172,9 @@ is supported in the current R session." />
       <a href="https://listenv.futureverse.org">listenv</a>
     </li>
     <li>
+      <a href="https://marshal.futureverse.org">marshal</a>
+    </li>
+    <li>
       <a href="https://parallelly.futureverse.org">parallelly</a>
     </li>
     <li>
@@ -223,7 +221,7 @@ is supported in the current R session." />
     <div class="ref-description">
     <p>Certain parallelization methods in R rely on <em>forked</em> processing, e.g.
 <code><a href='https://rdrr.io/r/parallel/mclapply.html'>parallel::mclapply()</a></code>, <code><a href='https://rdrr.io/r/parallel/makeCluster.html'>parallel::makeCluster(n, type = "FORK")</a></code>,
-<code><a href='https://rdrr.io/pkg/doMC/man/registerDoMC.html'>doMC::registerDoMC()</a></code>, and <code><a href='https://future.futureverse.org/reference/plan.html'>future::plan("multicore")</a></code>.
+<code>doMC::registerDoMC()</code>, and <code><a href='https://rdrr.io/pkg/future/man/plan.html'>future::plan("multicore")</a></code>.
 Process forking is done by the operating system and support for it in
 <span style="R">R</span> is restricted to Unix-like operating systems such as Linux, Solaris,
 and macOS.  R running on Microsoft Windows does not support forked
@@ -294,11 +292,11 @@ of these to <code>TRUE</code>.</p>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Henrik Bengtsson.</p></p>
+  <p>Developed by Henrik Bengtsson.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9002.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9002.</p>
 </div>
 
       </footer>
@@ -324,8 +322,6 @@ of these to <code>TRUE</code>.</p>
 </script>
 
 
-
-  
 
   </body>
 </html>
