@@ -91,7 +91,7 @@ img <- function(url, ..., alt, align=NULL) {
   } else if (format == "html") {
     attrs <- ""
     if (!is.null(align)) attrs <- paste(attrs, sprintf('align="%s"', align))
-    sprintf('<img border="0" src="%s" alt="%s"%s></a>', url, alt, attrs)
+    sprintf('<img border="0" src="%s" alt="%s"%s/>', url, alt, attrs)
   } else {
     stop("Unknown format: ", sQuote(format))
   }
@@ -169,12 +169,7 @@ optional_badges <- function() {
 %>
 
 <div id="badges"><!-- pkgdown markup -->
-<%=repos_status()%>
-<%=github()%>
-<%=travis()%>
-<%=appveyor() %>
-<%=covr()%>
-<%=optional_badges()%>
+<%=repos_status()%> <%=github()%> <%=travis()%> <%=appveyor() %> <%=covr()%> <%=optional_badges()%>
 </div>
 
 # <%=pkg()%>: <%=pkg_title()%> <% if (file.exists(file <- "man/figures/logo.png")) { cat(img(file, alt="The 'future' hexlogo", align="right")) } %>
@@ -220,9 +215,13 @@ Because of this and because this package also compiles native code, Windows user
 <% } # if (file.exists("INSTALL.md")) %>
 
 
-
 <!-- pkgdown-drop-below -->
+
+<% if (file.exists("CONTRIBUTING.md") &&
+       any(grepl("README.*md", readLines(".Rbuildignore")))) { %>
 
 ## Contributing
 
 To contribute to this package, please see [CONTRIBUTING.md](CONTRIBUTING.md).
+ 
+<% } # if (file.exists("CONTRIBUTING.md")) %>
