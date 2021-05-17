@@ -320,8 +320,9 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     ## options are explicitly set / available.
     idx_fallback <- which(names(ncores) == "fallback")
     if (length(idx_fallback) == 1) {
-      ## If 'system' and 'fallback' are the only options, then use 'fallback' ...
-      if (length(ncores) == 2 && "system" %in% names(ncores)) {
+      ## Use only if 'system' and 'nproc' are the only other options
+      ignore <- c("system", "nproc")
+      if (length(setdiff(names(ncores), c("fallback", ignore))) == 0) {
         ncores <- ncores[idx_fallback]
       } else {
         ## ... otherwise, ignore 'fallback'.

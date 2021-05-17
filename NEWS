@@ -1,9 +1,13 @@
 Package: parallelly
 ===================
 
-Version: 1.25.0-9000 [2021-04-30]
+Version: 1.25.0-9000 [2021-05-17]
 
- * ...
+BUG FIXES:
+
+ * R option 'parallelly.availableCores.fallback' and environment variable
+   'R_PARALLELLY_AVAILABLECORES_FALLBACK' was ignored since parallelly 1.22.0,
+   when support for 'nproc' was added to availableCores().
  
 
 Version: 1.25.0 [2021-04-30]
