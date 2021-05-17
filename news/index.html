@@ -208,6 +208,13 @@
 <h1 class="page-header" data-toc-text="1.25.0-9000">
 <a href="#parallelly-1-25-0-9000" class="anchor"></a>parallelly 1.25.0-9000<small> Unreleased </small>
 </h1>
+<div id="bug-fixes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h3>
+<ul>
+<li>R option ‘parallelly.availableCores.fallback’ and environment variable ‘R_PARALLELLY_AVAILABLECORES_FALLBACK’ was ignored since parallelly 1.22.0, when support for ‘nproc’ was added to availableCores().</li>
+</ul>
+</div>
 </div>
     <div id="parallelly-1-25-0" class="section level1">
 <h1 class="page-header" data-toc-text="1.25.0">
@@ -227,9 +234,9 @@
 <li>availableCores() gained argument ‘omit’ to make it easier to put aside zero or more cores from being used in parallel processing. For example, on a system with four cores, availableCores(omit = 1) returns 3. Importantly, since availableCores() is guaranteed to always return a positive integer, availableCores(omit = 4) == 1, even on systems with four or fewer cores. Using availableCores() - 4 on such systems would return a non-positive value, which would give an error downstream.</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level3">
+<div id="bug-fixes-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li><p>makeClusterPSOCK(), or actually makeNodePSOCK(), did not accept all types of environment variable names when using ‘rscript_envs’, e.g. it would give an error if we tried to pass ‘_R_CLASS_MATRIX_ARRAY_’.</p></li>
 <li><p>makeClusterPSOCK() had a “length &gt; 1 in coercion to logical” bug that could affect especially MS Windows 10 users.</p></li>
@@ -266,9 +273,9 @@
 <li>All code is now using the ‘parallelly.’ prefix for options and the ‘R_PARALLELLY_’ prefix for environment variables. Settings that use the corresponding ‘future.’ and ‘R_FUTURE_’ prefixes are still recognized.</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level3">
+<div id="bug-fixes-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li><p>availableCores() did not respect environment variable ‘SLURM_TASKS_PER_NODE’ when the job was allocated more than one node.</p></li>
 <li><p>Above argument ‘quiet’ was introduced in future 1.19.1 but was mistakenly dropped from parallelly 1.20.0 when that was released, and therefore also from future (&gt;= 1.20.0).</p></li>
@@ -309,9 +316,9 @@
 <li><p>Add freeCores() for estimating the average number of unused cores based on the average system load as given by cpuLoad().</p></li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level3">
+<div id="bug-fixes-3" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>Except for environment variables ‘R_FUTURE_AVAILABLECORES_FALLBACK’ and ‘R_FUTURE_AVAILABLECORES_SYSTEM’, none of the ‘R_PARALLELLY_*’ and ‘R_FUTURE_*’ ones where recognized.</li>
 </ul>
@@ -336,9 +343,9 @@
 <li><p>Now makeNodePSOCK(…, rscript_envs = “UNKNOWN”) produces an informative warning on non-existing environment variables that was skipped.</p></li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level3">
+<div id="bug-fixes-4" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li><p>makeClusterPSOCK() would produce an error on ‘one node produced an error: could not find function “getOptionOrEnvVar”’ if ‘parallelly’ is not available on the node.</p></li>
 <li><p>makeClusterPSOCK() would attempt to loaded ‘parallelly’ on the worker. If it’s not available on the worker, it would result in a silent warning on the worker. Now ‘parallelly’ is not loaded.</p></li>
@@ -373,9 +380,9 @@
 <li>Add isConnectionValid() and connectionId() adopted from internal code of the ‘future’ package.</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level3">
+<div id="bug-fixes-5" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-5" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li><p>Renamed environment variable ‘R_FUTURE_MAKENODEPSOCK_tries’ used by makeClusterPSOCK() to ‘R_FUTURE_MAKENODEPSOCK_TRIES’.</p></li>
 <li><p>connectionId() did not return -1L on Solaris for connections with internal ‘nil’ pointers because they were reported as ‘0’ - not ‘nil’ or ‘0x0’.</p></li>
@@ -431,9 +438,9 @@
 <li><p>makeClusterPSOCK() now returns a cluster that in addition to inheriting from’ SOCKcluster’ it will also inherit from ‘RichSOCKcluster’.</p></li>
 </ul>
 </div>
-<div id="bug-fixes-5" class="section level3">
+<div id="bug-fixes-6" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-6" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li><p>Made makeClusterPSOCK() and makeNodePSOCK() agile to the name change from parallel:::.slaveRSOCK() to parallel:::.workRSOCK() in R (&gt;= 4.1.0).</p></li>
 <li><p>makeClusterPSOCK(…, rscript) will not try to locate rscript[1] if argument ‘homogeneous’ is FALSE (or inferred to be FALSE).</p></li>
@@ -483,9 +490,9 @@
 <li>Added ‘Troubleshooting’ section to ?makeClusterPSOCK with instructions on how to troubleshoot when the setup of local and remote clusters fail.</li>
 </ul>
 </div>
-<div id="bug-fixes-6" class="section level3">
+<div id="bug-fixes-7" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-7" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li><p>makeClusterPSOCK() could produce warnings like “cannot open file ‘/tmp/alice/Rtmpi69yYF/future.parent=2622.a3e32bc6af7.pid’: No such file”, e.g. when launching R workers running in Docker containers.</p></li>
 <li><p>makeClusterMPI() did not work for MPI clusters with ‘comm’ other than ‘1’.</p></li>
@@ -506,9 +513,9 @@
 <li><p>makeClusterPSOCK() gained support for argument ‘rscript_libs’ to control the R package library search path on the workers. For example, to _prepend_ the folder ‘~/R-libs’ on the workers, use ‘rscript_libs = c(“~/R-libs”, “*”)’, where “*” will be resolved to the current ‘.libPaths()’ on the workers.</p></li>
 </ul>
 </div>
-<div id="bug-fixes-7" class="section level3">
+<div id="bug-fixes-8" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-7" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-8" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>makeClusterPSOCK() did not shell quote the Rscript executable when running its pre-tests checking whether localhost Rscript processes can be killed by their PIDs or not.</li>
 </ul>
@@ -525,9 +532,9 @@
 <li>If makeClusterPSOCK() fails to create one of many nodes, then it will attempt to stop any nodes that were successfully created. This lowers the risk for leaving R worker processes behind.</li>
 </ul>
 </div>
-<div id="bug-fixes-8" class="section level3">
+<div id="bug-fixes-9" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-8" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-9" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>makeClusterPSOCK() in future (&gt;= 1.11.1) produced warnings when argument ‘rscript’ had length(rscript) &gt; 1.</li>
 </ul>
@@ -537,9 +544,9 @@
 <h1 class="page-header" data-toc-text="1.11.1.1">
 <a href="#parallelly-1-11-1-1" class="anchor"></a>parallelly 1.11.1.1<small> Unreleased </small>
 </h1>
-<div id="bug-fixes-9" class="section level3">
+<div id="bug-fixes-10" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-9" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-10" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>When makeClusterPSOCK() fails to connect to a worker, it produces an error with detailed information on what could have happened. In rare cases, another error could be produced when generating the information on what the workers PID is.</li>
 </ul>
@@ -563,9 +570,9 @@
 <li>TESTS: When the ‘future’ package is loaded, it checks whether ‘R CMD check’ is running or not. If it is, then a few future-specific environment variables are adjusted such that the tests play nice with the testing environment. For instance, it sets the socket connection timeout for PSOCK cluster workers to 120 seconds (instead of the default 30 days!). This will lower the risk for more and more zombie worker processes cluttering up the test machine (e.g. CRAN servers) in case a worker process is left behind despite the main R processes is terminated. Note that these adjustments are applied automatically to the checks of any package that depends on, or imports, the ‘future’ package.</li>
 </ul>
 </div>
-<div id="bug-fixes-10" class="section level3">
+<div id="bug-fixes-11" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-10" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-11" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>Whenever makeClusterPSOCK() would fail to connect to a worker, for instance due to a port clash, then it would leave the R worker process running - also after the main R process terminated. When the worker is running on the same machine, makeClusterPSOCK() will now attempt to kill such stray R processes. Note that parallel::makePSOCKcluster() still has this problem.</li>
 </ul>
@@ -585,9 +592,9 @@
 <li><p>makeClusterPSOCK() gained argument ‘rshlogfile’.</p></li>
 </ul>
 </div>
-<div id="bug-fixes-11" class="section level3">
+<div id="bug-fixes-12" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-11" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-12" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>makeClusterPSOCK(…, rscript = “my_r”) would in some cases fail to find the intended ‘my_r’ executable.</li>
 </ul>
@@ -610,9 +617,9 @@
 <h1 class="page-header" data-toc-text="1.9.0">
 <a href="#parallelly-1-9-0" class="anchor"></a>parallelly 1.9.0<small> Unreleased </small>
 </h1>
-<div id="bug-fixes-12" class="section level3">
+<div id="bug-fixes-13" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-12" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-13" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>makeClusterPSOCK() produced a warning when environment variable ‘R_PARALLEL_PORT’ was set to ‘random’ (e.g. as on CRAN).</li>
 </ul>
@@ -641,9 +648,9 @@
 <li>On Windows, makeClusterPSOCK(), and therefore plan(multisession) and plan(multiprocess), will use the SSH client distributed with RStudio as a fallback if neither ‘ssh’ nor ‘plink’ is available on the system PATH.</li>
 </ul>
 </div>
-<div id="bug-fixes-13" class="section level3">
+<div id="bug-fixes-14" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-13" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-14" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>makeClusterPSOCK(…, renice = 19) would launch each PSOCK worker via ‘nice +19’ resulting in the error “nice: ‘+19’: No such file or directory”. This bug was inherited from parallel::makePSOCKcluster(). Now using ‘nice –adjustment=19’ instead.</li>
 </ul>
@@ -702,9 +709,9 @@
 <li><p>Option ‘future.availableCores.fallback’, which defaults to environment variable ‘R_FUTURE_AVAILABLECORES_FALLBACK’ can now be used to specify the default number of cores / workers returned by availableCores() and availableWorkers() when no other settings are available. For instance, if R_FUTURE_AVAILABLECORES_FALLBACK=1 is set system wide in an HPC environment, then all R processes that uses availableCores() to detect how many cores can be used will run as single-core processes. Without this fallback setting, and without other core-specifying settings, the default will be to use all cores on the machine, which does not play well on multi-user systems.</p></li>
 </ul>
 </div>
-<div id="bug-fixes-14" class="section level3">
+<div id="bug-fixes-15" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-14" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-15" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li><p>Creation of cluster futures (including multisession ones) would time out already after 40 seconds if all workers were busy. New default timeout is 30 days (option ‘future.wait.timeout’).</p></li>
 <li><p>availableCores(methods = “_R_CHECK_LIMIT_CORES_”) would give an error if not running R CMD check.</p></li>
@@ -723,9 +730,9 @@
 <li><p>Added generic as.cluster() for coercing objects to cluster objects to be used as in plan(cluster, workers = as.cluster(x)). Also added a c() implementation for cluster objects such that multiple cluster objects can be combined into a single one.</p></li>
 </ul>
 </div>
-<div id="bug-fixes-15" class="section level3">
+<div id="bug-fixes-16" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-15" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-16" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>Argument ‘user’ to remote() was ignored (since 1.1.0).</li>
 </ul>
@@ -735,9 +742,9 @@
 <h1 class="page-header" data-toc-text="1.1.1">
 <a href="#parallelly-1-1-1" class="anchor"></a>parallelly 1.1.1<small> Unreleased </small>
 </h1>
-<div id="bug-fixes-16" class="section level3">
+<div id="bug-fixes-17" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-16" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-17" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>For the special case where ‘remote’ futures use workers = “localhost” they (again) use the exact same R executable as the main / calling R session (in all other cases it uses whatever ‘Rscript’ is found in the PATH). This was already indeed implemented in 1.0.1, but with the added support for reverse SSH tunnels in 1.1.0 this default behavior was lost.</li>
 </ul>
@@ -771,9 +778,9 @@
 <h1 class="page-header" data-toc-text="0.12.0">
 <a href="#parallelly-0-12-0" class="anchor"></a>parallelly 0.12.0<small> Unreleased </small>
 </h1>
-<div id="bug-fixes-17" class="section level3">
+<div id="bug-fixes-18" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bug-fixes-17" class="anchor"></a>Bug Fixes</h3>
+<a href="#bug-fixes-18" class="anchor"></a>Bug Fixes</h3>
 <ul>
 <li>FIX: Now availableCores() returns 3L (=2L+1L) instead of 2L if _R_CHECK_LIMIT_CORES_ is set.</li>
 </ul>
