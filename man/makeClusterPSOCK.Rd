@@ -41,7 +41,9 @@ makeNodePSOCK(
   rank = 1L,
   manual = FALSE,
   dryrun = FALSE,
+  setup_strategy = "sequential",
   quiet = FALSE,
+  action = c("launch", "options"),
   verbose = FALSE
 )
 }
@@ -177,8 +179,14 @@ to run will be displayed.}
 launch the worker from the terminal is outputted.  This is useful for
 troubleshooting.}
 
+\item{setup_strategy}{If \code{"sequential"} (default), the workers are setup
+sequentially, one after the other.  If \code{"parallel"}, they are setup
+concurrently.}
+
 \item{quiet}{If TRUE, then no output will be produced other than that from
 using \code{verbose = TRUE}.}
+
+\item{action}{This is an internal argument.}
 }
 \value{
 An object of class \code{c("RichSOCKcluster", "SOCKcluster", "cluster")}

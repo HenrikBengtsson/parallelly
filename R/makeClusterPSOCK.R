@@ -100,10 +100,57 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   port <- findAvailablePort(port, randomize = TRUE)
   if (verbose) message(sprintf("%sBase port: %d", verbose_prefix, port))
 
-  n <- length(workers)
-  cl <- vector("list", length = n)
-  class(cl) <- c("RichSOCKcluster", "SOCKcluster", "cluster")
 
+  n <- length(workers)
+  nodeOptions <- vector("list", length = n)
+  if (verbose) message(sprintf("%sGetting setup options for %d cluster nodes ...", verbose_prefix, n))
+  for (ii in seq_len(n)) {
+    if (verbose) message(sprintf("%s - Node %d of %d ...", verbose_prefix, ii, n))
+    options <- makeNode(workers[[ii]], port = port, ..., rank = ii, action = "options", verbose = verbose)
+    stop_if_not(inherits(options, "makeNodePSOCKOptions"))
+    nodeOptions[[ii]] <- options
+  }
+  if (verbose) message(sprintf("%sGetting setup options for %d cluster nodes ... done", verbose_prefix, n))
+
+  ## Is a 'parallel' setup strategy requested and possible?
+  setup_strategy <- lapply(nodeOptions, FUN = function(options) {
+    value <- options$setup_strategy
+    if (is.null(value)) value <- "sequential"
+    stop_if_not(is.character(value), length(value) == 1L)
+    value
+  })
+  setup_strategy <- unlist(setup_strategy, use.names = FALSE)
+  is_parallel <- (setup_strategy == "parallel")
+  if (any(is_parallel)) {
+    if (verbose) message(sprintf("%s - Parallel setup requested for some PSOCK nodes", verbose_prefix))
+    if (!all(is_parallel)) {
+      if (verbose) message(sprintf("%s - Parallel setup requested only for some PSOCK nodes; will revert to a sequential setup of all", verbose_prefix))
+      setup_strategy <- "sequential"
+      ## Force all nodes to be setup using the 'sequential' setup strategy
+      for (ii in which(!is_parallel)) {
+        if (verbose) message(sprintf("%s - Node %d of %d ...", verbose_prefix, ii, n))
+        args <- list(workers[[ii]], port = port, ..., rank = ii, action = "options", verbose = verbose)
+        args$setup_strategy <- "sequential"
+        options <- do.call(makeNode, args = args)
+        stop_if_not(inherits(options, "makeNodePSOCKOptions"))
+        nodeOptions[[ii]] <- options
+      }
+    }
+  }
+
+  ## Sanity check
+  setup_strategy <- lapply(nodeOptions, FUN = function(options) {
+    value <- options$setup_strategy
+    if (is.null(value)) value <- "sequential"
+    stop_if_not(is.character(value), length(value) == 1L)
+    value
+  })
+  setup_strategy <- unlist(setup_strategy, use.names = FALSE)
+  setup_strategy <- unique(setup_strategy)
+  stop_if_not(length(setup_strategy) == 1L)
+
+  cl <- vector("list", length = length(nodeOptions))
+  class(cl) <- c("RichSOCKcluster", "SOCKcluster", "cluster")
   
   ## If an error occurred, make sure to clean up before exiting, i.e.
   ## stop each node
@@ -114,57 +161,63 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     cl <- NULL
   })
 
-  for (ii in seq_along(cl)) {
-    if (verbose) {
-      message(sprintf("%sCreating node %d of %d ...", verbose_prefix, ii, n))
-      message(sprintf("%s- setting up node", verbose_prefix))
-    }
-    for (kk in 1:tries) {
+  if (setup_strategy == "parallel") {
+    stop("PSOCK cluster setup strategy 'parallel' is not yet supported")
+  } else if (setup_strategy == "sequential") {
+    for (ii in seq_along(cl)) {
       if (verbose) {
-        message(sprintf("%s- attempt #%d of %d", verbose_prefix, kk, tries))
+        message(sprintf("%sCreating node %d of %d ...", verbose_prefix, ii, n))
+        message(sprintf("%s- setting up node", verbose_prefix))
       }
-      node <- tryCatch({
-        makeNode(workers[[ii]], port = port, ..., rank = ii, verbose = verbose)
-      }, error = identity)
-      ## Success or an error that is not a connection error?
-      if (!inherits(node, "PSOCKConnectionError")) break
-      if (kk < tries) {
+      
+      for (kk in 1:tries) {
         if (verbose) {
-          message(conditionMessage(node))
-          message(sprintf("%s- waiting %g seconds before trying again",
-                  verbose_prefix, delay))
+          message(sprintf("%s- attempt #%d of %d", verbose_prefix, kk, tries))
         }
-        Sys.sleep(delay)
-      }  
-    }
-    if (inherits(node, "error")) {
-      ex <- node
-      if (inherits(node, "PSOCKConnectionError")) {
-        if (verbose) {
-          message(sprintf("%s  Failed %d attempts with %g seconds delay",
-                  verbose_prefix, tries, delay))
-        }
-        ex$message <- sprintf("%s\n * Number of attempts: %d (%gs delay)",
-                              conditionMessage(ex), tries, delay)
-      } else {
-        ex$call <- sys.call()
+        node <- tryCatch({
+          makeNode(nodeOptions[[ii]], verbose = verbose)
+        }, error = identity)
+        ## Success or an error that is not a connection error?
+        if (!inherits(node, "PSOCKConnectionError")) break
+        
+        if (kk < tries) {
+          if (verbose) {
+            message(conditionMessage(node))
+            message(sprintf("%s- waiting %g seconds before trying again",
+                    verbose_prefix, delay))
+          }
+          Sys.sleep(delay)
+        }  
       }
-      stop(ex)
-    }
-    cl[[ii]] <- node
-
-    if (validate) {
-      ## Attaching session information for each worker.  This is done to assert
-      ## that we have a working cluster already here.  It will also collect
-      ## useful information otherwise not available, e.g. the PID.
+      if (inherits(node, "error")) {
+        ex <- node
+        if (inherits(node, "PSOCKConnectionError")) {
+          if (verbose) {
+            message(sprintf("%s  Failed %d attempts with %g seconds delay",
+                    verbose_prefix, tries, delay))
+          }
+          ex$message <- sprintf("%s\n * Number of attempts: %d (%gs delay)",
+                                conditionMessage(ex), tries, delay)
+        } else {
+          ex$call <- sys.call()
+        }
+        stop(ex)
+      }
+      cl[[ii]] <- node
+  
+      if (validate) {
+        ## Attaching session information for each worker.  This is done to assert
+        ## that we have a working cluster already here.  It will also collect
+        ## useful information otherwise not available, e.g. the PID.
+        if (verbose) {
+          message(sprintf("%s- collecting session information", verbose_prefix))
+        }
+        cl[ii] <- add_cluster_session_info(cl[ii])
+      }
+      
       if (verbose) {
-        message(sprintf("%s- collecting session information", verbose_prefix))
+        message(sprintf("%sCreating node %d of %d ... done", verbose_prefix, ii, n))
       }
-      cl[ii] <- add_cluster_session_info(cl[ii])
-    }
-    
-    if (verbose) {
-      message(sprintf("%sCreating node %d of %d ... done", verbose_prefix, ii, n))
     }
   }
 
@@ -270,8 +323,14 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' launch the worker from the terminal is outputted.  This is useful for
 #' troubleshooting.
 #'
+#' @param setup_strategy If `"sequential"` (default), the workers are setup
+#' sequentially, one after the other.  If `"parallel"`, they are setup
+#' concurrently.
+#'
 #' @param quiet If TRUE, then no output will be produced other than that from
 #' using `verbose = TRUE`.
+#'
+#' @param action This is an internal argument.
 #'
 #' @return `makeNodePSOCK()` returns a `"SOCKnode"` or
 #' `"SOCK0node"` object representing an established connection to a worker.
@@ -471,7 +530,14 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @importFrom tools pskill
 #' @importFrom utils flush.console
 #' @export
-makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOptionOrEnvVar("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, verbose = FALSE) {
+makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOptionOrEnvVar("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, setup_strategy = "sequential", quiet = FALSE, action = c("launch", "options"), verbose = FALSE) {
+  verbose <- as.logical(verbose)
+  stop_if_not(length(verbose) == 1L, !is.na(verbose))
+
+  if (inherits(worker, "makeNodePSOCKOptions")) {
+    return(launchNodePSOCK(options = worker, verbose = verbose))
+  }
+  
   localMachine <- is.element(worker, c("localhost", "127.0.0.1"))
 
   ## Could it be that the worker specifies the name of the localhost?
@@ -487,6 +553,8 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   dryrun <- as.logical(dryrun)
   stop_if_not(length(dryrun) == 1L, !is.na(dryrun))
+
+  setup_strategy <- match.arg(setup_strategy, choices = c("sequential", "parallel"))
 
   quiet <- as.logical(quiet)
   stop_if_not(length(quiet) == 1L, !is.na(quiet))
@@ -549,6 +617,11 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
   homogeneous <- as.logical(homogeneous)
   stop_if_not(length(homogeneous) == 1L, !is.na(homogeneous))
 
+  ## Is a parallel setup strategy possible?
+  if (setup_strategy == "parallel") {
+    if (manual || !homogeneous || !localMachine) setup_strategy <- "sequential"
+  }
+
   if (is.null(rscript)) {
     rscript <- "Rscript"
     if (homogeneous) rscript <- file.path(R.home("bin"), rscript)
@@ -601,9 +674,8 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   rank <- as.integer(rank)
   stop_if_not(length(rank) == 1L, !is.na(rank))
-  
-  verbose <- as.logical(verbose)
-  stop_if_not(length(verbose) == 1L, !is.na(verbose))
+
+  action <- match.arg(action, choices = c("launch", "options"))
 
   verbose_prefix <- "[local output] "
 
@@ -717,7 +789,8 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   rscript <- paste(rscript, collapse = " ")
   rscript_args <- paste(rscript_args, collapse = " ")
-  envvars <- paste0("MASTER=", master, " PORT=", rscript_port, " OUT=", outfile, " TIMEOUT=", timeout, " XDR=", useXDR)
+  envvars <- paste0("MASTER=", master, " PORT=", rscript_port, " OUT=", outfile, " TIMEOUT=", timeout, " XDR=", useXDR,
+                    " SETUPSTRATEGY=", setup_strategy)
   
   cmd <- paste(rscript, rscript_args, envvars)
 
@@ -795,9 +868,76 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
     rsh_call <- paste(paste(shQuote(rshcmd), collapse = " "), rshopts, worker)
     local_cmd <- paste(rsh_call, shQuote(cmd))
   } else {
+    rshcmd_label <- NULL
+    rsh_call <- NULL
     local_cmd <- cmd
   }
   stop_if_not(length(local_cmd) == 1L)
+
+  options <- structure(list(
+    local_cmd = local_cmd,
+    worker = worker,
+    rank = rank,
+    rshlogfile = rshlogfile,
+    port = port,
+    connectTimeout = connectTimeout,
+    timeout = timeout,
+    useXDR = useXDR,
+    pidfile = pidfile,
+    setup_strategy = setup_strategy,
+    ## For messages, warnings, and errors:
+    outfile = outfile,
+    rshcmd_label = rshcmd_label,
+    rsh_call = rsh_call,
+    cmd = cmd,
+    localMachine = localMachine,
+    manual = manual,
+    dryrun = dryrun,
+    quiet = quiet,
+    rshcmd = rshcmd,
+    revtunnel = revtunnel
+  ), class = c("makeNodePSOCKOptions", "makeNodeOptions"))
+
+  ## Return options?
+  if (action == "options") return(options)
+
+  launchNodePSOCK(options, verbose = verbose)
+}
+
+
+launchNodePSOCK <- function(options, verbose = FALSE) {
+  stop_if_not(inherits(options, "makeNodePSOCKOptions"))
+
+  local_cmd <- options[["local_cmd"]]
+  worker <- options[["worker"]]
+  rank <- options[["rank"]]
+  rshlogfile <- options[["rshlogfile"]]
+  port <- options[["port"]]
+  connectTimeout <- options[["connectTimeout"]]
+  timeout <- options[["timeout"]]
+  pidfile <- options[["pidfile"]]
+  ## For messages, warnings, and errors"]]
+  useXDR <- options[["useXDR"]]
+  outfile <- options[["outfile"]]
+  rshcmd_label <- options[["rshcmd_label"]]
+  rsh_call <- options[["rsh_call"]]
+  cmd <- options[["cmd"]]
+  localMachine <- options[["localMachine"]]
+  manual <- options[["manual"]]
+  dryrun <- options[["dryrun"]]
+  quiet <- options[["quiet"]]
+  rshcmd <- options[["rshcmd"]]
+  revtunnel <- options[["revtunnel"]]
+  setup_strategy <- options[["setup_strategy"]]
+
+  if (setup_strategy == "parallel") {
+    stop("PSOCK cluster setup strategy 'parallel' is not yet supported")
+  }
+
+  verbose <- as.logical(verbose)
+  stop_if_not(length(verbose) == 1L, !is.na(verbose))
+
+  verbose_prefix <- "[local output] "
 
   is_worker_output_visible <- is.null(outfile)
 
