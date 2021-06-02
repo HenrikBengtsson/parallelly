@@ -5,12 +5,15 @@
 \alias{canPortBeUsed}
 \title{Find or check TCP ports that can be opened}
 \usage{
-findAvailablePort(ports = 1024:65535, randomize = FALSE)
+findAvailablePort(ports = 1024:65535, default = NA_integer_, randomize = FALSE)
 
 canPortBeUsed(port)
 }
 \arguments{
 \item{ports}{(integer vector) TCP ports in [0, 65535] to scan.}
+
+\item{default}{(integer) \code{NA_integer_} or a port to returned if
+an available port could not be found.}
 
 \item{randomize}{(logical) If TRUE, \code{ports} is randomly shuffled
 before searched.  This shuffle does \emph{not} forward the RNG seed.}
@@ -20,8 +23,8 @@ before searched.  This shuffle does \emph{not} forward the RNG seed.}
 \value{
 \code{findAvailablePort(ports)} returns an integer representing the first
 port among \code{ports} that can be opened.  If none can be opened, then
-\code{NA_integer_} is returned.  If port querying is not supported, as in
-R (< 4.0.0), then \code{ports[1]} is returned.
+\code{default} is returned.  If port querying is not supported, as in
+R (< 4.0.0), then \code{default} is returned.
 
 \code{canPortBeUsed(port)} returns a logical indicating whether the port can
 be opened or not, or cannot be queried.  If the port can be opened,

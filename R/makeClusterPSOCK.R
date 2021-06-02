@@ -118,9 +118,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   }
   if (length(port) > 1L) {
     ports <- stealth_sample(port, size = tries)
-    port <- findAvailablePort(ports)
-    ## If none of the ports are available, give the first one one more try
-    if (is.na(port)) port <- ports[1]
+    port <- findAvailablePort(ports, default = ports[1])
   }
   assertPort(port)
   if (verbose) message(sprintf("%sBase port: %d", verbose_prefix, port))

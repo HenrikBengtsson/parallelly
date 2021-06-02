@@ -2,19 +2,26 @@
 #'
 #' @param ports (integer vector) TCP ports in \[0, 65535\] to scan.
 #'
+#' @param default (integer) `NA_integer_` or a port to returned if
+#' an available port could not be found.
+#'
 #' @param randomize (logical) If TRUE, `ports` is randomly shuffled
 #' before searched.  This shuffle does _not_ forward the RNG seed.
 #'
 #' @return
 #' `findAvailablePort(ports)` returns an integer representing the first
 #' port among `ports` that can be opened.  If none can be opened, then
-#' `NA_integer_` is returned.  If port querying is not supported, as in
-#' R (< 4.0.0), then `ports[1]` is returned.
+#' `default` is returned.  If port querying is not supported, as in
+#' R (< 4.0.0), then `default` is returned.
 #'
 #' @keywords internal
-findAvailablePort <- function(ports = 1024:65535, randomize = FALSE) {
+findAvailablePort <- function(ports = 1024:65535, default = NA_integer_, randomize = FALSE) {
+  default <- as.integer(default)
+  stop_if_not(length(default) == 1L)
+  if (!is.na(default)) default <- assertPort(default)
+  
   ## Nothing todo?
-  if (length(ports) == 0) return(NA_integer_)
+  if (length(ports) == 0) return(default)
 
   stop_if_not(is.logical(randomize), !is.na(randomize))
   if (randomize) ports <- stealth_sample(ports)
@@ -26,13 +33,13 @@ findAvailablePort <- function(ports = 1024:65535, randomize = FALSE) {
     
     ## SPECIAL CASE: If it's not possible to query ports,
     ## then use the first one
-    if (is.na(free)) return(port)
+    if (is.na(free)) return(default)
 
     ## Available?
     if (free) return(port)
   }
 
-  NA_integer_
+  default
 }
 
 
