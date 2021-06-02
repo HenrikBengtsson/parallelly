@@ -118,28 +118,11 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   }
   if (length(port) > 1L) {
     ports <- stealth_sample(port, size = tries)
-    ## Get a random port and test if it can be opened, iff possible.
-    ## If so, try 'tries' times before giving up.
-    ns <- asNamespace("parallel")
-    if (exists("serverSocket", envir = ns, mode = "function")) {
-      ## Available in R (>= 4.0.0)
-      serverSocket <- get("serverSocket", envir = ns, mode = "function")
-      for (kk in 1:tries) {
-        port <- ports[kk]
-        con <- tryCatch(serverSocket(port), error = identity)
-        ## Success?
-        if (inherits(con, "connection")) {
-          close(con)
-          break
-        }
-      }
-    } else {
-      port <- ports[1]
-    }
+    port <- findAvailablePort(ports)
+    ## If none of the ports are available, give the first one one more try
+    if (is.na(port)) port <- ports[1]
   }
-  if (is.na(port) || port < 0L || port > 65535L) {
-    stop("Invalid port: ", port)
-  }
+  assertPort(port)
   if (verbose) message(sprintf("%sBase port: %d", verbose_prefix, port))
 
   n <- length(workers)
@@ -547,9 +530,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
   stop_if_not(length(user) <= 1L)
   
   port <- as.integer(port)
-  if (is.na(port) || port < 0L || port > 65535L) {
-    stop("Invalid port: ", port)
-  }
+  assertPort(port)
 
   revtunnel <- as.logical(revtunnel)
   stop_if_not(length(revtunnel) == 1L, !is.na(revtunnel))
@@ -683,7 +664,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   ## Port that the Rscript should use to connect back to the master
   if (!localMachine && revtunnel) {
-    rscript_port <- port + (rank - 1L)
+    rscript_port <- assertPort(port + (rank - 1L))
   } else {
     rscript_port <- port
   }
@@ -1384,45 +1365,6 @@ readWorkerPID <- function(pidfile, wait = 0.5, maxTries = 8L, verbose = FALSE) {
   
   pid
 } ## readWorkerPID()
-
-
-randomParallelPorts <- function(default = 11000:11999) {
-  random <- getEnvVar2("R_PARALLELLY_RANDOM_PORTS", "")
-  if (!nzchar(random)) return(default)
-
-  pattern <- "^([[:digit:]]+)(|:([[:digit:]]+))$"
-  if (!grepl(pattern, random)) {
-    warning(sprintf("Value of environment variable 'R_PARALLELLY_RANDOM_PORTS' does not match regular expression %s: %s", sQuote(pattern), sQuote(random)))
-    return(default)
-  }
-
-  from <- sub(pattern, "\\1", random)
-  from <- as.integer(from)
-  if (is.na(from)) {
-    warning("Value of environment variable 'R_PARALLELLY_RANDOM_PORTS' coerced to NA_integer_: ", sQuote(random))
-    return(default)
-  }
-  if (from < 0L || from > 65535L) {
-    warning("Value of environment variable 'R_PARALLELLY_RANDOM_PORTS' does not specify ports in [0,65535]: ", sQuote(random))
-    return(default)
-  }
-
-  to <- sub(pattern, "\\3", random)
-  if (!nzchar(to)) return(from)
-  
-  to <- as.integer(to)
-  if (is.na(to)) {
-    warning("Value of environment variable 'R_PARALLELLY_RANDOM_PORTS' coerced to NA_integer_: ", sQuote(random))
-    return(default)
-  }
-  if (to < 0L || to > 65535L) {
-    warning("Value of environment variable 'R_PARALLELLY_RANDOM_PORTS' does not specify ports in [0,65535]: ", sQuote(random))
-    return(default)
-  }
-
-  from:to
-} ## randomParallelPorts()
-
 
 
 
