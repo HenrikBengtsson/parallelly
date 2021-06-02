@@ -94,33 +94,10 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
                     length(workers), hpaste(sQuote(workers))))
   }
 
-  if (is.character(port)) {
-    port <- match.arg(port, choices = c("auto", "random"))
-    if (identical(port, "auto")) {
-      port0 <- getEnvVar2("R_PARALLEL_PORT", "random")
-      if (identical(port0, "random")) {
-        port <- randomParallelPorts()
-      } else {
-        port <- suppressWarnings(as.integer(port0))
-        if (is.na(port)) {
-          warning("Non-numeric value of environment variable 'R_PARALLEL_PORT' coerced to NA_integer_: ", sQuote(port0))
-          port <- randomParallelPorts()
-        }
-      }
-    } else if (identical(port, "random")) {
-      port <- randomParallelPorts()
-    }
-  } else {
-    port <- as.integer(port)
-  }
   if (length(port) == 0L) {
     stop("Argument 'port' must be of length one or more: 0")
   }
-  if (length(port) > 1L) {
-    ports <- stealth_sample(port, size = tries)
-    port <- findAvailablePort(ports, default = ports[1])
-  }
-  assertPort(port)
+  port <- findAvailablePort(port, randomize = TRUE)
   if (verbose) message(sprintf("%sBase port: %d", verbose_prefix, port))
 
   n <- length(workers)

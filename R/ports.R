@@ -1,9 +1,15 @@
 #' Find or check TCP ports that can be opened
 #'
-#' @param ports (integer vector) TCP ports in \[0, 65535\] to scan.
+#' @param ports (integer vector, or character string)
+#' Zero or more TCP ports in \[0, 65535\] to scan.
+#' If `"random"`, then a random set of ports is considered.
+#' If `"auto"`, then the port given by environment variable
+#' \env{R_PARALLEL_PORT} is used, which may also specify `random`.
 #'
 #' @param default (integer) `NA_integer_` or a port to returned if
 #' an available port could not be found.
+#' If `"first"`, then `ports[1]`.  If `"random"`, then a random port
+#' among `ports` is used. If `length(ports) == 0`, then `NA_integer_`.
 #'
 #' @param randomize (logical) If TRUE, `ports` is randomly shuffled
 #' before searched.  This shuffle does _not_ forward the RNG seed.
@@ -15,16 +21,52 @@
 #' R (< 4.0.0), then `default` is returned.
 #'
 #' @keywords internal
-findAvailablePort <- function(ports = 1024:65535, default = NA_integer_, randomize = FALSE) {
-  default <- as.integer(default)
-  stop_if_not(length(default) == 1L)
-  if (!is.na(default)) default <- assertPort(default)
-  
-  ## Nothing todo?
-  if (length(ports) == 0) return(default)
+findAvailablePort <- function(ports = 1024:65535, default = "first", randomize = FALSE) {
+  if (is.character(default)) {
+    default <- match.arg(default, choices = c("first", "random"))
+  } else {
+    default <- as.integer(default)
+    stop_if_not(length(default) == 1L)
+    if (!is.na(default)) default <- assertPort(default)
+  }
+
+  if (is.character(ports)) {
+    how <- match.arg(ports, choices = c("auto", "random"))
+    if (identical(how, "auto")) {
+      ports <- getEnvVar2("R_PARALLEL_PORT", "random")
+      if (identical(ports, "random")) {
+        how <- "random"
+      } else {
+        ports <- suppressWarnings(as.integer(ports))
+        if (is.na(ports)) {
+          warning("Will use a random port because environment variable 'R_PARALLEL_PORT' coerced to NA_integer_: ", sQuote(getEnvVar2("R_PARALLEL_PORT")))
+          how <- "random"
+        }
+      }
+    }
+    if (identical(how, "random")) {
+      ports <- randomParallelPorts()
+      randomize <- TRUE
+    } else {
+      stop(sprintf("Unknown value on argument %s: %s",
+                   sQuote("port"), sQuote(how)))
+    }
+  }
+
+  ## Update 'default'?
+  ## Note, this will become NA_integer_ if length(ports) == 0
+  if (is.character(default)) {
+    default <- switch(default,
+      first = ports[1],
+      random = stealth_sample(ports, size = 1L)
+    )
+  }
 
   stop_if_not(is.logical(randomize), !is.na(randomize))
   if (randomize) ports <- stealth_sample(ports)
+
+  ## Nothing todo?
+  if (length(ports) == 0L) return(default)
 
   ## Find first available port
   for (kk in seq_along(ports)) {

@@ -5,15 +5,21 @@
 \alias{canPortBeUsed}
 \title{Find or check TCP ports that can be opened}
 \usage{
-findAvailablePort(ports = 1024:65535, default = NA_integer_, randomize = FALSE)
+findAvailablePort(ports = 1024:65535, default = "first", randomize = FALSE)
 
 canPortBeUsed(port)
 }
 \arguments{
-\item{ports}{(integer vector) TCP ports in [0, 65535] to scan.}
+\item{ports}{(integer vector, or character string)
+Zero or more TCP ports in [0, 65535] to scan.
+If \code{"random"}, then a random set of ports is considered.
+If \code{"auto"}, then the port given by environment variable
+\env{R_PARALLEL_PORT} is used, which may also specify \code{random}.}
 
 \item{default}{(integer) \code{NA_integer_} or a port to returned if
-an available port could not be found.}
+an available port could not be found.
+If \code{"first"}, then \code{ports[1]}.  If \code{"random"}, then a random port
+among \code{ports} is used. If \code{length(ports) == 0}, then \code{NA_integer_}.}
 
 \item{randomize}{(logical) If TRUE, \code{ports} is randomly shuffled
 before searched.  This shuffle does \emph{not} forward the RNG seed.}
