@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • parallelly</title>
+<title>Find or check TCP ports that can be opened — findAvailablePort • parallelly</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,7 +52,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Find or check TCP ports that can be opened — findAvailablePort" />
+<meta property="og:description" content="Find or check TCP ports that can be opened
+Check whether a TCP port can be opened or not" />
 <meta property="og:image" content="https://parallelly.futureverse.org/logo.png" />
 
 
@@ -82,7 +84,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -201,102 +203,65 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Find or check TCP ports that can be opened</h1>
+    <small class="dont-index">Source: <a href='https://github.com/HenrikBengtsson/parallelly/blob/master/R/ports.R'><code>R/ports.R</code></a></small>
+    <div class="hidden name"><code>findAvailablePort.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Find or check TCP ports that can be opened</p>
+<p>Check whether a TCP port can be opened or not</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>findAvailablePort</span><span class='op'>(</span>ports <span class='op'>=</span> <span class='fl'>1024</span><span class='op'>:</span><span class='fl'>65535</span>, default <span class='op'>=</span> <span class='st'>"first"</span>, randomize <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="as.cluster.html">as.cluster()</a></code> <code><a href="as.cluster.html">c(<i>&lt;cluster&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Coerce an Object to a Cluster Object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="autoStopCluster.html">autoStopCluster()</a></code> </p>
-        </td>
-        <td><p>Automatically Stop a Cluster when Garbage Collected</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="availableConnections.html">availableConnections()</a></code> <code><a href="availableConnections.html">freeConnections()</a></code> </p>
-        </td>
-        <td><p>Number of Available and Free Connections</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="availableCores.html">availableCores()</a></code> </p>
-        </td>
-        <td><p>Get Number of Available Cores on The Current Machine</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="availableWorkers.html">availableWorkers()</a></code> </p>
-        </td>
-        <td><p>Get Set of Available Workers</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="isConnectionValid.html">isConnectionValid()</a></code> <code><a href="isConnectionValid.html">connectionId()</a></code> </p>
-        </td>
-        <td><p>Checks if a Connection is Valid</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="isForkedNode.html">isForkedNode()</a></code> </p>
-        </td>
-        <td><p>Checks whether or not a Cluster Node Runs in a Forked Process</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="isLocalhostNode.html">isLocalhostNode()</a></code> </p>
-        </td>
-        <td><p>Checks whether or not a Cluster Node Runs on Localhost</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="makeClusterMPI.html">makeClusterMPI()</a></code> </p>
-        </td>
-        <td><p>Create a Message Passing Interface (MPI) Cluster of R Workers for Parallel Processing</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="makeClusterPSOCK.html">makeClusterPSOCK()</a></code> <code><a href="makeClusterPSOCK.html">makeNodePSOCK()</a></code> </p>
-        </td>
-        <td><p>Create a PSOCK Cluster of R Workers for Parallel Processing</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="supportsMulticore.html">supportsMulticore()</a></code> </p>
-        </td>
-        <td><p>Check If Forked Processing ("multicore") is Supported</p></td>
-      </tr>
-    </tbody>
+<span class='fu'>canPortBeUsed</span><span class='op'>(</span><span class='va'>port</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>ports</th>
+      <td><p>(integer vector, or character string)
+Zero or more TCP ports in [0, 65535] to scan.
+If <code>"random"</code>, then a random set of ports is considered.
+If <code>"auto"</code>, then the port given by environment variable
+<code class="env">R_PARALLEL_PORT</code> is used, which may also specify <code>random</code>.</p></td>
+    </tr>
+    <tr>
+      <th>default</th>
+      <td><p>(integer) <code>NA_integer_</code> or a port to returned if
+an available port could not be found.
+If <code>"first"</code>, then <code>ports[1]</code>.  If <code>"random"</code>, then a random port
+among <code>ports</code> is used. If <code>length(ports) == 0</code>, then <code>NA_integer_</code>.</p></td>
+    </tr>
+    <tr>
+      <th>randomize</th>
+      <td><p>(logical) If TRUE, <code>ports</code> is randomly shuffled
+before searched.  This shuffle does <em>not</em> forward the RNG seed.</p></td>
+    </tr>
+    <tr>
+      <th>port</th>
+      <td><p>(integer) A TCP port in [0, 65535].</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>findAvailablePort(ports)</code> returns an integer representing the first
+port among <code>ports</code> that can be opened.  If none can be opened, then
+<code>default</code> is returned.  If port querying is not supported, as in
+R (&lt; 4.0.0), then <code>default</code> is returned.</p>
+<p><code>canPortBeUsed(port)</code> returns a logical indicating whether the port can
+be opened or not, or cannot be queried.  If the port can be opened,
+then <code>TRUE</code> is returned, if cannot be opened then <code>FALSE</code> is returned,
+which may happen if the port is used by another process.
+If port querying is not supported, as in R (&lt; 4.0.0),  then <code>NA</code> is
+returned.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
