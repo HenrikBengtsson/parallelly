@@ -429,3 +429,32 @@ inRCmdCheck <- function() { queryRCmdCheck() != "notRunning" }
 comma <- function(x, sep = ", ") paste(x, collapse = sep)
 
 commaq <- function(x, sep = ", ") paste(sQuote(x), collapse = sep)
+
+
+## We are currently importing the following non-exported functions:
+## * makeClusterPSOCK():
+##   - parallel:::sendCall()
+##   - parallel:::recvResult()
+importParallel <- local({
+  ns <- NULL
+  cache <- list()
+  
+  function(name = NULL) {
+    res <- cache[[name]]
+    if (is.null(res)) {
+      ns <<- getNamespace("parallel")
+
+      if (!exists(name, mode = "function", envir = ns, inherits = FALSE)) {
+        ## covr: skip=3
+        msg <- sprintf("parallel:::%s() is not available on this system (%s)", name, sQuote(.Platform$OS.type))
+        mdebug(msg)
+        stop(msg, call. = FALSE)
+      }
+
+      res <- get(name, mode = "function", envir = ns, inherits = FALSE)
+
+      cache[[name]] <<- res
+    }
+    res
+  }
+})

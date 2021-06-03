@@ -1,7 +1,15 @@
 Package: parallelly
 ===================
 
-Version: 1.25.0-9000 [2021-05-17]
+Version: 1.25.0-9001 [2021-06-02]
+
+NEW FEATURES:
+
+ * makeClusterPSOCK() now support setting up cluster nodes in parallel
+   similarly to how parallel::makePSOCKcluster() does it.  This significantly
+   reduces the setup turnaround time.  This is only supported in R (>= 4.0.0).
+   To revert to the sequential setup strategy, set R option
+   'parallelly.makeNodePSOCK.setup_strategy' to "sequential".
 
 BUG FIXES:
 

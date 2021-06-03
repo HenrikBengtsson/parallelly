@@ -42,6 +42,9 @@ makeNodePSOCK(
   manual = FALSE,
   dryrun = FALSE,
   quiet = FALSE,
+  setup_strategy = getOptionOrEnvVar("parallelly.makeNodePSOCK.setup_strategy",
+    "parallel"),
+  action = c("launch", "options"),
   verbose = FALSE
 )
 }
@@ -154,7 +157,8 @@ vector).  These arguments are only applied if \code{machine} is not
 \item{user}{(optional) The user name to be used when communicating with
 another host.}
 
-\item{revtunnel}{If TRUE, a reverse SSH tunnel is set up for each worker such#' that the worker \R process sets up a socket connection to its local port
+\item{revtunnel}{If TRUE, a reverse SSH tunnel is set up for each worker such
+that the worker \R process sets up a socket connection to its local port
 \code{(port - rank + 1)} which then reaches the master on port \code{port}.
 If FALSE, then the worker will try to connect directly to port \code{port} on
 \code{master}.  For more details, see below.}
@@ -179,6 +183,12 @@ troubleshooting.}
 
 \item{quiet}{If TRUE, then no output will be produced other than that from
 using \code{verbose = TRUE}.}
+
+\item{setup_strategy}{If \code{"parallel"} (default), the workers are setup
+concurrently, one after the other.  If \code{"sequential"}, they are setup
+sequentially.}
+
+\item{action}{This is an internal argument.}
 }
 \value{
 An object of class \code{c("RichSOCKcluster", "SOCKcluster", "cluster")}
