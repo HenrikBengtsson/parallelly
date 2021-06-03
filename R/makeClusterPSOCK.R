@@ -162,7 +162,113 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   })
 
   if (setup_strategy == "parallel") {
-    stop("PSOCK cluster setup strategy 'parallel' is not yet supported")
+    ## To please R CMD check on R (< 4.0.0)
+    if (getRversion() < "4.0.0") {
+      stop(sprintf("Parallel setup of PSOCK cluster nodes is not supported in R %s", getRversion()))
+      socketAccept <- serverSocket <- function(...) NULL
+    }
+    
+    sendCall <- importParallel("sendCall")
+    recvResult <- importParallel("recvResult")
+    
+    ## AD HOC: Use (port, timeout, useXDR) from the options of the first node
+    options <- nodeOptions[[1]]
+    if (verbose) {
+      message(sprintf("%sSetting up PSOCK nodes in parallel", verbose_prefix))
+      mstr(options, debug = verbose)
+    }
+    port <- options[["port"]]
+    connectTimeout <- options[["connectTimeout"]]
+    timeout <- options[["timeout"]]
+    useXDR <- options[["useXDR"]]
+    nodeClass <- c("RichSOCKnode", if(useXDR) "SOCKnode" else "SOCK0node")
+    cmd <- options[["cmd"]]
+
+    if (verbose) {
+      message(sprintf("%sSystem call to launch all workers:", verbose_prefix))
+      message(sprintf("%s%s", verbose_prefix, cmd))
+    }
+
+    ## FIXME: Add argument, option, environment variable for this
+
+    ## Start listening and start workers.
+    if (verbose) message(sprintf("%sStarting PSOCK main server", verbose_prefix))
+    socket <- serverSocket(port = port)
+    on.exit(close(socket), add = TRUE)
+
+    if (.Platform$OS.type == "windows") {
+      for (ii in seq_along(cl)) {
+        ## See parallel::newPSOCKnode() for the input = ""
+        system(cmd, wait = FALSE, input = "")
+      }
+    } else {
+      ## Asynchronous lists are defined by POSIX
+      cmd <- paste(rep(cmd, times = length(cl)), collapse = " & ")
+      system(cmd, wait = FALSE)
+    }
+
+    if (verbose) message(sprintf("%sWorkers launched", verbose_prefix))
+
+    ## Accept connections and send the first command as initial
+    ## handshake.  The handshake makes TCP synchronization detect and
+    ## err on half-opened connections, which arise during parallel setup
+    ## of client-server connections (due to internal timeouts, limited
+    ## length of the listen backlog queue, race in timing out on
+    ## creating a connection and probably more).
+    ##
+    ## The handshake looks like a regular server command followed by
+    ## client response, which is compatible with older versions of R.
+    ready <- 0L
+    pending <- list()
+    on.exit({
+      lapply(pending, FUN = function(x) close(x$con))
+      cl <- NULL
+    }, add = TRUE)
+
+    if (verbose) message(sprintf("%sWaiting for workers to connect back", verbose_prefix))
+
+    t0 <- Sys.time()
+    while (ready < length(cl)) {
+      if (verbose) message(sprintf("%s%d workers out of %d ready", verbose_prefix, ready, length(cl)))
+
+      cons <- lapply(pending, FUN = function(x) x$con)
+
+      if (difftime(Sys.time(), t0, units="secs") > connectTimeout + 5) {
+          ## The workers will give up after connectTimeout, so there is
+          ## no point waiting for them much longer.
+          failed <- length(cl) - ready
+          msg <- sprintf(ngettext(failed,
+                     "Cluster setup failed. %d worker of %d failed to connect.",
+                     "Cluster setup failed. %d of %d workers failed to connect."),
+                         failed, length(cl))
+          stop(msg)
+      }
+      a <- socketSelect(append(list(socket), cons), write = FALSE, timeout = connectTimeout)
+      canAccept <- a[1]
+      canReceive <- seq_along(pending)[a[-1]]
+
+      if (canAccept) {
+        con <- socketAccept(socket = socket, blocking = TRUE, open = "a+b", timeout = timeout)
+        scon <- structure(list(con = con, host = "localhost", rank = ready), class = nodeClass)
+        res <- tryCatch({
+          sendCall(scon, eval, list(quote(Sys.getpid())))
+        }, error = identity)
+        pending <- append(pending, list(scon))
+      }
+      
+      for (scon in pending[canReceive]) {
+        pid <- tryCatch({
+          recvResult(scon)
+        }, error = identity)
+        if (is.integer(pid)) {
+          ready <- ready + 1L
+          cl[[ready]] <- scon
+        } else {
+          close(scon$con)
+        }
+      }
+      if (length(canReceive) > 0L) pending <- pending[-canReceive]
+    } ## while()
   } else if (setup_strategy == "sequential") {
     for (ii in seq_along(cl)) {
       if (verbose) {
@@ -205,21 +311,23 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       }
       cl[[ii]] <- node
   
-      if (validate) {
-        ## Attaching session information for each worker.  This is done to assert
-        ## that we have a working cluster already here.  It will also collect
-        ## useful information otherwise not available, e.g. the PID.
-        if (verbose) {
-          message(sprintf("%s- collecting session information", verbose_prefix))
-        }
-        cl[ii] <- add_cluster_session_info(cl[ii])
-      }
-      
       if (verbose) {
         message(sprintf("%sCreating node %d of %d ... done", verbose_prefix, ii, n))
       }
     }
   }
+
+  if (validate) {
+    ## Attaching session information for each worker.  This is done to assert
+    ## that we have a working cluster already here.  It will also collect
+    ## useful information otherwise not available, e.g. the PID.
+    if (verbose) {
+      message(sprintf("%s- collecting session information", verbose_prefix))
+    }
+    for (ii in seq_along(cl)) {
+      cl[ii] <- add_cluster_session_info(cl[ii])
+    }
+  }      
 
   if (autoStop) cl <- autoStopCluster(cl)
 
@@ -311,7 +419,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @param user (optional) The user name to be used when communicating with
 #' another host.
 #' 
-#' @param revtunnel If TRUE, a reverse SSH tunnel is set up for each worker such#' that the worker \R process sets up a socket connection to its local port
+#' @param revtunnel If TRUE, a reverse SSH tunnel is set up for each worker such
+#' that the worker \R process sets up a socket connection to its local port
 #' `(port - rank + 1)` which then reaches the master on port `port`.
 #' If FALSE, then the worker will try to connect directly to port `port` on
 #' `master`.  For more details, see below.
@@ -323,12 +432,12 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' launch the worker from the terminal is outputted.  This is useful for
 #' troubleshooting.
 #'
-#' @param setup_strategy If `"sequential"` (default), the workers are setup
-#' sequentially, one after the other.  If `"parallel"`, they are setup
-#' concurrently.
-#'
 #' @param quiet If TRUE, then no output will be produced other than that from
 #' using `verbose = TRUE`.
+#'
+#' @param setup_strategy If `"parallel"` (default), the workers are setup
+#' concurrently, one after the other.  If `"sequential"`, they are setup
+#' sequentially.
 #'
 #' @param action This is an internal argument.
 #'
@@ -530,7 +639,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @importFrom tools pskill
 #' @importFrom utils flush.console
 #' @export
-makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOptionOrEnvVar("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, setup_strategy = "sequential", quiet = FALSE, action = c("launch", "options"), verbose = FALSE) {
+makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOptionOrEnvVar("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOptionOrEnvVar("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
   verbose <- as.logical(verbose)
   stop_if_not(length(verbose) == 1L, !is.na(verbose))
 
@@ -603,7 +712,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   timeout <- as.numeric(timeout)
   stop_if_not(length(timeout) == 1L, !is.na(timeout), is.finite(timeout), timeout >= 0)
-  
+
   methods <- as.logical(methods)
   stop_if_not(length(methods) == 1L, !is.na(methods))
  
@@ -619,7 +728,10 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   ## Is a parallel setup strategy possible?
   if (setup_strategy == "parallel") {
-    if (manual || !homogeneous || !localMachine) setup_strategy <- "sequential"
+    if (getRversion() < "4.0.0" ||
+        manual || dryrun || !homogeneous || !localMachine) {
+      setup_strategy <- "sequential"
+    }
   }
 
   if (is.null(rscript)) {
@@ -782,15 +894,15 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
   
   ## .{slave,work}RSOCK() command already specified?
   if (!any(grepl("parallel:::[.](slave|work)RSOCK[(][)]", rscript_args))) {
-    ## In R (>= 4.1., parallel:::.slaveRSOCK() was renamed .workRSOCK()
-    cmd <- "workRSOCK <- tryCatch(parallel:::.slaveRSOCK, error=function(e) parallel:::.workRSOCK); workRSOCK()"
+    ## In R (>= 4.1.0, parallel:::.slaveRSOCK() was renamed .workRSOCK()
+    cmd <- "workRSOCK <- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()"
     rscript_args <- c(rscript_args, "-e", shQuote(cmd))
   }
 
   rscript <- paste(rscript, collapse = " ")
   rscript_args <- paste(rscript_args, collapse = " ")
   envvars <- paste0("MASTER=", master, " PORT=", rscript_port, " OUT=", outfile, " TIMEOUT=", timeout, " XDR=", useXDR,
-                    " SETUPSTRATEGY=", setup_strategy)
+                    " SETUPTIMEOUT=", connectTimeout, " SETUPSTRATEGY=", setup_strategy)
   
   cmd <- paste(rscript, rscript_args, envvars)
 
