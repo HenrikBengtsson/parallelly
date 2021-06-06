@@ -218,6 +218,13 @@
 <li>makeClusterPSOCK() now support setting up cluster nodes in parallel similarly to how parallel::makePSOCKcluster() does it. This significantly reduces the setup turnaround time. This is only supported in R (&gt;= 4.0.0). To revert to the sequential setup strategy, set R option ‘parallelly.makeNodePSOCK.setup_strategy’ to “sequential”.</li>
 </ul>
 </div>
+<div id="documentation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#documentation" class="anchor"></a>Documentation</h3>
+<ul>
+<li>Documenting more R options and environment variables used by this package.</li>
+</ul>
+</div>
 <div id="bug-fixes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug Fixes</h3>
@@ -493,9 +500,9 @@
 <h1 class="page-header" data-toc-text="1.15.0">
 <a href="#parallelly-1-15-0" class="anchor"></a>parallelly 1.15.0<small> Unreleased </small>
 </h1>
-<div id="documentation" class="section level3">
+<div id="documentation-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#documentation" class="anchor"></a>Documentation</h3>
+<a href="#documentation-1" class="anchor"></a>Documentation</h3>
 <ul>
 <li>Added ‘Troubleshooting’ section to ?makeClusterPSOCK with instructions on how to troubleshoot when the setup of local and remote clusters fail.</li>
 </ul>
@@ -679,9 +686,9 @@
 <li><p>makeClusterPSOCK() now asserts that each cluster node is functioning by retrieving and recording the node’s session information including the process ID of the corresponding R process.</p></li>
 </ul>
 </div>
-<div id="documentation-1" class="section level3">
+<div id="documentation-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#documentation-1" class="anchor"></a>Documentation</h3>
+<a href="#documentation-2" class="anchor"></a>Documentation</h3>
 <ul>
 <li>Help on makeClusterPSOCK() gained more detailed descriptions on arguments and what their defaults are.</li>
 </ul>

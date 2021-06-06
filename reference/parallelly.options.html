@@ -229,6 +229,7 @@ further notice.</em></p>
 
     
 
+
 <p>The functions in the <span class="pkg">parallelly</span> package originates from the
 <span class="pkg">future</span> package.  Because they are widely used within the future
 ecosystem, we need to keep them backward compatible for quite a long time,
@@ -240,19 +241,12 @@ and <code>R_PARALLELLY_</code>, respectively.  Because of the backward compatibi
 with the <span class="pkg">future</span> package, the same settings can also be controlled
 by options and environment variables with prefixes <code>future.</code> and
 <code>R_FUTURE_</code> until further notice.</p>
-    <h2 class="hasAnchor" id="options-for-debugging"><a class="anchor" href="#options-for-debugging"></a>Options for debugging</h2>
+    <h2 class="hasAnchor" id="configuring-number-of-parallel-workers"><a class="anchor" href="#configuring-number-of-parallel-workers"></a>Configuring number of parallel workers</h2>
 
     
 
-<dl>
-<dt><span class="option">parallelly.debug</span>:</dt><dd><p>(logical) If <code>TRUE</code>, extensive debug messages are generated. (Default: <code>FALSE</code>)</p></dd>
 
-</dl>
-
-    <h2 class="hasAnchor" id="options-for-configuring-low-level-system-behaviors"><a class="anchor" href="#options-for-configuring-low-level-system-behaviors"></a>Options for configuring low-level system behaviors</h2>
-
-    
-
+<p>The below <span style="R">R</span> options and environment variables control the default results of <code><a href='availableCores.html'>availableCores()</a></code> and <code><a href='availableWorkers.html'>availableWorkers()</a></code>.</p>
 <dl>
 <dt><span class="option">parallelly.availableCores.logical</span> / <span class="option">future.availableCores.logical</span>:</dt><dd><p>(logical) The default value of argument <code>logical</code> as used by <code><a href='availableCores.html'>availableCores()</a></code>, <code><a href='availableWorkers.html'>availableWorkers()</a></code>, and <code><a href='availableCores.html'>availableCores()</a></code> for querying <code><a href='https://rdrr.io/r/parallel/detectCores.html'>parallel::detectCores(logical = logical)</a></code>.  If not specified, this option is set according to system environment variable <code class="env">R_PARALLELLY_AVAILABLECORES_LOGICAL</code> when the <span class="pkg">parallelly</span> package is <em>loaded</em>.  The default is <code>TRUE</code> just like it is for <code><a href='https://rdrr.io/r/parallel/detectCores.html'>parallel::detectCores()</a></code>.</p></dd>
 
@@ -270,9 +264,56 @@ by options and environment variables with prefixes <code>future.</code> and
 
 <dt><span class="option">parallelly.availableWorkers.custom</span> / <span class="option">future.availableWorkers.custom</span>:</dt><dd><p>(function) If set and a function, then this function will be called (without arguments) by <code><a href='availableWorkers.html'>availableWorkers()</a></code> where its value, coerced to a character vector, is interpreted as hostnames of available workers.</p></dd>
 
-<dt><span class="option">parallelly.fork.enable</span> / <span class="option">future.fork.enable</span>:</dt><dd><p>(logical) Enable or disable <em>forked</em> processing.  If <code>FALSE</code>, multicore futures becomes sequential futures.  If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_FORK_ENABLE</code>.  If <code>NA</code>, or not set (the default), the a set of best-practices rules decide whether should be supported or not.  See <code><a href='supportsMulticore.html'>supportsMulticore()</a></code> for more details.</p></dd>
+</dl>
 
-<dt><span class="option">parallelly.supportsMulticore.unstable</span> / <span class="option">future.supportsMulticore.unstable</span>:</dt><dd><p>(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If <code>"warning"</code> (default), then an informative warning is produces the first time 'multicore' or 'multiprocess' futures are used.  If <code>"quiet"</code>, no warning is produced.  If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE</code>.  See <code><a href='supportsMulticore.html'>supportsMulticore()</a></code> for more details.</p></dd>
+    <h2 class="hasAnchor" id="configuring-forked-parallel-processing"><a class="anchor" href="#configuring-forked-parallel-processing"></a>Configuring forked parallel processing</h2>
+
+    
+
+
+<p>The below <span style="R">R</span> options and environment variables control the default result of <code><a href='supportsMulticore.html'>supportsMulticore()</a></code>.</p>
+<dl>
+<dt><span class="option">parallelly.fork.enable</span> / <span class="option">future.fork.enable</span>:</dt><dd><p>(logical) Enable or disable <em>forked</em> processing.  If <code>FALSE</code>, multicore futures becomes sequential futures.  If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_FORK_ENABLE</code>.  If <code>NA</code>, or not set (the default), the a set of best-practices rules decide whether should be supported or not.</p></dd>
+
+<dt><span class="option">parallelly.supportsMulticore.unstable</span> / <span class="option">future.supportsMulticore.unstable</span>:</dt><dd><p>(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If <code>"warning"</code> (default), then an informative warning is produces the first time 'multicore' or 'multiprocess' futures are used.  If <code>"quiet"</code>, no warning is produced.  If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE</code>.</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="configuring-setup-of-parallel-psock-clusters"><a class="anchor" href="#configuring-setup-of-parallel-psock-clusters"></a>Configuring setup of parallel PSOCK clusters</h2>
+
+    
+
+
+<p>The below <span style="R">R</span> options and environment variables control the default results of <code><a href='makeClusterPSOCK.html'>makeClusterPSOCK()</a></code> and its helper function <code><a href='makeClusterPSOCK.html'>makeNodePSOCK()</a></code> that creates the individual cluster nodes.</p>
+<dl>
+<dt><span class="option">parallelly.makeNodePSOCK.setup_strategy</span>:</dt><dd><p>(character string) If <code>"parallel"</code> (default), the PSOCK cluster nodes are set up concurrently, one after the other.  If <code>"sequential"</code>, they are set up sequentially.  If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY</code>.</p></dd>
+
+<dt><span class="option">parallelly.makeNodePSOCK.validate</span>:</dt><dd><p>(logical) If TRUE (default), after the nodes have been created, they are all validated that they work by inquiring about their session information, which is saved in attribute <code>session_info</code> of each node.  If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_MAKENODEPSOCK_VALIDATE</code>.</p></dd>
+
+<dt><span class="option">parallelly.makeNodePSOCK.connectTimeout</span>:</dt><dd><p>(numeric) The maximum time (in seconds) allowed for each socket connection between the master and a worker to be established (defaults to
+2 minutes).  If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_MAKENODEPSOCK_CONNECTTIMEOUT</code>.</p></dd>
+
+<dt><span class="option">parallelly.makeNodePSOCK.timeout</span>:</dt><dd><p>(numeric) The maximum time (in seconds) allowed to pass without the master and a worker communicate with each other (defaults to 30 days).  If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_MAKENODEPSOCK_TIMEOUT</code>.</p></dd>
+
+<dt><span class="option">parallelly.makeNodePSOCK.useXDR</span>:</dt><dd><p>(logical) If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).  If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_MAKENODEPSOCK_USEXDR</code>.</p></dd>
+
+<dt><span class="option">parallelly.makeNodePSOCK.rshcmd</span>:</dt><dd><p>The command (character vector) to be run on the master to launch a process on another host.  If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_MAKENODEPSOCK_RSHCMD</code>.</p></dd>
+
+<dt><span class="option">parallelly.makeNodePSOCK.rshopts</span>:</dt><dd><p>(character vector) Addition command-line options appended to <code>rshcmd</code>.  These arguments are only applied when connecting to non-localhost machines.  If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_MAKENODEPSOCK_RSHOPTS</code>.</p></dd>
+
+<dt><span class="option">parallelly.makeNodePSOCK.tries</span>:</dt><dd><p>(integer) The maximum number of attempts done to launch each node.  Only used when setting up cluster nodes using the sequential strategy. If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_MAKENODEPSOCK_TRIES</code>.</p></dd>
+
+<dt><span class="option">parallelly.makeNodePSOCK.tries.delay</span>:</dt><dd><p>(numeric) The number of seconds to wait before trying to launch a cluster node that failed to launch previously.  Only used when setting up cluster nodes using the sequential strategy. If not specified, this option is set according to environment variable <code class="env">R_PARALLELLY_MAKENODEPSOCK_TRIES_DELAY</code>.</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="options-for-debugging"><a class="anchor" href="#options-for-debugging"></a>Options for debugging</h2>
+
+    
+
+
+<dl>
+<dt><span class="option">parallelly.debug</span>:</dt><dd><p>(logical) If <code>TRUE</code>, extensive debug messages are generated. (Default: <code>FALSE</code>)</p></dd>
 
 </dl>
 

@@ -317,11 +317,12 @@ garbage collected, unless already stopped.  See also <code><a href='autoStopClus
       <td><p>Maximum number of attempts done to launch each node
 with <code>makeNode()</code> and the delay (in seconds) in-between attempts.
 If argument <code>port</code> specifies more than one port, e.g. <code>port = "random"</code>
-then a random port will be drawn and validated at most <code>tries</code> times.</p></td>
+then a random port will be drawn and validated at most <code>tries</code> times.
+Arguments <code>tries</code> and <code>delay</code> are used only when <code>setup_strategy == "sequential</code>.</p></td>
     </tr>
     <tr>
       <th>validate</th>
-      <td><p>If TRUE, after the nodes have been created, they are all
+      <td><p>If TRUE (default), after the nodes have been created, they are all
 validated that they work by inquiring about their session information,
 which is saved in attribute <code>session_info</code> of each node.</p></td>
     </tr>
@@ -401,8 +402,7 @@ to set the working directory to <code class="file">/path/to</code> on <em>all</e
     </tr>
     <tr>
       <th>useXDR</th>
-      <td><p>If TRUE, the communication between master and workers, which
-is binary, will use big-endian (XDR).</p></td>
+      <td><p>If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).</p></td>
     </tr>
     <tr>
       <th>outfile</th>
@@ -470,8 +470,8 @@ using <code>verbose = TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>setup_strategy</th>
-      <td><p>If <code>"parallel"</code> (default), the workers are setup
-concurrently, one after the other.  If <code>"sequential"</code>, they are setup
+      <td><p>If <code>"parallel"</code> (default), the workers are set up
+concurrently, one after the other.  If <code>"sequential"</code>, they are set up
 sequentially.</p></td>
     </tr>
     <tr>
