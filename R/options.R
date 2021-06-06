@@ -20,12 +20,8 @@
 #' by options and environment variables with prefixes `future.` and
 #' `R_FUTURE_` until further notice.
 #'
-#' @section Options for debugging:
-#' \describe{
-#'  \item{\option{parallelly.debug}:}{(logical) If `TRUE`, extensive debug messages are generated. (Default: `FALSE`)}
-#' }
+#' @section Configuring number of parallel workers:
 #'
-#' @section Options for configuring low-level system behaviors:
 #' \describe{
 #'  \item{\option{parallelly.availableCores.logical} / \option{future.availableCores.logical}:}{(logical) The default value of argument `logical` as used by `availableCores()`, `availableWorkers()`, and `availableCores()` for querying `parallel::detectCores(logical = logical)`.  If not specified, this option is set according to system environment variable \env{R_PARALLELLY_AVAILABLECORES_LOGICAL} when the \pkg{parallelly} package is _loaded_.  The default is `TRUE` just like it is for [parallel::detectCores()].}
 #'
@@ -42,11 +38,24 @@
 #'  \item{\option{parallelly.availableWorkers.methods} / \option{future.availableWorkers.methods}:}{(character vector) Default lookup methods for [availableWorkers()]. (Default: `c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")`)}
 #'
 #'  \item{\option{parallelly.availableWorkers.custom} / \option{future.availableWorkers.custom}:}{(function) If set and a function, then this function will be called (without arguments) by [availableWorkers()] where its value, coerced to a character vector, is interpreted as hostnames of available workers.}
+#' }
 #'
+#'
+#' @section Configuring forked parallel processing:
+#'
+#' \describe{
 #'  \item{\option{parallelly.fork.enable} / \option{future.fork.enable}:}{(logical) Enable or disable _forked_ processing.  If `FALSE`, multicore futures becomes sequential futures.  If not specified, this option is set according to environment variable \env{R_PARALLELLY_FORK_ENABLE}.  If `NA`, or not set (the default), the a set of best-practices rules decide whether should be supported or not.  See [supportsMulticore()] for more details.}
 #'
 #'  \item{\option{parallelly.supportsMulticore.unstable} / \option{future.supportsMulticore.unstable}:}{(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If `"warning"` (default), then an informative warning is produces the first time 'multicore' or 'multiprocess' futures are used.  If `"quiet"`, no warning is produced.  If not specified, this option is set according to environment variable \env{R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE}.  See [supportsMulticore()] for more details.}
 #' }
+#'
+#'
+#' @section Options for debugging:
+#'
+#' \describe{
+#'  \item{\option{parallelly.debug}:}{(logical) If `TRUE`, extensive debug messages are generated. (Default: `FALSE`)}
+#' }
+#'
 #'
 #' @examples
 #' # Set an R option:
