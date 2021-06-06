@@ -79,9 +79,10 @@ garbage collected, unless already stopped.  See also \code{\link[=autoStopCluste
 \item{tries, delay}{Maximum number of attempts done to launch each node
 with \code{makeNode()} and the delay (in seconds) in-between attempts.
 If argument \code{port} specifies more than one port, e.g. \code{port = "random"}
-then a random port will be drawn and validated at most \code{tries} times.}
+then a random port will be drawn and validated at most \code{tries} times.
+Arguments \code{tries} and \code{delay} are used only when \verb{setup_strategy == "sequential}.}
 
-\item{validate}{If TRUE, after the nodes have been created, they are all
+\item{validate}{If TRUE (default), after the nodes have been created, they are all
 validated that they work by inquiring about their session information,
 which is saved in attribute \code{session_info} of each node.}
 
@@ -137,8 +138,7 @@ to set the working directory to \file{/path/to} on \emph{all} workers.}
 
 \item{methods}{If TRUE, then the \pkg{methods} package is also loaded.}
 
-\item{useXDR}{If TRUE, the communication between master and workers, which
-is binary, will use big-endian (XDR).}
+\item{useXDR}{If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).}
 
 \item{outfile}{Where to direct the \link[base:showConnections]{stdout} and
 \link[base:showConnections]{stderr} connection output from the workers.
@@ -184,8 +184,8 @@ troubleshooting.}
 \item{quiet}{If TRUE, then no output will be produced other than that from
 using \code{verbose = TRUE}.}
 
-\item{setup_strategy}{If \code{"parallel"} (default), the workers are setup
-concurrently, one after the other.  If \code{"sequential"}, they are setup
+\item{setup_strategy}{If \code{"parallel"} (default), the workers are set up
+concurrently, one after the other.  If \code{"sequential"}, they are set up
 sequentially.}
 
 \item{action}{This is an internal argument.}

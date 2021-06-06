@@ -38,6 +38,7 @@ further notice.}
 }
 \section{Backward compatibility with the \pkg{future} package}{
 
+
 The functions in the \pkg{parallelly} package originates from the
 \pkg{future} package.  Because they are widely used within the future
 ecosystem, we need to keep them backward compatible for quite a long time,
@@ -53,6 +54,8 @@ by options and environment variables with prefixes \code{future.} and
 
 \section{Configuring number of parallel workers}{
 
+
+The below \R options and environment variables control the default results of \code{\link[=availableCores]{availableCores()}} and \code{\link[=availableWorkers]{availableWorkers()}}.
 
 \describe{
 \item{\option{parallelly.availableCores.logical} / \option{future.availableCores.logical}:}{(logical) The default value of argument \code{logical} as used by \code{availableCores()}, \code{availableWorkers()}, and \code{availableCores()} for querying \code{parallel::detectCores(logical = logical)}.  If not specified, this option is set according to system environment variable \env{R_PARALLELLY_AVAILABLECORES_LOGICAL} when the \pkg{parallelly} package is \emph{loaded}.  The default is \code{TRUE} just like it is for \code{\link[parallel:detectCores]{parallel::detectCores()}}.}
@@ -76,10 +79,39 @@ by options and environment variables with prefixes \code{future.} and
 \section{Configuring forked parallel processing}{
 
 
-\describe{
-\item{\option{parallelly.fork.enable} / \option{future.fork.enable}:}{(logical) Enable or disable \emph{forked} processing.  If \code{FALSE}, multicore futures becomes sequential futures.  If not specified, this option is set according to environment variable \env{R_PARALLELLY_FORK_ENABLE}.  If \code{NA}, or not set (the default), the a set of best-practices rules decide whether should be supported or not.  See \code{\link[=supportsMulticore]{supportsMulticore()}} for more details.}
+The below \R options and environment variables control the default result of \code{\link[=supportsMulticore]{supportsMulticore()}}.
 
-\item{\option{parallelly.supportsMulticore.unstable} / \option{future.supportsMulticore.unstable}:}{(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If \code{"warning"} (default), then an informative warning is produces the first time 'multicore' or 'multiprocess' futures are used.  If \code{"quiet"}, no warning is produced.  If not specified, this option is set according to environment variable \env{R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE}.  See \code{\link[=supportsMulticore]{supportsMulticore()}} for more details.}
+\describe{
+\item{\option{parallelly.fork.enable} / \option{future.fork.enable}:}{(logical) Enable or disable \emph{forked} processing.  If \code{FALSE}, multicore futures becomes sequential futures.  If not specified, this option is set according to environment variable \env{R_PARALLELLY_FORK_ENABLE}.  If \code{NA}, or not set (the default), the a set of best-practices rules decide whether should be supported or not.}
+
+\item{\option{parallelly.supportsMulticore.unstable} / \option{future.supportsMulticore.unstable}:}{(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If \code{"warning"} (default), then an informative warning is produces the first time 'multicore' or 'multiprocess' futures are used.  If \code{"quiet"}, no warning is produced.  If not specified, this option is set according to environment variable \env{R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE}.}
+}
+}
+
+\section{Configuring setup of parallel PSOCK clusters}{
+
+
+The below \R options and environment variables control the default results of \code{\link[=makeClusterPSOCK]{makeClusterPSOCK()}} and its helper function \code{\link[=makeNodePSOCK]{makeNodePSOCK()}} that creates the individual cluster nodes.
+
+\describe{
+\item{\option{parallelly.makeNodePSOCK.setup_strategy}:}{(character string) If \code{"parallel"} (default), the PSOCK cluster nodes are set up concurrently, one after the other.  If \code{"sequential"}, they are set up sequentially.  If not specified, this option is set according to environment variable \env{R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY}.}
+
+\item{\option{parallelly.makeNodePSOCK.validate}:}{(logical) If TRUE (default), after the nodes have been created, they are all validated that they work by inquiring about their session information, which is saved in attribute \code{session_info} of each node.  If not specified, this option is set according to environment variable \env{R_PARALLELLY_MAKENODEPSOCK_VALIDATE}.}
+
+\item{\option{parallelly.makeNodePSOCK.connectTimeout}:}{(numeric) The maximum time (in seconds) allowed for each socket connection between the master and a worker to be established (defaults to
+2 minutes).  If not specified, this option is set according to environment variable \env{R_PARALLELLY_MAKENODEPSOCK_CONNECTTIMEOUT}.}
+
+\item{\option{parallelly.makeNodePSOCK.timeout}:}{(numeric) The maximum time (in seconds) allowed to pass without the master and a worker communicate with each other (defaults to 30 days).  If not specified, this option is set according to environment variable \env{R_PARALLELLY_MAKENODEPSOCK_TIMEOUT}.}
+
+\item{\option{parallelly.makeNodePSOCK.useXDR}:}{(logical) If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).  If not specified, this option is set according to environment variable \env{R_PARALLELLY_MAKENODEPSOCK_USEXDR}.}
+
+\item{\option{parallelly.makeNodePSOCK.rshcmd}:}{The command (character vector) to be run on the master to launch a process on another host.  If not specified, this option is set according to environment variable \env{R_PARALLELLY_MAKENODEPSOCK_RSHCMD}.}
+
+\item{\option{parallelly.makeNodePSOCK.rshopts}:}{(character vector) Addition command-line options appended to \code{rshcmd}.  These arguments are only applied when connecting to non-localhost machines.  If not specified, this option is set according to environment variable \env{R_PARALLELLY_MAKENODEPSOCK_RSHOPTS}.}
+
+\item{\option{parallelly.makeNodePSOCK.tries}:}{(integer) The maximum number of attempts done to launch each node.  Only used when setting up cluster nodes using the sequential strategy. If not specified, this option is set according to environment variable \env{R_PARALLELLY_MAKENODEPSOCK_TRIES}.}
+
+\item{\option{parallelly.makeNodePSOCK.tries.delay}:}{(numeric) The number of seconds to wait before trying to launch a cluster node that failed to launch previously.  Only used when setting up cluster nodes using the sequential strategy. If not specified, this option is set according to environment variable \env{R_PARALLELLY_MAKENODEPSOCK_TRIES_DELAY}.}
 }
 }
 
@@ -103,4 +135,3 @@ Sys.setenv(R_PARALLELLY_AVAILABLECORES_FALLBACK = "1")
 \seealso{
 To set \R options when \R starts (even before the \pkg{parallelly} package is loaded), see the \link[base]{Startup} help page.  The \href{https://cran.r-project.org/package=startup}{\pkg{startup}} package provides a friendly mechanism for configuring \R's startup process.
 }
-\keyword{internal}

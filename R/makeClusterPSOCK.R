@@ -41,8 +41,9 @@
 #' with `makeNode()` and the delay (in seconds) in-between attempts.
 #' If argument `port` specifies more than one port, e.g. `port = "random"`
 #' then a random port will be drawn and validated at most `tries` times.
+#' Arguments `tries` and `delay` are used only when `setup_strategy == "sequential`.
 #'
-#' @param validate If TRUE, after the nodes have been created, they are all
+#' @param validate If TRUE (default), after the nodes have been created, they are all
 #' validated that they work by inquiring about their session information,
 #' which is saved in attribute `session_info` of each node.
 #'
@@ -388,8 +389,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' 
 #' @param methods If TRUE, then the \pkg{methods} package is also loaded.
 #' 
-#' @param useXDR If TRUE, the communication between master and workers, which
-#' is binary, will use big-endian (XDR).
+#' @param useXDR If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).
 #' 
 #' @param outfile Where to direct the \link[base:showConnections]{stdout} and
 #' \link[base:showConnections]{stderr} connection output from the workers.
@@ -435,8 +435,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @param quiet If TRUE, then no output will be produced other than that from
 #' using `verbose = TRUE`.
 #'
-#' @param setup_strategy If `"parallel"` (default), the workers are setup
-#' concurrently, one after the other.  If `"sequential"`, they are setup
+#' @param setup_strategy If `"parallel"` (default), the workers are set up
+#' concurrently, one after the other.  If `"sequential"`, they are set up
 #' sequentially.
 #'
 #' @param action This is an internal argument.
