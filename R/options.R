@@ -162,10 +162,12 @@
 #' R_PARALLELLY_MAKENODEPSOCK.TRIES.DELAY
 #'
 ## Internal options and environment variables _not_ documented here:
+## parallelly.localhost.hostname
 ## parallelly.makeNodePSOCK.master.localhost.hostname
 ## parallelly.makeNodePSOCK.rscript_label
 ## parallelly.makeNodePSOCK.sessionInfo.pkgs
 ## parallelly.makeNodePSOCK.autoKill
+## R_PARALLELLY_LOCALHOST_HOSTNAME
 ## R_PARALLELLY_MAKENODEPSOCK_MASTER_LOCALHOST_HOSTNAME
 ## R_PARALLELLY_MAKENODEPSOCK_RSCRIPT_LABEL
 ## R_PARALLELLY_MAKENODEPSOCK_SESSIONINFO_PKGS

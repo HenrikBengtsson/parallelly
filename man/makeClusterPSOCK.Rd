@@ -18,7 +18,7 @@ makeClusterPSOCK(
 )
 
 makeNodePSOCK(
-  worker = "localhost",
+  worker = getOption2("parallelly.localhost.hostname", "localhost"),
   master = NULL,
   port,
   connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60),

@@ -58,6 +58,8 @@
 #' @importFrom parallel stopCluster
 #' @export
 makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOption2("parallelly.makeNodePSOCK.tries", 3L), delay = getOption2("parallelly.makeNodePSOCK.tries.delay", 15.0), validate = getOption2("parallelly.makeNodePSOCK.validate", TRUE), verbose = getOption2("parallelly.debug", FALSE)) {
+  localhostHostname <- getOption2("parallelly.localhost.hostname", "localhost")
+
   if (is.numeric(workers)) {
     if (length(workers) != 1L) {
       stop("When numeric, argument 'workers' must be a single value: ", length(workers))
@@ -66,7 +68,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     if (is.na(workers) || workers < 1L) {
       stop("Number of 'workers' must be one or greater: ", workers)
     }
-    workers <- rep("localhost", times = workers)
+    workers <- rep(localhostHostname, times = workers)
   }
 
   tries <- as.integer(tries)
@@ -250,7 +252,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 
       if (canAccept) {
         con <- socketAccept(socket = socket, blocking = TRUE, open = "a+b", timeout = timeout)
-        scon <- structure(list(con = con, host = "localhost", rank = ready), class = nodeClass)
+        scon <- structure(list(con = con, host = localhostHostname, rank = ready), class = nodeClass)
         res <- tryCatch({
           sendCall(scon, eval, list(quote(Sys.getpid())))
         }, error = identity)
@@ -639,21 +641,22 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @importFrom tools pskill
 #' @importFrom utils flush.console
 #' @export
-makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
+makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
   verbose <- as.logical(verbose)
   stop_if_not(length(verbose) == 1L, !is.na(verbose))
 
   if (inherits(worker, "makeNodePSOCKOptions")) {
     return(launchNodePSOCK(options = worker, verbose = verbose))
   }
-  
-  localMachine <- is.element(worker, c("localhost", "127.0.0.1"))
+
+  localhostHostname <- getOption2("parallelly.localhost.hostname", "localhost")
+  localMachine <- is.element(worker, c(localhostHostname, "localhost", "127.0.0.1"))
 
   ## Could it be that the worker specifies the name of the localhost?
   ## Note, this approach preserves worker == "127.0.0.1" if that is given.
   if (!localMachine) {
     localMachine <- is_localhost(worker)
-    if (localMachine) worker <- "localhost"
+    if (localMachine) worker <- getOption2("parallelly.localhost.hostname", "localhost")
   }
   attr(worker, "localhost") <- localMachine
 
@@ -703,7 +706,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   if (is.null(master)) {
     if (localMachine || revtunnel) {
-      master <- getOption2("parallelly.makeNodePSOCK.master.localhost.hostname", "localhost")
+      master <- localhostHostname
     } else {
       master <- Sys.info()[["nodename"]]
     }
@@ -963,7 +966,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
       ## to use "127.0.0.1" instead, or force IPv4 by using ssh option '-4'.
       ## For more details, see 
       ## https://github.com/PowerShell/Win32-OpenSSH/issues/1265#issuecomment-855234326 for 
-      if (master == "localhost" && .Platform$OS.type == "windows" && (
+      if (is_localhost(master) && .Platform$OS.type == "windows" && (
            isTRUE(attr(rshcmd, "OpenSSH_for_Windows")) ||
            basename(rshcmd[1]) == "ssh"
          )) {
@@ -1107,10 +1110,11 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
      setTimeLimit(elapsed = connectTimeout)
      on.exit(setTimeLimit(elapsed = Inf))
 
+     localhostHostname <- getOption2("parallelly.localhost.hostname", "localhost")
      warnings <- list()
      tryCatch({
        withCallingHandlers({
-         socketConnection("localhost", port = port, server = TRUE, 
+         socketConnection(localhostHostname, port = port, server = TRUE,
                           blocking = TRUE, open = "a+b", timeout = timeout)
        }, warning = function(w) {
          if (verbose) {
@@ -1280,7 +1284,14 @@ is_localhost <- local({
       localhosts <<- unique(c(localhosts, worker))
       return(TRUE)
     }
-  
+
+    alias <- getOption2("parallelly.localhost.hostname")
+    if (is.character(alias) && worker == alias) {
+      ## Add worker to the list of known local hosts.
+      localhosts <<- unique(c(localhosts, worker))
+      return(TRUE)
+    }
+
     ## Scan known "hosts" files
     pathnames <- pathnames[file_test("-f", pathnames)]
     if (length(pathnames) == 0L) return(FALSE)

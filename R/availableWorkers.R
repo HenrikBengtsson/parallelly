@@ -105,7 +105,7 @@
 #'
 #' @importFrom utils file_test
 #' @export
-availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = "localhost", which = c("auto", "min", "max", "all")) {
+availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = getOption2("parallelly.localhost.hostname", "localhost"), which = c("auto", "min", "max", "all")) {
   ## Local functions
   getenv <- function(name) {
     as.character(trim(getEnvVar2(name, default = NA_character_)))
@@ -128,10 +128,11 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
 
   ## Default is to use the current machine
   ncores <- availableCores(methods = methods, na.rm = FALSE, logical = logical, which = "all")
-  
+
+  localhost_hostname <- getOption2("parallelly.localhost.hostname", "localhost")
   workers <- lapply(ncores, FUN = function(n) {
     if (length(n) == 0 || is.na(n)) n <- 0L
-    rep("localhost", times = n)
+    rep(localhost_hostname, times = n)
   })
   
   ## Acknowledge known HPC settings (skip others)
@@ -271,7 +272,7 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
       min <- min(ncores[methodsT], na.rm = TRUE)
       if (is.finite(min)) {
         nnodes[methodsT] <- min
-        workers[methodsT] <- list(rep("localhost", times = min))
+        workers[methodsT] <- list(rep(localhost_hostname, times = min))
       }
     }
 
