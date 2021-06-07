@@ -106,22 +106,34 @@
 #'
 #' @aliases
 #' parallelly.debug
+#'
 #' parallelly.availableCores.custom
 #' parallelly.availableCores.methods
-#' parallelly.availableCores.fallback R_PARALLELLY_AVAILABLECORES_FALLBACK
-#' parallelly.availableCores.omit R_PARALLELLY_AVAILABLECORES_OMIT
-#' parallelly.availableCores.system R_PARALLELLY_AVAILABLECORES_SYSTEM
+#' parallelly.availableCores.fallback
+#' parallelly.availableCores.omit
+#' parallelly.availableCores.system
 #' parallelly.availableWorkers.methods
-#' parallelly.fork.enable R_PARALLELLY_FORK_ENABLE
-#' parallelly.supportsMulticore.unstable R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE
+#' parallelly.availableWorkers.custom
+#' parallelly.fork.enable
+#' parallelly.supportsMulticore.unstable
+#' R_PARALLELLY_AVAILABLECORES_FALLBACK
+#' R_PARALLELLY_AVAILABLECORES_OMIT
+#' R_PARALLELLY_AVAILABLECORES_SYSTEM
+#' R_PARALLELLY_FORK_ENABLE
+#' R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE
 #'
 #' future.availableCores.custom
 #' future.availableCores.methods
-#' future.availableCores.fallback R_FUTURE_AVAILABLECORES_FALLBACK
-#' future.availableCores.system R_FUTURE_AVAILABLECORES_SYSTEM
+#' future.availableCores.fallback
+#' future.availableCores.system
 #' future.availableWorkers.methods
-#' future.fork.enable R_FUTURE_FORK_ENABLE
-#' future.supportsMulticore.unstable R_FUTURE_SUPPORTSMULTICORE_UNSTABLE
+#' future.availableWorkers.custom
+#' future.fork.enable
+#' future.supportsMulticore.unstable
+#' R_FUTURE_AVAILABLECORES_FALLBACK
+#' R_FUTURE_AVAILABLECORES_SYSTEM
+#' R_FUTURE_FORK_ENABLE
+#' R_FUTURE_SUPPORTSMULTICORE_UNSTABLE
 #'
 #' parallelly.makeNodePSOCK.setup_strategy
 #' parallelly.makeNodePSOCK.validate
@@ -144,12 +156,12 @@
 #'
 ## Internal options and environment variables _not_ documented here:
 ## parallelly.localhost.hostname
-## R_PARALLELLY_MAKENODEPSOCK_LOCALHOST_HOSTNAME
 ## parallelly.makeNodePSOCK.rscript_label
 ## parallelly.makeNodePSOCK.sessionInfo.pkgs
+## parallelly.makeNodePSOCK.autoKill
+## R_PARALLELLY_MAKENODEPSOCK_LOCALHOST_HOSTNAME
 ## R_PARALLELLY_MAKENODEPSOCK_RSCRIPT_LABEL
 ## R_PARALLELLY_MAKENODEPSOCK_SESSIONINFO_PKGS
-## parallelly.makeNodePSOCK.autoKill
 ## R_PARALLELLY_MAKENODEPSOCK_AUTOKILL
 #'
 #' @name parallelly.options
@@ -253,8 +265,32 @@ update_package_option <- function(name, mode = "character", default = NULL, pack
 
 ## Set package options based on environment variables
 update_package_options <- function(debug = FALSE) {
+  update_package_option("availableCores.methods", mode = "character", split = ",", debug = debug)
   update_package_option("availableCores.fallback", mode = "integer", disallow = NULL, debug = debug)
   update_package_option("availableCores.system", mode = "integer", disallow = NULL, debug = debug)
   update_package_option("availableCores.logical", mode = "logical", debug = debug)
   update_package_option("availableCores.omit", mode = "integer", debug = debug)
+
+  update_package_option("availableWorkers.methods", mode = "character", split = ",", debug = debug)
+
+  update_package_option("fork.enable", mode = "logical", debug = debug)
+
+  update_package_option("supportsMulticore.unstable", mode = "logical", debug = debug)
+
+  update_package_option("localhost.hostname", mode = "character", debug = debug)
+
+
+  update_package_option("makeNodePSOCK.setup_strategy", mode = "character", debug = debug)
+  update_package_option("makeNodePSOCK.validate", mode = "logical", debug = debug)
+  update_package_option("makeNodePSOCK.connectTimeout", mode = "numeric", debug = debug)
+  update_package_option("makeNodePSOCK.timeout", mode = "numeric", debug = debug)
+  update_package_option("makeNodePSOCK.useXDR", mode = "logical", debug = debug)
+  update_package_option("makeNodePSOCK.rshcmd", mode = "character", split = ",", debug = debug)
+  update_package_option("makeNodePSOCK.rshopts", mode = "character", split = ",", , debug = debug)
+  update_package_option("makeNodePSOCK.tries", mode = "integer", debug = debug)
+  update_package_option("makeNodePSOCK.tries.delay", mode = "numeric", debug = debug)
+  update_package_option("makeNodePSOCK.rscript_label", mode = "character", debug = debug)
+  update_package_option("makeNodePSOCK.sessionInfo.pkgs", mode = "character", split = ",", debug = debug)
+  update_package_option("makeNodePSOCK.autoKill", mode = "logical", debug = debug)
+
 }

@@ -57,7 +57,7 @@
 #'
 #' @importFrom parallel stopCluster
 #' @export
-makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOptionOrEnvVar("parallelly.makeNodePSOCK.tries", 3L), delay = getOptionOrEnvVar("parallelly.makeNodePSOCK.tries.delay", 15.0), validate = getOptionOrEnvVar("parallelly.makeNodePSOCK.validate", TRUE), verbose = getOptionOrEnvVar("parallelly.debug", FALSE)) {
+makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOption2("parallelly.makeNodePSOCK.tries", 3L), delay = getOption2("parallelly.makeNodePSOCK.tries.delay", 15.0), validate = getOption2("parallelly.makeNodePSOCK.validate", TRUE), verbose = getOption2("parallelly.debug", FALSE)) {
   if (is.numeric(workers)) {
     if (length(workers) != 1L) {
       stop("When numeric, argument 'workers' must be a single value: ", length(workers))
@@ -639,7 +639,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @importFrom tools pskill
 #' @importFrom utils flush.console
 #' @export
-makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOptionOrEnvVar("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOptionOrEnvVar("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOptionOrEnvVar("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOptionOrEnvVar("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
+makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
   verbose <- as.logical(verbose)
   stop_if_not(length(verbose) == 1L, !is.na(verbose))
 
@@ -703,7 +703,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   if (is.null(master)) {
     if (localMachine || revtunnel) {
-      master <- getOptionOrEnvVar("parallelly.localhost.hostname", "localhost")
+      master <- getOption2("parallelly.localhost.hostname", "localhost")
     } else {
       master <- Sys.info()[["nodename"]]
     }
@@ -807,7 +807,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
   }
 
   ## Add Rscript "label"?
-  rscript_label <- getOptionOrEnvVar("parallelly.makeNodePSOCK.rscript_label", NULL)
+  rscript_label <- getOption2("parallelly.makeNodePSOCK.rscript_label", NULL)
   if (!is.null(rscript_label) && nzchar(rscript_label) && !isFALSE(as.logical(rscript_label))) {
     if (isTRUE(as.logical(rscript_label))) {
       script <- grep("[.]R$", commandArgs(), value = TRUE)[1]
@@ -1427,7 +1427,7 @@ find_rshcmd <- function(which = NULL, first = FALSE, must_work = TRUE) {
 
 
 #' @importFrom utils installed.packages
-session_info <- function(pkgs = getOptionOrEnvVar("parallelly.makeNodePSOCK.sessionInfo.pkgs", FALSE)) {
+session_info <- function(pkgs = getOption2("parallelly.makeNodePSOCK.sessionInfo.pkgs", FALSE)) {
   libs <- .libPaths()
   info <- list(
     r = c(R.version, os.type = .Platform$OS.type),
@@ -1464,7 +1464,7 @@ add_cluster_session_info <- local({
       ## Session information already collected?
       if (!is.null(node$session_info)) next
   
-      pkgs <- getOptionOrEnvVar("parallelly.makeNodePSOCK.sessionInfo.pkgs", FALSE)
+      pkgs <- getOption2("parallelly.makeNodePSOCK.sessionInfo.pkgs", FALSE)
       node$session_info <- clusterCall(cl[ii], fun = get_session_info, pkgs = pkgs)[[1]]
   
       ## Sanity check, iff possible
@@ -1514,7 +1514,7 @@ useWorkerPID <- local({
   }
   
   function(rscript, rank, force = FALSE, verbose = FALSE) {
-    autoKill <- getOptionOrEnvVar("parallelly.makeNodePSOCK.autoKill", TRUE)
+    autoKill <- getOption2("parallelly.makeNodePSOCK.autoKill", TRUE)
     if (!isTRUE(as.logical(autoKill))) return(list())
 
     result <- makeResult(rank)
