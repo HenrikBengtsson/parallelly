@@ -703,7 +703,7 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
   if (is.null(master)) {
     if (localMachine || revtunnel) {
-      master <- getOption2("parallelly.localhost.hostname", "localhost")
+      master <- getOption2("parallelly.makeNodePSOCK.master.localhost", "localhost")
     } else {
       master <- Sys.info()[["nodename"]]
     }
