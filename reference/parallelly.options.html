@@ -321,6 +321,18 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
 
 </dl>
 
+    <h2 class="hasAnchor" id="environment-variables-that-set-r-options"><a class="anchor" href="#environment-variables-that-set-r-options"></a>Environment variables that set R options</h2>
+
+    
+
+<p>All of the above <span style="R">R</span> <span class="option">parallelly.*</span> options can be set by
+corresponding environment variable <code class="env">R_PARALLELLY_*</code> <em>when the
+<span class="pkg">parallelly</span> package is loaded</em>.
+For example, if <code>R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY = "sequential"</code>,
+then option <span class="option">parallelly.makeNodePSOCK.setup_strategy</span> is set to
+<code>"sequential"</code> (character).
+Similarly, if <code>R_PARALLELLY_AVAILABLECORES_FALLBACK = "1"</code>, then option
+<span class="option">parallelly.availableCores.fallback</span> is set to <code>1</code> (integer).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>To set <span style="R">R</span> options when <span style="R">R</span> starts (even before the <span class="pkg">parallelly</span> package is loaded), see the <a href='https://rdrr.io/r/base/Startup.html'>Startup</a> help page.  The <a href='https://cran.r-project.org/package=startup'><span class="pkg">startup</span></a> package provides a friendly mechanism for configuring <span style="R">R</span>'s startup process.</p></div>
@@ -328,9 +340,6 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Set an R option:</span>
 <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>parallelly.availableCores.fallback <span class='op'>=</span> <span class='fl'>1L</span><span class='op'>)</span>
-
-<span class='co'># Set an environment variable:</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Sys.setenv.html'>Sys.setenv</a></span><span class='op'>(</span>R_PARALLELLY_AVAILABLECORES_FALLBACK <span class='op'>=</span> <span class='st'>"1"</span><span class='op'>)</span>
 
 
 </div></pre>
