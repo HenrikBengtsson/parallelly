@@ -147,12 +147,21 @@ The below \R options and environment variables control the default results of \c
 }
 }
 
+\section{Environment variables that set R options}{
+
+All of the above \R \option{parallelly.*} options can be set by
+corresponding environment variable \env{R_PARALLELLY_*} \emph{when the
+\pkg{parallelly} package is loaded}.
+For example, if \code{R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY = "sequential"},
+then option \option{parallelly.makeNodePSOCK.setup_strategy} is set to
+\code{"sequential"} (character).
+Similarly, if \code{R_PARALLELLY_AVAILABLECORES_FALLBACK = "1"}, then option
+\option{parallelly.availableCores.fallback} is set to \code{1} (integer).
+}
+
 \examples{
 # Set an R option:
 options(parallelly.availableCores.fallback = 1L)
-
-# Set an environment variable:
-Sys.setenv(R_PARALLELLY_AVAILABLECORES_FALLBACK = "1")
 
 
 }
