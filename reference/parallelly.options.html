@@ -290,17 +290,17 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
 
 <p>The below <span style="R">R</span> options and environment variables control the default results of <code><a href='makeClusterPSOCK.html'>makeClusterPSOCK()</a></code> and its helper function <code><a href='makeClusterPSOCK.html'>makeNodePSOCK()</a></code> that creates the individual cluster nodes.</p>
 <dl>
-<dt><span class="option">parallelly.makeNodePSOCK.setup_strategy</span>:</dt><dd><p>(character string) If <code>"parallel"</code> (default), the PSOCK cluster nodes are set up concurrently, one after the other.  If <code>"sequential"</code>, they are set up sequentially.</p></dd>
+<dt><span class="option">parallelly.makeNodePSOCK.setup_strategy</span>:</dt><dd><p>(character) If <code>"parallel"</code> (default), the PSOCK cluster nodes are set up concurrently, one after the other.  If <code>"sequential"</code>, they are set up sequentially.</p></dd>
 
 <dt><span class="option">parallelly.makeNodePSOCK.validate</span>:</dt><dd><p>(logical) If TRUE (default), after the nodes have been created, they are all validated that they work by inquiring about their session information, which is saved in attribute <code>session_info</code> of each node.</p></dd>
 
-<dt><span class="option">parallelly.makeNodePSOCK.connectTimeout</span>:</dt><dd><p>(numeric) The maximum time (in seconds) allowed for each socket connection between the master and a worker to be established (defaults to 2 minutes).</p></dd>
+<dt><span class="option">parallelly.makeNodePSOCK.connectTimeout</span>:</dt><dd><p>(numeric) The maximum time (in seconds) allowed for each socket connection between the master and a worker to be established (defaults to 2*60 seconds = 2 minutes).</p></dd>
 
-<dt><span class="option">parallelly.makeNodePSOCK.timeout</span>:</dt><dd><p>(numeric) The maximum time (in seconds) allowed to pass without the master and a worker communicate with each other (defaults to 30 days).</p></dd>
+<dt><span class="option">parallelly.makeNodePSOCK.timeout</span>:</dt><dd><p>(numeric) The maximum time (in seconds) allowed to pass without the master and a worker communicate with each other (defaults to 30<em>24</em>60*60 seconds = 30 days).</p></dd>
 
 <dt><span class="option">parallelly.makeNodePSOCK.useXDR</span>:</dt><dd><p>(logical) If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).</p></dd>
 
-<dt><span class="option">parallelly.makeNodePSOCK.rshcmd</span>:</dt><dd><p>The command (character vector) to be run on the master to launch a process on another host.</p></dd>
+<dt><span class="option">parallelly.makeNodePSOCK.rshcmd</span>:</dt><dd><p>(character vector) The command to be run on the master to launch a process on another host.</p></dd>
 
 <dt><span class="option">parallelly.makeNodePSOCK.rshopts</span>:</dt><dd><p>(character vector) Addition command-line options appended to <code>rshcmd</code>.  These arguments are only applied when connecting to non-localhost machines.</p></dd>
 
