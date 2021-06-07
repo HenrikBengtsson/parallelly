@@ -108,11 +108,11 @@
 availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = "localhost", which = c("auto", "min", "max", "all")) {
   ## Local functions
   getenv <- function(name) {
-    as.character(trim(Sys.getenv(name, NA_character_)))
+    as.character(trim(getEnvVar2(name, default = NA_character_)))
   }
 
   getopt <- function(name) {
-    as.character(getOption(name, NA_character_))
+    as.character(getOption2(name, default = NA_character_))
   }
  
   split <- function(s) {
@@ -436,7 +436,7 @@ supports_scontrol_show_hostname <- local({
 
 
 ## SLURM_JOB_NODELIST="a1,b[02-04,6-7]"
-slurm_expand_nodelist <- function(nodelist, manual = getOption("parallelly.slurm_expand_nodelist.manual", FALSE)) {
+slurm_expand_nodelist <- function(nodelist, manual = getOption2("parallelly.slurm_expand_nodelist.manual", FALSE)) {
   ## Alt 1. Is 'scontrol show hostnames' supported?
   if (!manual && supports_scontrol_show_hostname()) {
     hosts <- call_slurm_show_hostname(nodelist)

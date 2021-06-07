@@ -179,7 +179,7 @@ get_package_option <- function(name, default = NULL, package = .packageName) {
   if (!is.null(package)) {
     name <- paste(package, name, sep = ".")
   }
-  getOption(name, default = default)
+  getOption2(name, default = default)
 }
 
 # Set an R option from an environment variable
@@ -187,26 +187,26 @@ update_package_option <- function(name, mode = "character", default = NULL, pack
   if (!is.null(package)) {
     name <- paste(package, name, sep = ".")
   }
-
+  
   mdebugf("Set package option %s", sQuote(name))
 
   ## Already set? Nothing to do?
-  value <- getOption(name, NULL)
+  value <- getOption2(name, NULL)
   if (!force && !is.null(value)) {
     mdebugf("Already set: %s", sQuote(value))
-    return(getOption(name))
+    return(value)
   }
 
   ## name="Pkg.foo.Bar" => env="R_PKG_FOO_BAR"
   env <- gsub(".", "_", toupper(name), fixed = TRUE)
   env <- paste("R_", env, sep = "")
 
-  env_value <- value <- Sys.getenv(env, unset = NA_character_)
+  env_value <- value <- getEnvVar2(env, default = NA_character_)
   if (is.na(value)) {  
     if (debug) mdebugf("Environment variable %s not set", sQuote(env))
     
     ## Nothing more to do?
-    if (is.null(default)) return(getOption(name))
+    if (is.null(default)) return(getOption2(name))
 
     if (debug) mdebugf("Use argument 'default': ", sQuote(default))
     value <- default
@@ -218,7 +218,7 @@ update_package_option <- function(name, mode = "character", default = NULL, pack
   if (trim) value <- trim(value)
 
   ## Nothing to do?
-  if (!nzchar(value)) return(getOption(name, default = default))
+  if (!nzchar(value)) return(getOption2(name, default = default))
 
   ## Split?
   if (!is.null(split)) {
@@ -266,7 +266,7 @@ update_package_option <- function(name, mode = "character", default = NULL, pack
 
   do.call(options, args = structure(list(value), names = name))
   
-  getOption(name, default = default)
+  getOption2(name, default = default)
 }
 
 
@@ -284,9 +284,6 @@ update_package_options <- function(debug = FALSE) {
 
   update_package_option("supportsMulticore.unstable", mode = "logical", debug = debug)
 
-  update_package_option("localhost.hostname", mode = "character", debug = debug)
-
-
   update_package_option("makeNodePSOCK.setup_strategy", mode = "character", debug = debug)
   update_package_option("makeNodePSOCK.validate", mode = "logical", debug = debug)
   update_package_option("makeNodePSOCK.connectTimeout", mode = "numeric", debug = debug)
@@ -299,5 +296,5 @@ update_package_options <- function(debug = FALSE) {
   update_package_option("makeNodePSOCK.rscript_label", mode = "character", debug = debug)
   update_package_option("makeNodePSOCK.sessionInfo.pkgs", mode = "character", split = ",", debug = debug)
   update_package_option("makeNodePSOCK.autoKill", mode = "logical", debug = debug)
-
+  update_package_option("makeNodePSOCK.master.localhost", mode = "character", debug = debug)
 }

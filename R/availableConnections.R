@@ -51,7 +51,7 @@ availableConnections <- local({
   
   function() {
     ## Overridden by R options?
-    value <- getOption("parallelly.availableConnections", NULL)
+    value <- getOption2("parallelly.availableConnections", NULL)
     if (!is.null(value)) {
       stop_if_not(length(value) == 1L, is.numeric(value), !is.na(value),
                   value >= 3L)
@@ -59,7 +59,7 @@ availableConnections <- local({
     }
     
     if (is.null(max)) {
-      tries <- getOption("parallelly.availableConnections.tries", 16384L)
+      tries <- getOption2("parallelly.availableConnections.tries", 16384L)
       stop_if_not(length(tries) == 1L, is.numeric(tries), !is.na(tries),
                   tries >= 0L)
 

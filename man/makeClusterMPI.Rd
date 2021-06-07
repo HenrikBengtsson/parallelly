@@ -8,7 +8,7 @@ makeClusterMPI(
   workers,
   ...,
   autoStop = FALSE,
-  verbose = getOption("parallelly.debug", FALSE)
+  verbose = getOption2("parallelly.debug", FALSE)
 )
 }
 \arguments{

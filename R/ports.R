@@ -33,13 +33,13 @@ findAvailablePort <- function(ports = 1024:65535, default = "first", randomize =
   if (is.character(ports)) {
     how <- match.arg(ports, choices = c("auto", "random"))
     if (identical(how, "auto")) {
-      ports <- getEnvVar2("R_PARALLEL_PORT", "random")
+      ports <- Sys.getenv("R_PARALLEL_PORT", "random")
       if (identical(ports, "random")) {
         how <- "random"
       } else {
         ports <- suppressWarnings(as.integer(ports))
         if (is.na(ports)) {
-          warning("Will use a random port because environment variable 'R_PARALLEL_PORT' coerced to NA_integer_: ", sQuote(getEnvVar2("R_PARALLEL_PORT")))
+          warning("Will use a random port because environment variable 'R_PARALLEL_PORT' coerced to NA_integer_: ", sQuote(Sys.getenv("R_PARALLEL_PORT")))
           how <- "random"
         }
       }

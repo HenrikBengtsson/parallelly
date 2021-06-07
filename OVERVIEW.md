@@ -11,7 +11,7 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | set workers' environment variables path on startup   |   ✓  | N/A |
 | custom workers startup code                          |   ✓  | N/A |
 | fallback to RStudio' SSH and PuTTY's plink           |   ✓  | N/A |
-| faster, parallel setup of workers (R >= 4.0.0)       | (next release) |  ✓  |
+| faster, parallel setup of local workers (R >= 4.0.0) | (next release) |  ✓  |
 | faster, little-endian protocol by default            |   ✓  | N/A |
 | validation of cluster at setup                       |   ✓  |  ✓  |
 | attempt to launch failed workers multiple times      |   ✓  |  ✓  |

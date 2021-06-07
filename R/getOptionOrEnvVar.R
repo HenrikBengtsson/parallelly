@@ -16,25 +16,6 @@
 #' Returns an object.
 #'
 #' @keywords internal
-getOptionOrEnvVar <- function(name, default = NULL, envvar = NULL) {
-  ## Is there an R options set?
-  value <- getOption2(name, default = NULL)
-  if (!is.null(value)) return(value)
-
-  ## Is there an environment variable set?
-  name2 <- sprintf("R_%s", gsub(".", "_", toupper(name), fixed = TRUE))
-  value <- getEnvVar2(name2, default = "")
-  if (nzchar(value)) {
-    ## Coerce environment variable string to the type according to 'default'?
-    if (!is.null(default)) storage.mode(value) <- storage.mode(default)
-    return(value)
-  }
-  
-  ## Nothing was set
-  default
-}
-
-
 getOption2 <- local({
   re <- sprintf("^(future|%s)[.]", .packageName)
   prefixes <- paste(c(.packageName, "future"), ".", sep = "")

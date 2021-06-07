@@ -157,13 +157,13 @@
 availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
   ## Local functions
   getenv <- function(name, mode = "integer") {
-    value <- trim(Sys.getenv(name, NA_character_))
+    value <- trim(getEnvVar2(name, default = NA_character_))
     storage.mode(value) <- mode
     value
   } # getenv()
 
   getopt <- function(name, mode = "integer") {
-    value <- getOption(name, NA_integer_)
+    value <- getOption2(name, default = NA_integer_)
     storage.mode(value) <- mode
     value
   } # getopt()
