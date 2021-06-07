@@ -211,6 +211,13 @@
 <h1 class="page-header" data-toc-text="1.25.0-9001">
 <a href="#parallelly-1-25-0-9001" class="anchor"></a>parallelly 1.25.0-9001<small> Unreleased </small>
 </h1>
+<div id="significant-changes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#significant-changes" class="anchor"></a>Significant Changes</h3>
+<ul>
+<li>R_PARALLELLY_* (and R_FUTURE_*) environment variables are now only read when the ‘parallelly’ package is loaded, where they set the corresponding parallelly.* option. Previously, some of these environment variables were queried by different functions as a fallback to when an option was not set. By only parsing them when the package is loaded, it decrease the overhead in functions, and it clarifies that options can be changed at runtime whereas environment variables should only be set at startup.</li>
+</ul>
+</div>
 <div id="new-features" class="section level3">
 <h3 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New Features</h3>
@@ -237,9 +244,9 @@
 <h1 class="page-header" data-toc-text="1.25.0">
 <a href="#parallelly-1-25-0" class="anchor"></a>parallelly 1.25.0<small> 2021-04-30 </small>
 </h1>
-<div id="significant-changes" class="section level3">
+<div id="significant-changes-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#significant-changes" class="anchor"></a>Significant Changes</h3>
+<a href="#significant-changes-1" class="anchor"></a>Significant Changes</h3>
 <ul>
 <li>The default SSH client on MS Windows 10 is now the built in ‘ssh’ client. This means that regardless whether you are on Linux, macOS, or Windows 10, setting up parallel workers on external machines over SSH finally works out of the box without having to install PuTTY or other SSH clients. This was possible because a workaround was found for a Windows 10 bug preventing us from using reverse tunneling over SSH. It turns out the bug reveals itself when using hostname ‘localhost’ but not ‘127.0.0.1’, so we use the latter.</li>
 </ul>
@@ -264,9 +271,9 @@
 <h1 class="page-header" data-toc-text="1.24.0">
 <a href="#parallelly-1-24-0" class="anchor"></a>parallelly 1.24.0<small> 2021-03-14 </small>
 </h1>
-<div id="significant-changes-1" class="section level3">
+<div id="significant-changes-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#significant-changes-1" class="anchor"></a>Significant Changes</h3>
+<a href="#significant-changes-2" class="anchor"></a>Significant Changes</h3>
 <ul>
 <li>The default SSH client on MS Windows is now, in order of availability: (i) ‘plink’ of the PuTTY software, (ii) ‘ssh’ in the RStudio distribution, and (iii) ‘ssh’ of Windows 10. Previously, the latter was considered first but that still has a bug preventing us from using reverse tunneling.</li>
 </ul>
@@ -345,9 +352,9 @@
 <h1 class="page-header" data-toc-text="1.21.0">
 <a href="#parallelly-1-21-0" class="anchor"></a>parallelly 1.21.0<small> 2020-10-27 </small>
 </h1>
-<div id="significant-changes-2" class="section level3">
+<div id="significant-changes-3" class="section level3">
 <h3 class="hasAnchor">
-<a href="#significant-changes-2" class="anchor"></a>Significant Changes</h3>
+<a href="#significant-changes-3" class="anchor"></a>Significant Changes</h3>
 <ul>
 <li>Removed find_rshcmd() which was never meant to be exported.</li>
 </ul>
@@ -383,9 +390,9 @@
 <h1 class="page-header" data-toc-text="1.20.0">
 <a href="#parallelly-1-20-0" class="anchor"></a>parallelly 1.20.0<small> 2020-10-20 </small>
 </h1>
-<div id="significant-changes-3" class="section level3">
+<div id="significant-changes-4" class="section level3">
 <h3 class="hasAnchor">
-<a href="#significant-changes-3" class="anchor"></a>Significant Changes</h3>
+<a href="#significant-changes-4" class="anchor"></a>Significant Changes</h3>
 <ul>
 <li>Add availableCores(), and availableWorkers(), supportsMulticore(), as.cluster(), autoStopCluster(), makeClusterMPI(), makeClusterPSOCK(), and makeNodePSOCK() from the ‘future’ package.</li>
 </ul>
@@ -417,9 +424,9 @@
 <h1 class="page-header" data-toc-text="1.19.0">
 <a href="#parallelly-1-19-0" class="anchor"></a>parallelly 1.19.0<small> Unreleased </small>
 </h1>
-<div id="significant-changes-4" class="section level3">
+<div id="significant-changes-5" class="section level3">
 <h3 class="hasAnchor">
-<a href="#significant-changes-4" class="anchor"></a>Significant Changes</h3>
+<a href="#significant-changes-5" class="anchor"></a>Significant Changes</h3>
 <ul>
 <li><p>Now availableCores() better supports Slurm. Specifically, if environment variable ‘SLURM_CPUS_PER_TASK’ is not set, which requires that option –slurm-cpus-per-task=n’ is specified and SLURM_JOB_NUM_NODES=1, then it falls back to using ‘SLURM_CPUS_ON_NODE’, e.g. when using ‘–ntasks=n’.</p></li>
 <li><p>Now availableCores() and availableWorkers() supports LSF/OpenLava. Specifically, they acknowledge environment variable ‘LSB_DJOB_NUMPROC’ and ‘LSB_HOSTS’, respectively.</p></li>
