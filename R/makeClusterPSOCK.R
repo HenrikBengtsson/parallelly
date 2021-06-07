@@ -958,8 +958,11 @@ makeNodePSOCK <- function(worker = "localhost", master = NULL, port, connectTime
 
     ## Reverse tunneling?
     if (revtunnel) {
-      ## WORKAROUND: Avoid revtunnel bug in Windows 10's ssh client:
-      ## https://github.com/PowerShell/Win32-OpenSSH/issues/1265#issuecomment-637085238
+      ## WORKAROUND: The Windows 10 loopback resolution uses IPv6 by default
+      ## and the server is not listening for "localhost".  The solution is
+      ## to use "127.0.0.1" instead, or force IPv4 by using ssh option '-4'.
+      ## For more details, see 
+      ## https://github.com/PowerShell/Win32-OpenSSH/issues/1265#issuecomment-855234326 for 
       if (master == "localhost" && .Platform$OS.type == "windows" && (
            isTRUE(attr(rshcmd, "OpenSSH_for_Windows")) ||
            basename(rshcmd[1]) == "ssh"
