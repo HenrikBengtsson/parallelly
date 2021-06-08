@@ -105,20 +105,6 @@ mstr <- function(..., appendLF = TRUE, debug = getOption2("parallelly.debug", FA
 }
 
 
-## A version of base::sample() that does not change .Random.seed
-stealth_sample <- function(x, size = length(x), replace = FALSE, ...) {
-  oseed <- .GlobalEnv$.Random.seed
-  on.exit({
-    if (is.null(oseed)) {
-      rm(list = ".Random.seed", envir = .GlobalEnv, inherits = FALSE)
-    } else {
-      .GlobalEnv$.Random.seed <- oseed
-    }
-  })
-  sample(x, size = size, replace = replace, ...)
-}
-
-
 #' Check whether a process PID exists or not
 #'
 #' @param pid A positive integer.
