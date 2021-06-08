@@ -273,18 +273,21 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       if (length(canReceive) > 0L) pending <- pending[-canReceive]
     } ## while()
   } else if (setup_strategy == "sequential") {
+    retryPort <- getOption2("parallelly.makeNodePSOCK.tries.port", "same")
     for (ii in seq_along(cl)) {
       if (verbose) {
         message(sprintf("%sCreating node %d of %d ...", verbose_prefix, ii, n))
         message(sprintf("%s- setting up node", verbose_prefix))
       }
-      
+
+      options <- nodeOptions[[ii]]
+
       for (kk in 1:tries) {
         if (verbose) {
           message(sprintf("%s- attempt #%d of %d", verbose_prefix, kk, tries))
         }
         node <- tryCatch({
-          makeNode(nodeOptions[[ii]], verbose = verbose)
+          makeNode(options, verbose = verbose)
         }, error = identity)
         ## Success or an error that is not a connection error?
         if (!inherits(node, "PSOCKConnectionError")) break
@@ -292,6 +295,12 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
         if (kk < tries) {
           if (verbose) {
             message(conditionMessage(node))
+            ## Retry with a new random port?
+            if (retryPort == "next") {
+              options$port <- max(options$port + 1L, 65535L)
+            } else if (retryPort == "available") {
+              options$port <- findAvailablePort(randomize = TRUE)
+            }
             message(sprintf("%s- waiting %g seconds before trying again",
                     verbose_prefix, delay))
           }
