@@ -21,7 +21,7 @@ NEW FEATURES:
    To revert to the sequential setup strategy, set R option
    'parallelly.makeNodePSOCK.setup_strategy' to "sequential".
 
- * Add findAvailablePort() to random TCP port that can be opened.
+ * Add freePort() to random TCP port that can be opened.
 
 DOCUMENTATION:
 

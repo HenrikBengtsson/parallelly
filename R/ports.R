@@ -15,13 +15,13 @@
 #' before searched.  This shuffle does _not_ forward the RNG seed.
 #'
 #' @return
-#' `findAvailablePort(ports)` returns an integer representing the first
-#' port among `ports` that can be opened.  If none can be opened, then
-#' `default` is returned.  If port querying is not supported, as in
-#' R (< 4.0.0), then `default` is returned.
+#' Returns an integer representing the first port among `ports` that
+#' can be opened.  If none can be opened, then `default` is returned.
+#' If port querying is not supported, as in R (< 4.0.0), then `default`
+#' is returned.
 #'
 #' @export
-findAvailablePort <- function(ports = 1024:65535, default = "first", randomize = TRUE) {
+freePort <- function(ports = 1024:65535, default = "first", randomize = TRUE) {
   if (is.character(default)) {
     default <- match.arg(default, choices = c("first", "random"))
   } else {

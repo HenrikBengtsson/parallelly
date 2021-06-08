@@ -100,7 +100,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   if (length(port) == 0L) {
     stop("Argument 'port' must be of length one or more: 0")
   }
-  port <- findAvailablePort(port, randomize = TRUE)
+  port <- freePort(port)
   if (verbose) message(sprintf("%sBase port: %d", verbose_prefix, port))
 
 
@@ -299,7 +299,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
             if (retryPort == "next") {
               options$port <- max(options$port + 1L, 65535L)
             } else if (retryPort == "available") {
-              options$port <- findAvailablePort(randomize = TRUE)
+              options$port <- freePort()
             }
             message(sprintf("%s- waiting %g seconds before trying again",
                     verbose_prefix, delay))
