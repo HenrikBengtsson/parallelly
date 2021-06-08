@@ -825,10 +825,16 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   }
 
   ## Port that the Rscript should use to connect back to the master
-  if (!localMachine && revtunnel) {
+  if (!localMachine && revtunnel && getOption2("parallelly.makeNodePSOCK.port.increment", TRUE)) {
     rscript_port <- assertPort(port + (rank - 1L))
+    if (verbose) {
+      message(sprintf("%sRscript port: %d + %d = %d\n", verbose_prefix, port, rank-1L, rscript_port))
+    }
   } else {
     rscript_port <- port
+    if (verbose) {
+      message(sprintf("%sRscript port: %d\n", verbose_prefix, rscript_port))
+    }
   }
 
   if (length(rscript_startup) > 0L) {

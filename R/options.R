@@ -167,11 +167,13 @@
 ## parallelly.makeNodePSOCK.rscript_label
 ## parallelly.makeNodePSOCK.sessionInfo.pkgs
 ## parallelly.makeNodePSOCK.autoKill
+## parallelly.makeNodePSOCK.port.increment
 ## R_PARALLELLY_LOCALHOST_HOSTNAME
 ## R_PARALLELLY_MAKENODEPSOCK_MASTER_LOCALHOST_HOSTNAME
 ## R_PARALLELLY_MAKENODEPSOCK_RSCRIPT_LABEL
 ## R_PARALLELLY_MAKENODEPSOCK_SESSIONINFO_PKGS
 ## R_PARALLELLY_MAKENODEPSOCK_AUTOKILL
+## R_PARALLELLY_MAKENODEPSOCK_PORT_INCREMENT
 #'
 #' @name parallelly.options
 NULL
@@ -299,4 +301,5 @@ update_package_options <- function(debug = FALSE) {
   update_package_option("makeNodePSOCK.sessionInfo.pkgs", mode = "character", split = ",", debug = debug)
   update_package_option("makeNodePSOCK.autoKill", mode = "logical", debug = debug)
   update_package_option("makeNodePSOCK.master.localhost.hostname", mode = "character", debug = debug)
+  update_package_option("makeNodePSOCK.port.increment", mode = "logical", debug = debug)
 }

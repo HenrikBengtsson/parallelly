@@ -67,6 +67,18 @@ for (xdr in c(TRUE, FALSE)) {
 }
 
 
+message("- makeClusterPSOCK() - setup_strategy = TRUE/FALSE")
+
+for (setup_strategy in c("sequential", "parallel")) {
+  dt <- system.time({
+    cl <- makeClusterPSOCK(2L, setup_strategy = setup_strategy)
+  })
+  print(dt)
+  print(cl)
+  parallel::stopCluster(cl)
+}
+
+
 message("- makeClusterPSOCK() - with and w/out validation")
 
 cl <- makeClusterPSOCK(1L, validate = TRUE) ## default
