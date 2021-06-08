@@ -2,12 +2,9 @@
 % Please edit documentation in R/ports.R
 \name{findAvailablePort}
 \alias{findAvailablePort}
-\alias{canPortBeUsed}
-\title{Find or check TCP ports that can be opened}
+\title{Find a TCP port that can be opened}
 \usage{
-findAvailablePort(ports = 1024:65535, default = "first", randomize = FALSE)
-
-canPortBeUsed(port)
+findAvailablePort(ports = 1024:65535, default = "first", randomize = TRUE)
 }
 \arguments{
 \item{ports}{(integer vector, or character string)
@@ -23,25 +20,13 @@ among \code{ports} is used. If \code{length(ports) == 0}, then \code{NA_integer_
 
 \item{randomize}{(logical) If TRUE, \code{ports} is randomly shuffled
 before searched.  This shuffle does \emph{not} forward the RNG seed.}
-
-\item{port}{(integer) A TCP port in [0, 65535].}
 }
 \value{
 \code{findAvailablePort(ports)} returns an integer representing the first
 port among \code{ports} that can be opened.  If none can be opened, then
 \code{default} is returned.  If port querying is not supported, as in
 R (< 4.0.0), then \code{default} is returned.
-
-\code{canPortBeUsed(port)} returns a logical indicating whether the port can
-be opened or not, or cannot be queried.  If the port can be opened,
-then \code{TRUE} is returned, if cannot be opened then \code{FALSE} is returned,
-which may happen if the port is used by another process.
-If port querying is not supported, as in R (< 4.0.0),  then \code{NA} is
-returned.
 }
 \description{
-Find or check TCP ports that can be opened
-
-Check whether a TCP port can be opened or not
+Find a TCP port that can be opened
 }
-\keyword{internal}

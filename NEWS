@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.25.0-9001 [2021-06-06]
+Version: 1.25.0-9001 [2021-06-07]
 
 SIGNIFICANT CHANGES:
 
@@ -20,6 +20,8 @@ NEW FEATURES:
    reduces the setup turnaround time.  This is only supported in R (>= 4.0.0).
    To revert to the sequential setup strategy, set R option
    'parallelly.makeNodePSOCK.setup_strategy' to "sequential".
+
+ * Add findAvailablePort() to random TCP port that can be opened.
 
 DOCUMENTATION:
 

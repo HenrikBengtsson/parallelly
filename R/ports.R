@@ -1,4 +1,4 @@
-#' Find or check TCP ports that can be opened
+#' Find a TCP port that can be opened
 #'
 #' @param ports (integer vector, or character string)
 #' Zero or more TCP ports in \[0, 65535\] to scan.
@@ -20,8 +20,8 @@
 #' `default` is returned.  If port querying is not supported, as in
 #' R (< 4.0.0), then `default` is returned.
 #'
-#' @keywords internal
-findAvailablePort <- function(ports = 1024:65535, default = "first", randomize = FALSE) {
+#' @export
+findAvailablePort <- function(ports = 1024:65535, default = "first", randomize = TRUE) {
   if (is.character(default)) {
     default <- match.arg(default, choices = c("first", "random"))
   } else {
@@ -97,7 +97,6 @@ findAvailablePort <- function(ports = 1024:65535, default = "first", randomize =
 #' If port querying is not supported, as in R (< 4.0.0),  then `NA` is
 #' returned.
 #'
-#' @rdname findAvailablePort
 #' @keywords internal
 canPortBeUsed <- function(port) {
   port <- assertPort(port)
