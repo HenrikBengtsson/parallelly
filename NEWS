@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.25.0-9001 [2021-06-07]
+Version: 1.26.0 [2021-06-09]
 
 SIGNIFICANT CHANGES:
 
@@ -21,7 +21,7 @@ NEW FEATURES:
    To revert to the sequential setup strategy, set R option
    'parallelly.makeNodePSOCK.setup_strategy' to "sequential".
 
- * Add freePort() to random TCP port that can be opened.
+ * Add freePort() to get a random TCP port that can be opened.
 
 DOCUMENTATION:
 
