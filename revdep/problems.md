@@ -97,6 +97,33 @@ Run `revdep_details(, "AlpsNMR")` for more info
       All declared Imports should be used.
     ```
 
+# aroma.affymetrix
+
+<details>
+
+* Version: 3.2.0
+* GitHub: https://github.com/HenrikBengtsson/aroma.affymetrix
+* Source code: https://github.com/cran/aroma.affymetrix
+* Date/Publication: 2019-06-23 06:00:14 UTC
+* Number of recursive dependencies: 73
+
+Run `revdep_details(, "aroma.affymetrix")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'oligo', 'oligoClasses', 'pdInfoBuilder'
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Packages unavailable to check Rd xrefs: ‘oligo’, ‘oligoClasses’
+    ```
+
 # aroma.core
 
 <details>
@@ -242,7 +269,7 @@ Run `revdep_details(, "batchtools")` for more info
 * GitHub: https://github.com/joshcullen/bayesmove
 * Source code: https://github.com/cran/bayesmove
 * Date/Publication: 2021-04-26 22:10:11 UTC
-* Number of recursive dependencies: 141
+* Number of recursive dependencies: 143
 
 Run `revdep_details(, "bayesmove")` for more info
 
@@ -264,7 +291,7 @@ Run `revdep_details(, "bayesmove")` for more info
 * GitHub: https://github.com/bcgov/bcmaps
 * Source code: https://github.com/cran/bcmaps
 * Date/Publication: 2021-03-09 23:40:03 UTC
-* Number of recursive dependencies: 118
+* Number of recursive dependencies: 120
 
 Run `revdep_details(, "bcmaps")` for more info
 
@@ -402,7 +429,7 @@ Run `revdep_details(, "blavaan")` for more info
 * GitHub: https://github.com/rvalavi/blockCV
 * Source code: https://github.com/cran/blockCV
 * Date/Publication: 2020-02-23 20:00:02 UTC
-* Number of recursive dependencies: 113
+* Number of recursive dependencies: 116
 
 Run `revdep_details(, "blockCV")` for more info
 
@@ -428,7 +455,7 @@ Run `revdep_details(, "blockCV")` for more info
 * GitHub: https://github.com/paul-buerkner/brms
 * Source code: https://github.com/cran/brms
 * Date/Publication: 2021-03-14 15:50:31 UTC
-* Number of recursive dependencies: 221
+* Number of recursive dependencies: 223
 
 Run `revdep_details(, "brms")` for more info
 
@@ -707,7 +734,7 @@ Run `revdep_details(, "datapackage.r")` for more info
 * GitHub: https://github.com/DeclareDesign/DeclareDesign
 * Source code: https://github.com/cran/DeclareDesign
 * Date/Publication: 2021-02-14 21:50:10 UTC
-* Number of recursive dependencies: 144
+* Number of recursive dependencies: 146
 
 Run `revdep_details(, "DeclareDesign")` for more info
 
@@ -808,7 +835,7 @@ Run `revdep_details(, "dragon")` for more info
 * GitHub: https://github.com/erblast/easyalluvial
 * Source code: https://github.com/cran/easyalluvial
 * Date/Publication: 2021-01-13 10:40:09 UTC
-* Number of recursive dependencies: 175
+* Number of recursive dependencies: 141
 
 Run `revdep_details(, "easyalluvial")` for more info
 
@@ -865,7 +892,7 @@ Run `revdep_details(, "EFAtools")` for more info
 * GitHub: https://github.com/Waller-SUSAN/envi
 * Source code: https://github.com/cran/envi
 * Date/Publication: 2021-03-15 11:30:09 UTC
-* Number of recursive dependencies: 124
+* Number of recursive dependencies: 127
 
 Run `revdep_details(, "envi")` for more info
 
@@ -893,7 +920,7 @@ Run `revdep_details(, "envi")` for more info
 * GitHub: https://github.com/epiforecasts/EpiNow2
 * Source code: https://github.com/cran/EpiNow2
 * Date/Publication: 2020-12-14 09:00:15 UTC
-* Number of recursive dependencies: 151
+* Number of recursive dependencies: 153
 
 Run `revdep_details(, "EpiNow2")` for more info
 
@@ -1036,7 +1063,7 @@ Run `revdep_details(, "flowGraph")` for more info
 * GitHub: https://github.com/ianjonsen/foieGras
 * Source code: https://github.com/cran/foieGras
 * Date/Publication: 2021-04-26 22:10:07 UTC
-* Number of recursive dependencies: 130
+* Number of recursive dependencies: 132
 
 Run `revdep_details(, "foieGras")` for more info
 
@@ -1302,7 +1329,7 @@ Run `revdep_details(, "greta")` for more info
 * GitHub: https://github.com/ipeaGIT/gtfs2gps
 * Source code: https://github.com/cran/gtfs2gps
 * Date/Publication: 2021-04-13 12:20:02 UTC
-* Number of recursive dependencies: 80
+* Number of recursive dependencies: 82
 
 Run `revdep_details(, "gtfs2gps")` for more info
 
@@ -1664,7 +1691,7 @@ Run `revdep_details(, "lgr")` for more info
 * GitHub: https://github.com/Jean-Romain/lidR
 * Source code: https://github.com/cran/lidR
 * Date/Publication: 2021-05-20 13:10:02 UTC
-* Number of recursive dependencies: 164
+* Number of recursive dependencies: 166
 
 Run `revdep_details(, "lidR")` for more info
 
@@ -2193,7 +2220,7 @@ Run `revdep_details(, "nfl4th")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/onemapsgapi
 * Date/Publication: 2020-02-06 11:00:02 UTC
-* Number of recursive dependencies: 59
+* Number of recursive dependencies: 61
 
 Run `revdep_details(, "onemapsgapi")` for more info
 
@@ -2600,18 +2627,13 @@ Run `revdep_details(, "regmedint")` for more info
 * GitHub: https://github.com/r-spatial/rgee
 * Source code: https://github.com/cran/rgee
 * Date/Publication: 2021-04-24 04:20:02 UTC
-* Number of recursive dependencies: 136
+* Number of recursive dependencies: 138
 
 Run `revdep_details(, "rgee")` for more info
 
 </details>
 
 ## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘geojsonio’
-    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -2696,7 +2718,7 @@ Run `revdep_details(, "sctransform")` for more info
 * GitHub: https://github.com/Abson-dev/sdmApp
 * Source code: https://github.com/cran/sdmApp
 * Date/Publication: 2021-01-22 10:40:03 UTC
-* Number of recursive dependencies: 236
+* Number of recursive dependencies: 238
 
 Run `revdep_details(, "sdmApp")` for more info
 
@@ -3132,7 +3154,7 @@ Run `revdep_details(, "spatialwarnings")` for more info
 * GitHub: https://github.com/JeremyGelb/spNetwork
 * Source code: https://github.com/cran/spNetwork
 * Date/Publication: 2021-01-21 23:30:02 UTC
-* Number of recursive dependencies: 117
+* Number of recursive dependencies: 119
 
 Run `revdep_details(, "spNetwork")` for more info
 
@@ -3157,10 +3179,10 @@ Run `revdep_details(, "spNetwork")` for more info
 
 <details>
 
-* Version: 0.5-2
+* Version: 0.5-3
 * GitHub: https://github.com/r-spatial/stars
 * Source code: https://github.com/cran/stars
-* Date/Publication: 2021-03-17 16:20:02 UTC
+* Date/Publication: 2021-06-08 14:50:02 UTC
 * Number of recursive dependencies: 141
 
 Run `revdep_details(, "stars")` for more info
@@ -3207,10 +3229,10 @@ Run `revdep_details(, "startR")` for more info
 
 <details>
 
-* Version: 3.0.4
+* Version: 3.0.6
 * GitHub: NA
 * Source code: https://github.com/cran/synergyfinder
-* Date/Publication: 2021-06-03
+* Date/Publication: 2021-06-06
 * Number of recursive dependencies: 174
 
 Run `revdep_details(, "synergyfinder")` for more info
@@ -3483,7 +3505,7 @@ Run `revdep_details(, "txshift")` for more info
 * GitHub: https://github.com/openbiox/UCSCXenaShiny
 * Source code: https://github.com/cran/UCSCXenaShiny
 * Date/Publication: 2021-05-16 05:00:08 UTC
-* Number of recursive dependencies: 204
+* Number of recursive dependencies: 202
 
 Run `revdep_details(, "UCSCXenaShiny")` for more info
 

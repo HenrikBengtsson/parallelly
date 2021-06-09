@@ -10,7 +10,7 @@
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |America/Los_Angeles          |
-|date     |2021-06-05                   |
+|date     |2021-06-09                   |
 
 # Dependencies
 
@@ -26,7 +26,7 @@
 |:--------------------------------------------------------|:---------|:-----|:-------|:----|
 |[alookr](problems.md#alookr)                             |0.3.4     |      |        |1    |
 |[AlpsNMR](problems.md#alpsnmr)                           |3.1.5     |2     |1       |1    |
-|aroma.affymetrix                                         |3.2.0     |      |        |     |
+|[aroma.affymetrix](problems.md#aromaaffymetrix)          |3.2.0     |      |        |2    |
 |[aroma.core](problems.md#aromacore)                      |3.2.2     |      |        |1    |
 |[autohd](problems.md#autohd)                             |0.1.0     |      |        |1    |
 |[BAMBI](problems.md#bambi)                               |2.3.0     |      |        |2    |
@@ -105,7 +105,7 @@
 |[greed](problems.md#greed)                               |0.5.1     |      |        |2    |
 |[greta](problems.md#greta)                               |0.3.1     |      |        |1    |
 |gstat                                                    |2.0-7     |      |        |     |
-|GSVA                                                     |1.40.0    |      |        |     |
+|GSVA                                                     |1.40.1    |      |        |     |
 |[gtfs2gps](problems.md#gtfs2gps)                         |1.4-1     |      |        |1    |
 |[gWQS](problems.md#gwqs)                                 |3.0.4     |      |        |1    |
 |[hackeRnews](problems.md#hackernews)                     |0.1.0     |      |        |1    |
@@ -143,7 +143,7 @@
 |[mlr3](problems.md#mlr3)                                 |0.11.0    |      |        |1    |
 |mlr3benchmark                                            |0.1.2     |      |        |     |
 |mlr3cluster                                              |0.1.1     |      |        |     |
-|mlr3data                                                 |0.3.1     |      |        |     |
+|mlr3data                                                 |0.4.0     |      |        |     |
 |mlr3db                                                   |0.4.1     |      |        |     |
 |mlr3filters                                              |0.4.1     |      |        |     |
 |mlr3fselect                                              |0.5.1     |      |        |     |
@@ -190,7 +190,7 @@
 |rBiasCorrection                                          |0.3.0     |      |        |     |
 |[regmedint](problems.md#regmedint)                       |0.2.1     |      |        |1    |
 |reproducible                                             |1.2.7     |      |        |     |
-|[rgee](problems.md#rgee)                                 |1.0.9     |      |        |2    |
+|[rgee](problems.md#rgee)                                 |1.0.9     |      |        |1    |
 |[robotstxt](problems.md#robotstxt)                       |0.7.13    |      |        |2    |
 |RTransferEntropy                                         |0.2.14    |      |        |     |
 |[sapfluxnetr](problems.md#sapfluxnetr)                   |0.1.1     |      |        |1    |
@@ -217,10 +217,10 @@
 |[spatialwarnings](problems.md#spatialwarnings)           |3.0.0     |      |1       |1    |
 |sperrorest                                               |3.0.2     |      |        |     |
 |[spNetwork](problems.md#spnetwork)                       |0.1.1     |      |        |2    |
-|[stars](problems.md#stars)                               |0.5-2     |      |        |2    |
+|[stars](problems.md#stars)                               |0.5-3     |      |        |2    |
 |[startR](problems.md#startr)                             |2.1.0     |      |        |1    |
 |steps                                                    |1.2.1     |      |        |     |
-|[synergyfinder](problems.md#synergyfinder)               |3.0.4     |      |1       |3    |
+|[synergyfinder](problems.md#synergyfinder)               |3.0.6     |      |1       |3    |
 |[tableschema.r](problems.md#tableschemar)                |1.1.1     |      |        |3    |
 |[targets](problems.md#targets)                           |0.4.2     |      |        |1    |
 |tcensReg                                                 |0.1.7     |      |        |     |
