@@ -19,10 +19,10 @@
     <loc>https://parallelly.futureverse.org/reference/availableWorkers.html</loc>
   </url>
   <url>
-    <loc>https://parallelly.futureverse.org/reference/cpuLoad.html</loc>
+    <loc>https://parallelly.futureverse.org/reference/canPortBeUsed.html</loc>
   </url>
   <url>
-    <loc>https://parallelly.futureverse.org/reference/findAvailablePort.html</loc>
+    <loc>https://parallelly.futureverse.org/reference/cpuLoad.html</loc>
   </url>
   <url>
     <loc>https://parallelly.futureverse.org/reference/find_rshcmd.html</loc>
@@ -31,7 +31,10 @@
     <loc>https://parallelly.futureverse.org/reference/freeCores.html</loc>
   </url>
   <url>
-    <loc>https://parallelly.futureverse.org/reference/getOptionOrEnvVar.html</loc>
+    <loc>https://parallelly.futureverse.org/reference/freePort.html</loc>
+  </url>
+  <url>
+    <loc>https://parallelly.futureverse.org/reference/getOption2.html</loc>
   </url>
   <url>
     <loc>https://parallelly.futureverse.org/reference/isConnectionValid.html</loc>

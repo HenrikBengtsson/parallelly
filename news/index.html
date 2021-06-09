@@ -95,7 +95,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.25.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.26.0-9000</span>
       </span>
     </div>
 
@@ -207,9 +207,14 @@
       <small>Source: <a href='https://github.com/HenrikBengtsson/parallelly/blob/master/NEWS'><code>NEWS</code></a></small>
     </div>
 
-    <div id="parallelly-1-25-0-9001" class="section level1">
-<h1 class="page-header" data-toc-text="1.25.0-9001">
-<a href="#parallelly-1-25-0-9001" class="anchor"></a>parallelly 1.25.0-9001<small> Unreleased </small>
+    <div id="parallelly-1-26-0-9000" class="section level1">
+<h1 class="page-header" data-toc-text="1.26.0-9000">
+<a href="#parallelly-1-26-0-9000" class="anchor"></a>parallelly 1.26.0-9000<small> Unreleased </small>
+</h1>
+</div>
+    <div id="parallelly-1-26-0" class="section level1">
+<h1 class="page-header" data-toc-text="1.26.0">
+<a href="#parallelly-1-26-0" class="anchor"></a>parallelly 1.26.0<small> Unreleased </small>
 </h1>
 <div id="significant-changes" class="section level3">
 <h3 class="hasAnchor">
@@ -222,7 +227,8 @@
 <h3 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New Features</h3>
 <ul>
-<li>makeClusterPSOCK() now support setting up cluster nodes in parallel similarly to how parallel::makePSOCKcluster() does it. This significantly reduces the setup turnaround time. This is only supported in R (&gt;= 4.0.0). To revert to the sequential setup strategy, set R option ‘parallelly.makeNodePSOCK.setup_strategy’ to “sequential”.</li>
+<li><p>makeClusterPSOCK() now support setting up cluster nodes in parallel similarly to how parallel::makePSOCKcluster() does it. This significantly reduces the setup turnaround time. This is only supported in R (&gt;= 4.0.0). To revert to the sequential setup strategy, set R option ‘parallelly.makeNodePSOCK.setup_strategy’ to “sequential”.</p></li>
+<li><p>Add freePort() to get a random TCP port that can be opened.</p></li>
 </ul>
 </div>
 <div id="documentation" class="section level3">

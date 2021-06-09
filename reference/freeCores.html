@@ -96,7 +96,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.25.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.26.0-9000</span>
       </span>
     </div>
 
@@ -216,7 +216,7 @@
     <pre class="usage"><span class='fu'>freeCores</span><span class='op'>(</span>
   memory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"5min"</span>, <span class='st'>"15min"</span>, <span class='st'>"1min"</span><span class='op'>)</span>,
   fraction <span class='op'>=</span> <span class='fl'>0.9</span>,
-  logical <span class='op'>=</span> <span class='fu'>getOption2</span><span class='op'>(</span><span class='st'>"parallelly.availableCores.logical"</span>, <span class='cn'>TRUE</span><span class='op'>)</span>,
+  logical <span class='op'>=</span> <span class='fu'><a href='getOption2.html'>getOption2</a></span><span class='op'>(</span><span class='st'>"parallelly.availableCores.logical"</span>, <span class='cn'>TRUE</span><span class='op'>)</span>,
   default <span class='op'>=</span> <span class='fu'>parallelly</span><span class='fu'>::</span><span class='fu'><a href='availableCores.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
@@ -255,7 +255,7 @@ argument <code>fraction</code> (numeric).</p>
 </div><div class='output co'>#&gt; [1] 6
 #&gt; attr(,"loadavg")
 #&gt;  1min  5min 15min 
-#&gt;  1.05  0.81  0.55 
+#&gt;  0.70  0.54  0.60 
 #&gt; attr(,"maxCores")
 #&gt; system 
 #&gt;      8 

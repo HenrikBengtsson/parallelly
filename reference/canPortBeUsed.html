@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Find or check TCP ports that can be opened — findAvailablePort • parallelly</title>
+<title>Check whether a TCP port can be opened or not — canPortBeUsed • parallelly</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,9 +52,8 @@
 
 
 
-<meta property="og:title" content="Find or check TCP ports that can be opened — findAvailablePort" />
-<meta property="og:description" content="Find or check TCP ports that can be opened
-Check whether a TCP port can be opened or not" />
+<meta property="og:title" content="Check whether a TCP port can be opened or not — canPortBeUsed" />
+<meta property="og:description" content="Check whether a TCP port can be opened or not" />
 <meta property="og:image" content="https://parallelly.futureverse.org/logo.png" />
 
 
@@ -97,7 +96,7 @@ Check whether a TCP port can be opened or not" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.25.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.26.0-9000</span>
       </span>
     </div>
 
@@ -205,43 +204,20 @@ Check whether a TCP port can be opened or not" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Find or check TCP ports that can be opened</h1>
+    <h1>Check whether a TCP port can be opened or not</h1>
     <small class="dont-index">Source: <a href='https://github.com/HenrikBengtsson/parallelly/blob/master/R/ports.R'><code>R/ports.R</code></a></small>
-    <div class="hidden name"><code>findAvailablePort.Rd</code></div>
+    <div class="hidden name"><code>canPortBeUsed.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Find or check TCP ports that can be opened</p>
-<p>Check whether a TCP port can be opened or not</p>
+    <p>Check whether a TCP port can be opened or not</p>
     </div>
 
-    <pre class="usage"><span class='fu'>findAvailablePort</span><span class='op'>(</span>ports <span class='op'>=</span> <span class='fl'>1024</span><span class='op'>:</span><span class='fl'>65535</span>, default <span class='op'>=</span> <span class='st'>"first"</span>, randomize <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='fu'>canPortBeUsed</span><span class='op'>(</span><span class='va'>port</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>canPortBeUsed</span><span class='op'>(</span><span class='va'>port</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>ports</th>
-      <td><p>(integer vector, or character string)
-Zero or more TCP ports in [0, 65535] to scan.
-If <code>"random"</code>, then a random set of ports is considered.
-If <code>"auto"</code>, then the port given by environment variable
-<code class="env">R_PARALLEL_PORT</code> is used, which may also specify <code>random</code>.</p></td>
-    </tr>
-    <tr>
-      <th>default</th>
-      <td><p>(integer) <code>NA_integer_</code> or a port to returned if
-an available port could not be found.
-If <code>"first"</code>, then <code>ports[1]</code>.  If <code>"random"</code>, then a random port
-among <code>ports</code> is used. If <code>length(ports) == 0</code>, then <code>NA_integer_</code>.</p></td>
-    </tr>
-    <tr>
-      <th>randomize</th>
-      <td><p>(logical) If TRUE, <code>ports</code> is randomly shuffled
-before searched.  This shuffle does <em>not</em> forward the RNG seed.</p></td>
-    </tr>
     <tr>
       <th>port</th>
       <td><p>(integer) A TCP port in [0, 65535].</p></td>
@@ -250,11 +226,7 @@ before searched.  This shuffle does <em>not</em> forward the RNG seed.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>findAvailablePort(ports)</code> returns an integer representing the first
-port among <code>ports</code> that can be opened.  If none can be opened, then
-<code>default</code> is returned.  If port querying is not supported, as in
-R (&lt; 4.0.0), then <code>default</code> is returned.</p>
-<p><code>canPortBeUsed(port)</code> returns a logical indicating whether the port can
+    <p><code>canPortBeUsed(port)</code> returns a logical indicating whether the port can
 be opened or not, or cannot be queried.  If the port can be opened,
 then <code>TRUE</code> is returned, if cannot be opened then <code>FALSE</code> is returned,
 which may happen if the port is used by another process.
