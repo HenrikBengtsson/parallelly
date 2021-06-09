@@ -2,7 +2,6 @@ source("incl/start.R")
 
 getOption2 <- parallelly:::getOption2
 getEnvVar2 <- parallelly:::getEnvVar2
-getOptionOrEnvVar <- parallelly:::getOptionOrEnvVar
 
 options(parallelly.some.option = NULL)
 options(parallelly.some.option = NULL)
@@ -70,12 +69,6 @@ for (what in c("option", "envvar")) {
         stopifnot(is.na(value))
         value <- getEnvVar2("R_PARALLELLY_SOME_ENVVAR", NA)
         stopifnot(is.na(value))
-
-        message("- getOptionOrEnvVar()")
-        value <- getOptionOrEnvVar("future.some.setting", NA)
-        stopifnot(is.na(value))
-        value <- getOptionOrEnvVar("parallelly.some.setting", NA)
-        stopifnot(is.na(value))
       } else if (isTRUE(value0)) {
         if (what == "option") {
           message("- getOption2()")
@@ -90,13 +83,6 @@ for (what in c("option", "envvar")) {
           value2 <- getEnvVar2("R_PARALLELLY_SOME_SETTING", NA)
           stopifnot(value2 == "TRUE")
         }
-        stopifnot(identical(value1, value2))
-        
-        message("- getOptionOrEnvVar()")
-        value1 <- getOptionOrEnvVar("future.some.setting", NA)
-        stopifnot(isTRUE(value1))
-        value2 <- getOptionOrEnvVar("parallelly.some.setting", NA)
-        stopifnot(isTRUE(value1))
         stopifnot(identical(value1, value2))
       }
 

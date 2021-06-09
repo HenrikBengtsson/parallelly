@@ -105,20 +105,6 @@ mstr <- function(..., appendLF = TRUE, debug = getOption2("parallelly.debug", FA
 }
 
 
-## A version of base::sample() that does not change .Random.seed
-stealth_sample <- function(x, size = length(x), replace = FALSE, ...) {
-  oseed <- .GlobalEnv$.Random.seed
-  on.exit({
-    if (is.null(oseed)) {
-      rm(list = ".Random.seed", envir = .GlobalEnv, inherits = FALSE)
-    } else {
-      .GlobalEnv$.Random.seed <- oseed
-    }
-  })
-  sample(x, size = size, replace = replace, ...)
-}
-
-
 #' Check whether a process PID exists or not
 #'
 #' @param pid A positive integer.
@@ -429,3 +415,32 @@ inRCmdCheck <- function() { queryRCmdCheck() != "notRunning" }
 comma <- function(x, sep = ", ") paste(x, collapse = sep)
 
 commaq <- function(x, sep = ", ") paste(sQuote(x), collapse = sep)
+
+
+## We are currently importing the following non-exported functions:
+## * makeClusterPSOCK():
+##   - parallel:::sendCall()
+##   - parallel:::recvResult()
+importParallel <- local({
+  ns <- NULL
+  cache <- list()
+  
+  function(name = NULL) {
+    res <- cache[[name]]
+    if (is.null(res)) {
+      ns <<- getNamespace("parallel")
+
+      if (!exists(name, mode = "function", envir = ns, inherits = FALSE)) {
+        ## covr: skip=3
+        msg <- sprintf("parallel:::%s() is not available on this system (%s)", name, sQuote(.Platform$OS.type))
+        mdebug(msg)
+        stop(msg, call. = FALSE)
+      }
+
+      res <- get(name, mode = "function", envir = ns, inherits = FALSE)
+
+      cache[[name]] <<- res
+    }
+    res
+  }
+})

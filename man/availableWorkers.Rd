@@ -10,7 +10,7 @@ availableWorkers(
     "fallback")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
-  default = "localhost",
+  default = getOption2("parallelly.localhost.hostname", "localhost"),
   which = c("auto", "min", "max", "all")
 )
 }

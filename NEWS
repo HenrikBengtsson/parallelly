@@ -1,6 +1,39 @@
 Package: parallelly
 ===================
 
+Version: 1.26.0 [2021-06-09]
+
+SIGNIFICANT CHANGES:
+
+ * R_PARALLELLY_* (and R_FUTURE_*) environment variables are now only read
+   when the 'parallelly' package is loaded, where they set the corresponding
+   parallelly.* option.  Previously, some of these environment variables were
+   queried by different functions as a fallback to when an option was not set.
+   By only parsing them when the package is loaded, it decrease the overhead
+   in functions, and it clarifies that options can be changed at runtime
+   whereas environment variables should only be set at startup.
+   
+NEW FEATURES:
+
+ * makeClusterPSOCK() now support setting up cluster nodes in parallel
+   similarly to how parallel::makePSOCKcluster() does it.  This significantly
+   reduces the setup turnaround time.  This is only supported in R (>= 4.0.0).
+   To revert to the sequential setup strategy, set R option
+   'parallelly.makeNodePSOCK.setup_strategy' to "sequential".
+
+ * Add freePort() to get a random TCP port that can be opened.
+
+DOCUMENTATION:
+
+ * Documenting more R options and environment variables used by this package.
+
+BUG FIXES:
+
+ * R option 'parallelly.availableCores.fallback' and environment variable
+   'R_PARALLELLY_AVAILABLECORES_FALLBACK' was ignored since parallelly 1.22.0,
+   when support for 'nproc' was added to availableCores().
+ 
+
 Version: 1.25.0 [2021-04-30]
 
 SIGNIFICANT CHANGES:

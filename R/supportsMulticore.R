@@ -61,7 +61,7 @@ supportsMulticore <- local({
     if (!supportedByOS) return(FALSE)
 
     ## Is forked processing disabled via R settings?
-    value <- getOptionOrEnvVar("parallelly.fork.enable", NA)
+    value <- getOption2("parallelly.fork.enable", NA)
     stop_if_not(length(value) == 1L)
     value <- as.logical(value)
     if (!is.na(value)) return(value)
@@ -87,7 +87,7 @@ supportsMulticoreAndRStudio <- local({
   
    if (!warn || alreadyWarned) return(FALSE)
    
-   action <- getOptionOrEnvVar("parallelly.supportsMulticore.unstable", "warn")
+   action <- getOption2("parallelly.supportsMulticore.unstable", "warn")
    if (action == "warn") {
      warning("[ONE-TIME WARNING] Forked processing ('multicore') is not supported when running R from RStudio because it is considered unstable. For more details, how to control forked processing or not, and how to silence this warning in future R sessions, see ?parallelly::supportsMulticore")
    }

@@ -1,0 +1,24 @@
+## A version of base::sample() that does not change .Random.seed
+stealth_sample <- function(x, size = length(x), replace = FALSE, ...) {
+  oseed <- .GlobalEnv$.Random.seed
+  on.exit({
+    if (is.null(oseed)) {
+      rm(list = ".Random.seed", envir = .GlobalEnv, inherits = FALSE)
+    } else {
+      .GlobalEnv$.Random.seed <- oseed
+    }
+  })
+
+  ## Generate a psuedo-random random seed based on the current
+  ## random state and the current time
+  time_offset <- format(Sys.time(), format = "%H%M%OS6")
+  time_offset <- sub(".", "", time_offset, fixed = TRUE)
+  time_offset <- strsplit(time_offset, split = "", fixed = TRUE)[[1]]
+  time_offset <- sample(time_offset)
+  time_offset <- paste(time_offset, collapse = "")
+  time_offset <- as.numeric(time_offset)
+  time_offset <- time_offset %% .Machine$integer.max
+  set.seed(time_offset)
+  
+  sample(x, size = size, replace = replace, ...)
+}
