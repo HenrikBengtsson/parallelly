@@ -65,7 +65,7 @@
 #' The below \R options and environment variables control the default results of [makeClusterPSOCK()] and its helper function [makeNodePSOCK()] that creates the individual cluster nodes.
 #'
 #' \describe{
-#'  \item{\option{parallelly.makeNodePSOCK.setup_strategy}:}{(character) If `"parallel"` (default), the PSOCK cluster nodes are set up concurrently, one after the other.  If `"sequential"`, they are set up sequentially.}
+#'  \item{\option{parallelly.makeNodePSOCK.setup_strategy}:}{(character) If `"parallel"` (default), the PSOCK cluster nodes are set up concurrently.  If `"sequential"`, they are set up sequentially.}
 #'
 #'  \item{\option{parallelly.makeNodePSOCK.validate}:}{(logical) If TRUE (default), after the nodes have been created, they are all validated that they work by inquiring about their session information, which is saved in attribute `session_info` of each node.}
 #'

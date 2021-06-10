@@ -118,7 +118,7 @@ The below \R options and environment variables control the default result of \co
 The below \R options and environment variables control the default results of \code{\link[=makeClusterPSOCK]{makeClusterPSOCK()}} and its helper function \code{\link[=makeNodePSOCK]{makeNodePSOCK()}} that creates the individual cluster nodes.
 
 \describe{
-\item{\option{parallelly.makeNodePSOCK.setup_strategy}:}{(character) If \code{"parallel"} (default), the PSOCK cluster nodes are set up concurrently, one after the other.  If \code{"sequential"}, they are set up sequentially.}
+\item{\option{parallelly.makeNodePSOCK.setup_strategy}:}{(character) If \code{"parallel"} (default), the PSOCK cluster nodes are set up concurrently.  If \code{"sequential"}, they are set up sequentially.}
 
 \item{\option{parallelly.makeNodePSOCK.validate}:}{(logical) If TRUE (default), after the nodes have been created, they are all validated that they work by inquiring about their session information, which is saved in attribute \code{session_info} of each node.}
 
