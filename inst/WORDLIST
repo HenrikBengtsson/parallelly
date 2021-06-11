@@ -123,3 +123,5 @@ NODELIST
 scontrol
 dev
 freePort
+Rprofile
+Renviron
