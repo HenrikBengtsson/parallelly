@@ -11,7 +11,15 @@
   ## https://github.com/rstudio/rstudio/issues/6692#issuecomment-785346223
   ## Unless our R option is already set explicitly (or via the env var),
   ## be agile to how RStudio handles it for the 'parallel' package
+  ## This bug has been fixed in R-devel r80472.
   if (getRversion() >= "4.0.0" &&
+      (
+        getRversion() < "4.2.0" ||
+        R.version[["status"]] != "Under development (unstable)" ||
+        length(rev <- as.integer(R.version[["svn rev"]])) != 1L ||
+        !is.finite(rev) ||
+        rev < 80472
+      ) &&
       is.null(getOption("parallelly.makeNodePSOCK.setup_strategy")) &&
       Sys.getenv("RSTUDIO") == "1" && !nzchar(Sys.getenv("RSTUDIO_TERM"))) {
     ns <- getNamespace("parallel")
