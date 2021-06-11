@@ -97,7 +97,7 @@ and check whether or not the connection is still valid." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.26.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.26.0-9001</span>
       </span>
     </div>
 
@@ -327,7 +327,7 @@ indices. To get a connection by its index, use <code><a href='https://rdrr.io/r/
 </div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='fu'>isConnectionValid</span><span class='op'>(</span><span class='va'>y</span><span class='op'>$</span><span class='va'>con</span><span class='op'>)</span>     <span class='co'>## FALSE with attribute 'reason'</span>
 </div><div class='output co'>#&gt; [1] FALSE
 #&gt; attr(,"reason")
-#&gt; [1] "Connection (connection: index=4, description=\"/tmp/hb/RtmpMlLGy0/file1f821b49b75b\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=-1) is no longer valid. It differ from the currently registered R connection with the same index 4 (connection: index=4, description=\"/tmp/hb/RtmpMlLGy0/file1f821b49b75b\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=1557, raw_id=\"&lt;pointer: 0x615&gt;\")"</div><div class='input'><span class='fu'>connectionId</span><span class='op'>(</span><span class='va'>y</span><span class='op'>$</span><span class='va'>con</span><span class='op'>)</span>          <span class='co'>## -1L</span>
+#&gt; [1] "Connection (connection: index=4, description=\"/tmp/hb/RtmpxFxBqX/file70ad6674439\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=-1) is no longer valid. It differ from the currently registered R connection with the same index 4 (connection: index=4, description=\"/tmp/hb/RtmpxFxBqX/file70ad6674439\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=1557, raw_id=\"&lt;pointer: 0x615&gt;\")"</div><div class='input'><span class='fu'>connectionId</span><span class='op'>(</span><span class='va'>y</span><span class='op'>$</span><span class='va'>con</span><span class='op'>)</span>          <span class='co'>## -1L</span>
 </div><div class='output co'>#&gt; [1] -1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/connections.html'>close</a></span><span class='op'>(</span><span class='va'>con</span><span class='op'>)</span>
 
 </div></pre>

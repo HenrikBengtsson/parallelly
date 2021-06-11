@@ -101,7 +101,7 @@ further notice." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.26.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.26.0-9001</span>
       </span>
     </div>
 
@@ -290,7 +290,7 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
 
 <p>The below <span style="R">R</span> options and environment variables control the default results of <code><a href='makeClusterPSOCK.html'>makeClusterPSOCK()</a></code> and its helper function <code><a href='makeClusterPSOCK.html'>makeNodePSOCK()</a></code> that creates the individual cluster nodes.</p>
 <dl>
-<dt><span class="option">parallelly.makeNodePSOCK.setup_strategy</span>:</dt><dd><p>(character) If <code>"parallel"</code> (default), the PSOCK cluster nodes are set up concurrently, one after the other.  If <code>"sequential"</code>, they are set up sequentially.</p></dd>
+<dt><span class="option">parallelly.makeNodePSOCK.setup_strategy</span>:</dt><dd><p>(character) If <code>"parallel"</code> (default), the PSOCK cluster nodes are set up concurrently.  If <code>"sequential"</code>, they are set up sequentially.</p></dd>
 
 <dt><span class="option">parallelly.makeNodePSOCK.validate</span>:</dt><dd><p>(logical) If TRUE (default), after the nodes have been created, they are all validated that they work by inquiring about their session information, which is saved in attribute <code>session_info</code> of each node.</p></dd>
 
