@@ -11,7 +11,8 @@
   ## https://github.com/rstudio/rstudio/issues/6692#issuecomment-785346223
   ## Unless our R option is already set explicitly (or via the env var),
   ## be agile to how RStudio handles it for the 'parallel' package
-  if (is.null(getOption("parallelly.makeNodePSOCK.setup_strategy")) &&
+  if (getRversion() >= "4.0.0" &&
+      is.null(getOption("parallelly.makeNodePSOCK.setup_strategy")) &&
       Sys.getenv("RSTUDIO") == "1" && !nzchar(Sys.getenv("RSTUDIO_TERM"))) {
     ns <- getNamespace("parallel")
     if (exists("defaultClusterOptions", mode = "environment", envir = ns)) {
