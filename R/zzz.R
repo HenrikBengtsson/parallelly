@@ -7,30 +7,9 @@
   ## Set package options based on environment variables
   update_package_options(debug = debug)
 
-  ## The RStudio Console does not support setup_strategy = "parallel"
-  ## https://github.com/rstudio/rstudio/issues/6692#issuecomment-785346223
-  ## Unless our R option is already set explicitly (or via the env var),
-  ## be agile to how RStudio handles it for the 'parallel' package
-  ## This bug has been fixed in R-devel r80472.
-  if (getRversion() >= "4.0.0" &&
-      (
-        getRversion() < "4.2.0" ||
-        R.version[["status"]] != "Under development (unstable)" ||
-        length(rev <- as.integer(R.version[["svn rev"]])) != 1L ||
-        !is.finite(rev) ||
-        rev < 80472
-      ) &&
-      is.null(getOption("parallelly.makeNodePSOCK.setup_strategy")) &&
-      Sys.getenv("RSTUDIO") == "1" && !nzchar(Sys.getenv("RSTUDIO_TERM"))) {
-    ns <- getNamespace("parallel")
-    if (exists("defaultClusterOptions", mode = "environment", envir = ns)) {
-      defaultClusterOptions <- get("defaultClusterOptions", mode = "environment", envir = ns)
-      value <- defaultClusterOptions$setup_strategy
-      if (is.character(value)) {
-        options(parallelly.makeNodePSOCK.setup_strategy = value)
-      }
-    }
-  }
+  ## If neeeded, work around bug in R preventing us from using the 'parallel'
+  ## setup strategy of PSOCK cluster nodes
+  parallelly_disable_parallel_setup_if_needed()
 
   ## Automatically play nice when 'R CMD check' runs?
   if (isTRUE(as.logical(getEnvVar2("R_PARALLELLY_R_CMD_CHECK_NICE", "TRUE"))) && inRCmdCheck()) {
