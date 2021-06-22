@@ -1669,6 +1669,12 @@ print.RichSOCKcluster <- function (x, ...) {
   txt <- sprintf("%d %s on %s", t, w, names(t))
   txt <- paste(txt, collapse = ", ")
   txt <- sprintf("Socket cluster with %d nodes where %s", length(x), txt)
+  
+  ## Report on autoStop?
+  if (!is.null(attr(x, "gcMe"))) {
+    txt <- sprintf("%s. This cluster is registered to be automatically stopped by the garbage collector", txt)
+  }
+  
   cat(txt, "\n", sep = "")
   invisible(x)
 }

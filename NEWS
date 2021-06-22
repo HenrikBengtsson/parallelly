@@ -1,8 +1,13 @@
 Package: parallelly
 ===================
 
-Version: 1.26.0-9001 [2021-06-11]
+Version: 1.26.0-9001 [2021-06-21]
 
+NEW FEATURES:
+
+ * print() on RichSOCKcluster mentions when the cluster is registered to be
+   automatically stopped by the garbage collector.
+   
 WORKAROUND:
 
  * The RStudio Console does not support the new 'setup_strategy = "parallel"'
