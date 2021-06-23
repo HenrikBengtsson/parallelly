@@ -2,7 +2,8 @@
 ## https://github.com/rstudio/rstudio/issues/6692#issuecomment-785346223
 ## Unless our R option is already set explicitly (or via the env var),
 ## be agile to how RStudio handles it for the 'parallel' package
-## This bug has been fixed in R-devel r80472.
+## This bug (https://bugs.r-project.org/bugzilla/show_bug.cgi?id=18119)
+## has been fixed in R-devel r80472 (2021-06-10)
 parallelly_disable_parallel_setup_if_needed <- function() {
   if (!is.null(getOption("parallelly.makeNodePSOCK.setup_strategy"))) return()
 
