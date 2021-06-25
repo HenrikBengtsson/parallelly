@@ -361,7 +361,20 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
 } # availableCores()
 
 
-getNproc <- function() {
+getNproc <- function(ignore = c("OMP_NUM_THREADS", "OMP_THREAD_LIMIT")) {
+  ## 'nproc' is limited by 'OMP_NUM_THREADS' and 'OMP_THREAD_LIMIT', if set.
+  ## However, that is not what we want for availableCores().  Because of
+  ## this, we unset those while querying 'nproc'.
+  if (length(ignore) > 0) {
+    ignore <- intersect(ignore, names(Sys.getenv()))
+    if (length(ignore) > 0) {
+      oignore <- Sys.getenv(ignore, names = TRUE)
+      oignore <- as.list(oignore)
+      on.exit(do.call(Sys.setenv, args = oignore), add = TRUE)
+      Sys.unsetenv(ignore)
+    }
+  }
+  
   systems <- list(linux = "nproc 2>/dev/null")
   os <- names(systems)
   m <- pmatch(os, table = R.version$os, nomatch = NA_integer_)
