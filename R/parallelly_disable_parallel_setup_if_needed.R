@@ -9,47 +9,61 @@ parallelly_disable_parallel_setup_if_needed <- function() {
   ## Always respect users settings
   if (!is.null(getOption("parallelly.makeNodePSOCK.setup_strategy"))) return()
 
-  ## We only need to disable 'parallel' setup for certain R versions
+  ## Nothing to do because of old version of R?
   rver <- getRversion()
   if (rver < "4.0.0") return()
 
+  ## Nothing to do because we're not running in RStudio Console?
+  if (Sys.getenv("RSTUDIO") != "1") return()
+  if (nzchar(Sys.getenv("RSTUDIO_TERM"))) return()
+
+  ## Can we Nothing to do for 'parallel', i.e. its internal option 'setup_strategy'
+
+  ## We only need to disable 'parallel' setup for certain R versions
   if (rver == "4.1.0") {
     if (R.version[["status"]] == "Patched") {
       rev <- as.integer(R.version[["svn rev"]])
-      if (length(rev) == 1L && is.finite(rev) && rev >= 80532) return()
+      if (length(rev) == 1L && is.finite(rev) && rev >= 80532) {
+        ## Undo any workarounds by RStudio
+        parallel_set_setup_strategy("parallel")
+        return()
+      }
     }
   } else if (rver == "4.2.0") {
     if (R.version[["status"]] != "Under development (unstable)") return()
-    if (length(rev) == 1L && is.finite(rev) && rev >= 80472) return()
+    if (length(rev) == 1L && is.finite(rev) && rev >= 80472) {
+      ## Undo any workarounds by RStudio
+      parallel_set_setup_strategy("parallel")
+      return()
+    }
   } else if (rver >= "4.1.1") {
     return()
   }
 
-  ## We only need to disable 'parallel' setup if running in the RStudio Console
-  if (Sys.getenv("RSTUDIO") != "1") return()
-  if (nzchar(Sys.getenv("RSTUDIO_TERM"))) return()
-
   ## Force 'parallelly' to use the "sequential" setup strategy
   options(parallelly.makeNodePSOCK.setup_strategy = "sequential")
 
-  ## Nothing to do for 'parallel', i.e. its internal option 'setup_strategy'
-  ## aleady set to "sequential"?
+  ## Force 'parallel' to use the "sequential" setup strategy
+  parallel_set_setup_strategy("sequential")
+}
+
+
+parallel_set_setup_strategy <- function(value) {
   ns <- getNamespace("parallel")
   if (!exists("defaultClusterOptions", mode = "environment", envir = ns)) {
     return()
   }
   defaultClusterOptions <- get("defaultClusterOptions",
                                mode = "environment", envir = ns)
-  value <- defaultClusterOptions$setup_strategy
-  if (!is.character(value)) return()
-  if (value == "sequential") return()
+  ## Nothing to do?
+  current <- defaultClusterOptions$setup_strategy
+  if (identical(current, value)) return()
 
-  ns <- getNamespace("parallel")
+  ## Cannot set?
   if (!exists("setDefaultClusterOptions", mode = "function", envir = ns)) {
     return()
   }
-
   setDefaultClusterOptions <- get("setDefaultClusterOptions",
                                   mode = "function", envir = ns)
-  setDefaultClusterOptions(setup_strategy = "sequential")
+  setDefaultClusterOptions(setup_strategy = value)
 }
