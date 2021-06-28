@@ -24,16 +24,12 @@ parallelly_disable_parallel_setup_if_needed <- function() {
     if (R.version[["status"]] == "Patched") {
       rev <- as.integer(R.version[["svn rev"]])
       if (length(rev) == 1L && is.finite(rev) && rev >= 80532) {
-        ## Undo any workarounds by RStudio
-        parallel_set_setup_strategy("parallel")
         return()
       }
     }
   } else if (rver == "4.2.0") {
     if (R.version[["status"]] != "Under development (unstable)") return()
     if (length(rev) == 1L && is.finite(rev) && rev >= 80472) {
-      ## Undo any workarounds by RStudio
-      parallel_set_setup_strategy("parallel")
       return()
     }
   } else if (rver >= "4.1.1") {
