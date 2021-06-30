@@ -122,4 +122,7 @@ nodelist
 NODELIST
 scontrol
 dev
-
+freePort
+Rprofile
+Renviron
+OMP

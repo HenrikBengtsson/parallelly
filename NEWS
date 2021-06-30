@@ -1,6 +1,39 @@
 Package: parallelly
 ===================
 
+Version: 1.26.1 [2021-06-29]
+
+NEW FEATURES:
+
+ * print() on RichSOCKcluster mentions when the cluster is registered to be
+   automatically stopped by the garbage collector.
+   
+WORKAROUND:
+
+ * Depending on R version used, the RStudio Console does not support the new
+   'setup_strategy = "parallel"' when using makeClusterPSOCK() or
+   parallel::makeCluster(). The symptom is that they, after a long wait,
+   result in "Error in makeClusterPSOCK(workers, ...) : Cluster setup failed.
+   <n> of <n> workers failed to connect."  This is due to a bug in R, which
+   has been fixed for R (>= 4.1.1) but also in a recent R 4.1.0 Patched. For
+   R (>= 4.0.0) or R (<= 4.1.0), this release works around the problem by
+   forcing 'setup_strategy = "sequential" for 'parallelly' and 'parallel' when
+   running in the RStudio Console. If you wish to override this behavior, you
+   can always set option 'parallelly.makeNodePSOCK.setup_strategy' to
+   "parallel", e.g. in your ~/.Rprofile file. Alternatively, you can set the
+   environment variable 'R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY=parallel',
+   e.g. in your ~/.Renviron file.
+
+BUG FIXES:
+
+ * On systems with 'nproc' installed, availableCores() would be limited by
+   environment variables 'OMP_NUM_THREADS' and 'OMP_THREAD_LIMIT', if set.
+   For example, on conservative systems that set 'OMP_NUM_THREADS=1' as the
+   default, availableCores() would pick this up via 'nproc' and return 1.
+   This was not the intended behavior. Now those environment variables are
+   temporarily unset before querying 'nproc'.
+
+
 Version: 1.26.0 [2021-06-09]
 
 SIGNIFICANT CHANGES:
@@ -331,7 +364,7 @@ NEW FEATURES:
 
  * The default range of ports that makeClusterPSOCK() draws a random port from
    (when argument 'port' is not specified) can now be controlled by environment
-   variable `R_FUTURE_RANDOM_PORTS`.  The default range is still 11000:11999
+   variable 'R_FUTURE_RANDOM_PORTS'.  The default range is still 11000:11999
    as with the 'parallel' package.
 
 

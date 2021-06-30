@@ -1,10 +1,8 @@
-# CRAN submission parallelly 1.26.0
+# CRAN submission parallelly 1.26.1
 
-on 2021-06-09
+on 2021-06-29
 
-I've verified this submission has no negative impact on any of the 312 first- and second-generation reverse package dependencies available on CRAN and Bioconductor.
-
-Thank you
+Thanks in advance
 
 
 ## Notes not sent to CRAN

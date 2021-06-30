@@ -16,7 +16,7 @@ local({
 
   node <- cl[[1]]
   print(node)
-  cl2 <- as.cluster(cl)
+  cl2 <- as.cluster(node)
   stopifnot(inherits(cl2, "cluster"), length(cl2) == 1L,
             identical(cl2[[1]], node))
 
@@ -43,7 +43,7 @@ local({
   
   cl <- c(cl1, cl2)
   print(cl)
-  
+
   stopifnot(inherits(cl, "cluster"), length(cl) == 2L)
   stopifnot(identical(cl[1], cl1),
             identical(cl[2], cl2[1]))
