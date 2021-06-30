@@ -95,7 +95,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.26.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.26.1-9000</span>
       </span>
     </div>
 
@@ -207,9 +207,14 @@
       <small>Source: <a href='https://github.com/HenrikBengtsson/parallelly/blob/master/NEWS'><code>NEWS</code></a></small>
     </div>
 
-    <div id="parallelly-1-26-0-9001" class="section level1">
-<h1 class="page-header" data-toc-text="1.26.0-9001">
-<a href="#parallelly-1-26-0-9001" class="anchor"></a>parallelly 1.26.0-9001<small> Unreleased </small>
+    <div id="parallelly-1-26-1-9000" class="section level1">
+<h1 class="page-header" data-toc-text="1.26.1-9000">
+<a href="#parallelly-1-26-1-9000" class="anchor"></a>parallelly 1.26.1-9000<small> Unreleased </small>
+</h1>
+</div>
+    <div id="parallelly-1-26-1" class="section level1">
+<h1 class="page-header" data-toc-text="1.26.1">
+<a href="#parallelly-1-26-1" class="anchor"></a>parallelly 1.26.1<small> Unreleased </small>
 </h1>
 <div id="new-features" class="section level3">
 <h3 class="hasAnchor">
@@ -222,7 +227,7 @@
 <h3 class="hasAnchor">
 <a href="#workaround" class="anchor"></a>Workaround</h3>
 <ul>
-<li>The RStudio Console does not support the new ‘setup_strategy = “parallel”’ when using makeClusterPSOCK() or parallel::makeCluster(). Currently, RStudio handles this by configuring the ‘parallel’ package to always use ‘setup_strategy = “sequential”’ whenever running in the RStudio Console. To be agile to current and future RStudio tweaks around this, ‘parallelly’ now looks at these ‘parallel’ setting when loaded and adjust accordingly. Note that this only happens when running in the RStudio Console. When running R in the terminal, also via the RStudio Terminal, things work and everything will keep using ‘setup_strategy = “parallel”’ by default. If you wish to override what RStudio does, you can always set option ‘parallelly.makeNodePSOCK.setup_strategy’ to “parallel”, e.g. in your ~/.Rprofile file. Alternatively, you can set the corresponding environment variable ‘R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY=parallel’, e.g. in your ~/.Renviron file.</li>
+<li>Depending on R version used, the RStudio Console does not support the new ‘setup_strategy = “parallel”’ when using makeClusterPSOCK() or parallel::makeCluster(). The symptom is that they, after a long wait, result in “Error in makeClusterPSOCK(workers, …) : Cluster setup failed. &lt;n&gt; of &lt;n&gt; workers failed to connect.” This is due to a bug in R, which has been fixed for R (&gt;= 4.1.1) but also in a recent R 4.1.0 Patched. For R (&gt;= 4.0.0) or R (&lt;= 4.1.0), this release works around the problem by forcing ‘setup_strategy = “sequential” for ’parallelly’ and ‘parallel’ when running in the RStudio Console. If you wish to override this behavior, you can always set option ‘parallelly.makeNodePSOCK.setup_strategy’ to “parallel”, e.g. in your ~/.Rprofile file. Alternatively, you can set the environment variable ‘R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY=parallel’, e.g. in your ~/.Renviron file.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level3">
