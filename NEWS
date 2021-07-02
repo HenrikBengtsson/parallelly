@@ -1,9 +1,13 @@
 Package: parallelly
 ===================
 
-Version: 1.26.1-9000 [2021-06-30]
+Version: 1.26.1-9000 [2021-07-02]
 
- * ...
+BUG FIXES:
+
+ * makeClusterPSOCK(..., setup_strategy = "parallel") would forget to close
+   an socket connection used to set up the workers. This socket connection
+   would be closed by the garbage collector eventually with a warning.
  
 
 Version: 1.26.1 [2021-06-29]

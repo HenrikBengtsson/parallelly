@@ -197,7 +197,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     ## Start listening and start workers.
     if (verbose) message(sprintf("%sStarting PSOCK main server", verbose_prefix))
     socket <- serverSocket(port = port)
-    on.exit(close(socket), add = TRUE)
+    on.exit(if (!is.null(socket)) close(socket), add = TRUE)
 
     if (.Platform$OS.type == "windows") {
       for (ii in seq_along(cl)) {
@@ -328,6 +328,10 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       }
     }
   }
+
+  ## Cleanup
+  try(close(socket), silent = TRUE)
+  socket <- NULL
 
   if (validate) {
     ## Attaching session information for each worker.  This is done to assert
