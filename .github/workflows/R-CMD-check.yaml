@@ -99,7 +99,7 @@ jobs:
       - name: Test coverage - Install dependencies
         if: matrix.config.os == 'ubuntu-20.04' && matrix.config.r == 'release'
         run: |
-            sudo apt-get install --yes libcurl4-openssl-dev
+            sudo apt-get install --yes libcurl3-openssl-dev
 
       - name: Test coverage
         if: matrix.config.os == 'ubuntu-20.04' && matrix.config.r == 'release'
