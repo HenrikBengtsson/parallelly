@@ -108,7 +108,7 @@ jobs:
           ##    https://app.codecov.io/gh/<org>/<repo>/settings
           ## 2. Set 'CODECOV_TOKEN' in GitHub Secrets:
           ##    https://github.com/<org>/<repo>/settings/environments/
-          install.packages("curl", type="source")
+          install.packages("curl", repos="https://cloud.r-project.org")
           library(curl)
           install.packages("covr")
           covr::codecov(token="${{secrets.CODECOV_TOKEN}}")
