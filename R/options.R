@@ -94,7 +94,7 @@
 #'
 #' @section Environment variables that set R options:
 #' All of the above \R \option{parallelly.*} options can be set by
-#' corresponding environment variable \env{R_PARALLELLY_*} _when the
+#' corresponding environment variables \env{R_PARALLELLY_*} _when the
 #' \pkg{parallelly} package is loaded_.
 #' For example, if `R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY = "sequential"`,
 #' then option \option{parallelly.makeNodePSOCK.setup_strategy} is set to
