@@ -382,11 +382,11 @@ getNproc <- function(ignore = c("OMP_NUM_THREADS", "OMP_THREAD_LIMIT")) {
   if (length(m) == 0L) return(NA_integer_)
 
   for (cmd in systems[[m]]) {
-    res <- tryCatch({
-      suppressWarnings(system(cmd, intern=TRUE))
-    }, error = function(e) NULL)
-    res <- gsub("(^[[:space:]]+|[[:space:]]+$)", "", res[1])
-    if (grepl("^[1-9]$", res)) return(as.integer(res))
+    tryCatch({
+      res <- suppressWarnings(system(cmd, intern=TRUE))
+      res <- gsub("(^[[:space:]]+|[[:space:]]+$)", "", res[1])
+      if (grepl("^[1-9]$", res)) return(as.integer(res))
+    }, error = identity)
   }
   
   NA_integer_

@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.26.1-9001 [2021-07-06]
+Version: 1.26.1-9002 [2021-07-06]
 
 BUG FIXES:
 
@@ -12,7 +12,11 @@ BUG FIXES:
  * parallelly::makeClusterPSOCK() would fail with "Error in freePort(port) :
    Unknown value on argument 'port': 'auto'" if environment variable
    'R_PARALLEL_PORT' was set to a port number.
-   
+
+ * parallelly::availableCores() would produce 'Error in if (grepl("^[1-9]$",
+   res)) return(as.integer(res)) : argument is of length zero' on Linux
+   systems without 'nproc' installed.
+
 
 Version: 1.26.1 [2021-06-29]
 
