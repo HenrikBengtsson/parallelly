@@ -1,5 +1,13 @@
 ## A version of base::sample() that does not change .Random.seed
 stealth_sample <- function(x, size = length(x), replace = FALSE, ...) {
+  ## Nothing to do?
+  if (size == 0L) return(x[integer(0)])
+
+  ## Nothing to randomize?
+  if (length(x) == 1L) {
+    return(rep(x, times = size))
+  }
+  
   oseed <- .GlobalEnv$.Random.seed
   on.exit({
     if (is.null(oseed)) {
@@ -19,6 +27,6 @@ stealth_sample <- function(x, size = length(x), replace = FALSE, ...) {
   time_offset <- as.numeric(time_offset)
   time_offset <- time_offset %% .Machine$integer.max
   set.seed(time_offset)
-  
+
   sample(x, size = size, replace = replace, ...)
 }

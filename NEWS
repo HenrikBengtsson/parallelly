@@ -1,14 +1,18 @@
 Package: parallelly
 ===================
 
-Version: 1.26.1-9000 [2021-07-02]
+Version: 1.26.1-9001 [2021-07-06]
 
 BUG FIXES:
 
  * makeClusterPSOCK(..., setup_strategy = "parallel") would forget to close
    an socket connection used to set up the workers. This socket connection
    would be closed by the garbage collector eventually with a warning.
- 
+
+ * parallelly::makeClusterPSOCK() would fail with "Error in freePort(port) :
+   Unknown value on argument 'port': 'auto'" if environment variable
+   'R_PARALLEL_PORT' was set to a port number.
+   
 
 Version: 1.26.1 [2021-06-29]
 
