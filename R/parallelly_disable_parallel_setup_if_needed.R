@@ -20,9 +20,9 @@ parallelly_disable_parallel_setup_if_needed <- function() {
   ## Can we Nothing to do for 'parallel', i.e. its internal option 'setup_strategy'
 
   ## We only need to disable 'parallel' setup for certain R versions
+  rev <- as.integer(R.version[["svn rev"]])
   if (rver == "4.1.0") {
     if (R.version[["status"]] == "Patched") {
-      rev <- as.integer(R.version[["svn rev"]])
       if (length(rev) == 1L && is.finite(rev) && rev >= 80532) {
         return()
       }
