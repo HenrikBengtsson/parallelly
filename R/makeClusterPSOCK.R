@@ -127,7 +127,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   if (any(is_parallel)) {
     if (verbose) message(sprintf("%s - Parallel setup requested for some PSOCK nodes", verbose_prefix))
     if (!all(is_parallel)) {
-      if (verbose) message(sprintf("%s - Parallel setup requested only for some PSOCK nodes; will revert to a sequential setup of all", verbose_prefix))
+      if (verbose) message(sprintf("%s - Parallel setup requested only for some PSOCK nodes; will revert to a sequential setup for all", verbose_prefix))
       setup_strategy <- "sequential"
       ## Force all nodes to be setup using the 'sequential' setup strategy
       for (ii in which(!is_parallel)) {
@@ -163,6 +163,14 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     stopCluster(cl[nodes])
     cl <- NULL
   })
+
+  ## Force setup_strategy = "sequential"?
+  if (setup_strategy == "parallel") {
+    affected <- affected_by_bug18119()
+    if (!is.na(affected) && affected) {
+      setup_strategy <- "sequential"
+    }
+  }
 
   if (setup_strategy == "parallel") {
     ## To please R CMD check on R (< 4.0.0)
