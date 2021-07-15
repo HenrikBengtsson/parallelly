@@ -126,3 +126,5 @@ freePort
 Rprofile
 Renviron
 OMP
+grepl
+tcltk

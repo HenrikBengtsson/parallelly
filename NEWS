@@ -1,7 +1,16 @@
 Package: parallelly
 ===================
 
-Version: 1.26.1-9002 [2021-07-06]
+Version: 1.26.1-9002 [2021-07-15]
+
+WORKAROUND:
+
+ * makeClusterPSOCK() and parallel::makeCluster() failed with error "Cluster
+   setup failed. <n> of <n> workers failed to connect." when using the new
+   default 'setup_strategy = "parallel"' and when the 'tcltk' package is
+   loaded when running R (>= 4.0.0 && <= 4.1.0) on macOS. Now 'parallelly'
+   forces setup_strategy = "sequential" when the 'tcltk' package is loaded
+   on these R versions.
 
 BUG FIXES:
 
