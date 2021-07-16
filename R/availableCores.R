@@ -54,6 +54,10 @@
 #'    package is loaded).  The \option{mc.cores} option is used by for
 #'    instance \code{\link[=mclapply]{mclapply}()} of the \pkg{parallel}
 #'    package.
+#'  \item `"BIOCPARALLEL_WORKER_NUMBER"` -
+#'    Query environment variables \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
+#'    which is defined by **BiocParallel** (>= 1.27.2). If set, this is
+#'    the number of local workers **BiocParallel** will use by default.
 #'  \item `"PBS"` -
 #'    Query TORQUE/PBS environment variables \env{PBS_NUM_PPN} and \env{NCPUS}.
 #'    Depending on PBS system configuration, these _resource_
@@ -154,7 +158,7 @@
 #'
 #' @importFrom parallel detectCores
 #' @export
-availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
+availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "nproc", "mc.cores", "BIOCPARALLEL_WORKER_NUMBER", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
   ## Local functions
   getenv <- function(name, mode = "integer") {
     value <- trim(getEnvVar2(name, default = NA_character_))
@@ -253,6 +257,8 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     } else if (method == "mc.cores+1") {
       ## Number of cores by option defined by 'parallel' package
       n <- getopt("mc.cores") + 1L
+    } else if (method == "BIOCPARALLEL_WORKER_NUMBER") {
+      n <- getenv("BIOCPARALLEL_WORKER_NUMBER")
     } else if (method == "_R_CHECK_LIMIT_CORES_") {
       ## A flag set by R CMD check for constraining number of
       ## cores allowed to be use in package tests.  Here we

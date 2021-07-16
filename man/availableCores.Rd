@@ -7,8 +7,8 @@
 availableCores(
   constraints = NULL,
   methods = getOption2("parallelly.availableCores.methods", c("system", "nproc",
-    "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback",
-    "custom")),
+    "mc.cores", "BIOCPARALLEL_WORKER_NUMBER", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE",
+    "Slurm", "LSF", "fallback", "custom")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = c(current = 1L),
@@ -73,6 +73,10 @@ The \option{mc.cores} option defaults to environment variable
 package is loaded).  The \option{mc.cores} option is used by for
 instance \code{\link[=mclapply]{mclapply}()} of the \pkg{parallel}
 package.
+\item \code{"BIOCPARALLEL_WORKER_NUMBER"} -
+Query environment variables \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
+which is defined by \strong{BiocParallel} (>= 1.27.2). If set, this is
+the number of local workers \strong{BiocParallel} will use by default.
 \item \code{"PBS"} -
 Query TORQUE/PBS environment variables \env{PBS_NUM_PPN} and \env{NCPUS}.
 Depending on PBS system configuration, these \emph{resource}
