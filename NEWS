@@ -1,12 +1,14 @@
 Package: parallelly
 ===================
 
-Version: 1.26.1-9002 [2021-07-16]
+Version: 1.26.1-9003 [2021-07-16]
 
 NEW FEATURES:
 
  * availableCores() and availableWorkers() now respects environment variable
-   'BIOCPARALLEL_WORKER_NUMBER' introduced in BiocParallel (>= 1.27.2).
+   'BIOCPARALLEL_WORKER_NUMBER' introduced in BiocParallel (>= 1.27.2). They
+   also respect 'BBS_HOME' which is set on the Bioconductor check servers to
+   limit the number of parallel workers while checking Bioconductor packages.
 
 WORKAROUND:
 
