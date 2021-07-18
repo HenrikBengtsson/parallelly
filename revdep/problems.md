@@ -1,3 +1,72 @@
+# AIPW
+
+<details>
+
+* Version: 0.6.3.2
+* GitHub: https://github.com/yqzhong7/AIPW
+* Source code: https://github.com/cran/AIPW
+* Date/Publication: 2021-06-11 09:30:02 UTC
+* Number of recursive dependencies: 92
+
+Run `revdep_details(, "AIPW")` for more info
+
+</details>
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘AIPW-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: AIPW_tmle
+    > ### Title: Augmented Inverse Probability Weighting (AIPW) uses tmle or
+    > ###   tmle3 as inputs
+    > ### Aliases: AIPW_tmle
+    > 
+    > ### ** Examples
+    > 
+    > vec <- function() sample(0:1,100,replace = TRUE)
+    > df <- data.frame(replicate(4,vec()))
+    > names(df) <- c("A","Y","W1","W2")
+    > 
+    > ## From tmle
+    > library(tmle)
+    Error in library(tmle) : there is no package called ‘tmle’
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Complete output:
+      > library(testthat)
+      > library(AIPW)
+      > 
+      > test_check("AIPW")
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Error (test-tmle_support.R:12:3): AIPW_tmle class: tmle ─────────────────────
+      Error: could not find function "tmle"
+      
+      [ FAIL 1 | WARN 1 | SKIP 0 | PASS 167 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘tmle’
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘Rsolnp’ ‘SuperLearner’ ‘future.apply’ ‘ggplot2’ ‘progressr’ ‘stats’
+      ‘utils’
+      All declared Imports should be used.
+    ```
+
 # alookr
 
 <details>
@@ -14,9 +83,13 @@ Run `revdep_details(, "alookr")` for more info
 
 ## In both
 
-*   checking LazyData ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+    Packages required but not available:
+      'dlookr', 'ggmosaic', 'party', 'unbalanced'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # AlpsNMR
@@ -35,66 +108,14 @@ Run `revdep_details(, "AlpsNMR")` for more info
 
 ## In both
 
-*   checking examples ... ERROR
+*   checking package dependencies ... ERROR
     ```
-    Running examples in ‘AlpsNMR-Ex.R’ failed
-    The error most likely occurred in:
+    Packages required but not available: 'mixOmics', 'speaq', 'baseline'
     
-    > ### Name: nmr_pca_plots
-    > ### Title: Plotting functions for PCA
-    > ### Aliases: nmr_pca_plots nmr_pca_plot_variance nmr_pca_scoreplot
-    > ###   nmr_pca_loadingplot
-    > 
-    > ### ** Examples
-    > 
-    ...
-        █
-     1. ├─AlpsNMR::nmr_pca_scoreplot(dataset_1D, model)
-     2. │ └─`%>%`(...)
-     3. ├─dplyr::left_join(., nmr_metadata, by = "NMRExperiment")
-     4. └─dplyr:::left_join.data.frame(., nmr_metadata, by = "NMRExperiment")
-     5.   └─dplyr:::join_mutate(...)
-     6.     └─dplyr:::join_cols(...)
-     7.       └─dplyr:::standardise_join_by(by, x_names = x_names, y_names = y_names)
-     8.         └─dplyr:::check_join_vars(by$x, x_names)
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Complete output:
-      > library(testthat)
-      > library(AlpsNMR)
-      Loading required package: dplyr
-      
-      Attaching package: 'dplyr'
-      
-      The following object is masked from 'package:testthat':
-    ...
-       3. ├─dplyr::left_join(., nmr_metadata, by = "NMRExperiment")
-       4. └─dplyr:::left_join.data.frame(., nmr_metadata, by = "NMRExperiment")
-       5.   └─dplyr:::join_mutate(...)
-       6.     └─dplyr:::join_cols(...)
-       7.       └─dplyr:::standardise_join_by(by, x_names = x_names, y_names = y_names)
-       8.         └─dplyr:::check_join_vars(by$x, x_names)
-      
-      [ FAIL 1 | WARN 1 | SKIP 1 | PASS 73 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-*   checking Rd contents ... WARNING
-    ```
-    Argument items with no description in Rd object 'MUVR_model_plot':
-      ‘ylim’
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘zip’
-      All declared Imports should be used.
+    Package suggested but not available for checking: ‘ChemoSpec’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # aroma.affymetrix
@@ -116,12 +137,12 @@ Run `revdep_details(, "aroma.affymetrix")` for more info
 *   checking package dependencies ... NOTE
     ```
     Packages suggested but not available for checking:
-      'oligo', 'oligoClasses', 'pdInfoBuilder'
+      'affy', 'affyPLM', 'gcrma', 'oligo', 'oligoClasses', 'pdInfoBuilder'
     ```
 
 *   checking Rd cross-references ... NOTE
     ```
-    Packages unavailable to check Rd xrefs: ‘oligo’, ‘oligoClasses’
+    Packages unavailable to check Rd xrefs: ‘affy’, ‘gcrma’, ‘affyPLM’, ‘oligo’, ‘oligoClasses’
     ```
 
 # aroma.core
@@ -143,7 +164,12 @@ Run `revdep_details(, "aroma.core")` for more info
 *   checking package dependencies ... NOTE
     ```
     Packages suggested but not available for checking:
-      'sfit', 'expectile', 'HaarSeg', 'mpcbs'
+      'EBImage', 'GLAD', 'sfit', 'expectile', 'HaarSeg', 'mpcbs'
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘GLAD’
     ```
 
 # autohd
@@ -162,11 +188,12 @@ Run `revdep_details(, "autohd")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘Hmisc’ ‘broom’ ‘tibble’ ‘usethis’
-      All declared Imports should be used.
+    Packages required but not available: 'ICBayes', 'missForest', 'Rdpack'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # BAMBI
@@ -185,17 +212,12 @@ Run `revdep_details(, "BAMBI")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is  6.2Mb
-      sub-directories of 1Mb or more:
-        libs   5.7Mb
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘stats4’
-      All declared Imports should be used.
+    Packages required but not available: 'qrng', 'label.switching'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # BatchGetSymbols
@@ -261,6 +283,32 @@ Run `revdep_details(, "batchtools")` for more info
     Package unavailable to check Rd xrefs: ‘Rmpi’
     ```
 
+# bayesian
+
+<details>
+
+* Version: 0.0.5
+* GitHub: https://github.com/hsbadr/bayesian
+* Source code: https://github.com/cran/bayesian
+* Date/Publication: 2021-05-31 12:20:02 UTC
+* Number of recursive dependencies: 206
+
+Run `revdep_details(, "bayesian")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘brms’
+    
+    Package suggested but not available for checking: ‘recipes’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
 # bayesmove
 
 <details>
@@ -277,10 +325,12 @@ Run `revdep_details(, "bayesmove")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespace in Imports field not imported from: ‘move’
-      All declared Imports should be used.
+    Package required but not available: ‘move’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # bcmaps
@@ -341,11 +391,12 @@ Run `revdep_details(, "bigsnpr")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is 12.8Mb
-      sub-directories of 1Mb or more:
-        libs  11.1Mb
+    Package required but not available: ‘bigstatsr’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # bigstatsr
@@ -364,12 +415,48 @@ Run `revdep_details(, "bigstatsr")` for more info
 
 ## In both
 
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘biglasso’
+    ```
+
 *   checking installed package size ... NOTE
     ```
       installed size is 17.4Mb
       sub-directories of 1Mb or more:
         extdata   2.3Mb
         libs     14.5Mb
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘biglasso’
+    ```
+
+# biotmle
+
+<details>
+
+* Version: 1.16.0
+* GitHub: https://github.com/nhejazi/biotmle
+* Source code: https://github.com/cran/biotmle
+* Date/Publication: 2021-05-19
+* Number of recursive dependencies: 153
+
+Run `revdep_details(, "biotmle")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘drtmle’
+    
+    Package suggested but not available for checking: ‘earth’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # bkmrhat
@@ -388,9 +475,12 @@ Run `revdep_details(, "bkmrhat")` for more info
 
 ## In both
 
-*   checking LazyData ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+    Package required but not available: ‘bkmr’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # blavaan
@@ -409,27 +499,25 @@ Run `revdep_details(, "blavaan")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is 66.7Mb
-      sub-directories of 1Mb or more:
-        libs  65.2Mb
-    ```
-
-*   checking for GNU extensions in Makefiles ... NOTE
-    ```
-    GNU make is a SystemRequirements.
+    Package required but not available: ‘nonnest2’
+    
+    Package suggested but not available for checking: ‘modeest’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # blockCV
 
 <details>
 
-* Version: 2.1.1
+* Version: 2.1.4
 * GitHub: https://github.com/rvalavi/blockCV
 * Source code: https://github.com/cran/blockCV
-* Date/Publication: 2020-02-23 20:00:02 UTC
-* Number of recursive dependencies: 116
+* Date/Publication: 2021-06-17 04:50:02 UTC
+* Number of recursive dependencies: 117
 
 Run `revdep_details(, "blockCV")` for more info
 
@@ -437,14 +525,16 @@ Run `revdep_details(, "blockCV")` for more info
 
 ## In both
 
+*   checking installed package size ... NOTE
+    ```
+      installed size is  8.6Mb
+      sub-directories of 1Mb or more:
+        extdata   7.7Mb
+    ```
+
 *   checking Rd cross-references ... NOTE
     ```
     Package unavailable to check Rd xrefs: ‘biomod2’
-    ```
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
     ```
 
 # brms
@@ -463,17 +553,15 @@ Run `revdep_details(, "brms")` for more info
 
 ## In both
 
-*   checking package dependencies ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Package suggested but not available for checking: ‘cmdstanr’
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  6.3Mb
-      sub-directories of 1Mb or more:
-        R     3.1Mb
-        doc   2.4Mb
+    Packages required but not available: 'shinystan', 'projpred'
+    
+    Packages suggested but not available for checking:
+      'emmeans', 'cmdstanr', 'rtdists', 'MCMCglmm'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # ChromSCape
@@ -492,51 +580,15 @@ Run `revdep_details(, "ChromSCape")` for more info
 
 ## In both
 
-*   checking for hidden files and directories ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Found the following hidden files and directories:
-      .BBSoptions
-    These were most likely included in error. See section ‘Package
-    structure’ in the ‘Writing R Extensions’ manual.
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  7.8Mb
-      sub-directories of 1Mb or more:
-        data   1.3Mb
-        doc    2.9Mb
-        www    1.9Mb
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    CompareWilcox: no visible binding for global variable ‘annot.’
-    bams_to_matrix_indexes: no visible binding for global variable
-      ‘files_dir_list’
-    filter_correlated_cell_scExp: no visible binding for global variable
-      ‘run_tsne’
-    generate_analysis: no visible binding for global variable ‘k’
-    generate_analysis: no visible binding for global variable
-      ‘clusterConsensus’
-    get_most_variable_cyto: no visible binding for global variable
-      ‘cytoBand’
-    ...
-    plot_reduced_dim_scExp: no visible binding for global variable ‘V1’
-    plot_reduced_dim_scExp: no visible binding for global variable ‘V2’
-    plot_reduced_dim_scExp: no visible binding for global variable
-      ‘cluster’
-    subset_bam_call_peaks: no visible binding for global variable
-      ‘merged_bam’
-    Undefined global functions or variables:
-      Fri_cyto Gain_or_Loss V1 V2 absolute_value annot. cluster
-      clusterConsensus cytoBand files_dir_list genes k merged_bam ncells
-      run_tsne sample_id total_counts
-    ```
-
-*   checking Rd files ... NOTE
-    ```
-    prepare_Rd: raw_counts_to_sparse_matrix.Rd:6-8: Dropping empty section \source
+    Packages required but not available:
+      'batchelor', 'scran', 'scater', 'Sushi'
+    
+    Package suggested but not available for checking: ‘Signac’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # civis
@@ -587,11 +639,11 @@ Run `revdep_details(, "CLVTools")` for more info
 
 <details>
 
-* Version: 0.1.0
+* Version: 0.1.1
 * GitHub: https://github.com/jfiksel/codalm
 * Source code: https://github.com/cran/codalm
-* Date/Publication: 2020-06-25 16:00:06 UTC
-* Number of recursive dependencies: 76
+* Date/Publication: 2021-06-21 19:20:02 UTC
+* Number of recursive dependencies: 157
 
 Run `revdep_details(, "codalm")` for more info
 
@@ -599,9 +651,28 @@ Run `revdep_details(, "codalm")` for more info
 
 ## In both
 
-*   checking LazyData ... NOTE
+*   checking examples ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+    Running examples in ‘codalm-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: codalm
+    > ### Title: Transformation-free Linear Regression for Compositional Outcomes
+    > ###   and Predictors
+    > ### Aliases: codalm
+    > 
+    > ### ** Examples
+    > 
+    > data("educFM", package = 'robCompositions')
+    Error in find.package(package, lib.loc, verbose = verbose) : 
+      there is no package called ‘robCompositions’
+    Calls: data -> find.package
+    Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘robCompositions’
     ```
 
 # codebook
@@ -620,21 +691,15 @@ Run `revdep_details(, "codebook")` for more info
 
 ## In both
 
-*   checking package dependencies ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Package suggested but not available for checking: ‘userfriendlyscience’
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘graphics’ ‘jsonlite’ ‘rlang’ ‘tidyselect’ ‘vctrs’
-      All declared Imports should be used.
-    ```
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 65 marked UTF-8 strings
+    Package required but not available: ‘skimr’
+    
+    Packages suggested but not available for checking:
+      'shinytest', 'ufs', 'userfriendlyscience'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # condvis2
@@ -652,6 +717,12 @@ Run `revdep_details(, "condvis2")` for more info
 </details>
 
 ## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'scagnostics', 'C50', 'bartMachine', 'caret'
+    ```
 
 *   checking LazyData ... NOTE
     ```
@@ -674,10 +745,12 @@ Run `revdep_details(, "cSEM")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespace in Imports field not imported from: ‘Rdpack’
-      All declared Imports should be used.
+    Packages required but not available: 'Rdpack', 'symmoments'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # CSGo
@@ -701,6 +774,99 @@ Run `revdep_details(, "CSGo")` for more info
     Namespaces in Imports field not imported from:
       ‘extrafont’ ‘future’
       All declared Imports should be used.
+    ```
+
+# cvCovEst
+
+<details>
+
+* Version: 0.3.5
+* GitHub: https://github.com/PhilBoileau/cvCovEst
+* Source code: https://github.com/cran/cvCovEst
+* Date/Publication: 2021-04-18 06:50:07 UTC
+* Number of recursive dependencies: 135
+
+Run `revdep_details(, "cvCovEst")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Packages required but not available: 'Rdpack', 'ggpubr'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# DALEXtra
+
+<details>
+
+* Version: 2.1.1
+* GitHub: https://github.com/ModelOriented/DALEXtra
+* Source code: https://github.com/cran/DALEXtra
+* Date/Publication: 2021-05-09 07:30:13 UTC
+* Number of recursive dependencies: 166
+
+Run `revdep_details(, "DALEXtra")` for more info
+
+</details>
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘DALEXtra-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: explain_tidymodels
+    > ### Title: Create explainer from your tidymodels workflow.
+    > ### Aliases: explain_tidymodels
+    > 
+    > ### ** Examples
+    > 
+    > library("DALEXtra")
+    > library("tidymodels")
+    Error in library("tidymodels") : there is no package called ‘tidymodels’
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 50 lines of output:
+        This may not be accurate due to some parameters are only used in language bindings but
+        passed down to XGBoost core.  Or some parameters are not used but slip through this
+        verification. Please open an issue if you find above cases.
+      
+      
+      [23:43:25] WARNING: amalgamation/../src/learner.cc:573: 
+      Parameters: { "prediction" } might not be used.
+    ...
+        5. │ └─base::lapply(...)
+        6. │   └─base::match.fun(FUN)
+        7. └─base::loadNamespace(x)
+        8.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
+        9.     └─base:::withOneRestart(expr, restarts[[1L]])
+       10.       └─base:::doWithOneRestart(return(expr), restart)
+      
+      [ FAIL 2 | WARN 0 | SKIP 11 | PASS 40 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'auditor', 'recipes', 'tidymodels'
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘auditor’
     ```
 
 # datapackage.r
@@ -744,7 +910,8 @@ Run `revdep_details(, "DeclareDesign")` for more info
 
 *   checking package dependencies ... NOTE
     ```
-    Package suggested but not available for checking: ‘DesignLibrary’
+    Packages suggested but not available for checking:
+      'betareg', 'DesignLibrary'
     ```
 
 *   checking LazyData ... NOTE
@@ -800,6 +967,30 @@ Run `revdep_details(, "dipsaus")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
+# DoubleML
+
+<details>
+
+* Version: 0.3.0
+* GitHub: https://github.com/DoubleML/doubleml-for-r
+* Source code: https://github.com/cran/DoubleML
+* Date/Publication: 2021-06-04 10:10:02 UTC
+* Number of recursive dependencies: 135
+
+Run `revdep_details(, "DoubleML")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Packages required but not available: 'mlr3tuning', 'mlr3learners'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
 # dragon
 
 <details>
@@ -816,15 +1007,78 @@ Run `revdep_details(, "dragon")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespace in Imports field not imported from: ‘htmltools’
-      All declared Imports should be used.
+    Package required but not available: ‘golem’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
-*   checking LazyData ... NOTE
+# drake
+
+<details>
+
+* Version: 7.13.2
+* GitHub: https://github.com/ropensci/drake
+* Source code: https://github.com/cran/drake
+* Date/Publication: 2021-04-22 16:40:02 UTC
+* Number of recursive dependencies: 149
+
+Run `revdep_details(, "drake")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
     ```
-      'LazyData' is specified without a 'data' directory
+    Packages suggested but not available for checking: 'disk.frame', 'keras'
+    ```
+
+# drimmR
+
+<details>
+
+* Version: 1.0.1
+* GitHub: NA
+* Source code: https://github.com/cran/drimmR
+* Date/Publication: 2021-05-10 13:52:18 UTC
+* Number of recursive dependencies: 112
+
+Run `revdep_details(, "drimmR")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Packages required but not available: 'seqinr', 'Rdpack'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# drtmle
+
+<details>
+
+* Version: 1.1.0
+* GitHub: https://github.com/benkeser/drtmle
+* Source code: https://github.com/cran/drtmle
+* Date/Publication: 2021-06-02 17:40:02 UTC
+* Number of recursive dependencies: 92
+
+Run `revdep_details(, "drtmle")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘earth’
     ```
 
 # easyalluvial
@@ -843,15 +1097,15 @@ Run `revdep_details(, "easyalluvial")` for more info
 
 ## In both
 
-*   checking package dependencies ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Package suggested but not available for checking: ‘parcats’
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘progress’
-      All declared Imports should be used.
+    Package required but not available: ‘recipes’
+    
+    Packages suggested but not available for checking:
+      'parcats', 'pkgdown', 'earth', 'caret'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # EFAtools
@@ -900,16 +1154,12 @@ Run `revdep_details(, "envi")` for more info
 
 ## In both
 
-*   checking whether package ‘envi’ can be installed ... WARNING
+*   checking package dependencies ... ERROR
     ```
-    Found the following significant warnings:
-      Warning: no DISPLAY variable so Tk is not available
-    See ‘/c4/home/henrik/repositories/parallelly/revdep/checks/envi/new/envi.Rcheck/00install.out’ for details.
-    ```
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
+    Package required but not available: ‘spatstat’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # EpiNow2
@@ -930,7 +1180,8 @@ Run `revdep_details(, "EpiNow2")` for more info
 
 *   checking package dependencies ... NOTE
     ```
-    Package suggested but not available for checking: ‘EpiSoon’
+    Packages suggested but not available for checking:
+      'EpiSoon', 'forecastHybrid'
     ```
 
 *   checking installed package size ... NOTE
@@ -938,6 +1189,31 @@ Run `revdep_details(, "EpiNow2")` for more info
       installed size is 168.3Mb
       sub-directories of 1Mb or more:
         libs  166.7Mb
+    ```
+
+# EWCE
+
+<details>
+
+* Version: 1.0.1
+* GitHub: https://github.com/NathanSkene/EWCE
+* Source code: https://github.com/cran/EWCE
+* Date/Publication: 2021-06-20
+* Number of recursive dependencies: 169
+
+Run `revdep_details(, "EWCE")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Packages required but not available:
+      'AnnotationHub', 'ewceData', 'ExperimentHub', 'biomaRt'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # ezcox
@@ -977,9 +1253,63 @@ Run `revdep_details(, "fabletools")` for more info
 
 ## In both
 
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘fabletools-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: features
+    > ### Title: Extract features from a dataset
+    > ### Aliases: features features_at features_all features_if
+    > 
+    > ### ** Examples
+    > 
+    > # Provide a set of functions as a named list to features.
+    ...
+    > 
+    > # Search and use useful features with `feature_set()`. 
+    > if(requireNamespace("feasts")) library(feasts)
+    Loading required namespace: feasts
+    Failed with error:  ‘there is no package called ‘feasts’’
+    > tourism %>% 
+    +   features(Trips, features = feature_set(tags = "autocorrelation"))
+    Error in .l[[1]] : subscript out of bounds
+    Calls: %>% ... features.tbl_ts -> features_impl -> map -> lapply -> FUN -> transpose
+    Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking: 'fable', 'feasts'
+    ```
+
 *   checking LazyData ... NOTE
     ```
       'LazyData' is specified without a 'data' directory
+    ```
+
+# fiery
+
+<details>
+
+* Version: 1.1.3
+* GitHub: https://github.com/thomasp85/fiery
+* Source code: https://github.com/cran/fiery
+* Date/Publication: 2020-12-15 22:50:06 UTC
+* Number of recursive dependencies: 68
+
+Run `revdep_details(, "fiery")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘reqres’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # finbif
@@ -997,6 +1327,11 @@ Run `revdep_details(, "finbif")` for more info
 </details>
 
 ## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘vcr’
+    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -1025,6 +1360,28 @@ Run `revdep_details(, "fipe")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
+# flashlight
+
+<details>
+
+* Version: 0.8.0
+* GitHub: https://github.com/mayer79/flashlight
+* Source code: https://github.com/cran/flashlight
+* Date/Publication: 2021-04-21 06:00:17 UTC
+* Number of recursive dependencies: 118
+
+Run `revdep_details(, "flashlight")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'caret', 'mlr3learners', 'moderndive'
+    ```
+
 # flowGraph
 
 <details>
@@ -1041,18 +1398,12 @@ Run `revdep_details(, "flowGraph")` for more info
 
 ## In both
 
-*   checking R code for possible problems ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    get_child: no visible binding for global variable ‘no_cores’
-    get_paren: no visible binding for global variable ‘no_cores’
-    ms_psig: no visible binding for global variable ‘meta’
-    Undefined global functions or variables:
-      meta no_cores
-    ```
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘doParallel’
+    Package required but not available: ‘Rdpack’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # foieGras
@@ -1071,11 +1422,12 @@ Run `revdep_details(, "foieGras")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is 40.6Mb
-      sub-directories of 1Mb or more:
-        libs  39.7Mb
+    Packages required but not available: 'trip', 'tmvtnorm'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # forecastML
@@ -1116,31 +1468,12 @@ Run `revdep_details(, "fundiversity")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespace in Imports field not imported from: ‘geometry’
-      All declared Imports should be used.
-    ```
-
-# furrr
-
-<details>
-
-* Version: 0.2.2
-* GitHub: https://github.com/DavisVaughan/furrr
-* Source code: https://github.com/cran/furrr
-* Date/Publication: 2021-01-29 15:30:05 UTC
-* Number of recursive dependencies: 63
-
-Run `revdep_details(, "furrr")` for more info
-
-</details>
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
+    Package required but not available: ‘geometry’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # future.tests
@@ -1162,6 +1495,52 @@ Run `revdep_details(, "future.tests")` for more info
 *   checking LazyData ... NOTE
     ```
       'LazyData' is specified without a 'data' directory
+    ```
+
+# genBaRcode
+
+<details>
+
+* Version: 1.2.4
+* GitHub: NA
+* Source code: https://github.com/cran/genBaRcode
+* Date/Publication: 2020-12-02 22:50:07 UTC
+* Number of recursive dependencies: 152
+
+Run `revdep_details(, "genBaRcode")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Packages required but not available:
+      'ggnetwork', 'network', 'ggtree', 'ShortRead'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# geocmeans
+
+<details>
+
+* Version: 0.1.1
+* GitHub: https://github.com/JeremyGelb/geocmeans
+* Source code: https://github.com/cran/geocmeans
+* Date/Publication: 2021-04-21 07:40:07 UTC
+* Number of recursive dependencies: 193
+
+Run `revdep_details(, "geocmeans")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking: 'ppclust', 'ggpubr'
     ```
 
 # GetBCBData
@@ -1192,6 +1571,27 @@ Run `revdep_details(, "GetBCBData")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
+# glmmboot
+
+<details>
+
+* Version: 0.6.0
+* GitHub: https://github.com/ColmanHumphrey/glmmboot
+* Source code: https://github.com/cran/glmmboot
+* Date/Publication: 2021-06-27 19:30:08 UTC
+* Number of recursive dependencies: 70
+
+Run `revdep_details(, "glmmboot")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘glmmTMB’
+    ```
+
 # googleComputeEngineR
 
 <details>
@@ -1207,6 +1607,11 @@ Run `revdep_details(, "googleComputeEngineR")` for more info
 </details>
 
 ## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘googleCloudStorageR’
+    ```
 
 *   checking LazyData ... NOTE
     ```
@@ -1252,24 +1657,15 @@ Run `revdep_details(, "grattan")` for more info
 
 ## In both
 
-*   checking package dependencies ... NOTE
+*   checking package dependencies ... ERROR
     ```
+    Packages required but not available: 'fy', 'hutilscpp'
+    
     Packages suggested but not available for checking:
-      'taxstats', 'taxstats1516'
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  6.1Mb
-      sub-directories of 1Mb or more:
-        doc    1.8Mb
-        libs   3.2Mb
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘hutilscpp’
-      All declared Imports should be used.
+      'survey', 'taxstats', 'taxstats1516'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # greed
@@ -1288,16 +1684,12 @@ Run `revdep_details(, "greed")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is 30.2Mb
-      sub-directories of 1Mb or more:
-        libs  28.0Mb
-    ```
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 6693 marked UTF-8 strings
+    Package required but not available: ‘ggpubr’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # greta
@@ -1319,6 +1711,33 @@ Run `revdep_details(, "greta")` for more info
 *   checking LazyData ... NOTE
     ```
       'LazyData' is specified without a 'data' directory
+    ```
+
+# GSVA
+
+<details>
+
+* Version: 1.40.1
+* GitHub: https://github.com/rcastelo/GSVA
+* Source code: https://github.com/cran/GSVA
+* Date/Publication: 2021-06-06
+* Number of recursive dependencies: 145
+
+Run `revdep_details(, "GSVA")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Packages required but not available: 'GSEABase', 'HDF5Array'
+    
+    Packages suggested but not available for checking:
+      'org.Hs.eg.db', 'genefilter', 'GSVAdata'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # gtfs2gps
@@ -1425,9 +1844,58 @@ Run `revdep_details(, "haldensify")` for more info
 
 ## In both
 
-*   checking LazyData ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+    Packages required but not available: 'hal9001', 'Rdpack'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# highMLR
+
+<details>
+
+* Version: 0.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/highMLR
+* Date/Publication: 2021-05-11 09:40:08 UTC
+* Number of recursive dependencies: 55
+
+Run `revdep_details(, "highMLR")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Packages required but not available:
+      'mlr3proba', 'mlr3learners', 'missForest'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# idmodelr
+
+<details>
+
+* Version: 0.3.2
+* GitHub: https://github.com/seabbs/idmodelr
+* Source code: https://github.com/cran/idmodelr
+* Date/Publication: 2020-06-11 14:20:03 UTC
+* Number of recursive dependencies: 101
+
+Run `revdep_details(, "idmodelr")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘pkgnet’
     ```
 
 # IFAA
@@ -1446,11 +1914,12 @@ Run `revdep_details(, "IFAA")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘expm’ ‘rlecuyer’
-      All declared Imports should be used.
+    Packages required but not available: 'qlcMatrix', 'HDCI'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # iml
@@ -1469,10 +1938,36 @@ Run `revdep_details(, "iml")` for more info
 
 ## In both
 
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Complete output:
+      > library(testthat)
+      > library(checkmate)
+      > library(iml)
+      > 
+      > test_check("iml")
+      Error in library("caret") : there is no package called 'caret'
+      Calls: test_check ... suppressPackageStartupMessages -> withCallingHandlers -> library
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'ALEPlot', 'caret', 'party'
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘keras’
       All declared Imports should be used.
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘party’
     ```
 
 # infercnv
@@ -1548,11 +2043,12 @@ Run `revdep_details(, "interflex")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is  5.1Mb
-      sub-directories of 1Mb or more:
-        libs   4.4Mb
+    Package required but not available: ‘ggplotify’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # ipc
@@ -1592,9 +2088,40 @@ Run `revdep_details(, "isoreader")` for more info
 
 ## In both
 
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘rhdf5’
+    ```
+
 *   checking LazyData ... NOTE
     ```
       'LazyData' is specified without a 'data' directory
+    ```
+
+# JointAI
+
+<details>
+
+* Version: 1.0.2
+* GitHub: https://github.com/nerler/JointAI
+* Source code: https://github.com/cran/JointAI
+* Date/Publication: 2021-01-13 21:00:02 UTC
+* Number of recursive dependencies: 134
+
+Run `revdep_details(, "JointAI")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘mcmcse’
+    
+    Package suggested but not available for checking: ‘ggpubr’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # jstor
@@ -1634,6 +2161,11 @@ Run `revdep_details(, "kernelboot")` for more info
 
 ## In both
 
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘ks’
+    ```
+
 *   checking LazyData ... NOTE
     ```
       'LazyData' is specified without a 'data' directory
@@ -1655,11 +2187,40 @@ Run `revdep_details(, "keyATM")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is 18.8Mb
-      sub-directories of 1Mb or more:
-        libs  18.4Mb
+    Package required but not available: ‘quanteda’
+    
+    Package suggested but not available for checking: ‘readtext’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# ldaPrototype
+
+<details>
+
+* Version: 0.3.0
+* GitHub: https://github.com/JonasRieger/ldaPrototype
+* Source code: https://github.com/cran/ldaPrototype
+* Date/Publication: 2020-12-02 13:30:03 UTC
+* Number of recursive dependencies: 96
+
+Run `revdep_details(, "ldaPrototype")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘tosca’
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘tosca’
     ```
 
 # lgr
@@ -1687,10 +2248,10 @@ Run `revdep_details(, "lgr")` for more info
 
 <details>
 
-* Version: 3.1.3
+* Version: 3.1.4
 * GitHub: https://github.com/Jean-Romain/lidR
 * Source code: https://github.com/cran/lidR
-* Date/Publication: 2021-05-20 13:10:02 UTC
+* Date/Publication: 2021-06-21 14:40:02 UTC
 * Number of recursive dependencies: 166
 
 Run `revdep_details(, "lidR")` for more info
@@ -1699,23 +2260,25 @@ Run `revdep_details(, "lidR")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is 14.3Mb
-      sub-directories of 1Mb or more:
-        doc       1.0Mb
-        extdata   1.1Mb
-        libs     10.7Mb
+    Package required but not available: ‘geometry’
+    
+    Packages suggested but not available for checking:
+      'EBImage', 'mapview', 'mapedit'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # lightr
 
 <details>
 
-* Version: 1.4
+* Version: 1.5.0
 * GitHub: https://github.com/ropensci/lightr
 * Source code: https://github.com/cran/lightr
-* Date/Publication: 2021-03-21 10:30:03 UTC
+* Date/Publication: 2021-06-19 09:30:02 UTC
 * Number of recursive dependencies: 71
 
 Run `revdep_details(, "lightr")` for more info
@@ -1750,11 +2313,43 @@ Run `revdep_details(, "lmtp")` for more info
 
 ## In both
 
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘twang’
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
       ‘R6’ ‘nnls’ ‘utils’
       All declared Imports should be used.
+    ```
+
+# mcboost
+
+<details>
+
+* Version: 0.3.0
+* GitHub: https://github.com/mlr-org/mcboost
+* Source code: https://github.com/cran/mcboost
+* Date/Publication: 2021-06-09 12:30:02 UTC
+* Number of recursive dependencies: 137
+
+Run `revdep_details(, "mcboost")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘mlr3pipelines’
+    
+    Packages suggested but not available for checking:
+      'mlr3learners', 'mlr3oml'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # meedr
@@ -1784,6 +2379,32 @@ Run `revdep_details(, "meedr")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
+# merTools
+
+<details>
+
+* Version: 0.5.2
+* GitHub: NA
+* Source code: https://github.com/cran/merTools
+* Date/Publication: 2020-06-23 10:30:12 UTC
+* Number of recursive dependencies: 156
+
+Run `revdep_details(, "merTools")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘broom.mixed’
+    
+    Package suggested but not available for checking: ‘rstanarm’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
 # metagam
 
 <details>
@@ -1800,19 +2421,24 @@ Run `revdep_details(, "metagam")` for more info
 
 ## In both
 
-*   checking LazyData ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+    Packages required but not available: 'metafor', 'metap'
+    
+    Package suggested but not available for checking: ‘gratia’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # microservices
 
 <details>
 
-* Version: 0.1.1
+* Version: 0.1.2
 * GitHub: https://github.com/tidylab/microservices
 * Source code: https://github.com/cran/microservices
-* Date/Publication: 2021-06-05 04:20:02 UTC
+* Date/Publication: 2021-06-12 06:10:02 UTC
 * Number of recursive dependencies: 69
 
 Run `revdep_details(, "microservices")` for more info
@@ -1844,11 +2470,40 @@ Run `revdep_details(, "microservices")` for more info
       Execution halted
     ```
 
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘plumber’
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
       ‘config’ ‘desc’ ‘dplyr’ ‘glue’ ‘withr’
       All declared Imports should be used.
+    ```
+
+# mikropml
+
+<details>
+
+* Version: 1.0.0
+* GitHub: https://github.com/SchlossLab/mikropml
+* Source code: https://github.com/cran/mikropml
+* Date/Publication: 2021-05-13 23:20:06 UTC
+* Number of recursive dependencies: 111
+
+Run `revdep_details(, "mikropml")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘caret’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # MineICA
@@ -1867,38 +2522,15 @@ Run `revdep_details(, "MineICA")` for more info
 
 ## In both
 
-*   checking Rd cross-references ... WARNING
+*   checking package dependencies ... ERROR
     ```
-    Missing link or links in documentation object 'Alist.Rd':
-      ‘class-IcaSet’
+    Packages required but not available:
+      'biomaRt', 'GOstats', 'Rgraphviz', 'annotate', 'JADE', 'lumi', 'fpc',
+      'lumiHumanAll.db'
     
-    Missing link or links in documentation object 'Slist.Rd':
-      ‘class-IcaSet’
+    Packages suggested but not available for checking:
+      'biomaRt', 'GOstats', 'hgu133a.db'
     
-    Missing link or links in documentation object 'class-IcaSet.Rd':
-      ‘class-IcaSet’
-    
-    Missing link or links in documentation object 'getComp.Rd':
-      ‘class-IcaSet’
-    
-    Missing link or links in documentation object 'runAn.Rd':
-      ‘[Category:class-GOHyperGParams]{GOHyperGParams}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
-
-*   checking for missing documentation entries ... WARNING
-    ```
-    Undocumented S4 classes:
-      ‘MineICAParams’
-    All user-level objects in a package (including S4 classes and methods)
-    should have documentation entries.
-    See chapter ‘Writing R documentation files’ in the ‘Writing R
-    Extensions’ manual.
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
     Package which this enhances but not available for checking: ‘doMC’
     
     Depends: includes the non-default packages:
@@ -1908,59 +2540,9 @@ Run `revdep_details(, "MineICA")` for more info
       'graph', 'annotate', 'Hmisc', 'fastICA', 'JADE'
     Adding so many packages to the search path is excessive and importing
     selectively is preferable.
-    ```
-
-*   checking DESCRIPTION meta-information ... NOTE
-    ```
-    Packages listed in more than one of Depends, Imports, Suggests, Enhances:
-      ‘biomaRt’ ‘GOstats’ ‘cluster’ ‘mclust’ ‘igraph’
-    A package should be listed in only one of these fields.
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    'library' or 'require' call to ‘GOstats’ which was already attached by Depends.
-      Please remove these calls from your code.
-    Namespace in Imports field not imported from: ‘lumiHumanAll.db’
-      All declared Imports should be used.
-    Packages in Depends field not imported from:
-      ‘GOstats’ ‘Hmisc’ ‘JADE’ ‘RColorBrewer’ ‘Rgraphviz’ ‘annotate’
-      ‘biomaRt’ ‘cluster’ ‘colorspace’ ‘fastICA’ ‘foreach’ ‘ggplot2’
-      ‘graph’ ‘gtools’ ‘igraph’ ‘marray’ ‘mclust’ ‘methods’ ‘plyr’ ‘scales’
-      ‘xtable’
-      These packages need to be imported from (in the NAMESPACE file)
-      for when this namespace is loaded but not attached.
-    ':::' calls which should be '::':
-      ‘Biobase:::annotation<-’ ‘Biobase:::validMsg’ ‘fpc:::pamk’
-      ‘lumi:::getChipInfo’ ‘mclust:::adjustedRandIndex’
-      See the note in ?`:::` about the use of this operator.
-    Unexported object imported by a ':::' call: ‘Biobase:::isValidVersion’
-      See the note in ?`:::` about the use of this operator.
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    addGenesToGoReport: no visible global function definition for
-      ‘geneIdsByCategory’
-    addGenesToGoReport: no visible global function definition for
-      ‘geneIdUniverse’
-    addGenesToGoReport: no visible global function definition for
-      ‘conditional’
-    addGenesToGoReport: no visible global function definition for
-      ‘sigCategories’
-    annot2Color: no visible global function definition for ‘brewer.pal’
-    annot2Color: no visible global function definition for ‘heat_hcl’
-    ...
-      importFrom("methods", "callNextMethod", "new", "validObject")
-      importFrom("stats", "aggregate", "as.dendrogram", "as.dist",
-                 "as.hclust", "chisq.test", "cor", "cor.test", "cutree",
-                 "dist", "hclust", "kmeans", "kruskal.test", "lm", "median",
-                 "na.omit", "order.dendrogram", "p.adjust", "quantile",
-                 "reorder", "shapiro.test", "wilcox.test")
-      importFrom("utils", "capture.output", "combn", "read.table",
-                 "write.table")
-    to your NAMESPACE file (and ensure that your DESCRIPTION Imports field
-    contains 'methods').
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # missSBM
@@ -1979,11 +2561,38 @@ Run `revdep_details(, "missSBM")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is  8.5Mb
-      sub-directories of 1Mb or more:
-        libs   6.5Mb
+    Package required but not available: ‘sbm’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# mistyR
+
+<details>
+
+* Version: 1.0.2
+* GitHub: https://github.com/saezlab/mistyR
+* Source code: https://github.com/cran/mistyR
+* Date/Publication: 2021-05-27
+* Number of recursive dependencies: 177
+
+Run `revdep_details(, "mistyR")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘caret’
+    
+    Package suggested but not available for checking: ‘SpatialExperiment’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # mlr3
@@ -2007,6 +2616,267 @@ Run `revdep_details(, "mlr3")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
+# mlr3benchmark
+
+<details>
+
+* Version: 0.1.2
+* GitHub: https://github.com/mlr-org/mlr3benchmark
+* Source code: https://github.com/cran/mlr3benchmark
+* Date/Publication: 2021-04-19 15:20:03 UTC
+* Number of recursive dependencies: 68
+
+Run `revdep_details(, "mlr3benchmark")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘mlr3learners’
+    ```
+
+# mlr3cluster
+
+<details>
+
+* Version: 0.1.1
+* GitHub: https://github.com/mlr-org/mlr3cluster
+* Source code: https://github.com/cran/mlr3cluster
+* Date/Publication: 2020-11-15 23:40:06 UTC
+* Number of recursive dependencies: 82
+
+Run `revdep_details(, "mlr3cluster")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking: 'ClusterR', 'RWeka'
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Packages unavailable to check Rd xrefs: ‘RWeka’, ‘ClusterR’
+    ```
+
+# mlr3filters
+
+<details>
+
+* Version: 0.4.1
+* GitHub: https://github.com/mlr-org/mlr3filters
+* Source code: https://github.com/cran/mlr3filters
+* Date/Publication: 2021-03-08 08:30:02 UTC
+* Number of recursive dependencies: 101
+
+Run `revdep_details(, "mlr3filters")` for more info
+
+</details>
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘mlr3filters-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: mlr_filters_carscore
+    > ### Title: Conditional Mutual Information Based Feature Selection Filter
+    > ### Aliases: mlr_filters_carscore FilterCarScore
+    > 
+    > ### ** Examples
+    > 
+    > task = mlr3::tsk("mtcars")
+    > filter = flt("carscore")
+    > filter$calculate(task)
+    Error: The following packages could not be loaded: care
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Complete output:
+      > library(testthat)
+      > library(mlr3filters)
+      > 
+      > test_check("mlr3filters")
+      Starting 2 test processes
+      ══ Failed tests ════════════════════════════════════════════════════════════════
+      ── Error (test_FilterFindCorrelation.R:11:3): FilterImportance ─────────────────
+    ...
+      Error: The following packages could not be loaded: care
+      Backtrace:
+          █
+       1. └─f$calculate(task)
+       2.   └─mlr3filters:::.__Filter__calculate(...)
+       3.     └─mlr3misc::require_namespaces(self$packages)
+      
+      [ FAIL 2 | WARN 0 | SKIP 0 | PASS 360 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'care', 'caret', 'mlr3learners'
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Packages unavailable to check Rd xrefs: ‘care’, ‘caret’
+    ```
+
+# mlr3fselect
+
+<details>
+
+* Version: 0.5.1
+* GitHub: https://github.com/mlr-org/mlr3fselect
+* Source code: https://github.com/cran/mlr3fselect
+* Date/Publication: 2021-03-09 11:00:02 UTC
+* Number of recursive dependencies: 53
+
+Run `revdep_details(, "mlr3fselect")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘mlr3pipelines’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# mlr3hyperband
+
+<details>
+
+* Version: 0.1.2
+* GitHub: https://github.com/mlr-org/mlr3hyperband
+* Source code: https://github.com/cran/mlr3hyperband
+* Date/Publication: 2021-01-29 09:20:05 UTC
+* Number of recursive dependencies: 58
+
+Run `revdep_details(, "mlr3hyperband")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘mlr3tuning’
+    
+    Packages suggested but not available for checking:
+      'mlr3learners', 'mlr3pipelines'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# mlr3learners
+
+<details>
+
+* Version: 0.4.5
+* GitHub: https://github.com/mlr-org/mlr3learners
+* Source code: https://github.com/cran/mlr3learners
+* Date/Publication: 2021-03-18 13:20:03 UTC
+* Number of recursive dependencies: 86
+
+Run `revdep_details(, "mlr3learners")` for more info
+
+</details>
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘mlr3learners-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: mlr_learners_surv.cv_glmnet
+    > ### Title: Cross-Validated GLM with Elastic Net Regularization Survival
+    > ###   Learner
+    > ### Aliases: mlr_learners_surv.cv_glmnet LearnerSurvCVGlmnet
+    > 
+    > ### ** Examples
+    > 
+    ...
+    > if (requireNamespace("glmnet")) {
+    +   learner = mlr3::lrn("surv.cv_glmnet")
+    +   print(learner)
+    + 
+    +   # available parameters:
+    + learner$param_set$ids()
+    + }
+    Error in loadNamespace(x) : there is no package called ‘mlr3proba’
+    Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Complete output:
+      > if (requireNamespace("testthat", quietly = TRUE)) {
+      +   library(testthat)
+      +   library(mlr3learners)
+      +   test_check("mlr3learners")
+      + }
+      Loading required package: mlr3
+      Error in library(mlr3proba) : there is no package called 'mlr3proba'
+      Calls: test_check ... source_dir -> lapply -> FUN -> eval -> eval -> library
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘mlr3proba’
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘mlr3proba’
+    ```
+
+# mlr3oml
+
+<details>
+
+* Version: 0.4.3
+* GitHub: https://github.com/mlr-org/mlr3oml
+* Source code: https://github.com/cran/mlr3oml
+* Date/Publication: 2021-04-16 07:50:02 UTC
+* Number of recursive dependencies: 67
+
+Run `revdep_details(, "mlr3oml")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘RWeka’
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘RWeka’
+    ```
+
 # mlr3pipelines
 
 <details>
@@ -2022,6 +2892,68 @@ Run `revdep_details(, "mlr3pipelines")` for more info
 </details>
 
 ## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘mlr3pipelines-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: mlr_pipeops_boxcox
+    > ### Title: Box-Cox Transformation of Numeric Features
+    > ### Aliases: mlr_pipeops_boxcox PipeOpBoxCox
+    > 
+    > ### ** Examples
+    > 
+    > library("mlr3")
+    ...
+      5:    setosa          1.4         0.2          5.0         3.6
+     ---                                                            
+    146: virginica          5.2         2.3          6.7         3.0
+    147: virginica          5.0         1.9          6.3         2.5
+    148: virginica          5.2         2.0          6.5         3.0
+    149: virginica          5.4         2.3          6.2         3.4
+    150: virginica          5.1         1.8          5.9         3.0
+    > pop$train(list(task))[[1]]$data()
+    Error: The following packages could not be loaded: bestNormalize
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 50 lines of output:
+          █
+       1. ├─mlr3pipelines:::expect_equal(...)
+       2. │ ├─testthat::expect_true(...) testthat/helper_compat.R:4:2
+       3. │ │ └─testthat::quasi_label(enquo(object), label, arg = "object")
+       4. │ │   └─rlang::eval_bare(expr, quo_get_env(quo))
+       5. │ └─base::all.equal(...)
+       6. └─op$train(list(clean_task))
+    ...
+      Backtrace:
+          █
+       1. └─mlr3pipelines:::train_pipeop(op, inputs = list(task))
+       2.   └─po$train(inputs) testthat/helper_functions.R:423:2
+       3.     └─mlr3pipelines:::.__PipeOp__train(...)
+       4.       └─mlr3misc::require_namespaces(self$packages)
+      
+      [ FAIL 14 | WARN 0 | SKIP 78 | PASS 9450 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'mlr3filters', 'mlr3learners', 'quanteda', 'bestNormalize', 'NMF',
+      'vtreat'
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Packages unavailable to check Rd xrefs: ‘mlr3filters’, ‘bestNormalize’, ‘NMF’, ‘quanteda’, ‘vtreat’
+    ```
 
 *   checking LazyData ... NOTE
     ```
@@ -2044,9 +2976,40 @@ Run `revdep_details(, "mlr3proba")` for more info
 
 ## In both
 
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 50 lines of output:
+        8.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
+        9.     └─base:::withOneRestart(expr, restarts[[1L]])
+       10.       └─base:::doWithOneRestart(return(expr), restart)
+      ── Error (test_pipeop_survavg.R:12:3): equal weights ───────────────────────────
+      Error: there is no package called 'mlr3pipelines'
+      Backtrace:
+          █
+    ...
+       4.       └─base:::doWithOneRestart(return(expr), restart)
+      ── Error (test_register.R:9:3): re-populate pipelines ──────────────────────────
+      Error: there is no package called 'mlr3pipelines'
+      Backtrace:
+          █
+       1. └─base::library(mlr3pipelines) test_register.R:9:2
+      
+      [ FAIL 30 | WARN 0 | SKIP 2 | PASS 1056 ]
+      Error: Test failures
+      Execution halted
+    ```
+
 *   checking package dependencies ... NOTE
     ```
-    Package suggested but not available for checking: ‘mlr3extralearners’
+    Packages suggested but not available for checking:
+      'bujar', 'mlr3extralearners', 'mlr3pipelines'
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Packages unavailable to check Rd xrefs: ‘mlr3pipelines’, ‘bujar’
     ```
 
 # mlr3shiny
@@ -2065,18 +3028,138 @@ Run `revdep_details(, "mlr3shiny")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘DT’ ‘data.table’ ‘e1071’ ‘mlr3’ ‘mlr3learners’ ‘mlr3measures’ ‘plyr’
-      ‘purrr’ ‘ranger’ ‘readxl’ ‘shinyWidgets’ ‘shinyalert’
-      ‘shinydashboard’ ‘shinyjs’ ‘shinythemes’ ‘stats’ ‘stringr’
-      All declared Imports should be used.
+    Package required but not available: ‘mlr3learners’
+    
+    Package suggested but not available for checking: ‘shinytest’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
-*   checking LazyData ... NOTE
+# mlr3spatiotempcv
+
+<details>
+
+* Version: 0.4.1
+* GitHub: https://github.com/mlr-org/mlr3spatiotempcv
+* Source code: https://github.com/cran/mlr3spatiotempcv
+* Date/Publication: 2021-06-23 21:20:02 UTC
+* Number of recursive dependencies: 157
+
+Run `revdep_details(, "mlr3spatiotempcv")` for more info
+
+</details>
+
+## In both
+
+*   checking examples ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+    Running examples in ‘mlr3spatiotempcv-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: autoplot.ResamplingSpCVBlock
+    > ### Title: Visualization Functions for SpCV Block Methods.
+    > ### Aliases: autoplot.ResamplingSpCVBlock
+    > ###   autoplot.ResamplingRepeatedSpCVBlock plot.ResamplingSpCVBlock
+    > ###   plot.ResamplingRepeatedSpCVBlock
+    > 
+    > ### ** Examples
+    ...
+    +     ggplot2::scale_x_continuous(breaks = seq(-79.085, -79.055, 0.01))
+    + 
+    +   ## Visualize train/test splits of multiple folds
+    +   autoplot(resampling, task,
+    +     fold_id = c(1, 2), crs = 4326,
+    +     show_blocks = TRUE) *
+    +     ggplot2::scale_x_continuous(breaks = seq(-79.085, -79.055, 0.01))
+    + }
+    Error: The following packages could not be loaded: ggtext
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Complete output:
+      > if (requireNamespace("testthat", quietly = TRUE)) {
+      +   library(checkmate)
+      +   library(testthat)
+      +   library(mlr3spatiotempcv)
+      + 
+      +   test_check("mlr3spatiotempcv")
+      + }
+    ...
+        6.         │ ├─base::withRestarts(...)
+        7.         │ │ └─base:::withOneRestart(expr, restarts[[1L]])
+        8.         │ │   └─base:::doWithOneRestart(return(expr), restart)
+        9.         │ └─base::force(code)
+       10.         └─testthat:::parallel_event_loop_chunky(queue, reporters)
+       11.           └─queue$poll(Inf)
+       12.             └─base::lapply(...)
+       13.               └─testthat:::FUN(X[[i]], ...)
+       14.                 └─private$handle_error(msg, i)
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'caret', 'CAST', 'ggtext', 'mlr3filters', 'mlr3pipelines',
+      'mlr3tuning', 'skmeans'
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘CAST’
+    ```
+
+# mlr3tuning
+
+<details>
+
+* Version: 0.8.0
+* GitHub: https://github.com/mlr-org/mlr3tuning
+* Source code: https://github.com/cran/mlr3tuning
+* Date/Publication: 2021-03-12 13:40:03 UTC
+* Number of recursive dependencies: 56
+
+Run `revdep_details(, "mlr3tuning")` for more info
+
+</details>
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Complete output:
+      > if (requireNamespace("testthat", quietly = TRUE)) {
+      +   library(testthat)
+      +   library(checkmate)
+      +   library(mlr3tuning)
+      + 
+      +   test_check("mlr3tuning")
+      + }
+    ...
+        6.         │ ├─base::withRestarts(...)
+        7.         │ │ └─base:::withOneRestart(expr, restarts[[1L]])
+        8.         │ │   └─base:::doWithOneRestart(return(expr), restart)
+        9.         │ └─base::force(code)
+       10.         └─testthat:::parallel_event_loop_chunky(queue, reporters)
+       11.           └─queue$poll(Inf)
+       12.             └─base::lapply(...)
+       13.               └─testthat:::FUN(X[[i]], ...)
+       14.                 └─private$handle_error(msg, i)
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘mlr3pipelines’
     ```
 
 # mlr3verse
@@ -2095,9 +3178,14 @@ Run `revdep_details(, "mlr3verse")` for more info
 
 ## In both
 
-*   checking LazyData ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+    Packages required but not available:
+      'mlr3cluster', 'mlr3filters', 'mlr3fselect', 'mlr3learners',
+      'mlr3pipelines', 'mlr3proba', 'mlr3tuning'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # mlr3viz
@@ -2115,6 +3203,61 @@ Run `revdep_details(, "mlr3viz")` for more info
 </details>
 
 ## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘mlr3viz-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: autoplot.Filter
+    > ### Title: Plot for Filter Scores
+    > ### Aliases: autoplot.Filter
+    > 
+    > ### ** Examples
+    > 
+    > library(mlr3)
+    > library(mlr3viz)
+    > library(mlr3filters)
+    Error in library(mlr3filters) : there is no package called ‘mlr3filters’
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Complete output:
+      > library(testthat)
+      > library(mlr3viz)
+      > 
+      > test_check("mlr3viz")
+      Starting 2 test processes
+      ══ Skipped tests ═══════════════════════════════════════════════════════════════
+      • ggparty cannot be loaded (2)
+    ...
+          █
+       1. └─mlr3::tsk("usarrests")
+       2.   └─mlr3misc::dictionary_sugar_get(mlr_tasks, .key, ...)
+       3.     └─mlr3misc:::dictionary_get(dict, .key)
+       4.       └─mlr3misc:::dictionary_retrieve_item(self, key)
+       5.         └─mlr3misc::stopf(...)
+      
+      [ FAIL 2 | WARN 0 | SKIP 13 | PASS 85 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'factoextra', 'ggparty', 'mlr3cluster', 'mlr3filters',
+      'mlr3learners', 'mlr3proba', 'mlr3tuning'
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Packages unavailable to check Rd xrefs: ‘mlr3filters’, ‘mlr3learners’, ‘ggparty’, ‘mlr3cluster’, ‘factoextra’, ‘mlr3proba’, ‘mlr3tuning’
+    ```
 
 *   checking LazyData ... NOTE
     ```
@@ -2137,9 +3280,62 @@ Run `revdep_details(, "mlrintermbo")` for more info
 
 ## In both
 
-*   checking LazyData ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+    Package required but not available: ‘mlr3tuning’
+    
+    Packages suggested but not available for checking:
+      'cmaesr', 'smoof', 'mlr3learners', 'mlr3pipelines', 'mlrMBO'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# MOSS
+
+<details>
+
+* Version: 0.1.0
+* GitHub: https://github.com/agugonrey/MOSS
+* Source code: https://github.com/cran/MOSS
+* Date/Publication: 2021-01-19 09:20:06 UTC
+* Number of recursive dependencies: 149
+
+Run `revdep_details(, "MOSS")` for more info
+
+</details>
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 50 lines of output:
+      Tuning Features degree of sparsity = 970  (max value on the grid= 999).
+      Tuning Features degree of sparsity = 971  (max value on the grid= 999).
+      Tuning Features degree of sparsity = 972  (max value on the grid= 999).
+      Tuning Features degree of sparsity = 973  (max value on the grid= 999).
+      Tuning Features degree of sparsity = 974  (max value on the grid= 999).
+      Tuning Features degree of sparsity = 975  (max value on the grid= 999).
+      Tuning Features degree of sparsity = 976  (max value on the grid= 999).
+    ...
+       1. └─MOSS::moss(...) test_moss.R:53:2
+      ── Error (test_moss.R:93:3): Test if moss uses FBMs correctly ──────────────────
+      Error: there is no package called 'bigstatsr'
+      Backtrace:
+          █
+       1. └─base::library(bigstatsr) test_moss.R:93:2
+      
+      [ FAIL 3 | WARN 0 | SKIP 0 | PASS 16 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'annotate', 'bigstatsr', 'ComplexHeatmap', 'fpc', 'ggpmisc'
     ```
 
 # mrgsim.parallel
@@ -2179,16 +3375,13 @@ Run `revdep_details(, "NADIA")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘glmnet’ ‘mlr3learners’
-      All declared Imports should be used.
-    ```
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
+    Packages required but not available:
+      'mlr3pipelines', 'mlr3learners', 'missForest', 'missMDA', 'VIM'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # nfl4th
@@ -2207,9 +3400,12 @@ Run `revdep_details(, "nfl4th")` for more info
 
 ## In both
 
-*   checking LazyData ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+    Package required but not available: ‘nflfastR’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # onemapsgapi
@@ -2249,9 +3445,12 @@ Run `revdep_details(, "OOS")` for more info
 
 ## In both
 
-*   checking LazyData ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+    Packages required but not available: 'caret', 'imputeTS', 'vars'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # origami
@@ -2269,6 +3468,11 @@ Run `revdep_details(, "origami")` for more info
 </details>
 
 ## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘forecast’
+    ```
 
 *   checking Rd cross-references ... NOTE
     ```
@@ -2318,11 +3522,14 @@ Run `revdep_details(, "pavo")` for more info
 
 ## In both
 
-*   checking whether package ‘pavo’ can be installed ... WARNING
+*   checking package dependencies ... ERROR
     ```
-    Found the following significant warnings:
-      Warning: no DISPLAY variable so Tk is not available
-    See ‘/c4/home/henrik/repositories/parallelly/revdep/checks/pavo/new/pavo.Rcheck/00install.out’ for details.
+    Package required but not available: ‘geometry’
+    
+    Packages suggested but not available for checking: 'alphashape3d', 'imager'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # photosynthesis
@@ -2383,6 +3590,12 @@ Run `revdep_details(, "PLNmodels")` for more info
 
 ## In both
 
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'pkgdown', 'biomformat', 'phyloseq', 'factoextra'
+    ```
+
 *   checking installed package size ... NOTE
     ```
       installed size is 13.2Mb
@@ -2393,7 +3606,7 @@ Run `revdep_details(, "PLNmodels")` for more info
 
 *   checking Rd cross-references ... NOTE
     ```
-    Package unavailable to check Rd xrefs: ‘DESeq2’
+    Packages unavailable to check Rd xrefs: ‘factoextra’, ‘DESeq2’
     ```
 
 # plumber
@@ -2425,7 +3638,7 @@ Run `revdep_details(, "plumber")` for more info
 * GitHub: https://github.com/stemangiola/ppcseq
 * Source code: https://github.com/cran/ppcseq
 * Date/Publication: 2021-05-19
-* Number of recursive dependencies: 131
+* Number of recursive dependencies: 112
 
 Run `revdep_details(, "ppcseq")` for more info
 
@@ -2433,42 +3646,12 @@ Run `revdep_details(, "ppcseq")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is 45.6Mb
-      sub-directories of 1Mb or more:
-        data   1.5Mb
-        libs  42.8Mb
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    .identify_abundant: no visible binding for global variable ‘.’
-    .identify_abundant: no visible binding for global variable ‘.abundant’
-    add_exposure_rate: no visible binding for global variable ‘.variable’
-    add_exposure_rate: no visible binding for global variable ‘S’
-    add_exposure_rate: no visible binding for global variable ‘exposure
-      rate’
-    add_partition: no visible binding for global variable ‘.’
-    add_scaled_counts_bulk.calcNormFactor: no visible binding for global
-      variable ‘transcript’
-    add_scaled_counts_bulk.get_low_expressed: no visible binding for global
-    ...
-      . .abundant .chain .draw .iteration .lower .upper .upper_2 .value
-      .variable CI G S TMM cc chains dummy exposure rate idx_MPI init l l
-      %>% sd med multiplier nf ppc read count MPI row res_discovery rowid s
-      sample wise data scale_abundance slope symbol MPI row tot tot_filt
-      transcript write_on_disk
-    Consider adding
-      importFrom("base", "row", "sample")
-      importFrom("stats", "sd")
-      importFrom("utils", "data")
-    to your NAMESPACE file.
-    ```
-
-*   checking for GNU extensions in Makefiles ... NOTE
-    ```
-    GNU make is a SystemRequirements.
+    Package required but not available: ‘tidybayes’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # prewas
@@ -2518,10 +3701,10 @@ Run `revdep_details(, "promises")` for more info
 
 <details>
 
-* Version: 1.24.3
+* Version: 1.24.5
 * GitHub: https://github.com/samWieczorek/Prostar
 * Source code: https://github.com/cran/Prostar
-* Date/Publication: 2021-05-25
+* Date/Publication: 2021-06-27
 * Number of recursive dependencies: 316
 
 Run `revdep_details(, "Prostar")` for more info
@@ -2530,15 +3713,12 @@ Run `revdep_details(, "Prostar")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘BiocManager’ ‘DAPAR’ ‘DAPARdata’ ‘DT’ ‘R.utils’ ‘XML’ ‘colourpicker’
-      ‘data.table’ ‘future’ ‘highcharter’ ‘htmlwidgets’ ‘later’ ‘promises’
-      ‘rclipboard’ ‘rhandsontable’ ‘sass’ ‘shinyAce’ ‘shinyBS’ ‘shinyTree’
-      ‘shinyWidgets’ ‘shinycssloaders’ ‘shinyjqui’ ‘shinyjs’ ‘shinythemes’
-      ‘tibble’ ‘webshot’
-      All declared Imports should be used.
+    Packages required but not available: 'DAPAR', 'DAPARdata'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # QDNAseq
@@ -2556,12 +3736,6 @@ Run `revdep_details(, "QDNAseq")` for more info
 </details>
 
 ## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Packages suggested but not available for checking:
-      'QDNAseq.hg19', 'QDNAseq.mm10'
-    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -2595,6 +3769,72 @@ Run `revdep_details(, "qtl2pleio")` for more info
 *   checking LazyData ... NOTE
     ```
       'LazyData' is specified without a 'data' directory
+    ```
+
+# rangeMapper
+
+<details>
+
+* Version: 2.0.2
+* GitHub: https://github.com/mpio-be/rangeMapper
+* Source code: https://github.com/cran/rangeMapper
+* Date/Publication: 2021-02-26 21:40:07 UTC
+* Number of recursive dependencies: 116
+
+Run `revdep_details(, "rangeMapper")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘pkgdown’
+    ```
+
+# RapidoPGS
+
+<details>
+
+* Version: 2.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/RapidoPGS
+* Date/Publication: 2021-06-17 10:10:11 UTC
+* Number of recursive dependencies: 94
+
+Run `revdep_details(, "RapidoPGS")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Packages required but not available: 'bigsnpr', 'coloc'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# rBiasCorrection
+
+<details>
+
+* Version: 0.3.1
+* GitHub: https://github.com/kapsner/rBiasCorrection
+* Source code: https://github.com/cran/rBiasCorrection
+* Date/Publication: 2021-06-21 13:50:02 UTC
+* Number of recursive dependencies: 132
+
+Run `revdep_details(, "rBiasCorrection")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking: 'ggpubr', 'lintr'
     ```
 
 # regmedint
@@ -2635,6 +3875,12 @@ Run `revdep_details(, "rgee")` for more info
 
 ## In both
 
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'geojsonio', 'googleCloudStorageR'
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘R6’
@@ -2666,6 +3912,27 @@ Run `revdep_details(, "robotstxt")` for more info
 *   checking LazyData ... NOTE
     ```
       'LazyData' is specified without a 'data' directory
+    ```
+
+# RTransferEntropy
+
+<details>
+
+* Version: 0.2.14
+* GitHub: https://github.com/BZPaper/RTransferEntropy
+* Source code: https://github.com/cran/RTransferEntropy
+* Date/Publication: 2021-04-02 21:00:03 UTC
+* Number of recursive dependencies: 77
+
+Run `revdep_details(, "RTransferEntropy")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘vars’
     ```
 
 # sapfluxnetr
@@ -2718,7 +3985,7 @@ Run `revdep_details(, "sctransform")` for more info
 * GitHub: https://github.com/Abson-dev/sdmApp
 * Source code: https://github.com/cran/sdmApp
 * Date/Publication: 2021-01-22 10:40:03 UTC
-* Number of recursive dependencies: 238
+* Number of recursive dependencies: 265
 
 Run `revdep_details(, "sdmApp")` for more info
 
@@ -2726,18 +3993,12 @@ Run `revdep_details(, "sdmApp")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘CENFA’ ‘DT’ ‘SSDM’ ‘biomod2’ ‘blockCV’ ‘data.table’ ‘dismo’
-      ‘ggcorrplot’ ‘haven’ ‘kernlab’ ‘rJava’ ‘randomForest’ ‘readxl’
-      ‘rgeos’ ‘rhandsontable’ ‘shinyBS’ ‘shinyFiles’ ‘sp’ ‘tidyverse’
-      All declared Imports should be used.
-    ```
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
+    Packages required but not available: 'biomod2', 'CENFA', 'SSDM', 'ggpubr'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # seer
@@ -2766,10 +4027,10 @@ Run `revdep_details(, "seer")` for more info
 
 <details>
 
-* Version: 4.0.2
+* Version: 4.0.3
 * GitHub: https://github.com/satijalab/seurat
 * Source code: https://github.com/cran/Seurat
-* Date/Publication: 2021-05-20 22:00:09 UTC
+* Date/Publication: 2021-06-10 21:20:02 UTC
 * Number of recursive dependencies: 240
 
 Run `revdep_details(, "Seurat")` for more info
@@ -2777,6 +4038,12 @@ Run `revdep_details(, "Seurat")` for more info
 </details>
 
 ## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'MAST', 'DESeq2', 'Rfast2', 'monocle', 'metap', 'mixtools'
+    ```
 
 *   checking installed package size ... NOTE
     ```
@@ -2806,6 +4073,12 @@ Run `revdep_details(, "shiny")` for more info
 </details>
 
 ## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'shinytest', 'ragg', 'showtext'
+    ```
 
 *   checking installed package size ... NOTE
     ```
@@ -2876,10 +4149,10 @@ Run `revdep_details(, "shinyrecap")` for more info
 
 <details>
 
-* Version: 2.0.1
+* Version: 2.0.2
 * GitHub: https://github.com/ShixiangWang/sigminer
 * Source code: https://github.com/cran/sigminer
-* Date/Publication: 2021-05-19 09:40:02 UTC
+* Date/Publication: 2021-06-17 11:10:02 UTC
 * Number of recursive dependencies: 203
 
 Run `revdep_details(, "sigminer")` for more info
@@ -2888,12 +4161,41 @@ Run `revdep_details(, "sigminer")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is  5.1Mb
-      sub-directories of 1Mb or more:
-        extdata   1.5Mb
-        libs      1.0Mb
+    Packages required but not available: 'ggpubr', 'NMF'
+    
+    Packages suggested but not available for checking: 'circlize', 'ggplotify'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# Signac
+
+<details>
+
+* Version: 1.2.1
+* GitHub: https://github.com/timoast/signac
+* Source code: https://github.com/cran/Signac
+* Date/Publication: 2021-05-11 14:22:15 UTC
+* Number of recursive dependencies: 240
+
+Run `revdep_details(, "Signac")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Packages required but not available: 'Seurat', 'lsa', 'qlcMatrix'
+    
+    Packages suggested but not available for checking:
+      'chromVAR', 'TFBSTools', 'motifmatchr', 'biovizBase'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # simfinapi
@@ -2963,11 +4265,14 @@ Run `revdep_details(, "simhelpers")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘future’ ‘magrittr’ ‘purrr’ ‘rlang’ ‘utils’
-      All declared Imports should be used.
+    Package required but not available: ‘Rdpack’
+    
+    Package suggested but not available for checking: ‘pkgdown’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # sims
@@ -2986,9 +4291,12 @@ Run `revdep_details(, "sims")` for more info
 
 ## In both
 
-*   checking LazyData ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+    Package required but not available: ‘nlist’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # skpr
@@ -3030,6 +4338,29 @@ Run `revdep_details(, "solitude")` for more info
 
 ## In both
 
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘solitude-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: isolationForest
+    > ### Title: Fit an Isolation Forest
+    > ### Aliases: isolationForest
+    > 
+    > ### ** Examples
+    > 
+    > data("humus", package = "mvoutlier")
+    Error in find.package(package, lib.loc, verbose = verbose) : 
+      there is no package called ‘mvoutlier’
+    Calls: data -> find.package
+    Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘mvoutlier’
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
@@ -3064,14 +4395,70 @@ Run `revdep_details(, "spacey")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
+# SpaDES.core
+
+<details>
+
+* Version: 1.0.8
+* GitHub: https://github.com/PredictiveEcology/SpaDES.core
+* Source code: https://github.com/cran/SpaDES.core
+* Date/Publication: 2021-06-10 09:10:02 UTC
+* Number of recursive dependencies: 132
+
+Run `revdep_details(, "SpaDES.core")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Packages required but not available: 'quickPlot', 'reproducible'
+    
+    Package suggested but not available for checking: ‘SpaDES.tools’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# spaMM
+
+<details>
+
+* Version: 3.8.9
+* GitHub: NA
+* Source code: https://github.com/cran/spaMM
+* Date/Publication: 2021-06-28 05:00:06 UTC
+* Number of recursive dependencies: 96
+
+Run `revdep_details(, "spaMM")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘ROI’
+    
+    Packages suggested but not available for checking:
+      'Infusion', 'IsoriX', 'blackbox', 'ROI.plugin.glpk'
+    
+    Packages which this enhances but not available for checking:
+      'multcomp', 'RLRsim'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
 # sparrpowR
 
 <details>
 
-* Version: 0.2.1
+* Version: 0.2.2
 * GitHub: https://github.com/machiela-lab/sparrpowR
 * Source code: https://github.com/cran/sparrpowR
-* Date/Publication: 2021-03-16 09:50:02 UTC
+* Date/Publication: 2021-06-28 13:30:02 UTC
 * Number of recursive dependencies: 98
 
 Run `revdep_details(, "sparrpowR")` for more info
@@ -3080,16 +4467,12 @@ Run `revdep_details(, "sparrpowR")` for more info
 
 ## In both
 
-*   checking whether package ‘sparrpowR’ can be installed ... WARNING
+*   checking package dependencies ... ERROR
     ```
-    Found the following significant warnings:
-      Warning: no DISPLAY variable so Tk is not available
-    See ‘/c4/home/henrik/repositories/parallelly/revdep/checks/sparrpowR/new/sparrpowR.Rcheck/00install.out’ for details.
-    ```
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
+    Package required but not available: ‘spatstat’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # SPARSEMODr
@@ -3162,6 +4545,11 @@ Run `revdep_details(, "spNetwork")` for more info
 
 ## In both
 
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘plot3D’
+    ```
+
 *   checking installed package size ... NOTE
     ```
       installed size is 10.2Mb
@@ -3191,9 +4579,60 @@ Run `revdep_details(, "stars")` for more info
 
 ## In both
 
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘stars-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: aggregate.stars
+    > ### Title: spatially or temporally aggregate stars object
+    > ### Aliases: aggregate.stars aggregate
+    > 
+    > ### ** Examples
+    > 
+    > # aggregate time dimension in format Date
+    ...
+    time    
+    x    [x]
+    y    [y]
+    band    
+    > # Spatial aggregation, see https://github.com/r-spatial/stars/issues/299
+    > prec_file = system.file("nc/test_stageiv_xyt.nc", package = "stars")
+    > prec = read_ncdf(prec_file, curvilinear = c("lon", "lat"))
+    Error in read_ncdf(prec_file, curvilinear = c("lon", "lat")) : 
+      package ncmeta required, please install it first
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+    4c4
+    < Linking to GEOS 3.9.1, GDAL 2.4.4, PROJ 4.9.3
+    ---
+    > Linking to GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
+    23c23
+    < station    1   70         NA     NA EPSG:4326  TRUE
+    ---
+    > station    1   70         NA     NA WGS 84  TRUE
+    28a29,30
+    > although coordinates are longitude/latitude, st_intersects assumes that they are planar
+    ...
+      Backtrace:
+          █
+       1. └─base::loadNamespace(x) test_st_as_stars.R:10:2
+       2.   └─base::withRestarts(stop(cond), retry_loadNamespace = function() NULL)
+       3.     └─base:::withOneRestart(expr, restarts[[1L]])
+       4.       └─base:::doWithOneRestart(return(expr), restart)
+      
+      [ FAIL 16 | WARN 0 | SKIP 0 | PASS 40 ]
+      Error: Test failures
+      Execution halted
+    ```
+
 *   checking package dependencies ... NOTE
     ```
-    Package suggested but not available for checking: ‘starsdata’
+    Packages suggested but not available for checking:
+      'ncdfgeom', 'ncmeta', 'plm', 'spatstat', 'starsdata'
     ```
 
 *   checking installed package size ... NOTE
@@ -3220,19 +4659,47 @@ Run `revdep_details(, "startR")` for more info
 
 ## In both
 
-*   checking LazyData ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      'LazyData' is specified without a 'data' directory
+    Packages required but not available:
+      'easyNCDF', 's2dverification', 'ClimProjDiags'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
+# steps
+
+<details>
+
+* Version: 1.2.1
+* GitHub: NA
+* Source code: https://github.com/cran/steps
+* Date/Publication: 2021-03-03 09:20:10 UTC
+* Number of recursive dependencies: 83
+
+Run `revdep_details(, "steps")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘rasterVis’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # synergyfinder
 
 <details>
 
-* Version: 3.0.6
+* Version: 3.0.8
 * GitHub: NA
 * Source code: https://github.com/cran/synergyfinder
-* Date/Publication: 2021-06-06
+* Date/Publication: 2021-06-17
 * Number of recursive dependencies: 174
 
 Run `revdep_details(, "synergyfinder")` for more info
@@ -3241,49 +4708,12 @@ Run `revdep_details(, "synergyfinder")` for more info
 
 ## In both
 
-*   checking package subdirectories ... WARNING
+*   checking package dependencies ... ERROR
     ```
-    Invalid citation information in ‘inst/CITATION’:
-      Error in bibentry(bibtype = entry, textVersion = textVersion, header = header,     footer = footer, ...): argument "textVersion" is missing, with no default
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  6.0Mb
-      sub-directories of 1Mb or more:
-        doc   5.6Mb
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘future’ ‘gstat’ ‘nleqslv’ ‘sp’ ‘tidyverse’
-      All declared Imports should be used.
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    .Extract2DrugPlotData: no visible binding for global variable
-      ‘input_type’
-    .Extract2DrugPlotData: no visible binding for global variable
-      ‘block_id’
-    .Extract2DrugPlotData: no visible binding for global variable ‘value’
-    .Extract2DrugPlotData: no visible binding for global variable ‘left’
-    .Extract2DrugPlotData: no visible binding for global variable ‘right’
-    .Extract2DrugPlotData: no visible binding for global variable ‘conc1’
-    .Extract2DrugPlotData: no visible binding for global variable ‘conc2’
-    .Extract2DrugPlotData: no visible binding for global variable ‘text’
-    ...
-      block_id color conc1 conc2 css data end grid id input_type label left
-      metric n pred r response response_CI95 response_mean response_origin
-      response_origin_CI95 response_origin_mean response_origin_sd
-      response_origin_sem response_sd response_sem right start synergy text
-      theta value x y
-    Consider adding
-      importFrom("graphics", "grid", "text")
-      importFrom("stats", "end", "start")
-      importFrom("utils", "data")
-    to your NAMESPACE file.
+    Package required but not available: ‘metR’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # tableschema.r
@@ -3332,11 +4762,42 @@ Run `revdep_details(, "targets")` for more info
 
 </details>
 
+## Newly fixed
+
+*   R CMD check timed out
+    
+
 ## In both
 
 *   checking package dependencies ... NOTE
     ```
-    Package suggested but not available for checking: ‘arrow’
+    Packages suggested but not available for checking: 'arrow', 'torch'
+    ```
+
+# tcensReg
+
+<details>
+
+* Version: 0.1.7
+* GitHub: https://github.com/williazo/tcensReg
+* Source code: https://github.com/cran/tcensReg
+* Date/Publication: 2020-07-01 17:40:03 UTC
+* Number of recursive dependencies: 81
+
+Run `revdep_details(, "tcensReg")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Packages required but not available: 'maxLik', 'Rdpack'
+    
+    Packages suggested but not available for checking: 'censReg', 'truncreg'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # text
@@ -3355,9 +4816,12 @@ Run `revdep_details(, "text")` for more info
 
 ## In both
 
-*   checking data for non-ASCII characters ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      Note: found 3 marked UTF-8 strings
+    Packages required but not available: 'tokenizers', 'recipes', 'tune'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # TKCat
@@ -3438,6 +4902,11 @@ Run `revdep_details(, "tsfeatures")` for more info
 
 ## In both
 
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘Mcomp’
+    ```
+
 *   checking LazyData ... NOTE
     ```
       'LazyData' is specified without a 'data' directory
@@ -3459,10 +4928,12 @@ Run `revdep_details(, "TSstudio")` for more info
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespace in Imports field not imported from: ‘forecastHybrid’
-      All declared Imports should be used.
+    Package required but not available: ‘forecastHybrid’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # txshift
@@ -3481,30 +4952,24 @@ Run `revdep_details(, "txshift")` for more info
 
 ## In both
 
-*   checking package dependencies ... NOTE
+*   checking package dependencies ... ERROR
     ```
+    Packages required but not available: 'hal9001', 'haldensify', 'Rdpack'
+    
     Package which this enhances but not available for checking: ‘sl3’
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘tibble’
-      All declared Imports should be used.
-    ```
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # UCSCXenaShiny
 
 <details>
 
-* Version: 1.0.0
+* Version: 1.0.1
 * GitHub: https://github.com/openbiox/UCSCXenaShiny
 * Source code: https://github.com/cran/UCSCXenaShiny
-* Date/Publication: 2021-05-16 05:00:08 UTC
+* Date/Publication: 2021-06-23 10:10:02 UTC
 * Number of recursive dependencies: 202
 
 Run `revdep_details(, "UCSCXenaShiny")` for more info
@@ -3513,12 +4978,15 @@ Run `revdep_details(, "UCSCXenaShiny")` for more info
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is  6.2Mb
-      sub-directories of 1Mb or more:
-        doc        1.5Mb
-        shinyapp   3.3Mb
+    Packages required but not available: 'ezcox', 'ggpubr'
+    
+    Packages suggested but not available for checking:
+      'ggstatsplot', 'survminer'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # vip
@@ -3536,6 +5004,43 @@ Run `revdep_details(, "vip")` for more info
 </details>
 
 ## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/tinytest.R’ failed.
+    Last 50 lines of output:
+      Running test_pkg_mlr.R................    1 tests [0;32mOK[0m 
+      Running test_pkg_mlr.R................    2 tests [0;32mOK[0m 
+      Running test_pkg_mlr.R................    3 tests [0;32mOK[0m 
+      Running test_pkg_mlr.R................    3 tests [0;32mOK[0m 
+      Running test_pkg_mlr.R................    4 tests [0;32mOK[0m 
+      Running test_pkg_mlr.R................    4 tests [0;32mOK[0m [0;34m2.1s[0m
+      
+    ...
+      Running test_pkg_parsnip.R............    0 tests    
+      Running test_pkg_parsnip.R............    0 tests    
+      Running test_pkg_parsnip.R............    0 tests    
+      Running test_pkg_parsnip.R............    1 tests [0;32mOK[0m 
+      Running test_pkg_parsnip.R............    2 tests [0;32mOK[0m 
+      Running test_pkg_parsnip.R............    3 tests [0;32mOK[0m 
+      Running test_pkg_parsnip.R............    3 tests [0;32mOK[0m 
+      Running test_pkg_parsnip.R............    3 tests [0;32mOK[0m Error in aes(color = Variable) : could not find function "aes"
+      Calls: <Anonymous> ... vip -> vip.model_fit -> vip -> vip.default -> do.call
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      'C50', 'caret', 'Ckmeans.1d.dp', 'earth', 'party', 'sparklyr',
+      'varImp'
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Packages unavailable to check Rd xrefs: ‘C50’, ‘caret’, ‘earth’, ‘sparklyr’, ‘party’
+    ```
 
 *   checking LazyData ... NOTE
     ```
@@ -3558,41 +5063,16 @@ Run `revdep_details(, "vivid")` for more info
 
 ## In both
 
-*   checking tests ...
+*   checking package dependencies ... ERROR
     ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 50 lines of output:
-      Calculating interactions...
-      Calculating interactions...
-      IncNodePurity variable importance method used.
-      Calculating interactions...
-      %IncMSE variable importance method used.
-      Calculating interactions...
-      No importanceType selected. Returning %IncMSE importance values
-    ...
-      ── Failure (test_plots.R:208:3): Test zpath ────────────────────────────────────
-      `zPath(aqVivi, cutoff = 100)` did not throw the expected error.
-      Backtrace:
-          █
-       1. └─testthat::expect_error(zPath(aqVivi, cutoff = 100)) test_plots.R:208:2
-       2.   └─testthat:::expect_condition_matching(...)
-      
-      [ FAIL 15 | WARN 0 | SKIP 0 | PASS 50 ]
-      Error: Test failures
-      Execution halted
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘zenplots’
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘RColorBrewer’ ‘colorspace’ ‘tidyr’
-      All declared Imports should be used.
+    Packages required but not available: 'condvis2', 'ggalt', 'flashlight'
+    
+    Packages suggested but not available for checking:
+      'intergraph', 'network', 'sna', 'tidymodels', 'mlr3learners',
+      'zenplots'
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # XNAString
