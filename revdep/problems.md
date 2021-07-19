@@ -1106,47 +1106,6 @@ Run `revdep_details(, "fundiversity")` for more info
       All declared Imports should be used.
     ```
 
-# future
-
-<details>
-
-* Version: 1.21.0
-* GitHub: https://github.com/HenrikBengtsson/future
-* Source code: https://github.com/cran/future
-* Date/Publication: 2020-12-10 09:00:05 UTC
-* Number of recursive dependencies: 14
-
-Run `revdep_details(, "future")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/non-exportable,connections.R’ failed.
-    Last 50 lines of output:
-      [08:42:39.058]             {
-      [08:42:39.058]                 NULL
-      [08:42:39.058]                 base::options(mc.cores = ...future.mc.cores.old)
-      [08:42:39.058]             }
-      [08:42:39.058]             future::plan(list(function (..., envir = parent.frame(), 
-      [08:42:39.058]                 workers = 2L) 
-      [08:42:39.058]             strategy(..., envir = envir, workers = workers)), 
-    ...
-      [08:42:39.116] receiveMessageFromWorker() for ClusterFuture ... done
-      [08:42:39.117] result() for ClusterFuture ... done
-      [08:42:39.117] result() for ClusterFuture ...
-      [08:42:39.118] - result already collected: FutureResult
-      [08:42:39.118] result() for ClusterFuture ... done
-      > print(res)
-      NULL
-      > stopifnot(inherits(res, "error"))
-      Error: inherits(res, "error") is not TRUE
-      Execution halted
-    ```
-
 # future.tests
 
 <details>
@@ -1912,50 +1871,6 @@ Run `revdep_details(, "MineICA")` for more info
 </details>
 
 ## In both
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘MineICA-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: IcaSet
-    > ### Title: Class to Contain and Describe an ICA decomposition of
-    > ###   High-Throughput Data.
-    > ### Aliases: class:IcaSet IcaSet IcaSet-class [ [,ANY,ANY,IcaSet-method
-    > ###   [,IcaSet,ANY-method [,IcaSet,ANY,ANY-method
-    > ###   [,IcaSet,ANY,ANY,ANY-method [<- [<-,IcaSet,ANY,ANY,ANY,ANY-method
-    > ###   [<-,IcaSet,ANY,ANY,ANY-method [<-,IcaSet,ANY,ANY-method organism
-    ...
-    > 
-    > ### ** Examples
-    > 
-    > # create an instance of IcaSet
-    > new("IcaSet")
-    Ensembl site unresponsive, trying uswest mirror
-    Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Peer's Certificate issuer is not recognized.
-    Calls: new ... request_fetch -> request_fetch.write_memory -> <Anonymous>
-    Execution halted
-    ```
-
-*   checking running R code from vignettes ...
-    ```
-      ‘MineICA.Rnw’... failed
-     ERROR
-    Errors in running code in vignettes:
-    when running code in ‘MineICA.Rnw’
-      ...
-    [28] "hgu133aPROSITE"       "hgu133aREFSEQ"        "hgu133aSYMBOL"       
-    [31] "hgu133aUNIPROT"       "hgu133a_dbInfo"       "hgu133a_dbconn"      
-    [34] "hgu133a_dbfile"       "hgu133a_dbschema"    
-    
-    > mart <- useMart(biomart = "ensembl", dataset = "hsapiens_gene_ensembl")
-    Ensembl site unresponsive, trying useast mirror
-    
-      When sourcing ‘MineICA.R’:
-    Error: Peer's Certificate issuer is not recognized.
-    Execution halted
-    ```
 
 *   checking Rd cross-references ... WARNING
     ```
@@ -2976,10 +2891,10 @@ Run `revdep_details(, "shinyrecap")` for more info
 
 <details>
 
-* Version: 2.0.2
+* Version: 2.0.3
 * GitHub: https://github.com/ShixiangWang/sigminer
 * Source code: https://github.com/cran/sigminer
-* Date/Publication: 2021-06-17 11:10:02 UTC
+* Date/Publication: 2021-07-18 23:10:07 UTC
 * Number of recursive dependencies: 203
 
 Run `revdep_details(, "sigminer")` for more info
@@ -2990,9 +2905,9 @@ Run `revdep_details(, "sigminer")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.9Mb
+      installed size is  7.0Mb
       sub-directories of 1Mb or more:
-        extdata   1.6Mb
+        extdata   2.7Mb
         libs      1.1Mb
     ```
 
@@ -3215,9 +3130,9 @@ Run `revdep_details(, "spaMM")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 46.0Mb
+      installed size is 45.9Mb
       sub-directories of 1Mb or more:
-        R      2.0Mb
+        R      1.9Mb
         libs  43.0Mb
     ```
 
