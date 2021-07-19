@@ -47,9 +47,6 @@ freePort <- function(ports = 1024:65535, default = "first", randomize = TRUE) {
     if (identical(how, "random")) {
       ports <- randomParallelPorts()
       randomize <- TRUE
-    } else {
-      stop(sprintf("Unknown value on argument %s: %s",
-                   sQuote("port"), sQuote(how)))
     }
   }
 

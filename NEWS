@@ -1,6 +1,39 @@
 Package: parallelly
 ===================
 
+Version: 1.27.0 [2021-07-19]
+
+NEW FEATURES:
+
+ * availableCores() and availableWorkers() now respects environment variable
+   'BIOCPARALLEL_WORKER_NUMBER' introduced in BiocParallel (>= 1.27.2). They
+   also respect 'BBS_HOME' which is set on the Bioconductor check servers to
+   limit the number of parallel workers while checking Bioconductor packages.
+
+WORKAROUND:
+
+ * makeClusterPSOCK() and parallel::makeCluster() failed with error "Cluster
+   setup failed. <n> of <n> workers failed to connect." when using the new
+   default 'setup_strategy = "parallel"' and when the 'tcltk' package is
+   loaded when running R (>= 4.0.0 && <= 4.1.0) on macOS. Now 'parallelly'
+   forces setup_strategy = "sequential" when the 'tcltk' package is loaded
+   on these R versions.
+
+BUG FIXES:
+
+ * makeClusterPSOCK(..., setup_strategy = "parallel") would forget to close
+   an socket connection used to set up the workers. This socket connection
+   would be closed by the garbage collector eventually with a warning.
+
+ * parallelly::makeClusterPSOCK() would fail with "Error in freePort(port) :
+   Unknown value on argument 'port': 'auto'" if environment variable
+   'R_PARALLEL_PORT' was set to a port number.
+
+ * parallelly::availableCores() would produce 'Error in if (grepl("^[1-9]$",
+   res)) return(as.integer(res)) : argument is of length zero' on Linux
+   systems without 'nproc' installed.
+
+
 Version: 1.26.1 [2021-06-29]
 
 NEW FEATURES:

@@ -13,6 +13,20 @@ for (kk in 1:5) {
   stopifnot(identical(.Random.seed, rng))
 }
 
+
+message("- freePort('auto')")
+
+Sys.unsetenv("R_PARALLEL_PORT")
+port <- freePort("auto")
+message("A random free TCP port: ", port)
+
+message("- freePort('auto') with env var R_PARALLEL_PORT = 8888")
+Sys.setenv(R_PARALLEL_PORT = 8888L)
+port <- freePort("auto")
+message("A free TCP port: ", port)
+stopifnot(port == 8888L)
+
+
 message("*** freePort() ... DONE")
 
 source("incl/end.R")

@@ -1,5 +1,6 @@
 AppVeyor
 AsIs
+BiocParallel
 CMD
 cut'n'pasteable
 DNS
@@ -72,7 +73,6 @@ workRSOCK
 yYF
 supportsMulticore
 availableCores
-AVAILABLECORES
 availableWorkers
 cpus
 DJOB
@@ -91,7 +91,6 @@ PPN
 SGE
 slurm
 Slurm
-SLURM
 config
 parallelization
 PuTTY's
@@ -109,7 +108,6 @@ md
 UUID
 getOptionOrEnvVar
 useXDR
-USEXDR
 cgroups
 nproc
 cpuLoad
@@ -119,10 +117,11 @@ freeConnections
 isForkedNode
 isLocalhostNode
 nodelist
-NODELIST
 scontrol
 dev
 freePort
 Rprofile
 Renviron
 OMP
+grepl
+tcltk
