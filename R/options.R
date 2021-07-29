@@ -288,7 +288,7 @@ update_package_options <- function(debug = FALSE) {
 
   update_package_option("fork.enable", mode = "logical", debug = debug)
 
-  update_package_option("supportsMulticore.unstable", mode = "logical", debug = debug)
+  update_package_option("supportsMulticore.unstable", mode = "character", debug = debug)
 
   update_package_option("makeNodePSOCK.setup_strategy", mode = "character", debug = debug)
   update_package_option("makeNodePSOCK.validate", mode = "logical", debug = debug)

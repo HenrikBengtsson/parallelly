@@ -1,9 +1,14 @@
 Package: parallelly
 ===================
 
-Version: 1.27.0-9000 [2021-07-19]
+Version: 1.27.0-9000 [2021-07-29]
 
- * ...
+BUG FIXES:
+
+ * Environment variable 'R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE' was
+   incorrectly parsed as a logical instead of a character string. If the
+   variables was set to, say, "quiet", this would cause an error when the
+   package was loaded.
  
 
 Version: 1.27.0 [2021-07-19]
