@@ -17,10 +17,10 @@ r_version_has_bug18119 <- local({
     revision <- Sys.getenv("R_PARALLELLY_R_REVISION", NA_character_)
     if (is.na(revision)) {
       revision <- R.version[["svn rev"]]
-      if (length(revision) != 1 || !is.finite(revision)) revision <- -1L
+      if (length(revision) != 1) revision <- -1L
     }
     revision <- as.integer(revision)
-
+    if (!is.finite(revision)) revision <- -1L
     list(version = version, revision = revision)
   }
   
