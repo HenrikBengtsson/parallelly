@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.27.0-9000 [2021-07-29]
+Version: 1.27.0-9000 [2021-08-03]
 
 BUG FIXES:
 
@@ -9,6 +9,9 @@ BUG FIXES:
    incorrectly parsed as a logical instead of a character string. If the
    variables was set to, say, "quiet", this would cause an error when the
    package was loaded.
+
+ * makeClusterPSOCK() failed to fall back to setup_strategy = "sequential",
+   when not supported by the current R version.
  
 
 Version: 1.27.0 [2021-07-19]
