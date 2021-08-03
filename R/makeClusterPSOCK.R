@@ -150,7 +150,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       if (verbose) message(sprintf("%s - Parallel setup requested only for some PSOCK nodes; will revert to a sequential setup for all", verbose_prefix))
       setup_strategy <- "sequential"
       ## Force all nodes to be setup using the 'sequential' setup strategy
-      for (ii in which(!is_parallel)) {
+      for (ii in which(is_parallel)) {
         if (verbose) message(sprintf("%s - Node %d of %d ...", verbose_prefix, ii, n))
         args <- list(workers[[ii]], port = port, ..., rank = ii, action = "options", verbose = verbose)
         args$setup_strategy <- "sequential"
