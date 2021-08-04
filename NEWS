@@ -1,8 +1,13 @@
 Package: parallelly
 ===================
 
-Version: 1.27.0-9000 [2021-08-03]
+Version: 1.27.0-9000 [2021-08-04]
 
+NEW FEATURES:
+
+ * Add isAlive() to check whether a cluster and cluster nodes are alive
+   or not.
+   
 BUG FIXES:
 
  * Environment variable 'R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE' was
