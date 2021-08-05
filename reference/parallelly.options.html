@@ -279,7 +279,7 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
 <dl>
 <dt><span class="option">parallelly.fork.enable</span>:</dt><dd><p>(logical) Enable or disable <em>forked</em> processing.  If <code>FALSE</code>, multicore futures becomes sequential futures.  If <code>NA</code>, or not set (the default), the a set of best-practices rules decide whether should be supported or not.</p></dd>
 
-<dt><span class="option">parallelly.supportsMulticore.unstable</span>:</dt><dd><p>(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If <code>"warning"</code> (default), then an informative warning is produces the first time 'multicore' or 'multiprocess' futures are used.  If <code>"quiet"</code>, no warning is produced.</p></dd>
+<dt><span class="option">parallelly.supportsMulticore.unstable</span>:</dt><dd><p>(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If <code>"warn"</code> (default), then an informative warning is produces the first time 'multicore' or 'multiprocess' futures are used.  If <code>"quiet"</code>, no warning is produced.</p></dd>
 
 </dl>
 

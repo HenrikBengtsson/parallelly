@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the Average Number of Free CPU Cores — freeCores • parallelly</title>
+<title>Check whether or not the cluster nodes are alive — isWorkerAlive • parallelly</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,8 @@
 
 
 
-<meta property="og:title" content="Get the Average Number of Free CPU Cores — freeCores" />
-<meta property="og:description" content="Get the Average Number of Free CPU Cores" />
+<meta property="og:title" content="Check whether or not the cluster nodes are alive — isWorkerAlive" />
+<meta property="og:description" content="Check whether or not the cluster nodes are alive" />
 <meta property="og:image" content="https://parallelly.futureverse.org/logo.png" />
 
 
@@ -204,70 +204,79 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the Average Number of Free CPU Cores</h1>
-    <small class="dont-index">Source: <a href='https://github.com/HenrikBengtsson/parallelly/blob/master/R/freeCores.R'><code>R/freeCores.R</code></a></small>
-    <div class="hidden name"><code>freeCores.Rd</code></div>
+    <h1>Check whether or not the cluster nodes are alive</h1>
+    <small class="dont-index">Source: <a href='https://github.com/HenrikBengtsson/parallelly/blob/master/R/isWorkerAlive.R'><code>R/isWorkerAlive.R</code></a></small>
+    <div class="hidden name"><code>isWorkerAlive.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the Average Number of Free CPU Cores</p>
+    <p>Check whether or not the cluster nodes are alive</p>
     </div>
 
-    <pre class="usage"><span class='fu'>freeCores</span><span class='op'>(</span>
-  memory <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"5min"</span>, <span class='st'>"15min"</span>, <span class='st'>"1min"</span><span class='op'>)</span>,
-  fraction <span class='op'>=</span> <span class='fl'>0.9</span>,
-  logical <span class='op'>=</span> <span class='fu'><a href='getOption2.html'>getOption2</a></span><span class='op'>(</span><span class='st'>"parallelly.availableCores.logical"</span>, <span class='cn'>TRUE</span><span class='op'>)</span>,
-  default <span class='op'>=</span> <span class='fu'>parallelly</span><span class='fu'>::</span><span class='fu'><a href='availableCores.html'>availableCores</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>isWorkerAlive</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>memory</th>
-      <td><p>(character) The time period used to infer the system load,
-with alternatives being 5 minutes (default), 15 minutes, or 1 minute.</p></td>
+      <th>x</th>
+      <td><p>A cluster or a cluster node ("worker").</p></td>
     </tr>
     <tr>
-      <th>fraction</th>
-      <td><p>(non-negative numeric) A scale factor.</p></td>
-    </tr>
-    <tr>
-      <th>logical</th>
-      <td><p>Passed as-is to <code><a href='availableCores.html'>availableCores()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>default</th>
-      <td><p>(integer) The value to be returned if the system load is
-unknown, i.e. <code><a href='cpuLoad.html'>cpuLoad()</a></code> return missing values.</p></td>
+      <th>...</th>
+      <td><p>Not used.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An positive integer with attributes <code>loadavg</code> (named numeric),
-<code>maxCores</code> (named integer), argument <code>memory</code> (character), and
-argument <code>fraction</code> (numeric).</p>
+    <p>A logical vector of length <code><a href='https://rdrr.io/r/base/length.html'>length(x)</a></code> with values
+FALSE, TRUE, and NA.  If it can be established that the
+process for a cluster node is running, then TRUE is returned.
+If it does not run, then FALSE is returned.
+If neither can be inferred, for instance because the worker
+runs on a remote machine, then NA is returned.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>free</span> <span class='op'>&lt;-</span> <span class='fu'>freeCores</span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>free</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 6
-#&gt; attr(,"loadavg")
-#&gt;  1min  5min 15min 
-#&gt;  0.46  0.40  0.20 
-#&gt; attr(,"maxCores")
-#&gt; system 
-#&gt;      8 
-#&gt; attr(,"memory")
-#&gt; [1] "5min"
-#&gt; attr(,"fraction")
-#&gt; [1] 0.9</div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>## Make availableCores() agile to the system load</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>parallelly.availableCores.custom <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='fu'>freeCores</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='makeClusterPSOCK.html'>makeClusterPSOCK</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>[local output] Workers: [n = 2] ‘localhost’, ‘localhost’</span></div><div class='output co'>#&gt; <span class='message'>[local output] Base port: 11317</span></div><div class='output co'>#&gt; <span class='message'>[local output] Getting setup options for 2 cluster nodes ...</span></div><div class='output co'>#&gt; <span class='message'>[local output]  - Node 1 of 2 ...</span></div><div class='output co'>#&gt; <span class='message'>Testing if worker's PID can be inferred: ‘'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' -e 'try(suppressWarnings(cat(Sys.getpid(),file="/tmp/hb/RtmppVFxHr/worker.rank=1.parallelly.parent=13360.34307da33edb.pid")), silent = TRUE)' -e "file.exists('/tmp/hb/RtmppVFxHr/worker.rank=1.parallelly.parent=13360.34307da33edb.pid')"’</span></div><div class='output co'>#&gt; <span class='message'>- Possible to infer worker's PID: TRUE</span></div><div class='output co'>#&gt; <span class='message'>[local output] Rscript port: 11317</span></div><div class='output co'>#&gt; <span class='message'>[local output]  - Node 2 of 2 ...</span></div><div class='output co'>#&gt; <span class='message'>[local output] Rscript port: 11317</span></div><div class='output co'>#&gt; <span class='message'>[local output] Getting setup options for 2 cluster nodes ... done</span></div><div class='output co'>#&gt; <span class='message'>[local output]  - Parallel setup requested for some PSOCK nodes</span></div><div class='output co'>#&gt; <span class='message'>[local output] Setting up PSOCK nodes in parallel</span></div><div class='output co'>#&gt; <span class='message'>[14:49:45.043] List of 20</span>
+#&gt; <span class='message'>[14:49:45.043]  $ local_cmd     : chr "'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics"| __truncated__</span>
+#&gt; <span class='message'>[14:49:45.043]  $ worker        : chr "localhost"</span>
+#&gt; <span class='message'>[14:49:45.043]   ..- attr(*, "localhost")= logi TRUE</span>
+#&gt; <span class='message'>[14:49:45.043]  $ rank          : int 1</span>
+#&gt; <span class='message'>[14:49:45.043]  $ rshlogfile    : NULL</span>
+#&gt; <span class='message'>[14:49:45.043]  $ port          : int 11317</span>
+#&gt; <span class='message'>[14:49:45.043]  $ connectTimeout: num 120</span>
+#&gt; <span class='message'>[14:49:45.043]  $ timeout       : num 2592000</span>
+#&gt; <span class='message'>[14:49:45.043]  $ useXDR        : logi FALSE</span>
+#&gt; <span class='message'>[14:49:45.043]  $ pidfile       : chr "/tmp/hb/RtmppVFxHr/worker.rank=1.parallelly.parent=13360.34307da33edb.pid"</span>
+#&gt; <span class='message'>[14:49:45.043]  $ setup_strategy: chr "parallel"</span>
+#&gt; <span class='message'>[14:49:45.043]  $ outfile       : chr "/dev/null"</span>
+#&gt; <span class='message'>[14:49:45.043]  $ rshcmd_label  : NULL</span>
+#&gt; <span class='message'>[14:49:45.043]  $ rsh_call      : NULL</span>
+#&gt; <span class='message'>[14:49:45.043]  $ cmd           : chr "'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics"| __truncated__</span>
+#&gt; <span class='message'>[14:49:45.043]  $ localMachine  : logi TRUE</span>
+#&gt; <span class='message'>[14:49:45.043]  $ manual        : logi FALSE</span>
+#&gt; <span class='message'>[14:49:45.043]  $ dryrun        : logi FALSE</span>
+#&gt; <span class='message'>[14:49:45.043]  $ quiet         : logi FALSE</span>
+#&gt; <span class='message'>[14:49:45.043]  $ rshcmd        : NULL</span>
+#&gt; <span class='message'>[14:49:45.043]  $ revtunnel     : logi TRUE</span>
+#&gt; <span class='message'>[14:49:45.043]  - attr(*, "class")= chr [1:2] "makeNodePSOCKOptions" "makeNodeOptions"</span></div><div class='output co'>#&gt; <span class='message'>[local output] System call to launch all workers:</span></div><div class='output co'>#&gt; <span class='message'>[local output] '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'try(suppressWarnings(cat(Sys.getpid(),file="/tmp/hb/RtmppVFxHr/worker.rank=1.parallelly.parent=13360.34307da33edb.pid")), silent = TRUE)' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11317 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=parallel</span></div><div class='output co'>#&gt; <span class='message'>[local output] Starting PSOCK main server</span></div><div class='output co'>#&gt; <span class='message'>[local output] Workers launched</span></div><div class='output co'>#&gt; <span class='message'>[local output] Waiting for workers to connect back</span></div><div class='output co'>#&gt; <span class='message'>[local output] 0 workers out of 2 ready</span></div><div class='output co'>#&gt; <span class='message'>[local output] 0 workers out of 2 ready</span></div><div class='output co'>#&gt; <span class='message'>[local output] 1 workers out of 2 ready</span></div><div class='output co'>#&gt; <span class='message'>[local output] - collecting session information</span></div><div class='input'>
+<span class='co'>## Check if cluster worker #2 is alive</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>isWorkerAlive</span><span class='op'>(</span><span class='va'>cl</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>[14:49:45.308] Attempting to find a working pid_exists_*() function ...</span></div><div class='output co'>#&gt; Call: tools::pskill(13360, signal = 0L)
+#&gt; [1] TRUE
+#&gt; Call: tools::pskill(13360, signal = 0L)
+#&gt; [1] TRUE</div><div class='output co'>#&gt; <span class='message'>[14:49:45.309] - success</span></div><div class='output co'>#&gt; <span class='message'>[14:49:45.309] Attempting to find a working pid_exists_*() function ... done</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='co'>## Check all workers</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>isWorkerAlive</span><span class='op'>(</span><span class='va'>cl</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>[14:49:45.310] Attempting to find a working pid_exists_*() function ...</span></div><div class='output co'>#&gt; Call: tools::pskill(13360, signal = 0L)
+#&gt; [1] TRUE
+#&gt; Call: tools::pskill(13360, signal = 0L)
+#&gt; [1] TRUE</div><div class='output co'>#&gt; <span class='message'>[14:49:45.310] - success</span></div><div class='output co'>#&gt; <span class='message'>[14:49:45.310] Attempting to find a working pid_exists_*() function ... done</span></div><div class='output co'>#&gt; <span class='message'>[14:49:45.311] Attempting to find a working pid_exists_*() function ...</span></div><div class='output co'>#&gt; Call: tools::pskill(13360, signal = 0L)
+#&gt; [1] TRUE
+#&gt; Call: tools::pskill(13360, signal = 0L)
+#&gt; [1] TRUE</div><div class='output co'>#&gt; <span class='message'>[14:49:45.311] - success</span></div><div class='output co'>#&gt; <span class='message'>[14:49:45.311] Attempting to find a working pid_exists_*() function ... done</span></div><div class='output co'>#&gt; [1] TRUE TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
