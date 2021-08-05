@@ -16,7 +16,7 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | remote clusters without firewall configuration       |   ✓  | N/A |
 | remote username in ~/.ssh/config                     |   ✓  | R (>= 4.1.0) with `user = NULL` |
 | set workers' library package path on startup         |   ✓  | N/A |
-| set workers' environment variables path on startup   |   ✓  | N/A |
+| set workers' environment variables on startup        |   ✓  | N/A |
 | custom workers startup code                          |   ✓  | N/A |
 | fallback to RStudio' SSH and PuTTY's plink           |   ✓  | N/A |
 | faster, parallel setup of local workers (R >= 4.0.0) |   ✓  |  ✓  |
@@ -25,9 +25,9 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | attempt to launch failed workers multiple times      |   ✓  | N/A |
 | collect worker details at cluster setup              |   ✓  | N/A |
 | termination of workers if cluster setup fails        |   ✓  | R (>= 4.0.0) |
+| shutdown of cluster by garbage collector             |   ✓  | N/A |
 | combining multiple, existing clusters                |   ✓  | N/A |
 | more informative printing of cluster objects         |   ✓  | N/A |
-| garbage-collection shutdown of clusters              |   ✓  | N/A |
 | defaults via options & environment variables         |   ✓  | N/A |
 | respecting CPU resources allocated by cgroups, Linux containers, and HPC schedulers |   ✓  | N/A |
 | early error if requesting more workers than possible |   ✓  | N/A |
