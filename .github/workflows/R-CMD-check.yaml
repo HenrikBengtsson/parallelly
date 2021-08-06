@@ -29,10 +29,15 @@ jobs:
           - {os: ubuntu-20.04,   r: '3.3',                     rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
-      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      R_FUTURE_RNG_ONMISUSE: error
-      RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      RSPM: ${{ matrix.config.rspm }}
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      ## R CMD check
+      _R_CHECK_LENGTH_1_CONDITION_: true
+      _R_CHECK_LENGTH_1_LOGIC2_: true
+      _R_CHECK_MATRIX_DATA_: true
+      _R_CHECK_CRAN_INCOMING_: false
+      ## Specific to this package
       R_PARALLELLY_MAKENODEPSOCK_USEXDR: ${{ matrix.config.usexdr }}
 
     steps:
@@ -95,22 +100,4 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
-
-      - name: Test coverage - Install dependencies
-        if: matrix.config.os == 'ubuntu-20.04' && matrix.config.r == 'release'
-        run: |
-            sudo apt-get install --yes libcurl4-openssl-dev
-            Rscript -e "install.packages('covr')"
-            
-      - name: Test coverage
-        if: matrix.config.os == 'ubuntu-20.04' && matrix.config.r == 'release'
-        run: |
-          ## 1. Get 'Repository Upload Token' from Codecov:
-          ##    https://app.codecov.io/gh/<org>/<repo>/settings
-          ## 2. Set 'CODECOV_TOKEN' in GitHub Secrets:
-          ##    https://github.com/<org>/<repo>/settings/environments/
-          coverage <- covr::package_coverage()
-          print(coverage)
-          covr::codecov(coverage = coverage, token="${{secrets.CODECOV_TOKEN}}")
-        shell: Rscript {0}
         
