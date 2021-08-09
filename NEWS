@@ -1,12 +1,15 @@
 Package: parallelly
 ===================
 
-Version: 1.27.0-9000 [2021-08-04]
+Version: 1.27.0-9001 [2021-08-09]
 
 NEW FEATURES:
 
  * Add isNodeAlive() to check whether a cluster and cluster nodes are
    alive or not.
+
+ * Add isForkedChild() to check whether or not the current R process is a
+   forked child process.
    
 BUG FIXES:
 
