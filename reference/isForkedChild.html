@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the Recent CPU Load — cpuLoad • parallelly</title>
+<title>Checks whether or not a running in a forked child process — isForkedChild • parallelly</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -52,8 +52,8 @@
 
 
 
-<meta property="og:title" content="Get the Recent CPU Load — cpuLoad" />
-<meta property="og:description" content="Get the Recent CPU Load" />
+<meta property="og:title" content="Checks whether or not a running in a forked child process — isForkedChild" />
+<meta property="og:description" content="Checks whether or not a running in a forked child process" />
 <meta property="og:image" content="https://parallelly.futureverse.org/logo.png" />
 
 
@@ -204,45 +204,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the Recent CPU Load</h1>
-    <small class="dont-index">Source: <a href='https://github.com/HenrikBengtsson/parallelly/blob/master/R/cpuLoad.R'><code>R/cpuLoad.R</code></a></small>
-    <div class="hidden name"><code>cpuLoad.Rd</code></div>
+    <h1>Checks whether or not a running in a forked child process</h1>
+    <small class="dont-index">Source: <a href='https://github.com/HenrikBengtsson/parallelly/blob/master/R/isForkedChild.R'><code>R/isForkedChild.R</code></a></small>
+    <div class="hidden name"><code>isForkedChild.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get the Recent CPU Load</p>
+    <p>Checks whether or not a running in a forked child process</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cpuLoad</span><span class='op'>(</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>isForkedChild</span><span class='op'>(</span><span class='op'>)</span></pre>
 
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A named numeric vector with three elements <code>1min</code>, <code>5min</code>, and
-<code>15min</code> with non-negative values.
-These values represent estimates of the CPU load during the last minute,
-the last five minutes, and the last fifteen minutes [1].
-An idle system have values close to zero, and a heavily loaded system
-have values near <code><a href='https://rdrr.io/r/parallel/detectCores.html'>parallel::detectCores()</a></code>.
-If they are unknown, missing values are returned.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>(logical) Returns TRUE if the running in a forked child
+process, otherwise FALSE.</p>
 
-    <p>This function works only Unix-like system with <code class="file">/proc/loadavg</code>.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    
-<ol>
-<li><p>Linux Load Averages: Solving the Mystery,
-Brendan Gregg's Blog, 2017-08-08,
-<a href='http://www.brendangregg.com/blog/2017-08-08/linux-load-averages.html'>http://www.brendangregg.com/blog/2017-08-08/linux-load-averages.html</a></p></li>
-</ol>
-
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>loadavg</span> <span class='op'>&lt;-</span> <span class='fu'>cpuLoad</span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>loadavg</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1min  5min 15min 
-#&gt;  1.31  1.23  1.28 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

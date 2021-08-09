@@ -40,13 +40,16 @@
     <loc>https://parallelly.futureverse.org/reference/isConnectionValid.html</loc>
   </url>
   <url>
+    <loc>https://parallelly.futureverse.org/reference/isForkedChild.html</loc>
+  </url>
+  <url>
     <loc>https://parallelly.futureverse.org/reference/isForkedNode.html</loc>
   </url>
   <url>
     <loc>https://parallelly.futureverse.org/reference/isLocalhostNode.html</loc>
   </url>
   <url>
-    <loc>https://parallelly.futureverse.org/reference/isWorkerAlive.html</loc>
+    <loc>https://parallelly.futureverse.org/reference/isNodeAlive.html</loc>
   </url>
   <url>
     <loc>https://parallelly.futureverse.org/reference/makeClusterMPI.html</loc>
