@@ -1,4 +1,4 @@
-## Bug #18119 (https://bugs.r-project.org/bugzilla/show_bug.cgi?id=18119)
+## Bug #18119 (https://bugs.r-project.org/show_bug.cgi?id=18119)
 ## has been fixed in R-devel r80472 (2021-06-10) and in R-4.1-branch in
 ## r80532 (2021-06-19).  It does not apply to R (< 4.0.0).
 r_version_has_bug18119 <- local({
@@ -106,7 +106,7 @@ affected_by_bug18119 <- local({
 ## https://github.com/rstudio/rstudio/issues/6692#issuecomment-785346223
 ## Unless our R option is already set explicitly (or via the env var),
 ## be agile to how RStudio handles it for the 'parallel' package
-## This bug (https://bugs.r-project.org/bugzilla/show_bug.cgi?id=18119)
+## This bug (https://bugs.r-project.org/show_bug.cgi?id=18119)
 ## has been fixed in R-devel r80472 (2021-06-10) and in R-4.1-branch in
 ## r80532 (2021-06-19).
 ##
