@@ -11,22 +11,22 @@
 #' If neither can be inferred, for instance because the worker
 #' runs on a remote machine, then NA is returned.
 #'
-#' @example incl/isWorkerAlive.R
+#' @example incl/isNodeAlive.R
 #'
 #' @export
-isWorkerAlive <- function(x, ...) UseMethod("isWorkerAlive")
+isNodeAlive <- function(x, ...) UseMethod("isNodeAlive")
 
 #' @export
-isWorkerAlive.default <- function(x, ...) NA
+isNodeAlive.default <- function(x, ...) NA
 
 #' @export
-isWorkerAlive.RichSOCKnode <- function(x, ...) {
+isNodeAlive.RichSOCKnode <- function(x, ...) {
   pid <- x$session_info$process$pid
   if (!is.integer(pid)) return(NextMethod())
   pid_exists(pid)
 }
 
 #' @export
-isWorkerAlive.cluster <- function(x, ...) {
-  vapply(x, FUN = isWorkerAlive, FUN.VALUE = NA)
+isNodeAlive.cluster <- function(x, ...) {
+  vapply(x, FUN = isNodeAlive, FUN.VALUE = NA)
 }
