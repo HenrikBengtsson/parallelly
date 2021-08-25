@@ -1,17 +1,17 @@
 ** System information:
 List of 12
  $ sysname       : chr "Linux"
- $ release       : chr "5.4.0-80-generic"
- $ version       : chr "#90~18.04.1-Ubuntu SMP Tue Jul 13 19:40:02 UTC 2021"
+ $ release       : chr "5.4.0-81-generic"
+ $ version       : chr "#91~18.04.1-Ubuntu SMP Fri Jul 23 13:36:29 UTC 2021"
  $ nodename      : chr "hb-x1"
  $ machine       : chr "x86_64"
  $ login         : chr "hb"
  $ user          : chr "hb"
  $ effective_user: chr "hb"
- $ pid           : int 27883
- $ call          : chr [1:15] "/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/hb/RtmprWJgbL/worker.rank=1.parallelly.parent=27812.6ca47b5a6"| __truncated__ "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11012" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
- $ pwd           : chr "/tmp/hb/RtmpJEHqBB/parallelly/docs/reference"
- $ time          : POSIXct[1:1], format: "2021-08-10 00:50:51"
+ $ pid           : int 12406
+ $ call          : chr [1:15] "/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/hb/RtmpHGHMO5/worker.rank=1.parallelly.parent=12335.302f3e2f3"| __truncated__ "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11121" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
+ $ pwd           : chr "/tmp/hb/Rtmp9mpU4w/parallelly/docs/reference"
+ $ time          : POSIXct[1:1], format: "2021-08-25 16:48:43"
 
 ** Error:
 Error in unserialize(node$con) : error reading from connection
@@ -60,37 +60,37 @@ Calls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize
 
 ** Dumped frames:
 $`workRSOCK()`
-<environment: 0x55c812947d88>
+<environment: 0x55878454f360>
 
 $`workLoop(makeSOCKmaster(master, port, setup_timeout, timeout, useXDR, setup`
-<environment: 0x55c81295b5e0>
+<environment: 0x558784562bb8>
 
 $`workCommand(master)`
-<environment: 0x55c81297e278>
+<environment: 0x558784583ae0>
 
 $`tryCatch({\n    msg <- recvData(master)\n    if (msg$type == "DONE") {\n        c`
-<environment: 0x55c81297e080>
+<environment: 0x5587845838e8>
 
 $`tryCatchList(expr, classes, parentenv, handlers)`
-<environment: 0x55c81297d9b8>
+<environment: 0x558784583220>
 
 $`tryCatchOne(expr, names, parentenv, handlers[[1]])`
-<environment: 0x55c81297d670>
+<environment: 0x558784582ed8>
 
 $`doTryCatch(return(expr), name, parentenv, handler)`
-<environment: 0x55c81297d328>
+<environment: 0x5587845869c0>
 
 $`recvData(master)`
-<environment: 0x55c81297cfe0>
+<environment: 0x558784586678>
 
 $`recvData.SOCK0node(master)`
-<environment: 0x55c81297cd40>
+<environment: 0x5587845863d8>
 
 $`unserialize(node$con)`
-<environment: 0x55c81297cc28>
+<environment: 0x5587845862c0>
 
 $`(function () \n{\n    tb <- .traceback(NULL)\n    if (is.null(tb)) \n        tb <- `
-<environment: 0x55c81297c758>
+<environment: 0x558784585df0>
 
 attr(,"error.message")
 [1] "Error in unserialize(node$con) : error reading from connection\nCalls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize\n"
@@ -98,7 +98,7 @@ attr(,"class")
 [1] "dump.frames"
 
 ** Session information:
-R version 4.1.0 Patched (2021-07-20 r80647)
+R version 4.1.1 Patched (2021-08-10 r80727)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Ubuntu 18.04.5 LTS
 
@@ -118,4 +118,4 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 loaded via a namespace (and not attached):
-[1] compiler_4.1.0 parallel_4.1.0 tools_4.1.0    rappdirs_0.3.3
+[1] compiler_4.1.1 parallel_4.1.1 tools_4.1.1    rappdirs_0.3.3
