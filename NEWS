@@ -1,8 +1,14 @@
 Package: parallelly
 ===================
 
-Version: 1.27.0-9001 [2021-08-09]
+Version: 1.27.0-9001 [2021-08-25]
 
+HOW TO INSTALL THE DEVELOP VERSION:
+
+ * To install this develop version of the package, use:
+
+   remotes::install_github("HenrikBengtsson/parallelly", ref = "develop")
+   
 NEW FEATURES:
 
  * Add isNodeAlive() to check whether a cluster and cluster nodes are
