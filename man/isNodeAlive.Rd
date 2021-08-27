@@ -22,7 +22,18 @@ runs on a remote machine, then NA is returned.
 \description{
 Check whether or not the cluster nodes are alive
 }
+\details{
+This function works by checking whether the cluster node process is
+running or not.  This is done by querying the system for its process
+ID (PID), which is registered by \code{\link[=makeClusterPSOCK]{makeClusterPSOCK()}} when the node
+starts. If the PID is not known, the NA is returned.
+On Unix and macOS, the PID is queried using \code{\link[tools:pskill]{tools::pskill()}} with
+fallback to \code{system("ps")}. On MS Windows, \code{system2("tasklist")} is used,
+which may take a long time if there are a lot of processes running.
+For details, see the \emph{internal} \code{\link[=pid_exists]{pid_exists()}} function.
+}
 \examples{
+\donttest{
 cl <- makeClusterPSOCK(2)
 
 ## Check if cluster nodes #2 is alive
@@ -30,4 +41,6 @@ print(isNodeAlive(cl[[2]]))
 
 ## Check all nodes
 print(isNodeAlive(cl))
+}
+
 }
