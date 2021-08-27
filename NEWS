@@ -1,13 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.27.0-9002 [2021-08-25]
-
-HOW TO INSTALL THE DEVELOP VERSION:
-
- * To install this develop version of the package, use:
-
-   remotes::install_github("HenrikBengtsson/parallelly", ref = "develop")
+Version: 1.28.0 [2021-08-27]
    
 NEW FEATURES:
 
