@@ -11,7 +11,26 @@
 #' If neither can be inferred, for instance because the worker
 #' runs on a remote machine, then NA is returned.
 #'
-#' @example incl/isNodeAlive.R
+#' @details
+#' This function works by checking whether the cluster node process is
+#' running or not.  This is done by querying the system for its process
+#' ID (PID), which is registered by [makeClusterPSOCK()] when the node
+#' starts. If the PID is not known, the NA is returned.
+#' On Unix and macOS, the PID is queried using [tools::pskill()] with
+#' fallback to `system("ps")`. On MS Windows, `system2("tasklist")` is used,
+#' which may take a long time if there are a lot of processes running.
+#' For details, see the _internal_ [pid_exists()] function.
+#'
+#' @examples
+#' \donttest{
+#' cl <- makeClusterPSOCK(2)
+#' 
+#' ## Check if cluster nodes #2 is alive
+#' print(isNodeAlive(cl[[2]]))
+#' 
+#' ## Check all nodes
+#' print(isNodeAlive(cl))
+#' }
 #'
 #' @export
 isNodeAlive <- function(x, ...) UseMethod("isNodeAlive")

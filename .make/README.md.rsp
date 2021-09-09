@@ -41,8 +41,10 @@ cran <- local({
   available <- NULL
   function() {
     if (is.null(available)) {
-	  repos <- "https://cran.r-project.org"
-	  data <- available.packages(contriburl=contrib.url(repos, "source"))
+	  repos <- "https://cloud.r-project.org"
+          message(sprintf("available.packages(%s) ...", shQuote(repos)), appendLF = FALSE)
+	  data <- utils::available.packages(contriburl=contrib.url(repos, "source"))
+          message(" OK")
 	  available <<- pkg() %in% rownames(data)
 	}
 	available
@@ -54,7 +56,9 @@ bioc <- local({
   function() {
     if (is.null(available)) {
 	  repos <- "https://www.bioconductor.org/packages/devel/bioc/"
-	  data <- available.packages(contriburl=contrib.url(repos, "source"))
+          message(sprintf("available.packages(%s) ...", shQuote(repos)), appendLF = FALSE)
+	  data <- utils::available.packages(contriburl=contrib.url(repos, "source"))
+          message(" OK")
 	  available <<- pkg() %in% rownames(data)
 	}
 	available
@@ -118,14 +122,30 @@ repos_status <- function() {
   }
 }
 
-github <- function(text = FALSE) {
-  if (!file.exists(".github/workflows/R-CMD-check.yaml")) return("")
+github_r_cmd_check <- function(name = "R-CMD-check", text = FALSE) {
+  if (!file.exists(sprintf(".github/workflows/%s.yaml", name))) return("")
   repos <- github_repos()
-  #a("https://github.com/%s/actions?query=workflow%%3AR-CMD-check", repos, body = img("https://github.com/%s/workflows/R-CMD-check/badge.svg?branch=develop", repos, alt="R build status"))
-  body <- img("https://github.com/%s/workflows/R-CMD-check/badge.svg?branch=develop", github_repos(), alt="Build status")
+  body <- img("https://github.com/%s/actions/workflows/%s.yaml/badge.svg?branch=develop", github_repos(), name, alt="R CMD check status")
   if (text) body <- "GitHub Actions"
-  a("https://github.com/%s/actions?query=workflow%%3AR-CMD-check", repos, body=body)
+  a("https://github.com/%s/actions?query=workflow%%3A%s", repos, name, body=body)
 }
+
+
+github_revdepcheck_top <- function(name = "revdepcheck-top", text = FALSE) {
+  if (!file.exists(sprintf(".github/workflows/%s.yaml", name))) return("")
+  repos <- github_repos()
+  body <- img("https://github.com/%s/actions/workflows/%s.yaml/badge.svg?branch=develop", github_repos(), name, alt="Top reverse-dependency checks status")
+  if (text) body <- "GitHub Actions"
+  a("https://github.com/%s/actions?query=workflow%%3A%s", repos, name, body=body)
+}
+
+github <- function(text = FALSE) {
+  paste(c(
+    github_r_cmd_check(text = text),
+    github_revdepcheck_top(text = text)
+  ), collapse = " ")
+}
+
 
 travis <- function(text = FALSE) {
   if (!file.exists(".travis.yml")) return("")
