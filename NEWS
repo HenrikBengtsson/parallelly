@@ -1,6 +1,12 @@
 Package: parallelly
 ===================
 
+Version: 1.28.0-9000 [2021-08-27]
+
+ * CRAN: example("isNodeAlive") now runs in \donttest{} to avoid long (> 10 s)
+   ellapsed run times on MS Windows.
+   
+
 Version: 1.28.0 [2021-08-27]
    
 NEW FEATURES:
