@@ -97,7 +97,7 @@ number of cores available is always at least one." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.27.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.28.1-9000</span>
       </span>
     </div>
 
@@ -343,10 +343,10 @@ variable is queried.  If neither is set, a missing value is returned.</p>
 
 <p>Note that some machines might have a limited number of cores, or the R
 process runs in a container or a cgroup that only provides a small number
-of cores.  In such cases:<div class="r"></p><pre><span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span>
+of cores.  In such cases:<div class="sourceCode r"></p><pre><span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'>availableCores</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span>
 </pre><p></div></p>
 <p>may return zero, which is often not intended and is likely to give an
-error downstream.  Instead, use:<div class="r"></p><pre><span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'>availableCores</span><span class='op'>(</span>omit <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+error downstream.  Instead, use:<div class="sourceCode r"></p><pre><span class='va'>ncores</span> <span class='op'>&lt;-</span> <span class='fu'>availableCores</span><span class='op'>(</span>omit <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 </pre><p></div></p>
 <p>to put aside one of the cores from being used.  Regardless how many cores
 you put aside, this function is guaranteed to return at least one core.</p>
