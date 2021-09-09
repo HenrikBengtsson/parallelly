@@ -1,3 +1,12 @@
+# CRAN submission parallelly 1.28.1
+
+on 2021-09-09
+
+This submission replaces the previous submission parallelly 1.28.0, which has an example with a long elapsed run time on MS Windows.
+
+Thanks in advance
+
+
 # CRAN submission parallelly 1.28.0
 
 on 2021-08-27

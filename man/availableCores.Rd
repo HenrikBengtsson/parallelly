@@ -118,11 +118,11 @@ variable is queried.  If neither is set, a missing value is returned.
 
 Note that some machines might have a limited number of cores, or the R
 process runs in a container or a cgroup that only provides a small number
-of cores.  In such cases:\if{html}{\out{<div class="r">}}\preformatted{ncores <- availableCores() - 1
+of cores.  In such cases:\if{html}{\out{<div class="sourceCode r">}}\preformatted{ncores <- availableCores() - 1
 }\if{html}{\out{</div>}}
 
 may return zero, which is often not intended and is likely to give an
-error downstream.  Instead, use:\if{html}{\out{<div class="r">}}\preformatted{ncores <- availableCores(omit = 1)
+error downstream.  Instead, use:\if{html}{\out{<div class="sourceCode r">}}\preformatted{ncores <- availableCores(omit = 1)
 }\if{html}{\out{</div>}}
 
 to put aside one of the cores from being used.  Regardless how many cores
