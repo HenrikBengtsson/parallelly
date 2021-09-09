@@ -147,15 +147,16 @@ appveyor <- function(text = FALSE) {
 }
 
 covr <- function() {
-  if (!file.exists(".travis.yml")) return("")
-  bfr <- readLines(".travis.yml")
-  codecov <- any(grepl("covr::codecov", bfr, fixed=TRUE))
-  if (codecov) {
-    a("https://codecov.io/gh/%s", github_repos(), body=img("https://codecov.io/gh/%s/branch/develop/graph/badge.svg", github_repos(), alt="Coverage Status"))
-  } else {
-    if (!file.exists(".covr.R")) return("")
-    a("https://coveralls.io/r/%s", github_repos(), body=img("https://coveralls.io/repos/%s/badge.svg?branch=develop", github_repos(), alt="Coverage Status"))
+  bfr <- NULL
+  files <- c("covr.yaml", "R-CMD-check.yaml")
+  for (file in file.path(".github/workflows", files)) {
+    if (file.exists(file)) {
+      bfr <- readLines(file)
+      break
+    }
   }
+  if (!any(grepl("covr::codecov", bfr, fixed=TRUE))) return()
+  a("https://codecov.io/gh/%s", github_repos(), body=img("https://codecov.io/gh/%s/branch/develop/graph/badge.svg", github_repos(), alt="Coverage Status"))
 }
 %>
 
@@ -223,5 +224,5 @@ Because of this and because this package also compiles native code, Windows user
 ## Contributing
 
 To contribute to this package, please see [CONTRIBUTING.md](CONTRIBUTING.md).
- 
-<% } # if (file.exists("CONTRIBUTING.md")) %>
+
+<% } # if (...) %>

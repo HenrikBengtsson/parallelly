@@ -59,25 +59,6 @@
 #' @importFrom utils packageVersion
 #' @export
 makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOption2("parallelly.makeNodePSOCK.tries", 3L), delay = getOption2("parallelly.makeNodePSOCK.tries.delay", 15.0), validate = getOption2("parallelly.makeNodePSOCK.validate", TRUE), verbose = getOption2("parallelly.debug", FALSE)) {
-  ## WORKAROUND: R CMD check on future 1.21.0 will produce an ERROR for
-  ## package test 'tests/non-exportable,connections.R', if makeClusterPSOCK()
-  ## closes the 'socket' connection for setup_strategy="parallel" (Issue #56).
-  ## Until future (>= 1.22.0) is on CRAN, we need to trick makeClusterPSOCK()
-  ## not to close the 'socket' connection when running that particular
-  ## 'future' package test. Here we set an internal variable to indicate
-  ## whether or not that package test runs based on a few ad hoc indicators
-  ## /HB 2021-07-18
-  special_skip_close <- {
-    identical(workers, 2L) &&
-    identical(getOption("mc.cores", 0L), 2L) &&
-    identical(getOption("warn", 0L), 1L) &&
-    getOption("future.debug", FALSE) &&
-    getOption("future.globals.onReference", "") == "warning" &&
-    "future" %in% loadedNamespaces() &&
-    packageVersion("future") <= "1.21.0" &&
-    all(sapply(c("ovars", "oenvs", "oenvs0", "oopts", "oopts0"), FUN = exists))
-  }
-
   localhostHostname <- getOption2("parallelly.localhost.hostname", "localhost")
 
   if (is.numeric(workers)) {
@@ -144,20 +125,34 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   })
   setup_strategy <- unlist(setup_strategy, use.names = FALSE)
   is_parallel <- (setup_strategy == "parallel")
+  force_sequential <- FALSE
   if (any(is_parallel)) {
     if (verbose) message(sprintf("%s - Parallel setup requested for some PSOCK nodes", verbose_prefix))
+
     if (!all(is_parallel)) {
       if (verbose) message(sprintf("%s - Parallel setup requested only for some PSOCK nodes; will revert to a sequential setup for all", verbose_prefix))
-      setup_strategy <- "sequential"
-      ## Force all nodes to be setup using the 'sequential' setup strategy
-      for (ii in which(!is_parallel)) {
-        if (verbose) message(sprintf("%s - Node %d of %d ...", verbose_prefix, ii, n))
-        args <- list(workers[[ii]], port = port, ..., rank = ii, action = "options", verbose = verbose)
-        args$setup_strategy <- "sequential"
-        options <- do.call(makeNode, args = args)
-        stop_if_not(inherits(options, "makeNodePSOCKOptions"))
-        nodeOptions[[ii]] <- options
+      force_sequential <- TRUE
+    } else {
+      ## Force setup_strategy = "sequential"?
+      affected <- affected_by_bug18119()
+      if (!is.na(affected) && affected) {
+        if (verbose) message(sprintf("%s - Parallel setup requested but not supported on this version of R: %s", verbose_prefix, getRversion()))
+        force_sequential <- TRUE
       }
+    }
+  }
+
+  if (force_sequential) {
+    ## Force all nodes to be setup using the 'sequential' setup strategy
+    setup_strategy <- "sequential"
+
+    for (ii in which(is_parallel)) {
+      if (verbose) message(sprintf("%s - Node %d of %d ...", verbose_prefix, ii, n))
+      args <- list(workers[[ii]], port = port, ..., rank = ii, action = "options", verbose = verbose)
+      args$setup_strategy <- "sequential"
+      options <- do.call(makeNode, args = args)
+      stop_if_not(inherits(options, "makeNodePSOCKOptions"))
+      nodeOptions[[ii]] <- options
     }
   }
 
@@ -183,14 +178,6 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     stopCluster(cl[nodes])
     cl <- NULL
   })
-
-  ## Force setup_strategy = "sequential"?
-  if (setup_strategy == "parallel") {
-    affected <- affected_by_bug18119()
-    if (!is.na(affected) && affected) {
-      setup_strategy <- "sequential"
-    }
-  }
 
   if (setup_strategy == "parallel") {
     ## To please R CMD check on R (< 4.0.0)
@@ -358,7 +345,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   }
 
   ## Cleanup
-  if (!special_skip_close) try(close(socket), silent = TRUE)
+  try(close(socket), silent = TRUE)
   socket <- NULL
 
   if (validate) {
@@ -1096,7 +1083,7 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
   setup_strategy <- options[["setup_strategy"]]
 
   if (setup_strategy == "parallel") {
-    stop("PSOCK cluster setup strategy 'parallel' is not yet supported")
+    stop("INTERNAL ERROR: launchNodePSOCK() called with setup_strategy='parallel', which should never occur")
   }
 
   verbose <- as.logical(verbose)

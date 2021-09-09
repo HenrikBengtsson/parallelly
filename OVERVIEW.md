@@ -8,7 +8,7 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | remote clusters without firewall configuration       |   ✓  | N/A |
 | remote username in ~/.ssh/config                     |   ✓  | R (>= 4.1.0) with `user = NULL` |
 | set workers' library package path on startup         |   ✓  | N/A |
-| set workers' environment variables path on startup   |   ✓  | N/A |
+| set workers' environment variables on startup        |   ✓  | N/A |
 | custom workers startup code                          |   ✓  | N/A |
 | fallback to RStudio' SSH and PuTTY's plink           |   ✓  | N/A |
 | faster, parallel setup of local workers (R >= 4.0.0) |   ✓  |  ✓  |
@@ -17,9 +17,9 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | attempt to launch failed workers multiple times      |   ✓  | N/A |
 | collect worker details at cluster setup              |   ✓  | N/A |
 | termination of workers if cluster setup fails        |   ✓  | R (>= 4.0.0) |
+| shutdown of cluster by garbage collector             |   ✓  | N/A |
 | combining multiple, existing clusters                |   ✓  | N/A |
 | more informative printing of cluster objects         |   ✓  | N/A |
-| garbage-collection shutdown of clusters              |   ✓  | N/A |
 | defaults via options & environment variables         |   ✓  | N/A |
 | respecting CPU resources allocated by cgroups, Linux containers, and HPC schedulers |   ✓  | N/A |
 | early error if requesting more workers than possible |   ✓  | N/A |
@@ -51,7 +51,7 @@ The `availableCores()` function is designed as a better, safer alternative to `d
 Did you know that `parallel::detectCores()` might return NA on some systems, or that `parallel::detectCores() - 1` might return 0 on some systems, e.g. old hardware and virtual machines?  Because of this, you have to use `max(1, parallel::detectCores() - 1, na.rm = TRUE)` to get it correct.  In contrast, `parallelly::availableCores()` is guaranteed to return a positive integer, and you can use `parallelly::availableCores(omit = 1)` to return all but one core and always at least 1.
 
 Just like other software tools that "hijacks" all cores by default, R scripts, and packages that defaults to `detectCores()` number of parallel workers cause lots of suffering for fellow end-users and system administrators.  For instance, a shared server with 48 cores will come to a halt already after a few users run parallel processing using `detectCores()` number of parallel workers.  This problem gets worse on machines with many cores because they can host even more concurrent users.  If these R users would have used `availableCores()` instead, then the system administrator can limit the number of cores each user get to, say, 2, by setting the environment variable `R_PARALLELLY_AVAILABLECORES_FALLBACK=2`.
-In contrast, it is _not_ possible to override what `parallel::detectCores()` returns, cf. [PR#17641 - WISH: Make parallel::detectCores() agile to new env var R_DEFAULT_CORES ](https://bugs.r-project.org/bugzilla/show_bug.cgi?id=17641).
+In contrast, it is _not_ possible to override what `parallel::detectCores()` returns, cf. [PR#17641 - WISH: Make parallel::detectCores() agile to new env var R_DEFAULT_CORES ](https://bugs.r-project.org/show_bug.cgi?id=17641).
 
 At the same time, if this is on an HPC cluster with a job scheduler, a script that uses `availableCores()` will run the number of parallel workers that the job scheduler has assigned to the job.  For example, if we submit a Slurm job as `sbatch --cpus-per-task=16 ...`, then `availableCores()` will return 16 because it respects the `SLURM_*` environment variables set by the scheduler.  See `help("availableCores", package = "parallelly")` for currently supported job schedulers.
 
