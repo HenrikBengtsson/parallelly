@@ -139,10 +139,19 @@ github_revdepcheck_top <- function(name = "revdepcheck-top", text = FALSE) {
   a("https://github.com/%s/actions?query=workflow%%3A%s", repos, name, body=body)
 }
 
+github_future.tests <- function(name = "future_tests", text = FALSE) {
+  if (!file.exists(sprintf(".github/workflows/%s.yaml", name))) return("")
+  repos <- github_repos()
+  body <- img("https://github.com/%s/actions/workflows/%s.yaml/badge.svg?branch=develop", github_repos(), name, alt="future.tests checks status")
+  if (text) body <- "GitHub Actions"
+  a("https://github.com/%s/actions?query=workflow%%3A%s", repos, name, body=body)
+}
+
 github <- function(text = FALSE) {
   paste(c(
     github_r_cmd_check(text = text),
-    github_revdepcheck_top(text = text)
+    github_revdepcheck_top(text = text),
+    github_future.tests(text = text)
   ), collapse = " ")
 }
 
@@ -176,7 +185,7 @@ covr <- function() {
     }
   }
   if (!any(grepl("covr::codecov", bfr, fixed=TRUE))) return()
-  a("https://codecov.io/gh/%s", github_repos(), body=img("https://codecov.io/gh/%s/branch/develop/graph/badge.svg", github_repos(), alt="Coverage Status"))
+  a("https://app.codecov.io/gh/%s", github_repos(), body=img("https://codecov.io/gh/%s/branch/develop/graph/badge.svg", github_repos(), alt="Coverage Status"))
 }
 %>
 

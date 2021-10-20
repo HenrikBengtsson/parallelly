@@ -203,7 +203,7 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
         ## Parse counts
 	c <- slurm_expand_nodecounts(nodecounts)
         if (any(is.na(c))) {
-          warning("Failed to parse 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE': ", sQuote(nodecounts))
+          warnf("Failed to parse 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE': %s", sQuote(nodecounts))
           next
         }
 
@@ -423,8 +423,7 @@ supports_scontrol_show_hostname <- local({
 
     ## Sanity check
     if (!isTRUE(all.equal(sort(hosts), sort(truth)))) {
-      msg <- sprintf("Internal availableWorkers() validation failed: 'scontrol show hostnames %s' did not return the expected results.  Expected c(%s) but got c(%s).  Will still use it this methods but please report this to the maintainer of the 'parallelly' package", shQuote(nodelist), commaq(truth), commaq(hosts))
-      warning(msg, immediate. = TRUE)
+      warnf("Internal availableWorkers() validation failed: 'scontrol show hostnames %s' did not return the expected results.  Expected c(%s) but got c(%s).  Will still use it this methods but please report this to the maintainer of the 'parallelly' package", shQuote(nodelist), commaq(truth), commaq(hosts), immediate. = TRUE)
     }
     
     value <- TRUE
@@ -558,7 +557,7 @@ slurm_expand_nodecounts <- function(nodecounts) {
   counts <- unlist(counts, use.names = TRUE)
   
   if (any(is.na(counts))) {
-    warning("Failed to parse Slurm node counts specification: ", nodecounts)
+    warnf("Failed to parse Slurm node counts specification: %s", nodecounts)
   }
   
   counts
