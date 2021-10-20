@@ -130,7 +130,7 @@ randomParallelPorts <- function(default = 11000:11999) {
 
   pattern <- "^([[:digit:]]+)(|:([[:digit:]]+))$"
   if (!grepl(pattern, random)) {
-    warning(sprintf("Value of environment variable 'R_PARALLELLY_RANDOM_PORTS' does not match regular expression %s: %s", sQuote(pattern), sQuote(random)))
+    warnf("Value of environment variable 'R_PARALLELLY_RANDOM_PORTS' does not match regular expression %s: %s", sQuote(pattern), sQuote(random))
     return(default)
   }
 

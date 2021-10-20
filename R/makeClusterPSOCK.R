@@ -87,7 +87,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     free <- freeConnections()
     if (validate) free <- free - 1L
     if (length(workers) > free) {
-      stop(sprintf("Cannot create %d parallel PSOCK nodes. Each node needs one connection but there are only %d connections left out of the maximum %d available on this R installation", length(workers), free, availableConnections()))
+      stopf("Cannot create %d parallel PSOCK nodes. Each node needs one connection but there are only %d connections left out of the maximum %d available on this R installation", length(workers), free, availableConnections())
     }
   }
 
@@ -182,7 +182,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   if (setup_strategy == "parallel") {
     ## To please R CMD check on R (< 4.0.0)
     if (getRversion() < "4.0.0") {
-      stop(sprintf("Parallel setup of PSOCK cluster nodes is not supported in R %s", getRversion()))
+      stopf("Parallel setup of PSOCK cluster nodes is not supported in R %s", getRversion())
       socketAccept <- serverSocket <- function(...) NULL
     }
     
@@ -1121,7 +1121,7 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
       message(sprintf("%s- Exit code of system() call: %s", verbose_prefix, res))
     }
     if (res != 0) {
-      warning(sprintf("system(%s) had a non-zero exit code: %d", local_cmd, res))
+      warn("system(%s) had a non-zero exit code: %d", local_cmd, res)
     }
   }
 
@@ -1627,10 +1627,10 @@ readWorkerPID <- function(pidfile, wait = 0.5, maxTries = 8L, verbose = FALSE) {
       pid <- as.integer(pid0[length(pid0)])
       if (verbose) message(" - pid: ", pid)
       if (is.na(pid)) {
-        warning(sprintf("Worker PID is a non-integer: %s", pid0))
+        warnf("Worker PID is a non-integer: %s", pid0)
         pid <- NULL
       } else if (pid == Sys.getpid()) {
-        warning(sprintf("Hmm... worker PID and parent PID are the same: %s", pid))
+        warnf("Hmm... worker PID and parent PID are the same: %s", pid)
         pid <- NULL
       }
     }

@@ -143,7 +143,7 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
       pathname <- getenv("PBS_NODEFILE")
       if (is.na(pathname)) next
       if (!file_test("-f", pathname)) {
-        warning(sprintf("Environment variable %s was set but no such file %s exists", sQuote("PBS_NODEFILE"), sQuote(pathname)))
+        warnf("Environment variable %s was set but no such file %s exists", sQuote("PBS_NODEFILE"), sQuote(pathname))
         next
       }
       data <- read_pbs_nodefile(pathname)
@@ -152,14 +152,14 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
       ## Sanity checks
       pbs_np <- as.integer(getenv("PBS_NP"))
       if (!identical(pbs_np, length(w))) {
-        warning(sprintf("Identified %d workers from the %s file (%s), which does not match environment variable %s = %d", length(w), sQuote("PBS_NODEFILE"), sQuote(pathname), sQuote("PBS_NP"), pbs_np))
+        warnf("Identified %d workers from the %s file (%s), which does not match environment variable %s = %d", length(w), sQuote("PBS_NODEFILE"), sQuote(pathname), sQuote("PBS_NP"), pbs_np)
       }
 
       pbs_nodes <- as.integer(getenv("PBS_NUM_NODES"))
       pbs_ppn <- as.integer(getenv("PBS_NUM_PPN"))
       pbs_np <- pbs_nodes * pbs_ppn
       if (!identical(pbs_np, length(w))) {
-        warning(sprintf("Identified %d workers from the %s file (%s), which does not match environment variables %s * %s = %d * %d = %d", length(w), sQuote("PBS_NODEFILE"), sQuote(pathname), sQuote("PBS_NUM_NODES"), sQuote("PBS_NUM_PPN"), pbs_nodes, pbs_ppn, pbs_np))
+        warnf("Identified %d workers from the %s file (%s), which does not match environment variables %s * %s = %d * %d = %d", length(w), sQuote("PBS_NODEFILE"), sQuote(pathname), sQuote("PBS_NUM_NODES"), sQuote("PBS_NUM_PPN"), pbs_nodes, pbs_ppn, pbs_np)
       }
 
       ## TO DO: Add validation of 'w' (from PBS_HOSTFILE) toward
@@ -168,7 +168,7 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
       pathname <- getenv("PE_HOSTFILE")
       if (is.na(pathname)) next
       if (!file_test("-f", pathname)) {
-        warning(sprintf("Environment variable %s was set but no such file %s exists", sQuote("PE_HOSTFILE"), sQuote(pathname)))
+        warnf("Environment variable %s was set but no such file %s exists", sQuote("PE_HOSTFILE"), sQuote(pathname))
         next
       }
       w <- read_pe_hostfile(pathname, expand = TRUE)
@@ -176,7 +176,7 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
       ## Sanity checks
       nslots <- as.integer(getenv("NSLOTS"))
       if (!identical(nslots, length(w))) {
-        warning(sprintf("Identified %d workers from the %s file (%s), which does not match environment variable %s = %d", length(w), sQuote("PE_HOSTFILE"), sQuote(pathname), sQuote("NSLOTS"), nslots))
+        warnf("Identified %d workers from the %s file (%s), which does not match environment variable %s = %d", length(w), sQuote("PE_HOSTFILE"), sQuote(pathname), sQuote("NSLOTS"), nslots)
       }
     } else if (method == "Slurm") {
       ## From 'man sbatch':
@@ -208,7 +208,7 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
         }
 
         if (length(c) != length(w)) {
-          warning(sprintf("Skipping Slurm settings because the number of elements in 'SLURM_JOB_CPUS_PER_NODE'/'SLURM_TASKS_PER_NODE' (%s) does not match parsed 'SLURM_JOB_NODELIST'/'SLURM_NODELIST' (%s): %d != %d", nodelist, nodecounts, length(c), length(w)))
+          warnf("Skipping Slurm settings because the number of elements in 'SLURM_JOB_CPUS_PER_NODE'/'SLURM_TASKS_PER_NODE' (%s) does not match parsed 'SLURM_JOB_NODELIST'/'SLURM_NODELIST' (%s): %d != %d", nodelist, nodecounts, length(c), length(w))
           next
         }
 
@@ -220,7 +220,7 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
           ## Is our assumption that SLURM_CPUS_PER_TASK <= SLURM_JOB_NODELIST, correct?
           if (any(c < n)) {
             c <- pmin(c, n)
-            warning(sprintf("Unexpected values of Slurm environment variable. 'SLURM_CPUS_PER_TASK' specifies CPU counts on one or more nodes that is strictly less than what 'SLURM_CPUS_PER_TASK' specifies. Will use the minimum of the two for each node: %s < %s", sQuote(nodecounts), n))
+            warnf("Unexpected values of Slurm environment variable. 'SLURM_CPUS_PER_TASK' specifies CPU counts on one or more nodes that is strictly less than what 'SLURM_CPUS_PER_TASK' specifies. Will use the minimum of the two for each node: %s < %s", sQuote(nodecounts), n)
           }
         }
 
@@ -514,7 +514,7 @@ slurm_expand_nodelist <- function(nodelist, manual = getOption2("parallelly.slur
 
   ## Sanity check
   if (any(!nzchar(hosts))) {
-    warning(sprintf("Unexpected result from parallelly:::slurm_expand_nodelist(..., manual = TRUE), which resulted in %d empty hostname based on nodelist specification %s", sum(!nzchar(hosts)), sQuote(nodelist)))
+    warnf("Unexpected result from parallelly:::slurm_expand_nodelist(..., manual = TRUE), which resulted in %d empty hostname based on nodelist specification %s", sum(!nzchar(hosts)), sQuote(nodelist))
     hosts <- hosts[nzchar(hosts)]
   }
 
@@ -523,7 +523,7 @@ slurm_expand_nodelist <- function(nodelist, manual = getOption2("parallelly.slur
   ## currently not supported by the above manual parser. /HB 2021-03-05
   invalid <- grep("(\\[|\\]|,|;|[[:space:]])", hosts, value = TRUE)
   if (length(invalid) > 0) {
-    warning(sprintf("Failed to parse the compressed Slurm nodelist %s. Detected invalid node names, which are dropped: %s", sQuote(nodelist), commaq(invalid)))
+    warnf("Failed to parse the compressed Slurm nodelist %s. Detected invalid node names, which are dropped: %s", sQuote(nodelist), commaq(invalid))
     hosts <- setdiff(hosts, invalid)
   }
 

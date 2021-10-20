@@ -11,8 +11,16 @@ assert_no_positional_args_but_first <- function(call = sys.call(sys.parent())) {
   if (length(ast) <= 2L) return()
   names <- names(ast[-(1:2)])
   if (is.null(names) || any(names == "")) {
-    stop(sprintf("Function %s() requires that all arguments beyond the first one are passed by name and not by position: %s", as.character(call[[1L]]), deparse(call, width.cutoff = 100L)))
+    stopf("Function %s() requires that all arguments beyond the first one are passed by name and not by position: %s", as.character(call[[1L]]), deparse(call, width.cutoff = 100L))
   }
+}
+
+stopf <- function(fmt, ..., call. = TRUE, domain = NULL) {  #nolint
+  stop(sprintf(fmt, ...), call. = call., domain = domain)
+}
+
+warnf <- function(fmt, ..., call. = TRUE, domain = NULL) {  #nolint
+  warning(sprintf(fmt, ...), call. = call., domain = domain)
 }
 
 stop_if_not <- function(...) {
@@ -23,8 +31,7 @@ stop_if_not <- function(...) {
         mc <- match.call()
         call <- deparse(mc[[ii + 1]], width.cutoff = 60L)
         if (length(call) > 1L) call <- paste(call[1L], "....")
-        stop(sprintf("%s is not TRUE", sQuote(call)),
-             call. = FALSE, domain = NA)
+        stopf("%s is not TRUE", sQuote(call), call. = FALSE, domain = NA)
     }
   }
   
