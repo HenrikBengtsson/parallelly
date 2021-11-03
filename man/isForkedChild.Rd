@@ -11,5 +11,8 @@ isForkedChild()
 process, otherwise FALSE.
 }
 \description{
-Checks whether or not a running in a forked child process
+\emph{Warning: For this function to give the correct result, the
+\pkg{parallelly} package have to be loaded in the parent R process.
+If not, this function will incorrectly return FALSE when called in
+forked child process.}
 }
