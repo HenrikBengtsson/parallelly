@@ -108,7 +108,7 @@ is supported in the current R session." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.28.1-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.28.1-9002</span>
       </span>
     </div>
 
@@ -223,8 +223,8 @@ is supported in the current R session." />
 
     <div class="ref-description">
     <p>Certain parallelization methods in R rely on <em>forked</em> processing, e.g.
-<code><a href='https://rdrr.io/r/parallel/mclapply.html'>parallel::mclapply()</a></code>, <code><a href='https://rdrr.io/r/parallel/makeCluster.html'>parallel::makeCluster(n, type = "FORK")</a></code>,
-<code>doMC::registerDoMC()</code>, and <code><a href='https://future.futureverse.org/reference/plan.html'>future::plan("multicore")</a></code>.
+<code><a href='https://rdrr.io/r/parallel/mclapply.html'>parallel::mclapply()</a></code>, <code>parallel::makeCluster(n, type = "FORK")</code>,
+<code>doMC::registerDoMC()</code>, and <code>future::plan("multicore")</code>.
 Process forking is done by the operating system and support for it in
 <span style="R">R</span> is restricted to Unix-like operating systems such as Linux, Solaris,
 and macOS.  R running on Microsoft Windows does not support forked
@@ -280,10 +280,11 @@ Analogously, it is possible to override disabled forking by setting one
 of these to <code>TRUE</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Check whether or not forked processing is supported</span>
-<span class='fu'>supportsMulticore</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'>## Check whether or not forked processing is supported</span></span>
+<span class='r-in'><span class='fu'>supportsMulticore</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -299,7 +300,7 @@ of these to <code>TRUE</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9002.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9003.</p>
 </div>
 
       </footer>

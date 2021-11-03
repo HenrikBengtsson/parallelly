@@ -96,7 +96,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.28.1-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.28.1-9002</span>
       </span>
     </div>
 
@@ -260,7 +260,7 @@ of names of machines / compute nodes, but may also be IP numbers.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The default set of workers for each method is
-<code><a href='https://rdrr.io/r/base/rep.html'>rep("localhost", times = availableCores(methods = method, logical = logical))</a></code>,
+<code>rep("localhost", times = availableCores(methods = method, logical = logical))</code>,
 which means that each will at least use as many parallel workers on the
 current machine that <code><a href='availableCores.html'>availableCores()</a></code> allows for that method.</p>
 <p>In addition, the following settings ("methods") are also acknowledged:</p><ul>
@@ -289,12 +289,12 @@ Slurm have alloted to each of the nodes.  If <code class="env">SLURM_CPUS_PER_TA
 is set, which is always a scalar, then that is respected too, i.e.
 if it is smaller, then that is used for all nodes.
 For example, if <code>SLURM_NODELIST="n1,n[03-05]"</code> (expands to
-<code><a href='https://rdrr.io/r/base/c.html'>c("n1", "n03", "n04", "n05")</a></code>) and <code>SLURM_JOB_CPUS_PER_NODE="2(x2),3,2"</code>
-(expands to <code><a href='https://rdrr.io/r/base/c.html'>c(2, 2, 3, 2, 2)</a></code>), then
-<code><a href='https://rdrr.io/r/base/c.html'>c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05", "n05")</a></code> is
+<code>c("n1", "n03", "n04", "n05")</code>) and <code>SLURM_JOB_CPUS_PER_NODE="2(x2),3,2"</code>
+(expands to <code>c(2, 2, 3, 2, 2)</code>), then
+<code>c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05", "n05")</code> is
 returned.  If in addition, <code>SLURM_CPUS_PER_TASK=1</code>, which can happen
 depending on hyperthreading configurations on the Slurm cluster, then
-<code><a href='https://rdrr.io/r/base/c.html'>c("n1", "n03", "n04", "n05")</a></code> is returned.</p></li>
+<code>c("n1", "n03", "n04", "n05")</code> is returned.</p></li>
 <li><p><code>"custom"</code> -
 If option <span class="option">parallelly.availableWorkers.custom</span> is set and a function,
 then this function will be called (without arguments) and it's value
@@ -312,7 +312,7 @@ If not available, then it attempts to parse the compressed nodelist based
 on a best-guess understanding on what the possible syntax may be.
 One known limitation is that "multi-dimensional" ranges are not supported,
 e.g. <code>"a[1-2]b[3-4]"</code> is expanded by <code class='command'>scontrol</code> to
-<code><a href='https://rdrr.io/r/base/c.html'>c("a1b3", "a1b4", "a2b3", "a2b4")</a></code>.  If <code class='command'>scontrol</code> is not
+<code>c("a1b3", "a1b4", "a2b3", "a2b4")</code>.  If <code class='command'>scontrol</code> is not
 available, then any components that failed to be parsed are dropped with
 an informative warning message.  If no compents could be parsed, then
 the result of <code>methods = "Slurm"</code> will be empty.</p>
@@ -322,25 +322,26 @@ the result of <code>methods = "Slurm"</code> will be empty.</p>
 see <code><a href='availableCores.html'>availableCores()</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"Available workers:"</span>,
-        <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sQuote.html'>sQuote</a></span><span class='op'>(</span><span class='fu'>availableWorkers</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>", "</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Available workers: ‘localhost’, ‘localhost’, ‘localhost’, ‘localhost’, ‘localhost’, ‘localhost’, ‘localhost’, ‘localhost’</span></div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>mc.cores <span class='op'>=</span> <span class='fl'>2L</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"Available workers:"</span>,
-        <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sQuote.html'>sQuote</a></span><span class='op'>(</span><span class='fu'>availableWorkers</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>", "</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'>## Always use two workers on host 'n1' and one on host 'n2'</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>parallelly.availableWorkers.custom <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n1"</span>, <span class='st'>"n1"</span>, <span class='st'>"n2"</span><span class='op'>)</span>
-<span class='op'>}</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"Available workers:"</span>,
-        <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sQuote.html'>sQuote</a></span><span class='op'>(</span><span class='fu'>availableWorkers</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>", "</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"Available workers:"</span>,</span>
+<span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sQuote.html'>sQuote</a></span><span class='op'>(</span><span class='fu'>availableWorkers</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>", "</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Available workers: ‘localhost’, ‘localhost’, ‘localhost’, ‘localhost’, ‘localhost’, ‘localhost’, ‘localhost’, ‘localhost’</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>mc.cores <span class='op'>=</span> <span class='fl'>2L</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"Available workers:"</span>,</span>
+<span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sQuote.html'>sQuote</a></span><span class='op'>(</span><span class='fu'>availableWorkers</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>", "</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'>## Always use two workers on host 'n1' and one on host 'n2'</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>parallelly.availableWorkers.custom <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n1"</span>, <span class='st'>"n1"</span>, <span class='st'>"n2"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/message.html'>message</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"Available workers:"</span>,</span>
+<span class='r-in'>        <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sQuote.html'>sQuote</a></span><span class='op'>(</span><span class='fu'>availableWorkers</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>", "</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -356,7 +357,7 @@ see <code><a href='availableCores.html'>availableCores()</a></code>.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9002.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9003.</p>
 </div>
 
       </footer>
