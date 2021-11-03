@@ -1,19 +1,12 @@
 Package: parallelly
 ===================
 
-Version: 1.28.1-9001 [2021-11-03]
-
-KNOWN ISSUES:
-
- * In order for isForkedChild() to return a valid result in a child process,
-   the 'parallelly' package has to be loaded in the parent R process. If not,
-   then it will incorrectly return FALSE also in forked child processes.
+Version: 1.28.1-9002 [2021-11-03]
 
 BUG FIXES:
 
- * isForkedChild() had to be called once in the parent process in order to
-   give a valid result in a forked child process.  Now it is sufficient if
-   the 'parallelly' package has been loaded in the parent process.
+ * isForkedChild() would only return TRUE in a forked child process, if and
+   only if, it had already been called in the parent R process.
 
 
 Version: 1.28.1 [2021-09-09]

@@ -2,7 +2,7 @@
 % Please edit documentation in R/isForkedChild.R
 \name{isForkedChild}
 \alias{isForkedChild}
-\title{Checks whether or not a running in a forked child process}
+\title{Checks whether or not we are running in a forked child process}
 \usage{
 isForkedChild()
 }
@@ -11,8 +11,10 @@ isForkedChild()
 process, otherwise FALSE.
 }
 \description{
-\emph{Warning: For this function to give the correct result, the
-\pkg{parallelly} package have to be loaded in the parent R process.
-If not, this function will incorrectly return FALSE when called in
-forked child process.}
+Checks whether or not we are running in a forked child process
+}
+\details{
+Examples of setups and functions that rely on \emph{forked} parallelization
+are \code{parallel::makeCluster(n, type = "FORK")}, \code{parallel::mclapply()},
+and \code{future::plan("multicore")}.
 }

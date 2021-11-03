@@ -182,6 +182,8 @@ commaq <- function(x, sep = ", ") paste(sQuote(x), collapse = sep)
 ## * makeClusterPSOCK():
 ##   - parallel:::sendCall()
 ##   - parallel:::recvResult()
+## * isForkedChild():
+##   - parallel:::isChild()
 importParallel <- local({
   ns <- NULL
   cache <- list()

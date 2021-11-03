@@ -4,9 +4,6 @@
   if (debug) options(parallelly.debug = TRUE)
   debug <- getOption2("parallelly.debug", debug)
 
-  ## Initiate isForkedChild()
-  dummy <- isForkedChild()
-
   ## Set package options based on environment variables
   update_package_options(debug = debug)
 
