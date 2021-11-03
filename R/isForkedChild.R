@@ -11,8 +11,16 @@
 #' @export
 isForkedChild <- local({
   isChild <- NULL
+  
   function() {
-    if (is.null(isChild)) isChild <- importParallel("isChild")
+    if (is.null(isChild)) {
+      if (supportsMulticore()) {
+        isChild <- importParallel("isChild")
+      } else {
+        isChild <- function() FALSE
+      }
+    }
+    
     isChild()
   }
 })
