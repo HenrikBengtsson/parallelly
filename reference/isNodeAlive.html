@@ -96,7 +96,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.28.1-9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.28.1-9004</span>
       </span>
     </div>
 
@@ -250,78 +250,78 @@ For details, see the <em>internal</em> <code><a href='pid_exists.html'>pid_exist
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='co'># \donttest{</span></span>
 <span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='makeClusterPSOCK.html'>makeClusterPSOCK</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.230] [local output] Workers: [n = 2] ‘localhost’, ‘localhost’</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.231] [local output] Base port: 11650</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.231] [local output] Getting setup options for 2 cluster nodes ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.231] [local output]  - Node 1 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.232] Testing if worker's PID can be inferred: ‘'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' -e 'try(suppressWarnings(cat(Sys.getpid(),file="/tmp/hb/RtmpfGXaFN/worker.rank=1.parallelly.parent=13164.336c38f5ef11.pid")), silent = TRUE)' -e "file.exists('/tmp/hb/RtmpfGXaFN/worker.rank=1.parallelly.parent=13164.336c38f5ef11.pid')"’</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.484] - Possible to infer worker's PID: TRUE</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.484] [local output] Rscript port: 11650</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.485] [local output]  - Node 2 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.486] [local output] Rscript port: 11650</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.486] [local output] Getting setup options for 2 cluster nodes ... done</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.486] [local output]  - Parallel setup requested for some PSOCK nodes</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487] [local output] Setting up PSOCK nodes in parallel</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487] List of 20</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ local_cmd     : chr "'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics"| __truncated__</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ worker        : chr "localhost"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]   ..- attr(*, "localhost")= logi TRUE</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ rank          : int 1</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ rshlogfile    : NULL</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ port          : int 11650</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ connectTimeout: num 120</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ timeout       : num 2592000</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ useXDR        : logi FALSE</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ pidfile       : chr "/tmp/hb/RtmpfGXaFN/worker.rank=1.parallelly.parent=13164.336c38f5ef11.pid"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ setup_strategy: chr "parallel"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ outfile       : chr "/dev/null"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ rshcmd_label  : NULL</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ rsh_call      : NULL</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ cmd           : chr "'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics"| __truncated__</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ localMachine  : logi TRUE</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ manual        : logi FALSE</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ dryrun        : logi FALSE</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ quiet         : logi FALSE</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ rshcmd        : NULL</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  $ revtunnel     : logi TRUE</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.487]  - attr(*, "class")= chr [1:2] "makeNodePSOCKOptions" "makeNodeOptions"</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.499] [local output] System call to launch all workers:</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.499] [local output] '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'try(suppressWarnings(cat(Sys.getpid(),file="/tmp/hb/RtmpfGXaFN/worker.rank=1.parallelly.parent=13164.336c38f5ef11.pid")), silent = TRUE)' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11650 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=parallel</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.499] [local output] Starting PSOCK main server</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.505] [local output] Workers launched</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.505] [local output] Waiting for workers to connect back</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.506] [local output] 0 workers out of 2 ready</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.764] [local output] 0 workers out of 2 ready</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.764] [local output] 1 workers out of 2 ready</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.765] [local output] - collecting session information</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.390] [local output] Workers: [n = 2] ‘localhost’, ‘localhost’</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.390] [local output] Base port: 11208</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.390] [local output] Getting setup options for 2 cluster nodes ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.390] [local output]  - Node 1 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.392] Testing if worker's PID can be inferred: ‘'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' -e 'try(suppressWarnings(cat(Sys.getpid(),file="/tmp/hb/RtmpGT7v4c/worker.rank=1.parallelly.parent=15032.3ab8521267f7.pid")), silent = TRUE)' -e "file.exists('/tmp/hb/RtmpGT7v4c/worker.rank=1.parallelly.parent=15032.3ab8521267f7.pid')"’</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.640] - Possible to infer worker's PID: TRUE</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.640] [local output] Rscript port: 11208</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.641] [local output]  - Node 2 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.642] [local output] Rscript port: 11208</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.642] [local output] Getting setup options for 2 cluster nodes ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.642] [local output]  - Parallel setup requested for some PSOCK nodes</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.643] [local output] Setting up PSOCK nodes in parallel</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644] List of 20</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ local_cmd     : chr "'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics"| __truncated__</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ worker        : chr "localhost"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]   ..- attr(*, "localhost")= logi TRUE</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ rank          : int 1</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ rshlogfile    : NULL</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ port          : int 11208</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ connectTimeout: num 120</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ timeout       : num 2592000</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ useXDR        : logi FALSE</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ pidfile       : chr "/tmp/hb/RtmpGT7v4c/worker.rank=1.parallelly.parent=15032.3ab8521267f7.pid"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ setup_strategy: chr "parallel"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ outfile       : chr "/dev/null"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ rshcmd_label  : NULL</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ rsh_call      : NULL</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ cmd           : chr "'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics"| __truncated__</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ localMachine  : logi TRUE</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ manual        : logi FALSE</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ dryrun        : logi FALSE</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ quiet         : logi FALSE</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ rshcmd        : NULL</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  $ revtunnel     : logi TRUE</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.644]  - attr(*, "class")= chr [1:2] "makeNodePSOCKOptions" "makeNodeOptions"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.655] [local output] System call to launch all workers:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.655] [local output] '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'try(suppressWarnings(cat(Sys.getpid(),file="/tmp/hb/RtmpGT7v4c/worker.rank=1.parallelly.parent=15032.3ab8521267f7.pid")), silent = TRUE)' -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11208 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=parallel</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.655] [local output] Starting PSOCK main server</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.660] [local output] Workers launched</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.661] [local output] Waiting for workers to connect back</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.661] [local output] 0 workers out of 2 ready</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.927] [local output] 0 workers out of 2 ready</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.927] [local output] 1 workers out of 2 ready</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.928] [local output] - collecting session information</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## Check if cluster nodes #2 is alive</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>isNodeAlive</span><span class='op'>(</span><span class='va'>cl</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.769] Attempting to find a working pid_exists_*() function ...</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Call: tools::pskill(13164, signal = 0L)</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.932] Attempting to find a working pid_exists_*() function ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Call: tools::pskill(15032, signal = 0L)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Call: tools::pskill(13164, signal = 0L)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Call: tools::pskill(15032, signal = 0L)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.770] - success</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.770] Attempting to find a working pid_exists_*() function ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.932] - success</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.932] Attempting to find a working pid_exists_*() function ... done</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## Check all nodes</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>isNodeAlive</span><span class='op'>(</span><span class='va'>cl</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.771] Attempting to find a working pid_exists_*() function ...</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Call: tools::pskill(13164, signal = 0L)</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.933] Attempting to find a working pid_exists_*() function ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Call: tools::pskill(15032, signal = 0L)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Call: tools::pskill(13164, signal = 0L)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Call: tools::pskill(15032, signal = 0L)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.771] - success</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.771] Attempting to find a working pid_exists_*() function ... done</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.772] Attempting to find a working pid_exists_*() function ...</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Call: tools::pskill(13164, signal = 0L)</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.933] - success</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.933] Attempting to find a working pid_exists_*() function ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.934] Attempting to find a working pid_exists_*() function ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Call: tools::pskill(15032, signal = 0L)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Call: tools::pskill(13164, signal = 0L)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Call: tools::pskill(15032, signal = 0L)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.772] - success</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [09:04:59.772] Attempting to find a working pid_exists_*() function ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.934] - success</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [10:41:46.934] Attempting to find a working pid_exists_*() function ... done</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE TRUE</span>
 <span class='r-in'><span class='co'># }</span></span>
 <span class='r-in'></span>

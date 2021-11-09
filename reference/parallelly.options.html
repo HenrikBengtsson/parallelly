@@ -101,7 +101,7 @@ further notice." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.28.1-9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.28.1-9004</span>
       </span>
     </div>
 
@@ -299,6 +299,8 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
 <dt><span class="option">parallelly.makeNodePSOCK.timeout</span>:</dt><dd><p>(numeric) The maximum time (in seconds) allowed to pass without the master and a worker communicate with each other (defaults to 30<em>24</em>60*60 seconds = 30 days).</p></dd>
 
 <dt><span class="option">parallelly.makeNodePSOCK.useXDR</span>:</dt><dd><p>(logical) If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).</p></dd>
+
+<dt><span class="option">parallelly.makeNodePSOCK.socketOptions</span>:</dt><dd><p>(character string) If set to another value than <code>"NULL"</code>, then option <span class="option">socketOptions</span> is set to this value on the workers during startup. See <code><a href='https://rdrr.io/r/base/connections.html'>base::socketConnection()</a></code> for details. (defaults to <code>"no-delay"</code>)</p></dd>
 
 <dt><span class="option">parallelly.makeNodePSOCK.rshcmd</span>:</dt><dd><p>(character vector) The command to be run on the master to launch a process on another host.</p></dd>
 
