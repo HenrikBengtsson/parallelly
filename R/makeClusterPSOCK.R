@@ -193,7 +193,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     options <- nodeOptions[[1]]
     if (verbose) {
       mdebugf("%sSetting up PSOCK nodes in parallel", verbose_prefix)
-      mstr(options, debug = verbose)
+      mstr(options)
     }
     port <- options[["port"]]
     connectTimeout <- options[["connectTimeout"]]
@@ -876,7 +876,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   if (length(socketOptions) == 1L) {
     code <- sprintf("options(socketOptions = \"%s\")", socketOptions)
     rscript_expr <- c("-e", shQuote(code))
-    rscript_args <- c(rscript_expr, rscript_args)
+    rscript_args <- c(rscript_args, rscript_expr)
   }
 
   if (length(rscript_startup) > 0L) {
@@ -884,7 +884,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     rscript_startup <- shQuote(rscript_startup)
     rscript_startup <- lapply(rscript_startup, FUN = function(value) c("-e", value))
     rscript_startup <- unlist(rscript_startup, use.names = FALSE)
-    rscript_args <- c(rscript_startup, rscript_args)
+    rscript_args <- c(rscript_args, rscript_startup)
   }
 
   if (length(rscript_envs) > 0L) {

@@ -20,6 +20,9 @@ BUG FIXES:
  * isForkedChild() would only return TRUE in a forked child process, if and
    only if, it had already been called in the parent R process.
 
+ * Using argument 'rscript_startup' would cause makeClusterPSOCK() to fail
+   in R-devel (>= r80666).
+
 
 Version: 1.28.1 [2021-09-09]
 
