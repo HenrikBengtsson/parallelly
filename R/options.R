@@ -75,6 +75,8 @@
 #'
 #'  \item{\option{parallelly.makeNodePSOCK.useXDR}:}{(logical) If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).}
 #'
+#'  \item{\option{parallelly.makeNodePSOCK.socketOptions}:}{(character string) If set to another value than `"NULL"`, then option \option{socketOptions} is set to this value on the workers during startup. See [base::socketConnection()] for details. (defaults to `"no-delay"`)}
+#'
 #'  \item{\option{parallelly.makeNodePSOCK.rshcmd}:}{(character vector) The command to be run on the master to launch a process on another host.}
 #'
 #'  \item{\option{parallelly.makeNodePSOCK.rshopts}:}{(character vector) Addition command-line options appended to `rshcmd`.  These arguments are only applied when connecting to non-localhost machines.}
@@ -147,6 +149,7 @@
 #' parallelly.makeNodePSOCK.connectTimeout
 #' parallelly.makeNodePSOCK.timeout
 #' parallelly.makeNodePSOCK.useXDR
+#' parallelly.makeNodePSOCK.socketOptions
 #' parallelly.makeNodePSOCK.rshcmd
 #' parallelly.makeNodePSOCK.rshopts
 #' parallelly.makeNodePSOCK.tries
@@ -156,6 +159,7 @@
 #' R_PARALLELLY_MAKENODEPSOCK.CONNECTTIMEOUT
 #' R_PARALLELLY_MAKENODEPSOCK.TIMEOUT
 #' R_PARALLELLY_MAKENODEPSOCK.USEXDR
+#' R_PARALLELLY_MAKENODEPSOCK.SOCKETOPTIONS
 #' R_PARALLELLY_MAKENODEPSOCK.RSHCMD
 #' R_PARALLELLY_MAKENODEPSOCK.RSHOPTS
 #' R_PARALLELLY_MAKENODEPSOCK.TRIES
@@ -295,8 +299,9 @@ update_package_options <- function(debug = FALSE) {
   update_package_option("makeNodePSOCK.connectTimeout", mode = "numeric", debug = debug)
   update_package_option("makeNodePSOCK.timeout", mode = "numeric", debug = debug)
   update_package_option("makeNodePSOCK.useXDR", mode = "logical", debug = debug)
+  update_package_option("makeNodePSOCK.socketOptions", mode = "character", debug = debug)
   update_package_option("makeNodePSOCK.rshcmd", mode = "character", split = ",", debug = debug)
-  update_package_option("makeNodePSOCK.rshopts", mode = "character", split = ",", , debug = debug)
+  update_package_option("makeNodePSOCK.rshopts", mode = "character", split = ",", debug = debug)
   update_package_option("makeNodePSOCK.tries", mode = "integer", debug = debug)
   update_package_option("makeNodePSOCK.tries.delay", mode = "numeric", debug = debug)
   update_package_option("makeNodePSOCK.rscript_label", mode = "character", debug = debug)

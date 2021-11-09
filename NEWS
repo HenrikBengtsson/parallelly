@@ -1,7 +1,19 @@
 Package: parallelly
 ===================
 
-Version: 1.28.1-9002 [2021-11-03]
+Version: 1.28.1-9003 [2021-11-08]
+
+SIGNIFICANT CHANGES:
+
+ * makeClusterPSOCK() launches parallel workers with option 'socketOptions'
+   set to "no-delay" by default.  This decreases the communication latency
+   between workers and the main R session, significantly so on Unix.  This
+   option requires R (>= 4.1.0) and has no effect in early versions of R.
+
+NEW FEATURES:
+
+ * Added argument 'socketOptions' to makeClusterPSOCK(), which sets the
+   corresponding R option on each cluster node when they are launched.
 
 BUG FIXES:
 
@@ -13,7 +25,7 @@ Version: 1.28.1 [2021-09-09]
 
 CRAN POLICIES:
 
- * example("isNodeAlive") now uses \donttest{} to avoid long (> 10 s) ellapsed
+ * example("isNodeAlive") now uses \donttest{} to avoid long (> 10 s) elapsed
    run times on MS Windows.
    
 

@@ -21,6 +21,7 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | fallback to RStudio' SSH and PuTTY's plink           |   ✓  | N/A |
 | faster, parallel setup of local workers (R >= 4.0.0) |   ✓  |  ✓  |
 | faster, little-endian protocol by default            |   ✓  | N/A |
+| faster, low-latency socket connections by default    |   ✓  | N/A |
 | validation of cluster at setup                       |   ✓  |  ✓  |
 | attempt to launch failed workers multiple times      |   ✓  | N/A |
 | collect worker details at cluster setup              |   ✓  | N/A |

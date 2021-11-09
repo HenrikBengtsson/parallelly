@@ -5,6 +5,14 @@
 <%
 format <- c("markdown", "html")[2]
 
+find_file <- function(filename) {
+  path <- file.path("incl", filename)
+  if (file.exists(path)) return(path)
+  if (file.exists(filename)) return(filename)
+  NA_character_
+}
+
+
 pkg <- local({
   name <- NULL
   function() {
@@ -113,10 +121,13 @@ repos_status <- function() {
   if (cran()) {
     a("https://CRAN.R-project.org/web/checks/check_results_%s.html", pkg(), body = img("https://www.r-pkg.org/badges/version/%s", pkg(), alt="CRAN check status"))
   } else if (bioc()) {
+    biocSince <- function() {
+      a("https://bioconductor.org/packages/%s/", pkg(), body = img("https://bioconductor.org/shields/years-in-bioc/%s.svg", pkg(), alt="Bioconductor since badge"))
+    }
     biocURL <- function(type) {
       a("https://bioconductor.org/checkResults/%s/bioc-LATEST/%s/", type, pkg(), body = img("https://bioconductor.org/shields/build/%s/bioc/%s.svg", type, pkg(), alt="Bioconductor build status"))
     }
-    paste(biocURL(c("release", "devel")), collapse="</br>")
+    paste(c(biocSince(), biocURL(c("release", "devel"))), collapse=" ")
   } else {
     ""
   }
@@ -204,10 +215,11 @@ optional_badges <- function() {
 
 # <%=pkg()%>: <%=pkg_title()%> <% if (file.exists(file <- "man/figures/logo.png")) { cat(img(file, alt="The 'future' hexlogo", align="right")) } %>
 
-<% if (file.exists("OVERVIEW.md")) { R.rsp::rcat(file="OVERVIEW.md") } %>
+<% if (!is.na(file <- find_file("OVERVIEW.md"))) { R.rsp::rcat(file=file) } %>
 
-<% if (file.exists("INSTALL.md")) {
-  R.rsp::rcat(file="INSTALL.md")
+<%
+if (!is.na(file <- find_file("INSTALL.md"))) {
+  R.rsp::rcat(file=file)
 } else { %>
 ## Installation
 <% if (cran()) { %>
@@ -242,16 +254,16 @@ remotes::install_github("<%=github_repos()%>", ref="develop")
 This will install the package from source.  <% if (file.exists("src")) { %><%-%>
 Because of this and because this package also compiles native code, Windows users need to have [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installed and macOS users need to have [Xcode](https://developer.apple.com/xcode/) installed.
 <% } # if (file.exists("src")) %>
-<% } # if (file.exists("INSTALL.md")) %>
+<% } # if (... "INSTALL.md" ...) %>
 
 
 <!-- pkgdown-drop-below -->
 
-<% if (file.exists("CONTRIBUTING.md") &&
+<% if (!is.na(file <- find_file("CONTRIBUTING.md")) &&
        any(grepl("README.*md", readLines(".Rbuildignore")))) { %>
 
 ## Contributing
 
-To contribute to this package, please see [CONTRIBUTING.md](CONTRIBUTING.md).
+To contribute to this package, please see [CONTRIBUTING.md](<%= file %>).
 
 <% } # if (...) %>

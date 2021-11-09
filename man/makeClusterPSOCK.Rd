@@ -30,6 +30,7 @@ makeNodePSOCK(
   rscript_libs = NULL,
   rscript_startup = NULL,
   methods = TRUE,
+  socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"),
   useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE),
   outfile = "/dev/null",
   renice = NA_integer_,
@@ -136,6 +137,9 @@ For instance, use \code{rscript_startup = 'setwd("/path/to")'}
 to set the working directory to \file{/path/to} on \emph{all} workers.}
 
 \item{methods}{If TRUE, then the \pkg{methods} package is also loaded.}
+
+\item{socketOptions}{A character string that sets \R option
+\option{socketOptions} on the worker.}
 
 \item{useXDR}{If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).}
 

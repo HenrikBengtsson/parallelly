@@ -420,6 +420,9 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' 
 #' @param useXDR If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).
 #' 
+#' @param socketOptions A character string that sets \R option 
+#' \option{socketOptions} on the worker.
+#' 
 #' @param outfile Where to direct the \link[base:showConnections]{stdout} and
 #' \link[base:showConnections]{stderr} connection output from the workers.
 #' If NULL, then no redirection of output is done, which means that the
@@ -668,7 +671,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @importFrom tools pskill
 #' @importFrom utils flush.console
 #' @export
-makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
+makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"), useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
   verbose <- as.logical(verbose)
   stop_if_not(length(verbose) == 1L, !is.na(verbose))
 
@@ -809,6 +812,12 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   useXDR <- as.logical(useXDR)
   stop_if_not(length(useXDR) == 1L, !is.na(useXDR))
 
+  if (!is.null(socketOptions)) {
+    stop_if_not(is.character(socketOptions),length(socketOptions) == 1L,
+                !is.na(socketOptions), nzchar(socketOptions))
+    if (socketOptions == "NULL") socketOptions <- NULL
+  }
+
   stop_if_not(is.null(outfile) || is.character(outfile))
 
   renice <- as.integer(renice)
@@ -862,6 +871,12 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     if (verbose) {
       mdebugf("%sRscript port: %d\n", verbose_prefix, rscript_port)
     }
+  }
+
+  if (length(socketOptions) == 1L) {
+    code <- sprintf("options(socketOptions = \"%s\")", socketOptions)
+    rscript_expr <- c("-e", shQuote(code))
+    rscript_args <- c(rscript_expr, rscript_args)
   }
 
   if (length(rscript_startup) > 0L) {
