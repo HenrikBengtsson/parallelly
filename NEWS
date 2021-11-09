@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.28.1-9003 [2021-11-08]
+Version: 1.28.1-9004 [2021-11-08]
 
 SIGNIFICANT CHANGES:
 
@@ -14,6 +14,10 @@ NEW FEATURES:
 
  * Added argument 'socketOptions' to makeClusterPSOCK(), which sets the
    corresponding R option on each cluster node when they are launched.
+
+ * Argument 'rscript_envs' to makeClusterPSOCK() can also be used to unset
+   environment variables cluster nodes.  Any named element with value
+   'NA_character_' will be unset.
 
 BUG FIXES:
 

@@ -395,12 +395,14 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' to set the working directory to \file{/path/to} on _all_ workers.
 #'
 #' @param rscript_envs A named character vector environment variables to
-#' set on worker at startup, e.g.
-#' `rscript_envs = c(FOO = "3.14", "HOME", "UNKNOWN")`.
+#' set or unset on worker at startup, e.g.
+#' `rscript_envs = c(FOO = "3.14", "HOME", "UNKNOWN", UNSETME = NA_character_)`.
 #' If an element is not named, then the value of that variable will be used as
 #' the name and the value will be the value of `Sys.getenv()` for that
 #' variable.  Non-existing environment variables will be dropped.
 #' These variables are set using `Sys.setenv()`.
+#' An named element with value `NA_character_` will cause that variable to be
+#' unset, which is done via `Sys.unsetenv()`.
 #' 
 #' @param rscript_libs A character vector of \R library paths that will be
 #' used for the library search path of the \R workers.  An asterisk
@@ -895,7 +897,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       copy <- which(nchar(names) == 0L)
     }
     if (length(copy) > 0L) {
-      unset <- NULL
+      missing <- NULL
       for (idx in copy) {
         name <- rscript_envs[idx]
         if (!nzchar(name)) {
@@ -906,11 +908,11 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
           rscript_envs[idx] <- value
           names(rscript_envs)[idx] <- name
         } else {
-          unset <- c(unset, name)
+          missing <- c(missing, name)
         }
       }
-      if (length(unset) > 0L) {
-        warnf("Did not pass down non-set environment variables to cluster node: %s", paste(sQuote(unset), collapse = ", "))
+      if (length(missing) > 0L) {
+        warnf("Did not pass down missing environment variables to cluster node: %s", paste(sQuote(missing), collapse = ", "))
       }
       names <- names(rscript_envs)
       rscript_envs <- rscript_envs[nzchar(names)]
@@ -918,6 +920,23 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     }
     ## Any environment variables to set?
     if (length(names) > 0L) {
+      ## Anything to unset?
+      unset <- which(is.na(rscript_envs))
+      if (length(unset) > 0L) {
+        names <- names(rscript_envs[unset])
+        code <- sprintf("\"%s\"", names)
+        code <- paste(code, collapse = ", ")
+        code <- paste0("Sys.unsetenv(c(", code, "))")
+        tryCatch({
+          parse(text = code)
+        }, error = function(ex) {
+          stopf("Argument 'rscript_envs' appears to contain invalid values: %s", paste(sprintf("%s", sQuote(names)), collapse = ", "))
+        })
+        rscript_args <- c(rscript_args, "-e", shQuote(code))
+        rscript_envs <- rscript_envs[-unset]
+        names <- names(rscript_envs)
+      }
+
       code <- sprintf('"%s"="%s"', names, rscript_envs)
       code <- paste(code, collapse = ", ")
       code <- paste0("Sys.setenv(", code, ")")

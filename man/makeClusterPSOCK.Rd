@@ -115,12 +115,14 @@ For instance, use \code{rscript_args = c("-e", shQuote('setwd("/path/to")'))}
 to set the working directory to \file{/path/to} on \emph{all} workers.}
 
 \item{rscript_envs}{A named character vector environment variables to
-set on worker at startup, e.g.
-\code{rscript_envs = c(FOO = "3.14", "HOME", "UNKNOWN")}.
+set or unset on worker at startup, e.g.
+\code{rscript_envs = c(FOO = "3.14", "HOME", "UNKNOWN", UNSETME = NA_character_)}.
 If an element is not named, then the value of that variable will be used as
 the name and the value will be the value of \code{Sys.getenv()} for that
 variable.  Non-existing environment variables will be dropped.
-These variables are set using \code{Sys.setenv()}.}
+These variables are set using \code{Sys.setenv()}.
+An named element with value \code{NA_character_} will cause that variable to be
+unset, which is done via \code{Sys.unsetenv()}.}
 
 \item{rscript_libs}{A character vector of \R library paths that will be
 used for the library search path of the \R workers.  An asterisk
