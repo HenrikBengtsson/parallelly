@@ -512,7 +512,7 @@ cl <- makeClusterPSOCK(
   ## Manually launch parallel workers
   ## (need double shQuote():s because udocker.py drops one level)
   rscript_args = c(
-    "-e", shQuote(shQuote("parallel:::.slaveRSOCK()"))
+    "-e", shQuote(shQuote("parallel:::.workRSOCK()"))
   ),
   dryrun = TRUE
 )
