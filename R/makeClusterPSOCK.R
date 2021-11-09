@@ -585,9 +585,10 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' `file.path(R.home("bin"), "Rscript")`, i.e. it is basically assumed that
 #' the worker and the caller share the same file system and \R installation.
 #'
-#' If specified, argument `rscript` should be a character vector with one more
-#' more elements.
-#' all elements are automatically shell quoted using [base::shQuote()], except
+#' When specified, argument `rscript` should be a character vector with one or
+#' more elements.  Any asterisk (`"*"`) will be resolved to the above default
+#' `homogeneous`-dependent `Rscript` path.
+#' All elements are automatically shell quoted using [base::shQuote()], except
 #' those that are of format `<ENVVAR>=<VALUE>`, that is, the ones matching the
 #' regular expression '\samp{^[[:alpha:]_][[:alnum:]_]*=.*}'.
 #' Another exception is when `rscript` inherits from 'AsIs'.
@@ -769,12 +770,14 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     }
   }
 
+  bin <- "Rscript"
+  if (homogeneous) bin <- file.path(R.home("bin"), bin)
   if (is.null(rscript)) {
-    rscript <- "Rscript"
-    if (homogeneous) rscript <- file.path(R.home("bin"), rscript)
+    rscript <- bin
   } else {
     if (!is.character(rscript)) rscript <- as.character(rscript)
     stop_if_not(length(rscript) >= 1L)
+    rscript[rscript == "*"] <- bin
     bin <- rscript[1]
     if (homogeneous && !inherits(bin, "AsIs")) {
       bin <- Sys.which(bin)
