@@ -918,25 +918,24 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       rscript_envs <- rscript_envs[nzchar(names)]
       names <- names(rscript_envs)
     }
+    ## Any environment variables to unset?
+    if (length(unset <- which(is.na(rscript_envs))) > 0L) {
+      names <- names(rscript_envs[unset])
+      code <- sprintf("\"%s\"", names)
+      code <- paste(code, collapse = ", ")
+      code <- paste0("Sys.unsetenv(c(", code, "))")
+      tryCatch({
+        parse(text = code)
+      }, error = function(ex) {
+        stopf("Argument 'rscript_envs' appears to contain invalid values: %s", paste(sprintf("%s", sQuote(names)), collapse = ", "))
+      })
+      rscript_args <- c(rscript_args, "-e", shQuote(code))
+      rscript_envs <- rscript_envs[-unset]
+      names <- names(rscript_envs)
+    }
+
     ## Any environment variables to set?
     if (length(names) > 0L) {
-      ## Anything to unset?
-      unset <- which(is.na(rscript_envs))
-      if (length(unset) > 0L) {
-        names <- names(rscript_envs[unset])
-        code <- sprintf("\"%s\"", names)
-        code <- paste(code, collapse = ", ")
-        code <- paste0("Sys.unsetenv(c(", code, "))")
-        tryCatch({
-          parse(text = code)
-        }, error = function(ex) {
-          stopf("Argument 'rscript_envs' appears to contain invalid values: %s", paste(sprintf("%s", sQuote(names)), collapse = ", "))
-        })
-        rscript_args <- c(rscript_args, "-e", shQuote(code))
-        rscript_envs <- rscript_envs[-unset]
-        names <- names(rscript_envs)
-      }
-
       code <- sprintf('"%s"="%s"', names, rscript_envs)
       code <- paste(code, collapse = ", ")
       code <- paste0("Sys.setenv(", code, ")")
