@@ -87,6 +87,21 @@ cl <- makeClusterPSOCK(
 )
 
 
+## EXAMPLE: One worker running in Wine for Linux on the local machine
+## To install R for MS Windows in Wine, do something like:
+## wget https://cran.r-project.org/bin/windows/base/R-4.1.2-win.exe
+## wine R-4.1.2-win.exe /SILENT
+## winecfg  # In GUI, set 'Windows version' to 'Windows 10'
+## wine "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe" --version
+cl <- makeClusterPSOCK(1L,
+  rscript = c(
+    "WINEDEBUG=fixme-all", "wine",
+    "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe"
+  ),
+  dryrun = TRUE
+)
+
+
 ## EXAMPLE: Remote worker running on AWS
 ## Launching worker on Amazon AWS EC2 running one of the
 ## Amazon Machine Images (AMI) provided by RStudio
