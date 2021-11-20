@@ -533,10 +533,30 @@ cl <- makeClusterPSOCK(1L,
 )
 
 
+## EXAMPLE: Launch 124 workers on MS Windows 10, where half are
+## running on CPU Group #0 and half on CPU Group #1.  
+## (https://lovickconsulting.com/2021/11/18/
+##  running-r-clusters-on-an-amd-threadripper-3990x-in-windows-10-2/)
+ncores <- 124
+cpu_groups <- c(0, 1)
+cl <- lapply(cpu_groups, FUN = function(cpu_group) {
+    parallelly::makeClusterPSOCK(ncores \%/\% length(cpu_groups),
+      rscript = I(c(
+        Sys.getenv("COMSPEC"), "/c", "start", "/B",
+        "/NODE", cpu_group, "/AFFINITY", "0xFFFFFFFFFFFFFFFE",
+        "*"
+      )),
+      dryrun = TRUE
+    )
+})
+## merge the two 62-node clusters into one with 124 nodes
+cl <- do.call(c, cl)
+
+
 ## EXAMPLE: Remote worker running on AWS
 ## Launching worker on Amazon AWS EC2 running one of the
 ## Amazon Machine Images (AMI) provided by RStudio
-## (http://www.louisaslett.com/RStudio_AMI/)
+## (https://www.louisaslett.com/RStudio_AMI/)
 public_ip <- "1.2.3.4"
 ssh_private_key_file <- "~/.ssh/my-private-aws-key.pem"
 cl <- makeClusterPSOCK(

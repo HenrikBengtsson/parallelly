@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.28.1-9005 [2021-11-09]
+Version: 1.28.1-900y [2021-11-20]
 
 SIGNIFICANT CHANGES:
 
@@ -22,6 +22,11 @@ NEW FEATURES:
  * Argument 'rscript' of makeClusterPSOCK() now supports "*" values. When
    used, the corresponding element will be replaced with the "Rscript", or
    if 'homogenous = TRUE', then absolute path to current "Rscript".
+
+DOCUMENTATION:
+
+ * Add makeClusterPSOCK() example on how to launch workers distributed
+   across multiple CPU Groups on MS Windows 10.
 
 BUG FIXES:
 
