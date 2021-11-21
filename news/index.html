@@ -95,7 +95,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.28.1-9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.29.0</span>
       </span>
     </div>
 
@@ -207,9 +207,9 @@
       <small>Source: <a href='https://github.com/HenrikBengtsson/parallelly/blob/master/NEWS'><code>NEWS</code></a></small>
     </div>
 
-    <div id="parallelly-1-28-1-9005" class="section level1">
-<h1 class="page-header" data-toc-text="1.28.1-9005">
-<a href="#parallelly-1-28-1-9005" class="anchor"></a>parallelly 1.28.1-9005<small> Unreleased </small>
+    <div id="parallelly-1-29-0" class="section level1">
+<h1 class="page-header" data-toc-text="1.29.0">
+<a href="#parallelly-1-29-0" class="anchor"></a>parallelly 1.29.0<small> Unreleased </small>
 </h1>
 <div id="significant-changes" class="section level3">
 <h3 class="hasAnchor">
@@ -225,6 +225,13 @@
 <li><p>Added argument ‘socketOptions’ to makeClusterPSOCK(), which sets the corresponding R option on each cluster node when they are launched.</p></li>
 <li><p>Argument ‘rscript_envs’ of makeClusterPSOCK() can also be used to unset environment variables cluster nodes. Any named element with value ‘NA_character_’ will be unset.</p></li>
 <li><p>Argument ‘rscript’ of makeClusterPSOCK() now supports “*” values. When used, the corresponding element will be replaced with the “Rscript”, or if ‘homogenous = TRUE’, then absolute path to current “Rscript”.</p></li>
+</ul>
+</div>
+<div id="documentation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#documentation" class="anchor"></a>Documentation</h3>
+<ul>
+<li>Add makeClusterPSOCK() example on how to launch workers distributed across multiple CPU Groups on MS Windows 10.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level3">
@@ -342,9 +349,9 @@
 <li><p>Add freePort() to get a random TCP port that can be opened.</p></li>
 </ul>
 </div>
-<div id="documentation" class="section level3">
+<div id="documentation-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#documentation" class="anchor"></a>Documentation</h3>
+<a href="#documentation-1" class="anchor"></a>Documentation</h3>
 <ul>
 <li>Documenting more R options and environment variables used by this package.</li>
 </ul>
@@ -624,9 +631,9 @@
 <h1 class="page-header" data-toc-text="1.15.0">
 <a href="#parallelly-1-15-0" class="anchor"></a>parallelly 1.15.0<small> Unreleased </small>
 </h1>
-<div id="documentation-1" class="section level3">
+<div id="documentation-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#documentation-1" class="anchor"></a>Documentation</h3>
+<a href="#documentation-2" class="anchor"></a>Documentation</h3>
 <ul>
 <li>Added ‘Troubleshooting’ section to ?makeClusterPSOCK with instructions on how to troubleshoot when the setup of local and remote clusters fail.</li>
 </ul>
@@ -810,9 +817,9 @@
 <li><p>makeClusterPSOCK() now asserts that each cluster node is functioning by retrieving and recording the node’s session information including the process ID of the corresponding R process.</p></li>
 </ul>
 </div>
-<div id="documentation-2" class="section level3">
+<div id="documentation-3" class="section level3">
 <h3 class="hasAnchor">
-<a href="#documentation-2" class="anchor"></a>Documentation</h3>
+<a href="#documentation-3" class="anchor"></a>Documentation</h3>
 <ul>
 <li>Help on makeClusterPSOCK() gained more detailed descriptions on arguments and what their defaults are.</li>
 </ul>

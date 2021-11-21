@@ -97,7 +97,7 @@ be stopped when garbage collected" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.28.1-9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.29.0</span>
       </span>
     </div>
 
@@ -244,41 +244,41 @@ the cluster is garbage collected.</p></td>
     <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>parallelly.debug <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='makeClusterPSOCK.html'>makeClusterPSOCK</a></span><span class='op'>(</span><span class='fl'>2</span>, dryrun <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.940] [local output] Workers: [n = 2] ‘localhost’, ‘localhost’</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.941] [local output] Base port: 11684</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.941] [local output] Getting setup options for 2 cluster nodes ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.941] [local output]  - Node 1 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.943] [local output] Rscript port: 11684</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.944] [local output]  - Node 2 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.945] [local output] Rscript port: 11684</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.946] [local output] Getting setup options for 2 cluster nodes ... done</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.946] [local output] Creating node 1 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.946] [local output] - setting up node</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.947] [local output] - attempt #1 of 3</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.399] [local output] Workers: [n = 2] ‘localhost’, ‘localhost’</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.400] [local output] Base port: 11255</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.400] [local output] Getting setup options for 2 cluster nodes ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.400] [local output]  - Node 1 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.402] [local output] Rscript port: 11255</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.403] [local output]  - Node 2 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.404] [local output] Rscript port: 11255</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.405] [local output] Getting setup options for 2 cluster nodes ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.405] [local output] Creating node 1 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.405] [local output] - setting up node</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.406] [local output] - attempt #1 of 3</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #1 on local machine ‘localhost’ with:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11684 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11255 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.947] [local output] Creating node 1 of 2 ... done</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.947] [local output] Creating node 2 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.947] [local output] - setting up node</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.948] [local output] - attempt #1 of 3</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.406] [local output] Creating node 1 of 2 ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.406] [local output] Creating node 2 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.406] [local output] - setting up node</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.407] [local output] - attempt #1 of 3</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #2 on local machine ‘localhost’ with:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11684 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11255 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.948] [local output] Creating node 2 of 2 ... done</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [14:33:44.949] [local output] - collecting session information</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.407] [local output] Creating node 2 of 2 ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.408] [local output] - collecting session information</span>
 <span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>autoStopCluster</span><span class='op'>(</span><span class='va'>cl</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>cl</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Socket cluster with 1 nodes where 1 node is on host ‘NA’ (R version and platform not queried). This cluster is registered to be automatically stopped by the garbage collector</span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='st'>"cl"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>           used (Mb) gc trigger (Mb) max used (Mb)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Ncells  733903 39.2    1335855 71.4  1335855 71.4</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Vcells 1382708 10.6    8388608 64.0  1972008 15.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Ncells  734113 39.3    1335272 71.4  1335272 71.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Vcells 1383154 10.6    8388608 64.0  1971581 15.1</span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
