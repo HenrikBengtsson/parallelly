@@ -129,3 +129,5 @@ github
 HenrikBengtsson
 isForkedChild
 isNodeAlive
+socketOptions
+donttest

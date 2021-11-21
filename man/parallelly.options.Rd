@@ -34,6 +34,7 @@
 \alias{parallelly.makeNodePSOCK.connectTimeout}
 \alias{parallelly.makeNodePSOCK.timeout}
 \alias{parallelly.makeNodePSOCK.useXDR}
+\alias{parallelly.makeNodePSOCK.socketOptions}
 \alias{parallelly.makeNodePSOCK.rshcmd}
 \alias{parallelly.makeNodePSOCK.rshopts}
 \alias{parallelly.makeNodePSOCK.tries}
@@ -43,6 +44,7 @@
 \alias{R_PARALLELLY_MAKENODEPSOCK.CONNECTTIMEOUT}
 \alias{R_PARALLELLY_MAKENODEPSOCK.TIMEOUT}
 \alias{R_PARALLELLY_MAKENODEPSOCK.USEXDR}
+\alias{R_PARALLELLY_MAKENODEPSOCK.SOCKETOPTIONS}
 \alias{R_PARALLELLY_MAKENODEPSOCK.RSHCMD}
 \alias{R_PARALLELLY_MAKENODEPSOCK.RSHOPTS}
 \alias{R_PARALLELLY_MAKENODEPSOCK.TRIES}
@@ -127,6 +129,8 @@ The below \R options and environment variables control the default results of \c
 \item{\option{parallelly.makeNodePSOCK.timeout}:}{(numeric) The maximum time (in seconds) allowed to pass without the master and a worker communicate with each other (defaults to 30\emph{24}60*60 seconds = 30 days).}
 
 \item{\option{parallelly.makeNodePSOCK.useXDR}:}{(logical) If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).}
+
+\item{\option{parallelly.makeNodePSOCK.socketOptions}:}{(character string) If set to another value than \code{"NULL"}, then option \option{socketOptions} is set to this value on the workers during startup. See \code{\link[base:connections]{base::socketConnection()}} for details. (defaults to \code{"no-delay"})}
 
 \item{\option{parallelly.makeNodePSOCK.rshcmd}:}{(character vector) The command to be run on the master to launch a process on another host.}
 

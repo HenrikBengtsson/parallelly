@@ -60,7 +60,7 @@ c.cluster <- function(..., recursive = FALSE) {
   ## Assert no duplicates
   dups <- duplicated(x)
   if (any(dups)) {
-    warning(sprintf("The combined cluster contains %d duplicated nodes", sum(dups)))
+    warnf("The combined cluster contains %d duplicated nodes", sum(dups))
   }
   
   class(x) <- class

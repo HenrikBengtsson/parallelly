@@ -1,7 +1,7 @@
 
 
 <div id="badges"><!-- pkgdown markup -->
-<a href="https://CRAN.R-project.org/web/checks/check_results_parallelly.html"><img border="0" src="https://www.r-pkg.org/badges/version/parallelly" alt="CRAN check status"/></a> <a href="https://github.com/HenrikBengtsson/parallelly/actions?query=workflow%3AR-CMD-check"><img border="0" src="https://github.com/HenrikBengtsson/parallelly/actions/workflows/R-CMD-check.yaml/badge.svg?branch=develop" alt="R CMD check status"/></a> <a href="https://github.com/HenrikBengtsson/parallelly/actions?query=workflow%3Arevdepcheck-top"><img border="0" src="https://github.com/HenrikBengtsson/parallelly/actions/workflows/revdepcheck-top.yaml/badge.svg?branch=develop" alt="Top reverse-dependency checks status"/></a>   <a href="https://codecov.io/gh/HenrikBengtsson/parallelly"><img border="0" src="https://codecov.io/gh/HenrikBengtsson/parallelly/branch/develop/graph/badge.svg" alt="Coverage Status"/></a> 
+<a href="https://CRAN.R-project.org/web/checks/check_results_parallelly.html"><img border="0" src="https://www.r-pkg.org/badges/version/parallelly" alt="CRAN check status"/></a> <a href="https://github.com/HenrikBengtsson/parallelly/actions?query=workflow%3AR-CMD-check"><img border="0" src="https://github.com/HenrikBengtsson/parallelly/actions/workflows/R-CMD-check.yaml/badge.svg?branch=develop" alt="R CMD check status"/></a> <a href="https://github.com/HenrikBengtsson/parallelly/actions?query=workflow%3Arevdepcheck-top"><img border="0" src="https://github.com/HenrikBengtsson/parallelly/actions/workflows/revdepcheck-top.yaml/badge.svg?branch=develop" alt="Top reverse-dependency checks status"/></a>    <a href="https://app.codecov.io/gh/HenrikBengtsson/parallelly"><img border="0" src="https://codecov.io/gh/HenrikBengtsson/parallelly/branch/develop/graph/badge.svg" alt="Coverage Status"/></a> 
 </div>
 
 # parallelly: Enhancing the 'parallel' Package <img border="0" src="man/figures/logo.png" alt="The 'future' hexlogo" align="right"/>
@@ -21,6 +21,7 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | fallback to RStudio' SSH and PuTTY's plink           |   ✓  | N/A |
 | faster, parallel setup of local workers (R >= 4.0.0) |   ✓  |  ✓  |
 | faster, little-endian protocol by default            |   ✓  | N/A |
+| faster, low-latency socket connections by default    |   ✓  | N/A |
 | validation of cluster at setup                       |   ✓  |  ✓  |
 | attempt to launch failed workers multiple times      |   ✓  | N/A |
 | collect worker details at cluster setup              |   ✓  | N/A |

@@ -63,11 +63,11 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 
   if (is.numeric(workers)) {
     if (length(workers) != 1L) {
-      stop("When numeric, argument 'workers' must be a single value: ", length(workers))
+      stopf("When numeric, argument 'workers' must be a single value: %s", length(workers))
     }
     workers <- as.integer(workers)
     if (is.na(workers) || workers < 1L) {
-      stop("Number of 'workers' must be one or greater: ", workers)
+      stopf("Number of 'workers' must be one or greater: %s", workers)
     }
     workers <- rep(localhostHostname, times = workers)
   }
@@ -87,34 +87,34 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     free <- freeConnections()
     if (validate) free <- free - 1L
     if (length(workers) > free) {
-      stop(sprintf("Cannot create %d parallel PSOCK nodes. Each node needs one connection but there are only %d connections left out of the maximum %d available on this R installation", length(workers), free, availableConnections()))
+      stopf("Cannot create %d parallel PSOCK nodes. Each node needs one connection but there are only %d connections left out of the maximum %d available on this R installation", length(workers), free, availableConnections())
     }
   }
 
   verbose_prefix <- "[local output] "
 
   if (verbose) {
-    message(sprintf("%sWorkers: [n = %d] %s", verbose_prefix,
-                    length(workers), hpaste(sQuote(workers))))
+    mdebugf("%sWorkers: [n = %d] %s", verbose_prefix,
+                    length(workers), hpaste(sQuote(workers)))
   }
 
   if (length(port) == 0L) {
     stop("Argument 'port' must be of length one or more: 0")
   }
   port <- freePort(port)
-  if (verbose) message(sprintf("%sBase port: %d", verbose_prefix, port))
+  if (verbose) mdebugf("%sBase port: %d", verbose_prefix, port)
 
 
   n <- length(workers)
   nodeOptions <- vector("list", length = n)
-  if (verbose) message(sprintf("%sGetting setup options for %d cluster nodes ...", verbose_prefix, n))
+  if (verbose) mdebugf("%sGetting setup options for %d cluster nodes ...", verbose_prefix, n)
   for (ii in seq_len(n)) {
-    if (verbose) message(sprintf("%s - Node %d of %d ...", verbose_prefix, ii, n))
+    if (verbose) mdebugf("%s - Node %d of %d ...", verbose_prefix, ii, n)
     options <- makeNode(workers[[ii]], port = port, ..., rank = ii, action = "options", verbose = verbose)
     stop_if_not(inherits(options, "makeNodePSOCKOptions"))
     nodeOptions[[ii]] <- options
   }
-  if (verbose) message(sprintf("%sGetting setup options for %d cluster nodes ... done", verbose_prefix, n))
+  if (verbose) mdebugf("%sGetting setup options for %d cluster nodes ... done", verbose_prefix, n)
 
   ## Is a 'parallel' setup strategy requested and possible?
   setup_strategy <- lapply(nodeOptions, FUN = function(options) {
@@ -127,16 +127,16 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   is_parallel <- (setup_strategy == "parallel")
   force_sequential <- FALSE
   if (any(is_parallel)) {
-    if (verbose) message(sprintf("%s - Parallel setup requested for some PSOCK nodes", verbose_prefix))
+    if (verbose) mdebugf("%s - Parallel setup requested for some PSOCK nodes", verbose_prefix)
 
     if (!all(is_parallel)) {
-      if (verbose) message(sprintf("%s - Parallel setup requested only for some PSOCK nodes; will revert to a sequential setup for all", verbose_prefix))
+      if (verbose) mdebugf("%s - Parallel setup requested only for some PSOCK nodes; will revert to a sequential setup for all", verbose_prefix)
       force_sequential <- TRUE
     } else {
       ## Force setup_strategy = "sequential"?
       affected <- affected_by_bug18119()
       if (!is.na(affected) && affected) {
-        if (verbose) message(sprintf("%s - Parallel setup requested but not supported on this version of R: %s", verbose_prefix, getRversion()))
+        if (verbose) mdebugf("%s - Parallel setup requested but not supported on this version of R: %s", verbose_prefix, getRversion())
         force_sequential <- TRUE
       }
     }
@@ -147,7 +147,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     setup_strategy <- "sequential"
 
     for (ii in which(is_parallel)) {
-      if (verbose) message(sprintf("%s - Node %d of %d ...", verbose_prefix, ii, n))
+      if (verbose) mdebugf("%s - Node %d of %d ...", verbose_prefix, ii, n)
       args <- list(workers[[ii]], port = port, ..., rank = ii, action = "options", verbose = verbose)
       args$setup_strategy <- "sequential"
       options <- do.call(makeNode, args = args)
@@ -182,7 +182,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   if (setup_strategy == "parallel") {
     ## To please R CMD check on R (< 4.0.0)
     if (getRversion() < "4.0.0") {
-      stop(sprintf("Parallel setup of PSOCK cluster nodes is not supported in R %s", getRversion()))
+      stopf("Parallel setup of PSOCK cluster nodes is not supported in R %s", getRversion())
       socketAccept <- serverSocket <- function(...) NULL
     }
     
@@ -192,8 +192,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     ## AD HOC: Use (port, timeout, useXDR) from the options of the first node
     options <- nodeOptions[[1]]
     if (verbose) {
-      message(sprintf("%sSetting up PSOCK nodes in parallel", verbose_prefix))
-      mstr(options, debug = verbose)
+      mdebugf("%sSetting up PSOCK nodes in parallel", verbose_prefix)
+      mstr(options)
     }
     port <- options[["port"]]
     connectTimeout <- options[["connectTimeout"]]
@@ -203,14 +203,14 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     cmd <- options[["cmd"]]
 
     if (verbose) {
-      message(sprintf("%sSystem call to launch all workers:", verbose_prefix))
-      message(sprintf("%s%s", verbose_prefix, cmd))
+      mdebugf("%sSystem call to launch all workers:", verbose_prefix)
+      mdebugf("%s%s", verbose_prefix, cmd)
     }
 
     ## FIXME: Add argument, option, environment variable for this
 
     ## Start listening and start workers.
-    if (verbose) message(sprintf("%sStarting PSOCK main server", verbose_prefix))
+    if (verbose) mdebugf("%sStarting PSOCK main server", verbose_prefix)
     socket <- serverSocket(port = port)
     on.exit(if (!is.null(socket)) close(socket), add = TRUE)
 
@@ -225,7 +225,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       system(cmd, wait = FALSE)
     }
 
-    if (verbose) message(sprintf("%sWorkers launched", verbose_prefix))
+    if (verbose) mdebugf("%sWorkers launched", verbose_prefix)
 
     ## Accept connections and send the first command as initial
     ## handshake.  The handshake makes TCP synchronization detect and
@@ -243,11 +243,11 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       cl <- NULL
     }, add = TRUE)
 
-    if (verbose) message(sprintf("%sWaiting for workers to connect back", verbose_prefix))
+    if (verbose) mdebugf("%sWaiting for workers to connect back", verbose_prefix)
 
     t0 <- Sys.time()
     while (ready < length(cl)) {
-      if (verbose) message(sprintf("%s%d workers out of %d ready", verbose_prefix, ready, length(cl)))
+      if (verbose) mdebugf("%s%d workers out of %d ready", verbose_prefix, ready, length(cl))
 
       cons <- lapply(pending, FUN = function(x) x$con)
 
@@ -255,11 +255,10 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
           ## The workers will give up after connectTimeout, so there is
           ## no point waiting for them much longer.
           failed <- length(cl) - ready
-          msg <- sprintf(ngettext(failed,
-                     "Cluster setup failed. %d worker of %d failed to connect.",
-                     "Cluster setup failed. %d of %d workers failed to connect."),
-                         failed, length(cl))
-          stop(msg)
+          stop(ngettext(failed,
+               "Cluster setup failed. %d worker of %d failed to connect.",
+               "Cluster setup failed. %d of %d workers failed to connect."),
+               failed, length(cl))
       }
       a <- socketSelect(append(list(socket), cons), write = FALSE, timeout = connectTimeout)
       canAccept <- a[1]
@@ -291,15 +290,15 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     retryPort <- getOption2("parallelly.makeNodePSOCK.tries.port", "same")
     for (ii in seq_along(cl)) {
       if (verbose) {
-        message(sprintf("%sCreating node %d of %d ...", verbose_prefix, ii, n))
-        message(sprintf("%s- setting up node", verbose_prefix))
+        mdebugf("%sCreating node %d of %d ...", verbose_prefix, ii, n)
+        mdebugf("%s- setting up node", verbose_prefix)
       }
 
       options <- nodeOptions[[ii]]
 
       for (kk in 1:tries) {
         if (verbose) {
-          message(sprintf("%s- attempt #%d of %d", verbose_prefix, kk, tries))
+          mdebugf("%s- attempt #%d of %d", verbose_prefix, kk, tries)
         }
         node <- tryCatch({
           makeNode(options, verbose = verbose)
@@ -316,8 +315,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
             } else if (retryPort == "available") {
               options$port <- freePort()
             }
-            message(sprintf("%s- waiting %g seconds before trying again",
-                    verbose_prefix, delay))
+            mdebugf("%s- waiting %g seconds before trying again",
+                    verbose_prefix, delay)
           }
           Sys.sleep(delay)
         }  
@@ -326,8 +325,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
         ex <- node
         if (inherits(node, "PSOCKConnectionError")) {
           if (verbose) {
-            message(sprintf("%s  Failed %d attempts with %g seconds delay",
-                    verbose_prefix, tries, delay))
+            mdebugf("%s  Failed %d attempts with %g seconds delay",
+                    verbose_prefix, tries, delay)
           }
           ex$message <- sprintf("%s\n * Number of attempts: %d (%gs delay)",
                                 conditionMessage(ex), tries, delay)
@@ -339,7 +338,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       cl[[ii]] <- node
   
       if (verbose) {
-        message(sprintf("%sCreating node %d of %d ... done", verbose_prefix, ii, n))
+        mdebugf("%sCreating node %d of %d ... done", verbose_prefix, ii, n)
       }
     }
   }
@@ -353,7 +352,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     ## that we have a working cluster already here.  It will also collect
     ## useful information otherwise not available, e.g. the PID.
     if (verbose) {
-      message(sprintf("%s- collecting session information", verbose_prefix))
+      mdebugf("%s- collecting session information", verbose_prefix)
     }
     for (ii in seq_along(cl)) {
       cl[ii] <- add_cluster_session_info(cl[ii])
@@ -396,12 +395,14 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' to set the working directory to \file{/path/to} on _all_ workers.
 #'
 #' @param rscript_envs A named character vector environment variables to
-#' set on worker at startup, e.g.
-#' `rscript_envs = c(FOO = "3.14", "HOME", "UNKNOWN")`.
+#' set or unset on worker at startup, e.g.
+#' `rscript_envs = c(FOO = "3.14", "HOME", "UNKNOWN", UNSETME = NA_character_)`.
 #' If an element is not named, then the value of that variable will be used as
 #' the name and the value will be the value of `Sys.getenv()` for that
 #' variable.  Non-existing environment variables will be dropped.
 #' These variables are set using `Sys.setenv()`.
+#' An named element with value `NA_character_` will cause that variable to be
+#' unset, which is done via `Sys.unsetenv()`.
 #' 
 #' @param rscript_libs A character vector of \R library paths that will be
 #' used for the library search path of the \R workers.  An asterisk
@@ -420,6 +421,9 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @param methods If TRUE, then the \pkg{methods} package is also loaded.
 #' 
 #' @param useXDR If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).
+#' 
+#' @param socketOptions A character string that sets \R option 
+#' \option{socketOptions} on the worker.
 #' 
 #' @param outfile Where to direct the \link[base:showConnections]{stdout} and
 #' \link[base:showConnections]{stderr} connection output from the workers.
@@ -581,9 +585,10 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' `file.path(R.home("bin"), "Rscript")`, i.e. it is basically assumed that
 #' the worker and the caller share the same file system and \R installation.
 #'
-#' If specified, argument `rscript` should be a character vector with one more
-#' more elements.
-#' all elements are automatically shell quoted using [base::shQuote()], except
+#' When specified, argument `rscript` should be a character vector with one or
+#' more elements.  Any asterisk (`"*"`) will be resolved to the above default
+#' `homogeneous`-dependent `Rscript` path.
+#' All elements are automatically shell quoted using [base::shQuote()], except
 #' those that are of format `<ENVVAR>=<VALUE>`, that is, the ones matching the
 #' regular expression '\samp{^[[:alpha:]_][[:alnum:]_]*=.*}'.
 #' Another exception is when `rscript` inherits from 'AsIs'.
@@ -669,7 +674,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @importFrom tools pskill
 #' @importFrom utils flush.console
 #' @export
-makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
+makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"), useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
   verbose <- as.logical(verbose)
   stop_if_not(length(verbose) == 1L, !is.na(verbose))
 
@@ -765,12 +770,14 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     }
   }
 
+  bin <- "Rscript"
+  if (homogeneous) bin <- file.path(R.home("bin"), bin)
   if (is.null(rscript)) {
-    rscript <- "Rscript"
-    if (homogeneous) rscript <- file.path(R.home("bin"), rscript)
+    rscript <- bin
   } else {
     if (!is.character(rscript)) rscript <- as.character(rscript)
     stop_if_not(length(rscript) >= 1L)
+    rscript[rscript == "*"] <- bin
     bin <- rscript[1]
     if (homogeneous && !inherits(bin, "AsIs")) {
       bin <- Sys.which(bin)
@@ -795,7 +802,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       tryCatch({
         parse(text = init)
       }, error = function(ex) {
-        stop("Syntax error in argument 'rscript_startup': ", conditionMessage(ex))
+        stopf("Syntax error in argument 'rscript_startup': %s", conditionMessage(ex))
       })
       init
     })
@@ -809,6 +816,12 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
 
   useXDR <- as.logical(useXDR)
   stop_if_not(length(useXDR) == 1L, !is.na(useXDR))
+
+  if (!is.null(socketOptions)) {
+    stop_if_not(is.character(socketOptions),length(socketOptions) == 1L,
+                !is.na(socketOptions), nzchar(socketOptions))
+    if (socketOptions == "NULL") socketOptions <- NULL
+  }
 
   stop_if_not(is.null(outfile) || is.character(outfile))
 
@@ -856,13 +869,19 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   if (!localMachine && revtunnel && getOption2("parallelly.makeNodePSOCK.port.increment", TRUE)) {
     rscript_port <- assertPort(port + (rank - 1L))
     if (verbose) {
-      message(sprintf("%sRscript port: %d + %d = %d\n", verbose_prefix, port, rank-1L, rscript_port))
+      mdebugf("%sRscript port: %d + %d = %d\n", verbose_prefix, port, rank-1L, rscript_port)
     }
   } else {
     rscript_port <- port
     if (verbose) {
-      message(sprintf("%sRscript port: %d\n", verbose_prefix, rscript_port))
+      mdebugf("%sRscript port: %d\n", verbose_prefix, rscript_port)
     }
+  }
+
+  if (length(socketOptions) == 1L) {
+    code <- sprintf("options(socketOptions = \"%s\")", socketOptions)
+    rscript_expr <- c("-e", shQuote(code))
+    rscript_args <- c(rscript_args, rscript_expr)
   }
 
   if (length(rscript_startup) > 0L) {
@@ -870,7 +889,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     rscript_startup <- shQuote(rscript_startup)
     rscript_startup <- lapply(rscript_startup, FUN = function(value) c("-e", value))
     rscript_startup <- unlist(rscript_startup, use.names = FALSE)
-    rscript_args <- c(rscript_startup, rscript_args)
+    rscript_args <- c(rscript_args, rscript_startup)
   }
 
   if (length(rscript_envs) > 0L) {
@@ -881,7 +900,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       copy <- which(nchar(names) == 0L)
     }
     if (length(copy) > 0L) {
-      unset <- NULL
+      missing <- NULL
       for (idx in copy) {
         name <- rscript_envs[idx]
         if (!nzchar(name)) {
@@ -892,16 +911,32 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
           rscript_envs[idx] <- value
           names(rscript_envs)[idx] <- name
         } else {
-          unset <- c(unset, name)
+          missing <- c(missing, name)
         }
       }
-      if (length(unset) > 0L) {
-        warning("Did not pass down non-set environment variables to cluster node: ", paste(sQuote(unset), collapse = ", "))
+      if (length(missing) > 0L) {
+        warnf("Did not pass down missing environment variables to cluster node: %s", paste(sQuote(missing), collapse = ", "))
       }
       names <- names(rscript_envs)
       rscript_envs <- rscript_envs[nzchar(names)]
       names <- names(rscript_envs)
     }
+    ## Any environment variables to unset?
+    if (length(unset <- which(is.na(rscript_envs))) > 0L) {
+      names <- names(rscript_envs[unset])
+      code <- sprintf("\"%s\"", names)
+      code <- paste(code, collapse = ", ")
+      code <- paste0("Sys.unsetenv(c(", code, "))")
+      tryCatch({
+        parse(text = code)
+      }, error = function(ex) {
+        stopf("Argument 'rscript_envs' appears to contain invalid values: %s", paste(sprintf("%s", sQuote(names)), collapse = ", "))
+      })
+      rscript_args <- c(rscript_args, "-e", shQuote(code))
+      rscript_envs <- rscript_envs[-unset]
+      names <- names(rscript_envs)
+    }
+
     ## Any environment variables to set?
     if (length(names) > 0L) {
       code <- sprintf('"%s"="%s"', names, rscript_envs)
@@ -910,7 +945,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       tryCatch({
         parse(text = code)
       }, error = function(ex) {
-        stop("Argument 'rscript_envs' appears to contain invalid values: ", paste(sprintf("%s=%s", sQuote(names), sQuote(rscript_envs)), collapse = ", "))
+        stopf("Argument 'rscript_envs' appears to contain invalid values: %s", paste(sprintf("%s=%s", sQuote(names), sQuote(rscript_envs)), collapse = ", "))
       })
       rscript_args <- c(rscript_args, "-e", shQuote(code))
     }
@@ -924,14 +959,14 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     tryCatch({
       parse(text = code)
     }, error = function(ex) {
-      stop("Argument 'rscript_libs' appears to contain invalid values: ", paste(sQuote(rscript_libs), collapse = ", "))
+      stopf("Argument 'rscript_libs' appears to contain invalid values: %s", paste(sQuote(rscript_libs), collapse = ", "))
     })
     rscript_args <- c(rscript_args, "-e", shQuote(code))
   }
   
   ## .{slave,work}RSOCK() command already specified?
   if (!any(grepl("parallel:::[.](slave|work)RSOCK[(][)]", rscript_args))) {
-    ## In R (>= 4.1.0, parallel:::.slaveRSOCK() was renamed .workRSOCK()
+    ## In R (>= 4.1.0), parallel:::.slaveRSOCK() was renamed to .workRSOCK()
     cmd <- "workRSOCK <- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()"
     rscript_args <- c(rscript_args, "-e", shQuote(cmd))
   }
@@ -954,14 +989,14 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     if (find) {
       which <- NULL
       if (verbose) {
-        message(sprintf("%sWill search for all 'rshcmd' available\n",
-                verbose_prefix))
+        mdebugf("%sWill search for all 'rshcmd' available\n",
+                verbose_prefix)
       }
     } else if (all(grepl("^<[a-zA-Z-]+>$", rshcmd))) {
       find <- TRUE
       if (verbose) {
-        message(sprintf("%sWill search for specified 'rshcmd' types: %s\n",
-                verbose_prefix, paste(sQuote(rshcmd), collapse = ", ")))
+        mdebugf("%sWill search for specified 'rshcmd' types: %s\n",
+                verbose_prefix, paste(sQuote(rshcmd), collapse = ", "))
       }
       which <- gsub("^<([a-zA-Z-]+)>$", "\\1", rshcmd)
     }
@@ -974,7 +1009,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
           sprintf("%s [type=%s, version=%s]", paste(sQuote(r), collapse = ", "), sQuote(attr(r, "type")), sQuote(attr(r, "version")))
         }))
         s <- paste(sprintf("%s %d. %s", verbose_prefix, seq_along(s), s), collapse = "\n")
-        message(sprintf("%sFound the following available 'rshcmd':\n%s", verbose_prefix, s))
+        mdebugf("%sFound the following available 'rshcmd':\n%s", verbose_prefix, s)
       }
       rshcmd <- rshcmd[[1]]
     } else {
@@ -988,7 +1023,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     s <- sprintf("type=%s, version=%s", sQuote(attr(rshcmd, "type")), sQuote(attr(rshcmd, "version")))
     rshcmd_label <- sprintf("%s [%s]", paste(sQuote(rshcmd), collapse = ", "), s)
 
-    if (verbose) message(sprintf("%sUsing 'rshcmd': %s", verbose_prefix, rshcmd_label))
+    if (verbose) mdebugf("%sUsing 'rshcmd': %s", verbose_prefix, rshcmd_label)
     
     ## User?
     if (length(user) == 1L) rshopts <- c("-l", user, rshopts)
@@ -1113,25 +1148,25 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
     if (dryrun) return(NULL)
   } else {
     if (verbose) {
-      message(sprintf("%sStarting worker #%s on %s: %s", verbose_prefix, rank, sQuote(worker), local_cmd))
+      mdebugf("%sStarting worker #%s on %s: %s", verbose_prefix, rank, sQuote(worker), local_cmd)
     }
     input <- if (.Platform$OS.type == "windows") "" else NULL
     res <- system(local_cmd, wait = FALSE, input = input)
     if (verbose) {
-      message(sprintf("%s- Exit code of system() call: %s", verbose_prefix, res))
+      mdebugf("%s- Exit code of system() call: %s", verbose_prefix, res)
     }
     if (res != 0) {
-      warning(sprintf("system(%s) had a non-zero exit code: %d", local_cmd, res))
+      warnf("system(%s) had a non-zero exit code: %d", local_cmd, res)
     }
   }
 
   if (verbose) {
-    message(sprintf("%sWaiting for worker #%s on %s to connect back", verbose_prefix, rank, sQuote(worker)))
+    mdebugf("%sWaiting for worker #%s on %s to connect back", verbose_prefix, rank, sQuote(worker))
     if (is_worker_output_visible) {
       if (.Platform$OS.type == "windows") {
-        message(sprintf("%s- Detected 'outfile=NULL' on Windows: this will make the output from the background worker visible when running R from a terminal, but it will most likely not be visible when using a GUI.", verbose_prefix))
+        mdebugf("%s- Detected 'outfile=NULL' on Windows: this will make the output from the background worker visible when running R from a terminal, but it will most likely not be visible when using a GUI.", verbose_prefix)
       } else {
-        message(sprintf("%s- Detected 'outfile=NULL': this will make the output from the background worker visible", verbose_prefix))
+        mdebugf("%s- Detected 'outfile=NULL': this will make the output from the background worker visible", verbose_prefix)
       }
     }
   }
@@ -1152,7 +1187,7 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
                           blocking = TRUE, open = "a+b", timeout = timeout)
        }, warning = function(w) {
          if (verbose) {
-           message(sprintf("%sDetected a warning from socketConnection(): %s", verbose_prefix, sQuote(conditionMessage(w))))
+           mdebugf("%sDetected a warning from socketConnection(): %s", verbose_prefix, sQuote(conditionMessage(w)))
          }
          warnings <<- c(warnings, list(w))
        })
@@ -1199,12 +1234,12 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
        ## /HB 2019-01-24
        pid <- readWorkerPID(pidfile)
        if (!is.null(pid)) {
-         if (verbose) message(sprintf("Killing worker process (PID %d) if still alive", pid))
+         if (verbose) mdebugf("Killing worker process (PID %d) if still alive", pid)
          ## WARNING: pid_kill() calls pid_exists() [twice] and on Windows
          ## pid_exists() uses system('tasklist') which can be very very slow
          ## /HB 2019-01-24
          success <- pid_kill(pid)
-         if (verbose) message(sprintf("Worker (PID %d) was successfully killed: %s", pid, success))
+         if (verbose) mdebugf("Worker (PID %d) was successfully killed: %s", pid, success)
          msg <- c(msg, sprintf(" * Worker (PID %d) was successfully killed: %s\n", pid, success))
        } else if (localMachine) {
          msg <- c(msg, sprintf(" * Failed to kill local worker because it's PID is could not be identified.\n"))
@@ -1273,7 +1308,7 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
   setTimeLimit(elapsed = Inf)
 
   if (verbose) {
-    message(sprintf("%sConnection with worker #%s on %s established", verbose_prefix, rank, sQuote(worker)))
+    mdebugf("%sConnection with worker #%s on %s established", verbose_prefix, rank, sQuote(worker))
   }
 
   structure(list(con = con, host = worker, rank = rank, rshlogfile = rshlogfile),
@@ -1453,7 +1488,7 @@ find_rshcmd <- function(which = NULL, first = FALSE, must_work = TRUE) {
       "ssh"         = find_ssh(),
       "putty-plink" = find_putty_plink(),
       "rstudio-ssh" = find_rstudio_ssh(),
-      stop("Unknown 'rshcmd' type: ", sQuote(name))
+      stopf("Unknown 'rshcmd' type: %s", sQuote(name))
     )
     
     if (!is.null(pathname)) {
@@ -1577,7 +1612,7 @@ useWorkerPID <- local({
       "-e", shQuote(sprintf("file.exists(%s)", shQuote(result$pidfile)))
     ), collapse = " ")
     if (verbose) {
-      message("Testing if worker's PID can be inferred: ", sQuote(test_cmd))
+      mdebugf("Testing if worker's PID can be inferred: %s", sQuote(test_cmd))
     }
     
     input <- NULL
@@ -1592,7 +1627,7 @@ useWorkerPID <- local({
     suppressWarnings(file.remove(result$pidfile))
     
     .cache[[key]] <<- (is.null(status) || status == 0L) && any(grepl("TRUE", res))
-    if (verbose) message("- Possible to infer worker's PID: ", .cache[[key]])
+    if (verbose) mdebugf("- Possible to infer worker's PID: %s", .cache[[key]])
     
     result
   }  
@@ -1602,7 +1637,7 @@ useWorkerPID <- local({
 readWorkerPID <- function(pidfile, wait = 0.5, maxTries = 8L, verbose = FALSE) {
   if (is.null(pidfile)) return(NULL)
   
-  if (verbose) message("Attempting to infer PID for worker process ...")
+  if (verbose) mdebug("Attempting to infer PID for worker process ...")
   pid <- NULL
   
   ## Wait for PID file
@@ -1625,18 +1660,18 @@ readWorkerPID <- function(pidfile, wait = 0.5, maxTries = 8L, verbose = FALSE) {
     if (length(pid0) > 0L) {
       ## Use last one, if more than one ("should not happend")
       pid <- as.integer(pid0[length(pid0)])
-      if (verbose) message(" - pid: ", pid)
+      if (verbose) mdebugf(" - pid: %s", pid)
       if (is.na(pid)) {
-        warning(sprintf("Worker PID is a non-integer: %s", pid0))
+        warnf("Worker PID is a non-integer: %s", pid0)
         pid <- NULL
       } else if (pid == Sys.getpid()) {
-        warning(sprintf("Hmm... worker PID and parent PID are the same: %s", pid))
+        warnf("Hmm... worker PID and parent PID are the same: %s", pid)
         pid <- NULL
       }
     }
   }
  
-  if (verbose) message("Attempting to infer PID for worker process ... done")
+  if (verbose) mdebug("Attempting to infer PID for worker process ... done")
   
   pid
 } ## readWorkerPID()

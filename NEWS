@@ -1,11 +1,47 @@
 Package: parallelly
 ===================
 
+Version: 1.29.0 [2021-11-20]
+
+SIGNIFICANT CHANGES:
+
+ * makeClusterPSOCK() launches parallel workers with option 'socketOptions'
+   set to "no-delay" by default.  This decreases the communication latency
+   between workers and the main R session, significantly so on Unix.  This
+   option requires R (>= 4.1.0) and has no effect in early versions of R.
+
+NEW FEATURES:
+
+ * Added argument 'socketOptions' to makeClusterPSOCK(), which sets the
+   corresponding R option on each cluster node when they are launched.
+
+ * Argument 'rscript_envs' of makeClusterPSOCK() can also be used to unset
+   environment variables cluster nodes.  Any named element with value
+   'NA_character_' will be unset.
+
+ * Argument 'rscript' of makeClusterPSOCK() now supports "*" values. When
+   used, the corresponding element will be replaced with the "Rscript", or
+   if 'homogenous = TRUE', then absolute path to current "Rscript".
+
+DOCUMENTATION:
+
+ * Add makeClusterPSOCK() example on how to launch workers distributed
+   across multiple CPU Groups on MS Windows 10.
+
+BUG FIXES:
+
+ * isForkedChild() would only return TRUE in a forked child process, if and
+   only if, it had already been called in the parent R process.
+
+ * Using argument 'rscript_startup' would cause makeClusterPSOCK() to fail
+   in R-devel (>= r80666).
+
+
 Version: 1.28.1 [2021-09-09]
 
 CRAN POLICIES:
 
- * example("isNodeAlive") now uses \donttest{} to avoid long (> 10 s) ellapsed
+ * example("isNodeAlive") now uses \donttest{} to avoid long (> 10 s) elapsed
    run times on MS Windows.
    
 

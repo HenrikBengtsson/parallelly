@@ -43,14 +43,14 @@
 makeClusterMPI <- function(workers, ..., autoStop = FALSE, verbose = getOption2("parallelly.debug", FALSE)) {
   if (is.numeric(workers)) {
     if (length(workers) != 1L) {
-      stop("When numeric, argument 'workers' must be a single value: ", length(workers))
+      stopf("When numeric, argument 'workers' must be a single value: %s", length(workers))
     }
     workers <- as.integer(workers)
     if (is.na(workers) || workers < 1L) {
-      stop("Number of 'workers' must be one or greater: ", workers)
+      stopf("Number of 'workers' must be one or greater: %s", workers)
     }
   } else {
-    stop("Argument 'workers' must be an integer: ", mode(workers))
+    stopf("Argument 'workers' must be an integer: %s", mode(workers))
   }
   if (verbose) {
     message(sprintf("Number of workers: %d", workers))

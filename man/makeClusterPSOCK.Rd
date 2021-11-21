@@ -30,6 +30,7 @@ makeNodePSOCK(
   rscript_libs = NULL,
   rscript_startup = NULL,
   methods = TRUE,
+  socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"),
   useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE),
   outfile = "/dev/null",
   renice = NA_integer_,
@@ -114,12 +115,14 @@ For instance, use \code{rscript_args = c("-e", shQuote('setwd("/path/to")'))}
 to set the working directory to \file{/path/to} on \emph{all} workers.}
 
 \item{rscript_envs}{A named character vector environment variables to
-set on worker at startup, e.g.
-\code{rscript_envs = c(FOO = "3.14", "HOME", "UNKNOWN")}.
+set or unset on worker at startup, e.g.
+\code{rscript_envs = c(FOO = "3.14", "HOME", "UNKNOWN", UNSETME = NA_character_)}.
 If an element is not named, then the value of that variable will be used as
 the name and the value will be the value of \code{Sys.getenv()} for that
 variable.  Non-existing environment variables will be dropped.
-These variables are set using \code{Sys.setenv()}.}
+These variables are set using \code{Sys.setenv()}.
+An named element with value \code{NA_character_} will cause that variable to be
+unset, which is done via \code{Sys.unsetenv()}.}
 
 \item{rscript_libs}{A character vector of \R library paths that will be
 used for the library search path of the \R workers.  An asterisk
@@ -136,6 +139,9 @@ For instance, use \code{rscript_startup = 'setwd("/path/to")'}
 to set the working directory to \file{/path/to} on \emph{all} workers.}
 
 \item{methods}{If TRUE, then the \pkg{methods} package is also loaded.}
+
+\item{socketOptions}{A character string that sets \R option
+\option{socketOptions} on the worker.}
 
 \item{useXDR}{If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).}
 
@@ -326,9 +332,10 @@ If \code{homogeneous} is TRUE, the \code{rscript} defaults to
 \code{file.path(R.home("bin"), "Rscript")}, i.e. it is basically assumed that
 the worker and the caller share the same file system and \R installation.
 
-If specified, argument \code{rscript} should be a character vector with one more
-more elements.
-all elements are automatically shell quoted using \code{\link[base:shQuote]{base::shQuote()}}, except
+When specified, argument \code{rscript} should be a character vector with one or
+more elements.  Any asterisk (\code{"*"}) will be resolved to the above default
+\code{homogeneous}-dependent \code{Rscript} path.
+All elements are automatically shell quoted using \code{\link[base:shQuote]{base::shQuote()}}, except
 those that are of format \verb{<ENVVAR>=<VALUE>}, that is, the ones matching the
 regular expression '\samp{^[[:alpha:]_][[:alnum:]_]*=.*}'.
 Another exception is when \code{rscript} inherits from 'AsIs'.
@@ -505,16 +512,51 @@ cl <- makeClusterPSOCK(
   ## Manually launch parallel workers
   ## (need double shQuote():s because udocker.py drops one level)
   rscript_args = c(
-    "-e", shQuote(shQuote("parallel:::.slaveRSOCK()"))
+    "-e", shQuote(shQuote("parallel:::.workRSOCK()"))
   ),
   dryrun = TRUE
 )
 
 
+## EXAMPLE: One worker running in Wine for Linux on the local machine
+## To install R for MS Windows in Wine, do something like:
+## wget https://cran.r-project.org/bin/windows/base/R-4.1.2-win.exe
+## wine R-4.1.2-win.exe /SILENT
+## winecfg  # In GUI, set 'Windows version' to 'Windows 10'
+## wine "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe" --version
+cl <- makeClusterPSOCK(1L,
+  rscript = c(
+    "WINEDEBUG=fixme-all", "wine",
+    "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe"
+  ),
+  dryrun = TRUE
+)
+
+
+## EXAMPLE: Launch 124 workers on MS Windows 10, where half are
+## running on CPU Group #0 and half on CPU Group #1.  
+## (https://lovickconsulting.com/2021/11/18/
+##  running-r-clusters-on-an-amd-threadripper-3990x-in-windows-10-2/)
+ncores <- 124
+cpu_groups <- c(0, 1)
+cl <- lapply(cpu_groups, FUN = function(cpu_group) {
+    parallelly::makeClusterPSOCK(ncores \%/\% length(cpu_groups),
+      rscript = I(c(
+        Sys.getenv("COMSPEC"), "/c", "start", "/B",
+        "/NODE", cpu_group, "/AFFINITY", "0xFFFFFFFFFFFFFFFE",
+        "*"
+      )),
+      dryrun = TRUE
+    )
+})
+## merge the two 62-node clusters into one with 124 nodes
+cl <- do.call(c, cl)
+
+
 ## EXAMPLE: Remote worker running on AWS
 ## Launching worker on Amazon AWS EC2 running one of the
 ## Amazon Machine Images (AMI) provided by RStudio
-## (http://www.louisaslett.com/RStudio_AMI/)
+## (https://www.louisaslett.com/RStudio_AMI/)
 public_ip <- "1.2.3.4"
 ssh_private_key_file <- "~/.ssh/my-private-aws-key.pem"
 cl <- makeClusterPSOCK(

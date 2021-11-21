@@ -66,6 +66,26 @@ for (xdr in c(TRUE, FALSE)) {
   parallel::stopCluster(cl)
 }
 
+message("- makeClusterPSOCK() - argument 'socketOptions'")
+
+for (value in list(NULL, "NULL", "no-delay")) {
+  cl <- makeClusterPSOCK(1L, socketOptions = value)
+  y <- parallel::clusterEvalQ(cl, 42L)[[1]]
+  stopifnot(identical(y, 42L))
+  parallel::stopCluster(cl)
+}
+
+
+message("- makeClusterPSOCK() - argument 'rscript_startup'")
+
+for (value in list(NULL, "options(abc = 42L)", quote(options(abc = 42L)))) {
+  cl <- makeClusterPSOCK(1L, rscript_startup = value)
+  y <- parallel::clusterEvalQ(cl, getOption("abc", NA_integer_))[[1]]
+  stopifnot(is.integer(y), length(y) == 1L)
+  if (!is.null(value)) stopifnot(identical(y, 42L))
+  parallel::stopCluster(cl)
+}
+
 
 message("- makeClusterPSOCK() - setup_strategy = TRUE/FALSE")
 

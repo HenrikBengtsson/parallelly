@@ -1,14 +1,28 @@
-#' Checks whether or not a running in a forked child process
+#' Checks whether or not we are running in a forked child process
 #'
 #' @return (logical) Returns TRUE if the running in a forked child
 #' process, otherwise FALSE.
 #'
-## NOTE: There's also non-exported parallel:::isChild()
+#' @details
+#' Examples of setups and functions that rely on _forked_ parallelization
+#' are `parallel::makeCluster(n, type = "FORK")`, `parallel::mclapply()`,
+#' and `future::plan("multicore")`.
+#'
 #' @export
 isForkedChild <- local({
-  main_pid <- NULL
+  isChild <- NULL
+  
   function() {
-    if (is.null(main_pid)) main_pid <<- Sys.getpid()
-    Sys.getpid() != main_pid
+    if (is.null(isChild)) {
+      if (supportsMulticore()) {
+        ## Asked for parallel:::isChild() to be exported /HB 2021-11-04
+        ## https://bugs.r-project.org/show_bug.cgi?id=18230
+        isChild <- importParallel("isChild")
+      } else {
+        isChild <- function() FALSE
+      }
+    }
+    
+    isChild()
   }
 })
