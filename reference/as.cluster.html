@@ -96,7 +96,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.29.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.29.0-9000</span>
       </span>
     </div>
 
@@ -259,85 +259,85 @@ there are duplicated nodes in the resulting cluster.</p>
     <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>parallelly.debug <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='va'>cl1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='makeClusterPSOCK.html'>makeClusterPSOCK</a></span><span class='op'>(</span><span class='fl'>2</span>, dryrun <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.100] [local output] Workers: [n = 2] ‘localhost’, ‘localhost’</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.102] [local output] Base port: 11258</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.103] [local output] Getting setup options for 2 cluster nodes ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.103] [local output]  - Node 1 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.105] [local output] Rscript port: 11258</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.106] [local output]  - Node 2 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.107] [local output] Rscript port: 11258</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.108] [local output] Getting setup options for 2 cluster nodes ... done</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.108] [local output] Creating node 1 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.109] [local output] - setting up node</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.109] [local output] - attempt #1 of 3</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.566] [local output] Workers: [n = 2] ‘localhost’, ‘localhost’</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.569] [local output] Base port: 11408</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.569] [local output] Getting setup options for 2 cluster nodes ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.570] [local output]  - Node 1 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.572] [local output] Rscript port: 11408</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.572] [local output]  - Node 2 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.574] [local output] Rscript port: 11408</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.575] [local output] Getting setup options for 2 cluster nodes ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.575] [local output] Creating node 1 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.575] [local output] - setting up node</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.576] [local output] - attempt #1 of 3</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #1 on local machine ‘localhost’ with:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11258 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11408 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.111] [local output] Creating node 1 of 2 ... done</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.111] [local output] Creating node 2 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.111] [local output] - setting up node</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.111] [local output] - attempt #1 of 3</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.578] [local output] Creating node 1 of 2 ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.578] [local output] Creating node 2 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.578] [local output] - setting up node</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.578] [local output] - attempt #1 of 3</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #2 on local machine ‘localhost’ with:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11258 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11408 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.112] [local output] Creating node 2 of 2 ... done</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.112] [local output] - collecting session information</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.579] [local output] Creating node 2 of 2 ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.579] [local output] - collecting session information</span>
 <span class='r-in'><span class='va'>cl2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='makeClusterPSOCK.html'>makeClusterPSOCK</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n1"</span>, <span class='st'>"server.remote.org"</span><span class='op'>)</span>, dryrun <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.115] [local output] Workers: [n = 2] ‘n1’, ‘server.remote.org’</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.116] [local output] Base port: 11087</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.116] [local output] Getting setup options for 2 cluster nodes ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.116] [local output]  - Node 1 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.119] [local output] Rscript port: 11087 + 0 = 11087</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.119] [local output] Will search for all 'rshcmd' available</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.140] [local output] Found the following available 'rshcmd':</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.582] [local output] Workers: [n = 2] ‘n1’, ‘server.remote.org’</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.583] [local output] Base port: 11258</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.583] [local output] Getting setup options for 2 cluster nodes ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.583] [local output]  - Node 1 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.586] [local output] Rscript port: 11258 + 0 = 11258</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.587] [local output] Will search for all 'rshcmd' available</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.605] [local output] Found the following available 'rshcmd':</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> [local output]  1. ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.5, OpenSSL 1.0.2n  7 Dec 2017’]</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.140] [local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.5, OpenSSL 1.0.2n  7 Dec 2017’]</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.141] [local output]  - Node 2 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.144] [local output] Rscript port: 11087 + 1 = 11088</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.145] [local output] Will search for all 'rshcmd' available</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.163] [local output] Found the following available 'rshcmd':</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.606] [local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.5, OpenSSL 1.0.2n  7 Dec 2017’]</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.607] [local output]  - Node 2 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.610] [local output] Rscript port: 11258 + 1 = 11259</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.611] [local output] Will search for all 'rshcmd' available</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.628] [local output] Found the following available 'rshcmd':</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> [local output]  1. ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.5, OpenSSL 1.0.2n  7 Dec 2017’]</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.164] [local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.5, OpenSSL 1.0.2n  7 Dec 2017’]</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.164] [local output] Getting setup options for 2 cluster nodes ... done</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.165] [local output] Creating node 1 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.165] [local output] - setting up node</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.166] [local output] - attempt #1 of 3</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.628] [local output] Using 'rshcmd': ‘/usr/bin/ssh’ [type=‘ssh’, version=‘OpenSSH_7.6p1 Ubuntu-4ubuntu0.5, OpenSSL 1.0.2n  7 Dec 2017’]</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.629] [local output] Getting setup options for 2 cluster nodes ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.630] [local output] Creating node 1 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.630] [local output] - setting up node</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.630] [local output] - attempt #1 of 3</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘n1’:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11087:localhost:11087 n1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11258:localhost:11258 n1</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #1 from there:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11087 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11258 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #1 from the local machine by combining both step in a single call:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11087:localhost:11087 n1 "'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11087 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11258:localhost:11258 n1 "'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11258 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.166] [local output] Creating node 1 of 2 ... done</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.167] [local output] Creating node 2 of 2 ...</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.167] [local output] - setting up node</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.167] [local output] - attempt #1 of 3</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.631] [local output] Creating node 1 of 2 ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.631] [local output] Creating node 2 of 2 ...</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.632] [local output] - setting up node</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.632] [local output] - attempt #1 of 3</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘server.remote.org’:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11088:localhost:11087 server.remote.org</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11259:localhost:11258 server.remote.org</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #2 from there:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11088 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11259 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #2 from the local machine by combining both step in a single call:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11088:localhost:11087 server.remote.org "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11088 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11259:localhost:11258 server.remote.org "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11259 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.168] [local output] Creating node 2 of 2 ... done</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> [17:06:42.168] [local output] - collecting session information</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.633] [local output] Creating node 2 of 2 ... done</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> [22:46:59.633] [local output] - collecting session information</span>
 <span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>cl1</span>, <span class='va'>cl2</span><span class='op'>)</span></span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>The combined cluster contains 1 duplicated nodes</span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>cl</span><span class='op'>)</span></span>
