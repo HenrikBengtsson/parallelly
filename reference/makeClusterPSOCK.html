@@ -695,61 +695,12 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: Two workers on the local machine</span></span>
 <span class='r-in'><span class='va'>workers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"localhost"</span>, <span class='st'>"localhost"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>makeClusterPSOCK</span><span class='op'>(</span><span class='va'>workers</span>, dryrun <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #1 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11941 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #2 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11941 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>makeClusterPSOCK</span><span class='op'>(</span><span class='va'>workers</span>, dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: Three remote workers</span></span>
 <span class='r-in'><span class='co'>## Setup of three R workers on two remote machines are set up</span></span>
 <span class='r-in'><span class='va'>workers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n1.remote.org"</span>, <span class='st'>"n2.remote.org"</span>, <span class='st'>"n1.remote.org"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>makeClusterPSOCK</span><span class='op'>(</span><span class='va'>workers</span>, dryrun <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘n1.remote.org’:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11603:localhost:11603 n1.remote.org</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #1 from there:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11603 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #1 from the local machine by combining both step in a single call:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11603:localhost:11603 n1.remote.org "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11603 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘n2.remote.org’:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11604:localhost:11603 n2.remote.org</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #2 from there:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11604 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #2 from the local machine by combining both step in a single call:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11604:localhost:11603 n2.remote.org "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11604 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘n1.remote.org’:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11605:localhost:11603 n1.remote.org</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #3 from there:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11605 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #3 from the local machine by combining both step in a single call:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11605:localhost:11603 n1.remote.org "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11605 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>makeClusterPSOCK</span><span class='op'>(</span><span class='va'>workers</span>, dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: Local and remote workers</span></span>
@@ -758,47 +709,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>makeClusterPSOCK</span><span class='op'>(</span></span>
 <span class='r-in'>  <span class='va'>workers</span>,</span>
 <span class='r-in'>  revtunnel <span class='op'>=</span> <span class='cn'>FALSE</span>, homogeneous <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
-<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘n1.remote.org’:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh'  n1.remote.org</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #1 from there:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=hb-x1 PORT=11047 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #1 from the local machine by combining both step in a single call:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh'  n1.remote.org "'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=hb-x1 PORT=11047 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘n2.remote.org’:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh'  n2.remote.org</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #2 from there:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=hb-x1 PORT=11047 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #2 from the local machine by combining both step in a single call:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh'  n2.remote.org "'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=hb-x1 PORT=11047 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘n1.remote.org’:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh'  n1.remote.org</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #3 from there:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=hb-x1 PORT=11047 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #3 from the local machine by combining both step in a single call:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh'  n1.remote.org "'/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=hb-x1 PORT=11047 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: Remote workers with specific setup</span></span>
 <span class='r-in'><span class='co'>## Setup of remote worker with more detailed control on</span></span>
@@ -812,21 +724,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'>  <span class='co'>## Run Rscript nicely and skip any startup scripts</span></span>
 <span class='r-in'>  rscript <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nice"</span>, <span class='st'>"/path/to/Rscript"</span><span class='op'>)</span>,</span>
 <span class='r-in'>  rscript_args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"--vanilla"</span><span class='op'>)</span>,</span>
-<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘remote.server.org’:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -l johnny -v -R 11000:gateway:11942 remote.server.org</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #1 from there:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   'nice' '/path/to/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods --vanilla -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=gateway PORT=11942 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #1 from the local machine by combining both step in a single call:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -l johnny -v -R 11000:gateway:11942 remote.server.org "'nice' '/path/to/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods --vanilla -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=gateway PORT=11942 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: Two workers running in Docker on the local machine</span></span>
 <span class='r-in'><span class='co'>## Setup of 2 Docker workers running rocker/r-parallel</span></span>
@@ -843,18 +742,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'>  <span class='co'>## not running in the VM, but outside on the host.  To reach the host on</span></span>
 <span class='r-in'>  <span class='co'>## macOS and Windows, make sure to use master = "host.docker.internal"</span></span>
 <span class='r-in'>  <span class='co'># master = "host.docker.internal",  # &lt;= macOS &amp; Windows</span></span>
-<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #1 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/docker' 'run' '--net=host' 'rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11598 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #2 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/docker' 'run' '--net=host' 'rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11598 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: Two workers running in Singularity on the local machine</span></span>
@@ -866,18 +755,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'>    <span class='st'>"singularity"</span>, <span class='st'>"exec"</span>, <span class='st'>"docker://rocker/r-parallel"</span>,</span>
 <span class='r-in'>    <span class='st'>"Rscript"</span></span>
 <span class='r-in'>  <span class='op'>)</span>,</span>
-<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #1 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/local/bin/singularity' 'exec' 'docker://rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11117 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #2 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/local/bin/singularity' 'exec' 'docker://rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11117 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: One worker running in udocker on the local machine</span></span>
@@ -894,13 +773,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'>  rscript_args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
 <span class='r-in'>    <span class='st'>"-e"</span>, <span class='fu'><a href='https://rdrr.io/r/base/shQuote.html'>shQuote</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/shQuote.html'>shQuote</a></span><span class='op'>(</span><span class='st'>"parallel:::.workRSOCK()"</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-in'>  <span class='op'>)</span>,</span>
-<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #1 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   'udocker.py' 'run' 'rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e "'parallel:::.workRSOCK()'" -e 'options(socketOptions = "no-delay")' MASTER=localhost PORT=11494 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: One worker running in Wine for Linux on the local machine</span></span>
@@ -914,13 +788,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'>    <span class='st'>"WINEDEBUG=fixme-all"</span>, <span class='st'>"wine"</span>,</span>
 <span class='r-in'>    <span class='st'>"C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe"</span></span>
 <span class='r-in'>  <span class='op'>)</span>,</span>
-<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #1 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   WINEDEBUG=fixme-all 'wine' 'C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11240 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: Launch 124 workers on MS Windows 10, where half are</span></span>
@@ -936,629 +805,9 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'>        <span class='st'>"/NODE"</span>, <span class='va'>cpu_group</span>, <span class='st'>"/AFFINITY"</span>, <span class='st'>"0xFFFFFFFFFFFFFFFE"</span>,</span>
 <span class='r-in'>        <span class='st'>"*"</span></span>
 <span class='r-in'>      <span class='op'>)</span><span class='op'>)</span>,</span>
-<span class='r-in'>      dryrun <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>      dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'>    <span class='op'>)</span></span>
 <span class='r-in'><span class='op'>}</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #1 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #2 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #3 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #4 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #5 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #6 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #7 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #8 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #9 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #10 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #11 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #12 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #13 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #14 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #15 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #16 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #17 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #18 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #19 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #20 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #21 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #22 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #23 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #24 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #25 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #26 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #27 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #28 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #29 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #30 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #31 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #32 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #33 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #34 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #35 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #36 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #37 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #38 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #39 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #40 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #41 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #42 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #43 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #44 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #45 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #46 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #47 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #48 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #49 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #50 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #51 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #52 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #53 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #54 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #55 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #56 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #57 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #58 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #59 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #60 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #61 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #62 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 0 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11464 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #1 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #2 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #3 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #4 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #5 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #6 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #7 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #8 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #9 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #10 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #11 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #12 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #13 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #14 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #15 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #16 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #17 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #18 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #19 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #20 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #21 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #22 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #23 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #24 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #25 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #26 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #27 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #28 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #29 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #30 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #31 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #32 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #33 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #34 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #35 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #36 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #37 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #38 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #39 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #40 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #41 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #42 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #43 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #44 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #45 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #46 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #47 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #48 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #49 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #50 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #51 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #52 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #53 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #54 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #55 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #56 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #57 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #58 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #59 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #60 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #61 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #62 on local machine ‘localhost’ with:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>    /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE /home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11403 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'><span class='co'>## merge the two 62-node clusters into one with 124 nodes</span></span>
 <span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span><span class='op'>(</span><span class='va'>c</span>, <span class='va'>cl</span><span class='op'>)</span></span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>The combined cluster contains 61 duplicated nodes</span>
@@ -1589,21 +838,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/base/libPaths.html'>.libPaths</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span></span>
 <span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"future"</span><span class='op'>)</span></span>
 <span class='r-in'>  <span class='op'>}</span><span class='op'>)</span><span class='op'>)</span>,</span>
-<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘1.2.3.4’:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11866:localhost:11866 -l ubuntu -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -i ~/.ssh/my-private-aws-key.pem 1.2.3.4</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #1 from there:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'invisible({local({;    p &lt;- Sys.getenv("R_LIBS_USER");    dir.create(p, recursive = TRUE, showWarnings = FALSE);    .libPaths(p);    install.packages("future");})})' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11866 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #1 from the local machine by combining both step in a single call:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11866:localhost:11866 -l ubuntu -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -i ~/.ssh/my-private-aws-key.pem 1.2.3.4 "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'invisible({local({;    p &lt;- Sys.getenv(\"R_LIBS_USER\");    dir.create(p, recursive = TRUE, showWarnings = FALSE);    .libPaths(p);    install.packages(\"future\");})})' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11866 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: Remote worker running on GCE</span></span>
@@ -1628,21 +864,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'>    <span class='st'>"docker"</span>, <span class='st'>"run"</span>, <span class='st'>"--net=host"</span>, <span class='st'>"rocker/r-parallel"</span>,</span>
 <span class='r-in'>    <span class='st'>"Rscript"</span></span>
 <span class='r-in'>  <span class='op'>)</span>,</span>
-<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘1.2.3.4’:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11346:localhost:11346 -l johnny -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -i ~/.ssh/google_compute_engine 1.2.3.4</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #1 from there:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   'docker' 'run' '--net=host' 'rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11346 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #1 from the local machine by combining both step in a single call:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/usr/bin/ssh' -R 11346:localhost:11346 -l johnny -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -i ~/.ssh/google_compute_engine 1.2.3.4 "'docker' 'run' '--net=host' 'rocker/r-parallel' 'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11346 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: Remote worker running on Linux from Windows machine</span></span>
@@ -1655,21 +878,8 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'>  <span class='st'>"remote.server.org"</span>, user <span class='op'>=</span> <span class='st'>"bob"</span>,</span>
 <span class='r-in'>  rshcmd <span class='op'>=</span> <span class='st'>"&lt;putty-plink&gt;"</span>,</span>
 <span class='r-in'>  rshopts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"-P"</span>, <span class='fl'>2200</span>, <span class='st'>"-i"</span>, <span class='st'>"C:/Users/bobby/.ssh/putty.ppk"</span><span class='op'>)</span>,</span>
-<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘remote.server.org’:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/bin/plink' '-ssh' -R 11439:localhost:11439 -l bob -P 2200 -i C:/Users/bobby/.ssh/putty.ppk remote.server.org</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #1 from there:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11439 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #1 from the local machine by combining both step in a single call:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/bin/plink' '-ssh' -R 11439:localhost:11439 -l bob -P 2200 -i C:/Users/bobby/.ssh/putty.ppk remote.server.org "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11439 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: Remote worker running on Linux from RStudio on Windows</span></span>
@@ -1680,22 +890,9 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'><span class='co'>## preventing it from using other SSH clients on the system search PATH.</span></span>
 <span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>makeClusterPSOCK</span><span class='op'>(</span></span>
 <span class='r-in'>  <span class='st'>"remote.server.org"</span>, user <span class='op'>=</span> <span class='st'>"bob"</span>, rshcmd <span class='op'>=</span> <span class='st'>"&lt;rstudio-ssh&gt;"</span>,</span>
-<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'><span class='op'>)</span></span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Failed to locate a default SSH client (checked: ‘rstudio-ssh’). Please specify one via argument 'rshcmd'. Will still try with ‘ssh’.</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, (i) login into external machine ‘remote.server.org’:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   'ssh' -R 11249:localhost:11249 -l bob remote.server.org</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> and (ii) start worker #1 from there:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11249 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Alternatively, start worker #1 from the local machine by combining both step in a single call:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   'ssh' -R 11249:localhost:11249 -l bob remote.server.org "'Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = \"no-delay\")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11249 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential"</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
