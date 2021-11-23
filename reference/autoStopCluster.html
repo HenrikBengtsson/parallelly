@@ -245,12 +245,12 @@ the cluster is garbage collected.</p></td>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #1 on local machine ‘localhost’ with:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11086 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11561 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Manually, start worker #2 on local machine ‘localhost’ with:</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11086 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   '/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11561 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>autoStopCluster</span><span class='op'>(</span><span class='va'>cl</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>cl</span><span class='op'>)</span></span>
@@ -258,8 +258,8 @@ the cluster is garbage collected.</p></td>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/rm.html'>rm</a></span><span class='op'>(</span>list <span class='op'>=</span> <span class='st'>"cl"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/gc.html'>gc</a></span><span class='op'>(</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>           used (Mb) gc trigger (Mb) max used (Mb)</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Ncells  733166 39.2    1335204 71.4  1335204 71.4</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Vcells 1381150 10.6    8388608 64.0  1971598 15.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Ncells  733166 39.2    1335221 71.4  1335221 71.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Vcells 1381150 10.6    8388608 64.0  1971660 15.1</span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
