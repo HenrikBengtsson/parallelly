@@ -1,9 +1,14 @@
 Package: parallelly
 ===================
 
-Version: 1.29.0-9000 [2021-11-20]
+Version: 1.29.0-9001 [2021-11-23]
 
- * ...
+BUG FIXES:
+
+ * The package detects when 'R CMD check' runs and adjust default settings
+   via environment variables in order to play nicer with the machine where
+   the checks are running. Some of these environment variables were in this
+   case ignored since parallelly 1.26.0.
  
 
 Version: 1.29.0 [2021-11-20]
