@@ -434,12 +434,12 @@ calling \code{makeClusterPSOCK()}.
 
 ## EXAMPLE: Two workers on the local machine
 workers <- c("localhost", "localhost")
-cl <- makeClusterPSOCK(workers, dryrun = TRUE)
+cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
 
 ## EXAMPLE: Three remote workers
 ## Setup of three R workers on two remote machines are set up
 workers <- c("n1.remote.org", "n2.remote.org", "n1.remote.org")
-cl <- makeClusterPSOCK(workers, dryrun = TRUE)
+cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
 
 
 ## EXAMPLE: Local and remote workers
@@ -448,7 +448,7 @@ cl <- makeClusterPSOCK(workers, dryrun = TRUE)
 cl <- makeClusterPSOCK(
   workers,
   revtunnel = FALSE, homogeneous = TRUE,
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 ## EXAMPLE: Remote workers with specific setup
@@ -463,7 +463,7 @@ cl <- makeClusterPSOCK(
   ## Run Rscript nicely and skip any startup scripts
   rscript = c("nice", "/path/to/Rscript"),
   rscript_args = c("--vanilla"),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 ## EXAMPLE: Two workers running in Docker on the local machine
@@ -481,7 +481,7 @@ cl <- makeClusterPSOCK(
   ## not running in the VM, but outside on the host.  To reach the host on
   ## macOS and Windows, make sure to use master = "host.docker.internal"
   # master = "host.docker.internal",  # <= macOS & Windows
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -494,7 +494,7 @@ cl <- makeClusterPSOCK(
     "singularity", "exec", "docker://rocker/r-parallel",
     "Rscript"
   ),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -512,7 +512,7 @@ cl <- makeClusterPSOCK(
   rscript_args = c(
     "-e", shQuote(shQuote("parallel:::.workRSOCK()"))
   ),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -527,7 +527,7 @@ cl <- makeClusterPSOCK(1L,
     "WINEDEBUG=fixme-all", "wine",
     "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe"
   ),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -544,7 +544,7 @@ cl <- lapply(cpu_groups, FUN = function(cpu_group) {
         "/NODE", cpu_group, "/AFFINITY", "0xFFFFFFFFFFFFFFFE",
         "*"
       )),
-      dryrun = TRUE
+      dryrun = TRUE, quiet = TRUE
     )
 })
 ## merge the two 62-node clusters into one with 124 nodes
@@ -576,7 +576,7 @@ cl <- makeClusterPSOCK(
     .libPaths(p)
     install.packages("future")
   })),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -602,7 +602,7 @@ cl <- makeClusterPSOCK(
     "docker", "run", "--net=host", "rocker/r-parallel",
     "Rscript"
   ),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -616,7 +616,7 @@ cl <- makeClusterPSOCK(
   "remote.server.org", user = "bob",
   rshcmd = "<putty-plink>",
   rshopts = c("-P", 2200, "-i", "C:/Users/bobby/.ssh/putty.ppk"),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -628,6 +628,6 @@ cl <- makeClusterPSOCK(
 ## preventing it from using other SSH clients on the system search PATH.
 cl <- makeClusterPSOCK(
   "remote.server.org", user = "bob", rshcmd = "<rstudio-ssh>",
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 }
