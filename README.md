@@ -76,6 +76,7 @@ The below table summarize the benefits:
 | Respects cgroups and Linux containers   |        ✓        |              no               |
 | Respects job scheduler allocations      |        ✓        |              no               |
 | Respects CRAN policies                  |        ✓        |              no               |
+| Respects Bioconductor policies          |        ✓        |              no               |
 
 
 
