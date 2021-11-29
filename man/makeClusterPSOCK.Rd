@@ -422,9 +422,9 @@ running an \R version that is not compatible with the version that your main
 \R session is running.  For instance, if we run R (>= 3.6.0) locally and the
 workers run R (< 3.5.0), we will get:
 \verb{Error in unserialize(node$con) : error reading from connection}.
-This is because R (>= 3.6.0) uses serialization format version 3 whereas
-R (< 3.5.0) only supports version 2.  We can see the version of the \R
-workers by adding \code{rscript_args = c("-e", shQuote("getRversion()"))} when
+This is because R (>= 3.6.0) uses serialization format version 3 by default
+whereas R (< 3.5.0) only supports version 2.  We can see the version of the
+\R workers by adding \code{rscript_args = c("-e", shQuote("getRversion()"))} when
 calling \code{makeClusterPSOCK()}.
 }
 

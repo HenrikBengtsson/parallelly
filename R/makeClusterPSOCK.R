@@ -665,9 +665,9 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' \R session is running.  For instance, if we run R (>= 3.6.0) locally and the
 #' workers run R (< 3.5.0), we will get:
 #' `Error in unserialize(node$con) : error reading from connection`.
-#' This is because R (>= 3.6.0) uses serialization format version 3 whereas
-#' R (< 3.5.0) only supports version 2.  We can see the version of the \R
-#' workers by adding `rscript_args = c("-e", shQuote("getRversion()"))` when
+#' This is because R (>= 3.6.0) uses serialization format version 3 by default
+#' whereas R (< 3.5.0) only supports version 2.  We can see the version of the
+#' \R workers by adding `rscript_args = c("-e", shQuote("getRversion()"))` when
 #' calling `makeClusterPSOCK()`.
 #'
 #' @rdname makeClusterPSOCK
