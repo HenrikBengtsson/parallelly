@@ -104,7 +104,7 @@ R workers, and how to connect to external machines." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.29.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.29.0-9002</span>
       </span>
     </div>
 
@@ -253,6 +253,7 @@ for controlling the setup of the system calls that launch the background
   rscript_envs <span class='op'>=</span> <span class='cn'>NULL</span>,
   rscript_libs <span class='op'>=</span> <span class='cn'>NULL</span>,
   rscript_startup <span class='op'>=</span> <span class='cn'>NULL</span>,
+  rscript_sh <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"auto"</span>, <span class='st'>"cmd"</span>, <span class='st'>"sh"</span><span class='op'>)</span>,
   methods <span class='op'>=</span> <span class='cn'>TRUE</span>,
   socketOptions <span class='op'>=</span> <span class='fu'><a href='getOption2.html'>getOption2</a></span><span class='op'>(</span><span class='st'>"parallelly.makeNodePSOCK.socketOptions"</span>, <span class='st'>"no-delay"</span><span class='op'>)</span>,
   useXDR <span class='op'>=</span> <span class='fu'><a href='getOption2.html'>getOption2</a></span><span class='op'>(</span><span class='st'>"parallelly.makeNodePSOCK.useXDR"</span>, <span class='cn'>FALSE</span><span class='op'>)</span>,
@@ -397,6 +398,18 @@ or a list with a mix of these, that will be evaluated on the <span style="R">R</
 prior to launching the worker's event loop.
 For instance, use <code>rscript_startup = 'setwd("/path/to")'</code>
 to set the working directory to <code class="file">/path/to</code> on <em>all</em> workers.</p></td>
+    </tr>
+    <tr>
+      <th>rscript_sh</th>
+      <td><p>The type of shell used where <code>rscript</code> is launched,
+which should be <code>"sh"</code> is launched via a POSIX shell and <code>"cmd"</code> if
+launched via an MS Windows shell.  This controls how shell command-line
+options are quoted, via
+<code><a href='https://rdrr.io/r/base/shQuote.html'>shQuote(..., type = rscript_sh)</a></code>.
+If <code>"auto"</code> (default), and the cluster node is launched locally, then it
+is set to <code>"sh"</code> or <code>"cmd"</code> according to the current platform.  If launched
+remotely, then it is set to <code>"sh"</code> based on the assumption remote machines
+typically launch commands via SSH in a POSIX shell.</p></td>
     </tr>
     <tr>
       <th>methods</th>
@@ -684,9 +697,9 @@ running an <span style="R">R</span> version that is not compatible with the vers
 <span style="R">R</span> session is running.  For instance, if we run R (&gt;= 3.6.0) locally and the
 workers run R (&lt; 3.5.0), we will get:
 <code>Error in unserialize(node$con) : error reading from connection</code>.
-This is because R (&gt;= 3.6.0) uses serialization format version 3 whereas
-R (&lt; 3.5.0) only supports version 2.  We can see the version of the <span style="R">R</span>
-workers by adding <code>rscript_args = c("-e", shQuote("getRversion()"))</code> when
+This is because R (&gt;= 3.6.0) uses serialization format version 3 by default
+whereas R (&lt; 3.5.0) only supports version 2.  We can see the version of the
+<span style="R">R</span> workers by adding <code>rscript_args = c("-e", shQuote("getRversion()"))</code> when
 calling <code>makeClusterPSOCK()</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -702,13 +715,22 @@ calling <code>makeClusterPSOCK()</code>.</p>
 <span class='r-in'><span class='va'>workers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n1.remote.org"</span>, <span class='st'>"n2.remote.org"</span>, <span class='st'>"n1.remote.org"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>makeClusterPSOCK</span><span class='op'>(</span><span class='va'>workers</span>, dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-in'></span>
-<span class='r-in'></span>
 <span class='r-in'><span class='co'>## EXAMPLE: Local and remote workers</span></span>
 <span class='r-in'><span class='co'>## Same setup when the two machines are on the local network and</span></span>
 <span class='r-in'><span class='co'>## have identical software setups</span></span>
 <span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>makeClusterPSOCK</span><span class='op'>(</span></span>
 <span class='r-in'>  <span class='va'>workers</span>,</span>
 <span class='r-in'>  revtunnel <span class='op'>=</span> <span class='cn'>FALSE</span>, homogeneous <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## EXAMPLE: Three remote workers 'n1', 'n2', and 'n3' that can only be</span></span>
+<span class='r-in'><span class='co'>## accessed via jumphost 'login.remote.org'</span></span>
+<span class='r-in'><span class='va'>workers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"n1"</span>, <span class='st'>"n2"</span>, <span class='st'>"n1"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'>makeClusterPSOCK</span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='va'>workers</span>,</span>
+<span class='r-in'>  rshopts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"-J"</span>, <span class='st'>"login.remote.org"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  homogeneous <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
 <span class='r-in'>  dryrun <span class='op'>=</span> <span class='cn'>TRUE</span>, quiet <span class='op'>=</span> <span class='cn'>TRUE</span></span>
 <span class='r-in'><span class='op'>)</span></span>
 <span class='r-in'></span>
