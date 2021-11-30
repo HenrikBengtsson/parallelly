@@ -1609,7 +1609,7 @@ useWorkerPID <- local({
     test_cmd <- paste(c(
       rscript,
       result$rscript_pid_args,
-      "-e", shQuote(sprintf("file.exists(%s)", shQuote(result$pidfile)))
+      "-e", shQuote(sprintf('file.exists("%s")', result$pidfile))
     ), collapse = " ")
     if (verbose) {
       mdebugf("Testing if worker's PID can be inferred: %s", sQuote(test_cmd))
