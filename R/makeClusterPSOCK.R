@@ -418,6 +418,16 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' For instance, use `rscript_startup = 'setwd("/path/to")'`
 #' to set the working directory to \file{/path/to} on _all_ workers.
 #' 
+#' @param rscript_sh The type of shell used where `rscript` is launched,
+#' which should be `"sh"` is launched via a POSIX shell and `"cmd"` if 
+#' launched via an MS Windows shell.  This controls how shell command-line
+#' options are quoted, via
+#' \code{\link[base:shQuote]{shQuote(..., type = rscript_sh)}}.
+#' If `"auto"` (default), and the cluster node is launched locally, then it
+#' is set to `"sh"` or `"cmd"` according to the current platform.  If launched
+#' remotely, then it is set to `"sh"` based on the assumption remote machines
+#' typically launch commands via SSH in a POSIX shell.
+#'
 #' @param methods If TRUE, then the \pkg{methods} package is also loaded.
 #' 
 #' @param useXDR If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).
@@ -674,7 +684,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @importFrom tools pskill
 #' @importFrom utils flush.console
 #' @export
-makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, methods = TRUE, socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"), useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
+makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, rscript_sh = c("auto", "cmd", "sh"), methods = TRUE, socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"), useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
   verbose <- as.logical(verbose)
   stop_if_not(length(verbose) == 1L, !is.na(verbose))
 
@@ -692,6 +702,17 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     if (localMachine) worker <- getOption2("parallelly.localhost.hostname", "localhost")
   }
   attr(worker, "localhost") <- localMachine
+
+  stop_if_not(is.character(rscript_sh), length(rscript_sh) >= 1L, !anyNA(rscript_sh))
+  rscript_sh <- rscript_sh[1]
+  if (rscript_sh == "auto") {
+    if (localMachine) {
+      rscript_sh <- if (.Platform$OS.type == "windows") "cmd" else "sh"
+    } else {
+      ## Assume remote machine uses as POSIX shell
+      rscript_sh <- "sh"
+    }
+  }
 
   manual <- as.logical(manual)
   stop_if_not(length(manual) == 1L, !is.na(manual))
@@ -838,12 +859,12 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   ## Shell quote the Rscript executable?
   if (!inherits(rscript, "AsIs")) {
     idxs <- grep("^[[:alpha:]_][[:alnum:]_]*=.*", rscript, invert = TRUE)
-    rscript[idxs] <- shQuote(rscript[idxs])
+    rscript[idxs] <- shQuote(rscript[idxs], type = rscript_sh)
   }
 
   ## Can we get the worker's PID during launch?
   if (localMachine && !dryrun) {
-    res <- useWorkerPID(rscript, rank = rank, verbose = verbose)
+    res <- useWorkerPID(rscript, rank = rank, rscript_sh = rscript_sh, verbose = verbose)
     pidfile <- res$pidfile
     rscript_args <- c(res$rscript_pid_args, rscript_args)
   } else {
@@ -858,7 +879,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       if (is.na(script)) script <- "UNKNOWN"
       rscript_label <- sprintf("%s:%s:%s:%s", script, Sys.getpid(), Sys.info()[["nodename"]], Sys.info()[["user"]])
     }
-    rscript_args <- c("-e", shQuote(paste0("#label=", rscript_label)), rscript_args)
+    rscript_args <- c("-e", shQuote(paste0("#label=", rscript_label), type = rscript_sh), rscript_args)
   }
 
   if (methods) {
@@ -880,13 +901,13 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
 
   if (length(socketOptions) == 1L) {
     code <- sprintf("options(socketOptions = \"%s\")", socketOptions)
-    rscript_expr <- c("-e", shQuote(code))
+    rscript_expr <- c("-e", shQuote(code, type = rscript_sh))
     rscript_args <- c(rscript_args, rscript_expr)
   }
 
   if (length(rscript_startup) > 0L) {
     rscript_startup <- paste("invisible({", rscript_startup, "})", sep = "")
-    rscript_startup <- shQuote(rscript_startup)
+    rscript_startup <- shQuote(rscript_startup, type = rscript_sh)
     rscript_startup <- lapply(rscript_startup, FUN = function(value) c("-e", value))
     rscript_startup <- unlist(rscript_startup, use.names = FALSE)
     rscript_args <- c(rscript_args, rscript_startup)
@@ -932,7 +953,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       }, error = function(ex) {
         stopf("Argument 'rscript_envs' appears to contain invalid values: %s", paste(sprintf("%s", sQuote(names)), collapse = ", "))
       })
-      rscript_args <- c(rscript_args, "-e", shQuote(code))
+      rscript_args <- c(rscript_args, "-e", shQuote(code, type = rscript_sh))
       rscript_envs <- rscript_envs[-unset]
       names <- names(rscript_envs)
     }
@@ -947,7 +968,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       }, error = function(ex) {
         stopf("Argument 'rscript_envs' appears to contain invalid values: %s", paste(sprintf("%s=%s", sQuote(names), sQuote(rscript_envs)), collapse = ", "))
       })
-      rscript_args <- c(rscript_args, "-e", shQuote(code))
+      rscript_args <- c(rscript_args, "-e", shQuote(code, type = rscript_sh))
     }
   }
 
@@ -961,14 +982,14 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     }, error = function(ex) {
       stopf("Argument 'rscript_libs' appears to contain invalid values: %s", paste(sQuote(rscript_libs), collapse = ", "))
     })
-    rscript_args <- c(rscript_args, "-e", shQuote(code))
+    rscript_args <- c(rscript_args, "-e", shQuote(code, type = rscript_sh))
   }
   
   ## .{slave,work}RSOCK() command already specified?
   if (!any(grepl("parallel:::[.](slave|work)RSOCK[(][)]", rscript_args))) {
     ## In R (>= 4.1.0), parallel:::.slaveRSOCK() was renamed to .workRSOCK()
     cmd <- "workRSOCK <- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()"
-    rscript_args <- c(rscript_args, "-e", shQuote(cmd))
+    rscript_args <- c(rscript_args, "-e", shQuote(cmd, type = rscript_sh))
   }
 
   rscript <- paste(rscript, collapse = " ")
@@ -1053,7 +1074,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     
     ## Local commands
     rsh_call <- paste(paste(shQuote(rshcmd), collapse = " "), rshopts, worker)
-    local_cmd <- paste(rsh_call, shQuote(cmd))
+    local_cmd <- paste(rsh_call, shQuote(cmd, type = rscript_sh))
   } else {
     rshcmd_label <- NULL
     rsh_call <- NULL
@@ -1586,21 +1607,21 @@ useWorkerPID <- local({
   parent_pid <- NULL
   .cache <- list()
 
-  makeResult <- function(rank) {
+  makeResult <- function(rank, rscript_sh) {
     if (is.null(parent_pid)) parent_pid <<- Sys.getpid()
     pidfile <- tempfile(pattern = sprintf("worker.rank=%d.parallelly.parent=%d.",
                    rank, parent_pid), fileext = ".pid")
     pidfile <- normalizePath(pidfile, winslash = "/", mustWork = FALSE)
     pidcode <- sprintf('try(suppressWarnings(cat(Sys.getpid(),file="%s")), silent = TRUE)', pidfile)
-    rscript_pid_args <- c("-e", shQuote(pidcode))
+    rscript_pid_args <- c("-e", shQuote(pidcode, type = rscript_sh))
     list(pidfile = pidfile, rscript_pid_args = rscript_pid_args)
   }
   
-  function(rscript, rank, force = FALSE, verbose = FALSE) {
+  function(rscript, rank, rscript_sh, force = FALSE, verbose = FALSE) {
     autoKill <- getOption2("parallelly.makeNodePSOCK.autoKill", TRUE)
     if (!isTRUE(as.logical(autoKill))) return(list())
 
-    result <- makeResult(rank)
+    result <- makeResult(rank, rscript_sh = rscript_sh)
     
     ## Already cached?
     key <- paste(rscript, collapse = "\t")
@@ -1609,7 +1630,7 @@ useWorkerPID <- local({
     test_cmd <- paste(c(
       rscript,
       result$rscript_pid_args,
-      "-e", shQuote(sprintf('file.exists("%s")', result$pidfile))
+      "-e", shQuote(sprintf('file.exists("%s")', result$pidfile), type = rscript_sh)
     ), collapse = " ")
     if (verbose) {
       mdebugf("Testing if worker's PID can be inferred: %s", sQuote(test_cmd))

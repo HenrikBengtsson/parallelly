@@ -29,6 +29,7 @@ makeNodePSOCK(
   rscript_envs = NULL,
   rscript_libs = NULL,
   rscript_startup = NULL,
+  rscript_sh = c("auto", "cmd", "sh"),
   methods = TRUE,
   socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"),
   useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE),
@@ -137,6 +138,16 @@ or a list with a mix of these, that will be evaluated on the \R worker
 prior to launching the worker's event loop.
 For instance, use \code{rscript_startup = 'setwd("/path/to")'}
 to set the working directory to \file{/path/to} on \emph{all} workers.}
+
+\item{rscript_sh}{The type of shell used where \code{rscript} is launched,
+which should be \code{"sh"} is launched via a POSIX shell and \code{"cmd"} if
+launched via an MS Windows shell.  This controls how shell command-line
+options are quoted, via
+\code{\link[base:shQuote]{shQuote(..., type = rscript_sh)}}.
+If \code{"auto"} (default), and the cluster node is launched locally, then it
+is set to \code{"sh"} or \code{"cmd"} according to the current platform.  If launched
+remotely, then it is set to \code{"sh"} based on the assumption remote machines
+typically launch commands via SSH in a POSIX shell.}
 
 \item{methods}{If TRUE, then the \pkg{methods} package is also loaded.}
 
@@ -441,13 +452,22 @@ cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
 workers <- c("n1.remote.org", "n2.remote.org", "n1.remote.org")
 cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
 
-
 ## EXAMPLE: Local and remote workers
 ## Same setup when the two machines are on the local network and
 ## have identical software setups
 cl <- makeClusterPSOCK(
   workers,
   revtunnel = FALSE, homogeneous = TRUE,
+  dryrun = TRUE, quiet = TRUE
+)
+
+## EXAMPLE: Three remote workers 'n1', 'n2', and 'n3' that can only be
+## accessed via jumphost 'login.remote.org'
+workers <- c("n1", "n2", "n1")
+cl <- makeClusterPSOCK(
+  workers,
+  rshopts = c("-J", "login.remote.org"),
+  homogeneous = FALSE,
   dryrun = TRUE, quiet = TRUE
 )
 

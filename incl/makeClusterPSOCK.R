@@ -10,13 +10,22 @@ cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
 workers <- c("n1.remote.org", "n2.remote.org", "n1.remote.org")
 cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
 
-
 ## EXAMPLE: Local and remote workers
 ## Same setup when the two machines are on the local network and
 ## have identical software setups
 cl <- makeClusterPSOCK(
   workers,
   revtunnel = FALSE, homogeneous = TRUE,
+  dryrun = TRUE, quiet = TRUE
+)
+
+## EXAMPLE: Three remote workers 'n1', 'n2', and 'n3' that can only be
+## accessed via jumphost 'login.remote.org'
+workers <- c("n1", "n2", "n1")
+cl <- makeClusterPSOCK(
+  workers,
+  rshopts = c("-J", "login.remote.org"),
+  homogeneous = FALSE,
   dryrun = TRUE, quiet = TRUE
 )
 

@@ -1,8 +1,18 @@
 Package: parallelly
 ===================
 
-Version: 1.29.0-9001 [2021-11-23]
+Version: 1.29.0-9002 [2021-11-23]
 
+NEW FEATURES:
+
+ * makeNodePSOCK(), and therefore also makeClusterPSOCK(), gained argument
+   'rscript_sh', which controls how Rscript arguments are shell quoted. The
+   default is to make a best guess on what type of shell is used where each
+   cluster node is launched.  If launched locally, then it whatever platform
+   the current R session is running, i.e. either a POSIX shell ("sh") or
+   MS Windows ("cmd").  If remotely, then the assumption is that a POSIX
+   shell ("sh") is used.
+ 
 BUG FIXES:
 
  * The package detects when 'R CMD check' runs and adjust default settings
