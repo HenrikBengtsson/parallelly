@@ -482,7 +482,6 @@ cl <- makeClusterPSOCK(
   master = "gateway", port = 11942,
   ## Run Rscript nicely and skip any startup scripts
   rscript = c("nice", "/path/to/Rscript"),
-  rscript_args = c("--vanilla"),
   dryrun = TRUE, quiet = TRUE
 )
 
