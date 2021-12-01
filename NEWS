@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.29.0-9002 [2021-11-23]
+Version: 1.29.0-9003 [2021-11-30]
 
 NEW FEATURES:
 
@@ -12,7 +12,12 @@ NEW FEATURES:
    the current R session is running, i.e. either a POSIX shell ("sh") or
    MS Windows ("cmd").  If remotely, then the assumption is that a POSIX
    shell ("sh") is used.
- 
+
+ * Argument 'rscript_args' of makeClusterPSOCK() now supports "*" values.
+   When used, the corresponding element will be replaced with the internally
+   added Rscript command-line options.  If not specified, such options are
+   appended at the end.
+
 BUG FIXES:
 
  * The package detects when 'R CMD check' runs and adjust default settings

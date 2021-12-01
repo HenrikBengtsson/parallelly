@@ -862,11 +862,13 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     rscript[idxs] <- shQuote(rscript[idxs], type = rscript_sh)
   }
 
+  rscript_args_internal <- character(0L)
+
   ## Can we get the worker's PID during launch?
   if (localMachine && !dryrun) {
     res <- useWorkerPID(rscript, rank = rank, rscript_sh = rscript_sh, verbose = verbose)
     pidfile <- res$pidfile
-    rscript_args <- c(res$rscript_pid_args, rscript_args)
+    rscript_args_internal <- c(res$rscript_pid_args, rscript_args_internal)
   } else {
     pidfile <- NULL
   }
@@ -879,11 +881,11 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       if (is.na(script)) script <- "UNKNOWN"
       rscript_label <- sprintf("%s:%s:%s:%s", script, Sys.getpid(), Sys.info()[["nodename"]], Sys.info()[["user"]])
     }
-    rscript_args <- c("-e", shQuote(paste0("#label=", rscript_label), type = rscript_sh), rscript_args)
+    rscript_args_internal <- c("-e", shQuote(paste0("#label=", rscript_label), type = rscript_sh), rscript_args_internal)
   }
 
   if (methods) {
-    rscript_args <- c("--default-packages=datasets,utils,grDevices,graphics,stats,methods", rscript_args)
+    rscript_args_internal <- c("--default-packages=datasets,utils,grDevices,graphics,stats,methods", rscript_args_internal)
   }
 
   ## Port that the Rscript should use to connect back to the master
@@ -902,7 +904,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   if (length(socketOptions) == 1L) {
     code <- sprintf("options(socketOptions = \"%s\")", socketOptions)
     rscript_expr <- c("-e", shQuote(code, type = rscript_sh))
-    rscript_args <- c(rscript_args, rscript_expr)
+    rscript_args_internal <- c(rscript_args_internal, rscript_expr)
   }
 
   if (length(rscript_startup) > 0L) {
@@ -910,7 +912,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     rscript_startup <- shQuote(rscript_startup, type = rscript_sh)
     rscript_startup <- lapply(rscript_startup, FUN = function(value) c("-e", value))
     rscript_startup <- unlist(rscript_startup, use.names = FALSE)
-    rscript_args <- c(rscript_args, rscript_startup)
+    rscript_args_internal <- c(rscript_args_internal, rscript_startup)
   }
 
   if (length(rscript_envs) > 0L) {
@@ -953,7 +955,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       }, error = function(ex) {
         stopf("Argument 'rscript_envs' appears to contain invalid values: %s", paste(sprintf("%s", sQuote(names)), collapse = ", "))
       })
-      rscript_args <- c(rscript_args, "-e", shQuote(code, type = rscript_sh))
+      rscript_args_internal <- c(rscript_args_internal, "-e", shQuote(code, type = rscript_sh))
       rscript_envs <- rscript_envs[-unset]
       names <- names(rscript_envs)
     }
@@ -968,7 +970,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       }, error = function(ex) {
         stopf("Argument 'rscript_envs' appears to contain invalid values: %s", paste(sprintf("%s=%s", sQuote(names), sQuote(rscript_envs)), collapse = ", "))
       })
-      rscript_args <- c(rscript_args, "-e", shQuote(code, type = rscript_sh))
+      rscript_args_internal <- c(rscript_args_internal, "-e", shQuote(code, type = rscript_sh))
     }
   }
 
@@ -982,14 +984,32 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     }, error = function(ex) {
       stopf("Argument 'rscript_libs' appears to contain invalid values: %s", paste(sQuote(rscript_libs), collapse = ", "))
     })
-    rscript_args <- c(rscript_args, "-e", shQuote(code, type = rscript_sh))
+    rscript_args_internal <- c(rscript_args_internal, "-e", shQuote(code, type = rscript_sh))
   }
   
   ## .{slave,work}RSOCK() command already specified?
   if (!any(grepl("parallel:::[.](slave|work)RSOCK[(][)]", rscript_args))) {
     ## In R (>= 4.1.0), parallel:::.slaveRSOCK() was renamed to .workRSOCK()
     cmd <- "workRSOCK <- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()"
-    rscript_args <- c(rscript_args, "-e", shQuote(cmd, type = rscript_sh))
+    rscript_args_internal <- c(rscript_args_internal, "-e", shQuote(cmd, type = rscript_sh))
+  }
+
+  ## Append or inject rscript_args_internal?
+  idx <- which(rscript_args == "*")
+  if (length(idx) == 0L) {
+    rscript_args <- c(rscript_args, rscript_args_internal)
+  } else if (length(idx) == 1L) {
+    n <- length(rscript_args)
+    if (idx == 1L) {
+      rscript_args <- c(rscript_args_internal, rscript_args[-1])
+    } else if (idx == n) {
+      rscript_args <- c(rscript_args[-n], rscript_args_internal)
+    } else {
+      rscript_args <- c(rscript_args[1:(idx-1)], rscript_args_internal, 
+                        rscript_args[(idx+1):n])
+    }
+  } else {
+    stop(sprintf("Argument 'rscript_args' may contain at most one asterisk ('*'): %s", paste(sQuote(rscript_args), collapse = " ")))
   }
 
   rscript <- paste(rscript, collapse = " ")
