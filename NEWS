@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.29.0-9003 [2021-11-30]
+Version: 1.29.0-9004 [2021-12-13]
 
 NEW FEATURES:
 
@@ -20,6 +20,11 @@ NEW FEATURES:
 
 BUG FIXES:
 
+ * makeClusterPSOCK() did not support backslashes ('\') in 'rscript_libs',
+   backslashes that may originate from, for example, Windows network drives.
+   The result was that the worker would silently ignore any 'rscript_libs'
+   components with backslashes.
+ 
  * The package detects when 'R CMD check' runs and adjust default settings
    via environment variables in order to play nicer with the machine where
    the checks are running. Some of these environment variables were in this

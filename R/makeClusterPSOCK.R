@@ -975,6 +975,8 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   }
 
   if (length(rscript_libs) > 0L) {
+    ## Make sure to preserve backslashes, e.g. in Windows network drives
+    rscript_libs <- gsub("\\\\", "\\\\\\\\", rscript_libs, fixed = TRUE)
     code <- paste0('"', rscript_libs, '"')
     code[rscript_libs == "*"] <- ".libPaths()"
     code <- paste(code, collapse = ",")
