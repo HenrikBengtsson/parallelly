@@ -15,7 +15,12 @@ NEW FEATURES:
 
  * makeNodePSOCK(), and therefore also makeClusterPSOCK(), gained argument
    'default_packages', which controls the default set of R packages to be
-   attached on each cluster node at startup.
+   attached on each cluster node at startup.  Moreover, if argument 'rscript'
+   specifies an 'Rscript' executable, then argument 'default_packages' is
+   used to populate Rscript command-line option '--default-packages=...'.
+   If 'rscript' specifies something else, e.g. an 'R' or 'Rterm' executable,
+   then environment variable 'R_DEFAULT_PACKAGES=...' is set accordingly when
+   launching each cluster node.
    
  * Argument 'rscript_args' of makeClusterPSOCK() now supports "*" values.
    When used, the corresponding element will be replaced with the internally

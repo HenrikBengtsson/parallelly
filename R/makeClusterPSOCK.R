@@ -785,6 +785,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   if (!is.null(default_packages)) {
     default_packages <- as.character(default_packages)
     stop_if_not(!anyNA(default_packages))
+    ## FIXME: Validate package names
     default_packages <- unique(default_packages)
   }
  
@@ -906,11 +907,23 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   ## In contrast to default_packages=character(0), default_packages = NULL
   ## skips --default-packages/R_DEFAULT_PACKAGES completely.
   if (!is.null(default_packages)) {
+    pkgs <- paste(unique(default_packages), collapse = ",")
     if (is_Rscript) {
-      pkgs <- paste(unique(default_packages), collapse = ",")
-      rscript_args_internal <- c(sprintf("--default-packages=%s", pkgs), rscript_args_internal)
+      arg <- sprintf("--default-packages=%s", pkgs)
+      rscript_args_internal <- c(arg, rscript_args_internal)
     } else {
-      warning(sprintf("Argument %s was ignored because it is only supported when workers are launched by %s: %s (use default_packages=NULL to avoid this warning)", sQuote("default_packages"), sQuote("Rscript"), rscript[1]))
+      arg <- sprintf("R_DEFAULT_PACKAGES=%s", pkgs)
+      if (localMachine) {
+        if (.Platform$OS.type == "windows") {
+          ## On MS Windows, we have to use special '/path/to/R FOO=1 ...'
+          rscript_args <- c(arg, rscript_args)
+        } else {
+          ## Everywhere else, we can use 'FOO=1 /path/to/R ...'
+          rscript <- c(arg, rscript)
+        }
+      } else {
+        warning(sprintf("Argument %s was ignored because it is only supported on the local machine when cluster nodes are launched by %s: %s (use default_packages=NULL to avoid this warning)", sQuote("default_packages"), sQuote("Rscript"), rscript[1]))
+      }
     }
   }
 
