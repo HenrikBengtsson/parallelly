@@ -152,8 +152,9 @@ remotely, then it is set to \code{"sh"} based on the assumption remote machines
 typically launch commands via SSH in a POSIX shell.}
 
 \item{default_packages}{A character vector or NULL that controls which R
-packages are attached on each cluster node during startup.  If NULL, then
-the default set of packages R are attached.}
+packages are attached on each cluster node during startup.  An asterisk
+(\code{"*"}) resolves to \code{getOption("defaultPackages")} \emph{on the current machine}.
+If NULL, then the default set of packages R are attached.}
 
 \item{methods}{If TRUE (default), then the \pkg{methods} package is also
 loaded. This is argument exists for legacy reasons due to how

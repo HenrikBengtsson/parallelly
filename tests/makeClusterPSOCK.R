@@ -161,6 +161,46 @@ for (rscript in rscripts) {
 }
 
 
+message("- makeClusterPSOCK() - default packages")
+
+rscripts <- file.path(R.home("bin"), c("Rscript", "R"))
+default_packages <- c("utils", "tools")
+for (rscript in rscripts) {
+  message("  Launcher: ", sQuote(rscript))
+  if (basename(rscript) == "R") {
+    rscript_args <- c("--no-echo", "--no-restore", "*", "--args")
+  } else {
+    rscript_args <- NULL
+  }
+  cl <- tryCatch({
+    makeClusterPSOCK(1L, rscript = rscript, rscript_args = rscript_args, default_packages = default_packages)
+  }, warning = identity)
+  stopifnot(inherits(cl, "cluster"))
+  pkgs <- parallel::clusterEvalQ(cl, { getOption("defaultPackages") })[[1]]
+  stopifnot(identical(pkgs, default_packages))
+  parallel::stopCluster(cl)
+}
+
+rscripts <- file.path(R.home("bin"), c("Rscript", "R"))
+default_packages <- c("parallelly", "*")
+truth <- unique(c("parallelly", getOption("defaultPackages")))
+for (rscript in rscripts) {
+  message("  Launcher: ", sQuote(rscript))
+  if (basename(rscript) == "R") {
+    rscript_args <- c("--no-echo", "--no-restore", "*", "--args")
+  } else {
+    rscript_args <- NULL
+  }
+  cl <- tryCatch({
+    makeClusterPSOCK(1L, rscript = rscript, rscript_args = rscript_args, default_packages = default_packages)
+  }, warning = identity)
+  stopifnot(inherits(cl, "cluster"))
+  pkgs <- parallel::clusterEvalQ(cl, { getOption("defaultPackages") })[[1]]
+  stopifnot(identical(pkgs, truth))
+  parallel::stopCluster(cl)
+}
+
+
 message("- makeClusterPSOCK() - exceptions")
 
 res <- tryCatch({

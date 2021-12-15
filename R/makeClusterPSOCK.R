@@ -429,8 +429,9 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' typically launch commands via SSH in a POSIX shell.
 #'
 #' @param default_packages A character vector or NULL that controls which R
-#' packages are attached on each cluster node during startup.  If NULL, then
-#' the default set of packages R are attached.
+#' packages are attached on each cluster node during startup.  An asterisk
+#' (`"*"`) resolves to `getOption("defaultPackages")` _on the current machine_.
+#' If NULL, then the default set of packages R are attached.
 #'
 #' @param methods If TRUE (default), then the \pkg{methods} package is also 
 #' loaded. This is argument exists for legacy reasons due to how 
@@ -785,8 +786,23 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   if (!is.null(default_packages)) {
     default_packages <- as.character(default_packages)
     stop_if_not(!anyNA(default_packages))
-    ## FIXME: Validate package names
+    is_asterisk <- (default_packages == "*")
+    if (any(is_asterisk)) {
+      pkgs <- getOption("defaultPackages")
+      if (length(pkgs) == 0) {
+        default_packages[!is_asterisk]
+      } else {
+        pkgs <- paste(pkgs, collapse=",")
+        default_packages[is_asterisk] <- pkgs
+        default_packages <- unlist(strsplit(default_packages, split = ",", fixed = TRUE))
+      }
+    }
     default_packages <- unique(default_packages)
+    pattern <- sprintf("^%s$", .standard_regexps()$valid_package_name)
+    invalid <- grep(pattern, default_packages, invert = TRUE, value = TRUE)
+    if (length(invalid) > 0) {
+      stop(sprintf("Argument %s specifies invalid package names: %s", sQuote("default_packages"), paste(sQuote(invalid), collapse = ", ")))
+    }
   }
  
   if (is.null(homogeneous)) {
