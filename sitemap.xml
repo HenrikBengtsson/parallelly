@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://parallelly.futureverse.org/404.html</loc>
+  </url>
+  <url>
+    <loc>https://parallelly.futureverse.org/CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://parallelly.futureverse.org/CONTRIBUTING.html</loc>
+  </url>
+  <url>
+    <loc>https://parallelly.futureverse.org/authors.html</loc>
+  </url>
+  <url>
     <loc>https://parallelly.futureverse.org/index.html</loc>
+  </url>
+  <url>
+    <loc>https://parallelly.futureverse.org/news/index.html</loc>
   </url>
   <url>
     <loc>https://parallelly.futureverse.org/reference/as.cluster.html</loc>
@@ -35,6 +50,9 @@
   </url>
   <url>
     <loc>https://parallelly.futureverse.org/reference/getOption2.html</loc>
+  </url>
+  <url>
+    <loc>https://parallelly.futureverse.org/reference/index.html</loc>
   </url>
   <url>
     <loc>https://parallelly.futureverse.org/reference/isConnectionValid.html</loc>
