@@ -912,17 +912,18 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       arg <- sprintf("--default-packages=%s", pkgs)
       rscript_args_internal <- c(arg, rscript_args_internal)
     } else {
+      ## FIXME: Make 'rscript_envs' work this way so they are applied sooner
+      ## in the R startup process, instead via -e 'Sys.setenv(FOO="1")'.
       arg <- sprintf("R_DEFAULT_PACKAGES=%s", pkgs)
-      if (localMachine) {
-        if (.Platform$OS.type == "windows") {
-          ## On MS Windows, we have to use special '/path/to/R FOO=1 ...'
-          rscript_args <- c(arg, rscript_args)
-        } else {
-          ## Everywhere else, we can use 'FOO=1 /path/to/R ...'
-          rscript <- c(arg, rscript)
-        }
+
+      ## Is the cluster node launched in a MS Windows machine?
+      on_MSWindows <- (rscript_sh %in% c("cmd", "cmd2"))
+      if (on_MSWindows) {
+        ## On MS Windows, we have to use special '/path/to/R FOO=1 ...'
+        rscript_args <- c(arg, rscript_args)
       } else {
-        warning(sprintf("Argument %s was ignored because it is only supported on the local machine when cluster nodes are launched by %s: %s (use default_packages=NULL to avoid this warning)", sQuote("default_packages"), sQuote("Rscript"), rscript[1]))
+        ## Everywhere else, we can use 'FOO=1 /path/to/R ...'
+        rscript <- c(arg, rscript)
       }
     }
   }

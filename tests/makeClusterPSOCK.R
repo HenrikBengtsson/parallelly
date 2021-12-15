@@ -141,6 +141,26 @@ stopifnot(!is.element("parallelly", ns))
 parallel::stopCluster(cl)
 
 
+message("- makeClusterPSOCK() - launch via the R executable")
+
+rscripts <- file.path(R.home("bin"), "R")
+if (.Platform$OS.type == "windows") {
+  rscripts <- file.path(R.home("bin"), "R.exe")
+  rscripts <- file.path(R.home("bin"), "Rterm")
+  rscripts <- file.path(R.home("bin"), "Rterm.exe")
+}
+
+for (rscript in rscripts) {
+  message("  Launcher: ", sQuote(rscript))
+  rscript_args <- c("--no-echo", "--no-restore", "*", "--args")
+  cl <- tryCatch({
+    makeClusterPSOCK(1L, rscript = rscript, rscript_args = rscript_args)
+  }, warning = identity)
+  stopifnot(inherits(cl, "cluster"))
+  parallel::stopCluster(cl)
+}
+
+
 message("- makeClusterPSOCK() - exceptions")
 
 res <- tryCatch({
