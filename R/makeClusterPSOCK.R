@@ -884,6 +884,9 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     rscript_args_internal <- c("-e", shQuote(paste0("#label=", rscript_label), type = rscript_sh), rscript_args_internal)
   }
 
+  ## FIXME: This is really legacy code there. It stems from R (< 3.5.0), where
+  ## 'Rscript' did *not* attach the 'methods' package by default, whereas 'R'
+  ## did.  Since R 3.5.0, 'R' and 'Rscript' attach the same set of packages.
   if (methods) {
     rscript_args_internal <- c("--default-packages=datasets,utils,grDevices,graphics,stats,methods", rscript_args_internal)
   }
