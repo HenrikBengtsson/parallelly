@@ -143,11 +143,13 @@ parallel::stopCluster(cl)
 
 message("- makeClusterPSOCK() - launch via the R executable")
 
-rscripts <- file.path(R.home("bin"), "R")
 if (.Platform$OS.type == "windows") {
-  rscripts <- file.path(R.home("bin"), "R.exe")
-  rscripts <- file.path(R.home("bin"), "Rterm")
-  rscripts <- file.path(R.home("bin"), "Rterm.exe")
+  ## R and R.exe fails on MS Windows, cf. R-devel thread "MS Windows: R does
+  ## not escape quotes in CLI options the same way as Rterm and Rscript"
+  ## on 2021-12-15.
+  rscripts <- file.path(R.home("bin"), c("Rterm", "Rterm.exe"))
+} else {
+  rscripts <- file.path(R.home("bin"), "R")
 }
 
 for (rscript in rscripts) {
@@ -163,11 +165,18 @@ for (rscript in rscripts) {
 
 message("- makeClusterPSOCK() - default packages")
 
-rscripts <- file.path(R.home("bin"), c("Rscript", "R"))
+if (.Platform$OS.type == "windows") {
+  ## R and R.exe fails on MS Windows, cf. R-devel thread "MS Windows: R does
+  ## not escape quotes in CLI options the same way as Rterm and Rscript"
+  ## on 2021-12-15.
+  rscripts <- file.path(R.home("bin"), c("Rscript", "Rterm", "Rterm.exe"))
+} else {
+  rscripts <- file.path(R.home("bin"), c("Rscript", "R"))
+}
 default_packages <- c("utils", "tools")
 for (rscript in rscripts) {
   message("  Launcher: ", sQuote(rscript))
-  if (basename(rscript) == "R") {
+  if (tools::file_path_sans_ext(basename(rscript)) %in% c("R", "Rterm")) {
     rscript_args <- c("--no-echo", "--no-restore", "*", "--args")
   } else {
     rscript_args <- NULL
@@ -181,12 +190,19 @@ for (rscript in rscripts) {
   parallel::stopCluster(cl)
 }
 
-rscripts <- file.path(R.home("bin"), c("Rscript", "R"))
+if (.Platform$OS.type == "windows") {
+  ## R and R.exe fails on MS Windows, cf. R-devel thread "MS Windows: R does
+  ## not escape quotes in CLI options the same way as Rterm and Rscript"
+  ## on 2021-12-15.
+  rscripts <- file.path(R.home("bin"), c("Rscript", "Rterm", "Rterm.exe"))
+} else {
+  rscripts <- file.path(R.home("bin"), c("Rscript", "R"))
+}
 default_packages <- c("parallelly", "*")
 truth <- unique(c("parallelly", getOption("defaultPackages")))
 for (rscript in rscripts) {
   message("  Launcher: ", sQuote(rscript))
-  if (basename(rscript) == "R") {
+  if (tools::file_path_sans_ext(basename(rscript)) %in% c("R", "Rterm")) {
     rscript_args <- c("--no-echo", "--no-restore", "*", "--args")
   } else {
     rscript_args <- NULL
