@@ -30,6 +30,8 @@ makeNodePSOCK(
   rscript_libs = NULL,
   rscript_startup = NULL,
   rscript_sh = c("auto", "cmd", "sh"),
+  default_packages = c("datasets", "utils", "grDevices", "graphics", "stats", if
+    (methods) "methods"),
   methods = TRUE,
   socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"),
   useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE),
@@ -149,7 +151,13 @@ is set to \code{"sh"} or \code{"cmd"} according to the current platform.  If lau
 remotely, then it is set to \code{"sh"} based on the assumption remote machines
 typically launch commands via SSH in a POSIX shell.}
 
-\item{methods}{If TRUE, then the \pkg{methods} package is also loaded.}
+\item{default_packages}{A character vector or NULL that controls which R
+packages are attached on each cluster node during startup.  If NULL, then
+the default set of packages R are attached.}
+
+\item{methods}{If TRUE (default), then the \pkg{methods} package is also
+loaded. This is argument exists for legacy reasons due to how
+\command{Rscript} worked in R (< 3.5.0).}
 
 \item{socketOptions}{A character string that sets \R option
 \option{socketOptions} on the worker.}

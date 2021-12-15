@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.29.0-9004 [2021-12-13]
+Version: 1.29.0-9005 [2021-12-15]
 
 NEW FEATURES:
 
@@ -13,6 +13,10 @@ NEW FEATURES:
    MS Windows ("cmd").  If remotely, then the assumption is that a POSIX
    shell ("sh") is used.
 
+ * makeNodePSOCK(), and therefore also makeClusterPSOCK(), gained argument
+   'default_packages', which controls the default set of R packages to be
+   attached on each cluster node at startup.
+   
  * Argument 'rscript_args' of makeClusterPSOCK() now supports "*" values.
    When used, the corresponding element will be replaced with the internally
    added Rscript command-line options.  If not specified, such options are

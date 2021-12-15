@@ -428,7 +428,13 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' remotely, then it is set to `"sh"` based on the assumption remote machines
 #' typically launch commands via SSH in a POSIX shell.
 #'
-#' @param methods If TRUE, then the \pkg{methods} package is also loaded.
+#' @param default_packages A character vector or NULL that controls which R
+#' packages are attached on each cluster node during startup.  If NULL, then
+#' the default set of packages R are attached.
+#'
+#' @param methods If TRUE (default), then the \pkg{methods} package is also 
+#' loaded. This is argument exists for legacy reasons due to how 
+#' \command{Rscript} worked in R (< 3.5.0).
 #' 
 #' @param useXDR If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).
 #' 
@@ -684,7 +690,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 #' @importFrom tools pskill
 #' @importFrom utils flush.console
 #' @export
-makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, rscript_sh = c("auto", "cmd", "sh"), methods = TRUE, socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"), useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
+makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, rscript_sh = c("auto", "cmd", "sh"), default_packages = c("datasets", "utils", "grDevices", "graphics", "stats", if (methods) "methods"), methods = TRUE, socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"), useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
   verbose <- as.logical(verbose)
   stop_if_not(length(verbose) == 1L, !is.na(verbose))
 
@@ -770,8 +776,17 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   timeout <- as.numeric(timeout)
   stop_if_not(length(timeout) == 1L, !is.na(timeout), is.finite(timeout), timeout >= 0)
 
+  ## FIXME: This is really legacy code there. It stems from R (< 3.5.0), where
+  ## 'Rscript' did *not* attach the 'methods' package by default, whereas 'R'
+  ## did.  Since R 3.5.0, 'R' and 'Rscript' attach the same set of packages.
   methods <- as.logical(methods)
   stop_if_not(length(methods) == 1L, !is.na(methods))
+
+  if (!is.null(default_packages)) {
+    default_packages <- as.character(default_packages)
+    stop_if_not(!anyNA(default_packages))
+    default_packages <- unique(default_packages)
+  }
  
   if (is.null(homogeneous)) {
     homogeneous <- {
@@ -806,6 +821,10 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
       rscript[1] <- bin
     }
   }
+
+  ## Is rscript[1] referring to Rscript, or R/Rterm?
+  name <- sub("[.]exe$", "", basename(bin))
+  is_Rscript <- (tolower(name) == "rscript")
 
   rscript_args <- as.character(rscript_args)
 
@@ -884,11 +903,15 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     rscript_args_internal <- c("-e", shQuote(paste0("#label=", rscript_label), type = rscript_sh), rscript_args_internal)
   }
 
-  ## FIXME: This is really legacy code there. It stems from R (< 3.5.0), where
-  ## 'Rscript' did *not* attach the 'methods' package by default, whereas 'R'
-  ## did.  Since R 3.5.0, 'R' and 'Rscript' attach the same set of packages.
-  if (methods) {
-    rscript_args_internal <- c("--default-packages=datasets,utils,grDevices,graphics,stats,methods", rscript_args_internal)
+  ## In contrast to default_packages=character(0), default_packages = NULL
+  ## skips --default-packages/R_DEFAULT_PACKAGES completely.
+  if (!is.null(default_packages)) {
+    if (is_Rscript) {
+      pkgs <- paste(unique(default_packages), collapse = ",")
+      rscript_args_internal <- c(sprintf("--default-packages=%s", pkgs), rscript_args_internal)
+    } else {
+      warning(sprintf("Argument %s was ignored because it is only supported when workers are launched by %s: %s (use default_packages=NULL to avoid this warning)", sQuote("default_packages"), sQuote("Rscript"), rscript[1]))
+    }
   }
 
   ## Port that the Rscript should use to connect back to the master
