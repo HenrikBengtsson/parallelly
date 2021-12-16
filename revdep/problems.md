@@ -56,27 +56,6 @@ Run `revdep_details(, "AIPW")` for more info
       All declared Imports should be used.
     ```
 
-# alookr
-
-<details>
-
-* Version: 0.3.4
-* GitHub: https://github.com/choonghyunryu/alookr
-* Source code: https://github.com/cran/alookr
-* Date/Publication: 2021-02-22 14:40:02 UTC
-* Number of recursive dependencies: 155
-
-Run `revdep_details(, "alookr")` for more info
-
-</details>
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
-    ```
-
 # AlpsNMR
 
 <details>
@@ -93,10 +72,42 @@ Run `revdep_details(, "AlpsNMR")` for more info
 
 ## In both
 
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.3Mb
+      sub-directories of 1Mb or more:
+        dataset-demo   3.0Mb
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘zip’
       All declared Imports should be used.
+    ```
+
+# aroma.affymetrix
+
+<details>
+
+* Version: 3.2.0
+* GitHub: https://github.com/HenrikBengtsson/aroma.affymetrix
+* Source code: https://github.com/cran/aroma.affymetrix
+* Date/Publication: 2019-06-23 06:00:14 UTC
+* Number of recursive dependencies: 73
+
+Run `revdep_details(, "aroma.affymetrix")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  7.6Mb
+      sub-directories of 1Mb or more:
+        R             3.8Mb
+        help          1.9Mb
+        testScripts   1.1Mb
     ```
 
 # aroma.core
@@ -162,7 +173,7 @@ Run `revdep_details(, "BAMBI")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.3Mb
+      installed size is  6.8Mb
       sub-directories of 1Mb or more:
         libs   5.8Mb
     ```
@@ -233,7 +244,7 @@ Run `revdep_details(, "bigsnpr")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 13.2Mb
+      installed size is 13.7Mb
       sub-directories of 1Mb or more:
         libs  11.5Mb
     ```
@@ -242,10 +253,10 @@ Run `revdep_details(, "bigsnpr")` for more info
 
 <details>
 
-* Version: 1.5.1
+* Version: 1.5.5
 * GitHub: https://github.com/privefl/bigstatsr
 * Source code: https://github.com/cran/bigstatsr
-* Date/Publication: 2021-04-05 09:10:02 UTC
+* Date/Publication: 2021-12-01 10:00:10 UTC
 * Number of recursive dependencies: 98
 
 Run `revdep_details(, "bigstatsr")` for more info
@@ -256,7 +267,7 @@ Run `revdep_details(, "bigstatsr")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 17.3Mb
+      installed size is 17.9Mb
       sub-directories of 1Mb or more:
         extdata   2.3Mb
         libs     14.4Mb
@@ -282,7 +293,7 @@ Run `revdep_details(, "biscuiteer")` for more info
     ```
     Found the following significant warnings:
       Warning: replacing previous import ‘BiocParallel::bpstart’ by ‘QDNAseq::bpstart’ when loading ‘biscuiteer’
-    See ‘/c4/home/henrik/repositories/parallelly/revdep/checks/biscuiteer/new/biscuiteer.Rcheck/00install.out’ for details.
+    See ‘/scratch/henrik/366801/revdepcheck.extras/parallelly/revdep/checks/biscuiteer/new/biscuiteer.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... WARNING
@@ -303,7 +314,7 @@ Run `revdep_details(, "biscuiteer")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.8Mb
+      installed size is  6.3Mb
       sub-directories of 1Mb or more:
         data      1.1Mb
         extdata   3.4Mb
@@ -354,10 +365,10 @@ Run `revdep_details(, "bistablehistory")` for more info
 
 <details>
 
-* Version: 0.3-17
+* Version: 0.3-18
 * GitHub: NA
 * Source code: https://github.com/cran/blavaan
-* Date/Publication: 2021-07-19 22:00:02 UTC
+* Date/Publication: 2021-11-27 08:10:02 UTC
 * Number of recursive dependencies: 127
 
 Run `revdep_details(, "blavaan")` for more info
@@ -368,8 +379,9 @@ Run `revdep_details(, "blavaan")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 68.8Mb
+      installed size is 69.7Mb
       sub-directories of 1Mb or more:
+        R      1.8Mb
         libs  66.8Mb
     ```
 
@@ -396,9 +408,9 @@ Run `revdep_details(, "blockCV")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.6Mb
+      installed size is  8.7Mb
       sub-directories of 1Mb or more:
-        extdata   7.7Mb
+        extdata   7.8Mb
     ```
 
 *   checking Rd cross-references ... NOTE
@@ -406,14 +418,42 @@ Run `revdep_details(, "blockCV")` for more info
     Package unavailable to check Rd xrefs: ‘biomod2’
     ```
 
+# bootUR
+
+<details>
+
+* Version: 0.4.2
+* GitHub: https://github.com/smeekes/bootUR
+* Source code: https://github.com/cran/bootUR
+* Date/Publication: 2021-11-25 11:00:02 UTC
+* Number of recursive dependencies: 64
+
+Run `revdep_details(, "bootUR")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.6Mb
+      sub-directories of 1Mb or more:
+        libs   5.1Mb
+    ```
+
+*   checking for GNU extensions in Makefiles ... NOTE
+    ```
+    GNU make is a SystemRequirements.
+    ```
+
 # brms
 
 <details>
 
-* Version: 2.16.1
+* Version: 2.16.3
 * GitHub: https://github.com/paul-buerkner/brms
 * Source code: https://github.com/cran/brms
-* Date/Publication: 2021-08-23 14:00:05 UTC
+* Date/Publication: 2021-11-22 19:50:02 UTC
 * Number of recursive dependencies: 220
 
 Run `revdep_details(, "brms")` for more info
@@ -429,9 +469,9 @@ Run `revdep_details(, "brms")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.4Mb
+      installed size is  9.2Mb
       sub-directories of 1Mb or more:
-        R     4.1Mb
+        R     5.5Mb
         doc   2.4Mb
     ```
 
@@ -483,11 +523,11 @@ Run `revdep_details(, "ChromSCape")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.9Mb
+      installed size is  8.6Mb
       sub-directories of 1Mb or more:
         data   1.3Mb
         doc    2.9Mb
-        www    2.0Mb
+        www    2.1Mb
     ```
 
 *   checking R code for possible problems ... NOTE
@@ -544,6 +584,14 @@ Run `revdep_details(, "civis")` for more info
 
 ## In both
 
+*   checking installed package size ... NOTE
+    ```
+      installed size is  6.2Mb
+      sub-directories of 1Mb or more:
+        R      1.8Mb
+        help   3.8Mb
+    ```
+
 *   checking LazyData ... NOTE
     ```
       'LazyData' is specified without a 'data' directory
@@ -567,7 +615,7 @@ Run `revdep_details(, "CLVTools")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 11.0Mb
+      installed size is 11.2Mb
       sub-directories of 1Mb or more:
         libs   9.8Mb
     ```
@@ -687,6 +735,31 @@ Run `revdep_details(, "datapackage.r")` for more info
 
 ## In both
 
+*   checking tests ...
+    ```
+      Running ‘testthat.R’
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 50 lines of output:
+      Component "properties": Component "resources": Component "items": Component "properties": Component "sources": Component "items": Component "properties": Component "path": Component "description": 1 string mismatch
+      Component "properties": Component "resources": Component "items": Component "properties": Component "licenses": Component "items": Component "properties": Component "path": Component "description": 1 string mismatch
+      ...
+      ── Failure (test-profile.R:106:5): profile tabular-data-package should be up-to-date ──
+      profile$jsonschema not equal to `response.data`.
+      Component "properties": Component "contributors": Component "items": Component "properties": Component "path": Component "description": 1 string mismatch
+    ...
+      Component "properties": Component "schema": Component "type": target is character, current is list
+      Component "properties": Component "sources": Component "items": Component "properties": Component "path": Component "description": 1 string mismatch
+      Component "properties": Component "licenses": Component "items": Component "properties": Component "path": Component "description": 1 string mismatch
+      Component "properties": Component "dialect": Component "type": Modes: character, list
+      Component "properties": Component "dialect": Component "type": Lengths: 1, 2
+      ...
+      
+      [ FAIL 5 | WARN 0 | SKIP 0 | PASS 248 ]
+      Error: Test failures
+      Execution halted
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
@@ -739,7 +812,7 @@ Run `revdep_details(, "dipsaus")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.9Mb
+      installed size is  6.3Mb
       sub-directories of 1Mb or more:
         doc    1.3Mb
         libs   3.5Mb
@@ -816,7 +889,7 @@ Run `revdep_details(, "dragon")` for more info
 * GitHub: https://github.com/erblast/easyalluvial
 * Source code: https://github.com/cran/easyalluvial
 * Date/Publication: 2021-01-13 10:40:09 UTC
-* Number of recursive dependencies: 143
+* Number of recursive dependencies: 146
 
 Run `revdep_details(, "easyalluvial")` for more info
 
@@ -848,7 +921,7 @@ Run `revdep_details(, "EFAtools")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.5Mb
+      installed size is  8.1Mb
       sub-directories of 1Mb or more:
         doc    1.0Mb
         libs   5.6Mb
@@ -880,7 +953,7 @@ Run `revdep_details(, "envi")` for more info
     ```
     Found the following significant warnings:
       Warning: no DISPLAY variable so Tk is not available
-    See ‘/c4/home/henrik/repositories/parallelly/revdep/checks/envi/new/envi.Rcheck/00install.out’ for details.
+    See ‘/scratch/henrik/366801/revdepcheck.extras/parallelly/revdep/checks/envi/new/envi.Rcheck/00install.out’ for details.
     ```
 
 # EpiNow2
@@ -906,30 +979,10 @@ Run `revdep_details(, "EpiNow2")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 168.3Mb
+      installed size is 169.0Mb
       sub-directories of 1Mb or more:
-        libs  166.7Mb
-    ```
-
-# fabletools
-
-<details>
-
-* Version: 0.3.1
-* GitHub: https://github.com/tidyverts/fabletools
-* Source code: https://github.com/cran/fabletools
-* Date/Publication: 2021-03-16 22:10:03 UTC
-* Number of recursive dependencies: 96
-
-Run `revdep_details(, "fabletools")` for more info
-
-</details>
-
-## In both
-
-*   checking LazyData ... NOTE
-    ```
-      'LazyData' is specified without a 'data' directory
+        help    1.4Mb
+        libs  166.6Mb
     ```
 
 # fipe
@@ -974,13 +1027,13 @@ Run `revdep_details(, "flowGraph")` for more info
     Error(s) in re-building vignettes:
     --- re-building ‘flowGraph.Rmd’ using rmarkdown
     - 8 pops @ layer 1
-    12:15:18-12:15:18 > 16:00:00
+    18:04:49-18:04:49 > 16:00:00
     - 24 pops @ layer 2
-    12:15:18-12:15:18 > 16:00:00
+    18:04:49-18:04:49 > 16:00:00
     - 32 pops @ layer 3
-    12:15:18-12:15:18 > 16:00:00
+    18:04:49-18:04:49 > 16:00:00
     - 16 pops @ layer 4
-    12:15:18-12:15:18 > 16:00:00
+    18:04:49-18:04:49 > 16:00:00
     ...
     Quitting from lines 557-561 (flowGraph.Rmd) 
     Error: processing vignette 'flowGraph.Rmd' failed with diagnostics:
@@ -1026,7 +1079,7 @@ Run `revdep_details(, "foieGras")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 40.6Mb
+      installed size is 40.9Mb
       sub-directories of 1Mb or more:
         libs  39.7Mb
     ```
@@ -1069,6 +1122,13 @@ Run `revdep_details(, "GeneBreak")` for more info
 
 ## In both
 
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.1Mb
+      sub-directories of 1Mb or more:
+        data   4.0Mb
+    ```
+
 *   checking R code for possible problems ... NOTE
     ```
     .glmbreak: no visible global function definition for ‘glm’
@@ -1105,9 +1165,9 @@ Run `revdep_details(, "geocmeans")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 11.4Mb
+      installed size is 13.5Mb
       sub-directories of 1Mb or more:
-        data   2.3Mb
+        data   4.3Mb
         doc    1.9Mb
         libs   6.1Mb
     ```
@@ -1214,8 +1274,9 @@ Run `revdep_details(, "grattan")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.2Mb
+      installed size is  5.7Mb
       sub-directories of 1Mb or more:
+        R      1.0Mb
         libs   4.1Mb
     ```
 
@@ -1237,7 +1298,7 @@ Run `revdep_details(, "greed")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 30.1Mb
+      installed size is 30.2Mb
       sub-directories of 1Mb or more:
         libs  27.9Mb
     ```
@@ -1329,7 +1390,7 @@ Run `revdep_details(, "hal9001")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.1Mb
+      installed size is  6.2Mb
       sub-directories of 1Mb or more:
         libs   5.7Mb
     ```
@@ -1358,9 +1419,9 @@ Run `revdep_details(, "HiCcompare")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.5Mb
+      installed size is 13.7Mb
       sub-directories of 1Mb or more:
-        data   5.6Mb
+        data  12.8Mb
     ```
 
 *   checking R code for possible problems ... NOTE
@@ -1473,8 +1534,9 @@ Run `revdep_details(, "infercnv")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.0Mb
+      installed size is  5.7Mb
       sub-directories of 1Mb or more:
+        data      1.0Mb
         extdata   3.1Mb
     ```
 
@@ -1523,7 +1585,7 @@ Run `revdep_details(, "interflex")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.2Mb
+      installed size is  5.6Mb
       sub-directories of 1Mb or more:
         libs   4.5Mb
     ```
@@ -1609,7 +1671,7 @@ Run `revdep_details(, "keyATM")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 18.9Mb
+      installed size is 19.0Mb
       sub-directories of 1Mb or more:
         libs  18.5Mb
     ```
@@ -1622,7 +1684,7 @@ Run `revdep_details(, "keyATM")` for more info
 * GitHub: https://github.com/kkholst/lava
 * Source code: https://github.com/cran/lava
 * Date/Publication: 2021-09-02 14:50:18 UTC
-* Number of recursive dependencies: 144
+* Number of recursive dependencies: 142
 
 Run `revdep_details(, "lava")` for more info
 
@@ -1653,12 +1715,12 @@ Run `revdep_details(, "lidR")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 15.6Mb
+      installed size is 16.9Mb
       sub-directories of 1Mb or more:
-        R         1.1Mb
+        R         1.8Mb
         doc       1.0Mb
-        extdata   1.1Mb
-        libs     11.8Mb
+        extdata   1.2Mb
+        libs     11.9Mb
     ```
 
 # lmtp
@@ -1723,31 +1785,6 @@ Run `revdep_details(, "microservices")` for more info
 
 ## In both
 
-*   checking tests ...
-    ```
-      Running ‘testthat.R’
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Complete output:
-      > library(testthat)
-      > library(microservices)
-      > test_check("microservices")
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Error (test-endpoint-plumber-{route_name}.R:2:1): (code run outside of `test_that()`) ──
-      Error in `system.file("configurations", "plumber.yml", package = pkg_name(), 
-    ...
-      Backtrace:
-          █
-       1. ├─config::get(...) test-endpoint-plumber-{route_name}.R:2:0
-       2. │ └─base::normalizePath(file, mustWork = FALSE)
-       3. │   └─base::path.expand(path)
-       4. └─base::system.file(...)
-      
-      [ FAIL 1 | WARN 0 | SKIP 0 | PASS 12 ]
-      Error: Test failures
-      Execution halted
-    ```
-
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
@@ -1769,32 +1806,28 @@ Run `revdep_details(, "MineICA")` for more info
 
 </details>
 
-## In both
+## Newly fixed
 
-*   checking examples ... ERROR
+*   checking running R code from vignettes ...
     ```
-    Running examples in ‘MineICA-Ex.R’ failed
-    The error most likely occurred in:
+      ‘MineICA.Rnw’... failed
+     ERROR
+    Errors in running code in vignettes:
+    when running code in ‘MineICA.Rnw’
+      ...
+    [28] "hgu133aPROSITE"       "hgu133aREFSEQ"        "hgu133aSYMBOL"       
+    [31] "hgu133aUNIPROT"       "hgu133a_dbInfo"       "hgu133a_dbconn"      
+    [34] "hgu133a_dbfile"       "hgu133a_dbschema"    
     
-    > ### Name: IcaSet
-    > ### Title: Class to Contain and Describe an ICA decomposition of
-    > ###   High-Throughput Data.
-    > ### Aliases: class:IcaSet IcaSet IcaSet-class [ [,ANY,ANY,IcaSet-method
-    > ###   [,IcaSet,ANY-method [,IcaSet,ANY,ANY-method
-    > ###   [,IcaSet,ANY,ANY,ANY-method [<- [<-,IcaSet,ANY,ANY,ANY,ANY-method
-    > ###   [<-,IcaSet,ANY,ANY,ANY-method [<-,IcaSet,ANY,ANY-method organism
-    ...
-    > 
-    > ### ** Examples
-    > 
-    > # create an instance of IcaSet
-    > new("IcaSet")
-    Ensembl site unresponsive, trying uswest mirror
-    Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Peer's Certificate issuer is not recognized.
-    Calls: new ... request_fetch -> request_fetch.write_memory -> <Anonymous>
+    > mart <- useMart(biomart = "ensembl", dataset = "hsapiens_gene_ensembl")
+    Ensembl site unresponsive, trying asia mirror
+    
+      When sourcing ‘MineICA.R’:
+    Error: Peer's Certificate issuer is not recognized.
     Execution halted
     ```
+
+## In both
 
 *   checking Rd cross-references ... WARNING
     ```
@@ -1935,8 +1968,9 @@ Run `revdep_details(, "missSBM")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.5Mb
+      installed size is  9.8Mb
       sub-directories of 1Mb or more:
+        R      1.8Mb
         libs   6.5Mb
     ```
 
@@ -2026,9 +2060,9 @@ Run `revdep_details(, "momentuHMM")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  9.2Mb
+      installed size is 10.3Mb
       sub-directories of 1Mb or more:
-        R      1.2Mb
+        R      1.8Mb
         doc    1.7Mb
         libs   5.7Mb
     ```
@@ -2080,6 +2114,30 @@ Run `revdep_details(, "NADIA")` for more info
 *   checking LazyData ... NOTE
     ```
       'LazyData' is specified without a 'data' directory
+    ```
+
+# NMproject
+
+<details>
+
+* Version: 0.6.7
+* GitHub: https://github.com/tsahota/NMproject
+* Source code: https://github.com/cran/NMproject
+* Date/Publication: 2021-10-17 18:00:02 UTC
+* Number of recursive dependencies: 172
+
+Run `revdep_details(, "NMproject")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.3Mb
+      sub-directories of 1Mb or more:
+        R         1.8Mb
+        extdata   2.6Mb
     ```
 
 # onemapsgapi
@@ -2154,7 +2212,7 @@ Run `revdep_details(, "partR2")` for more info
 * GitHub: https://github.com/rmaia/pavo
 * Source code: https://github.com/cran/pavo
 * Date/Publication: 2021-09-21 13:10:21 UTC
-* Number of recursive dependencies: 85
+* Number of recursive dependencies: 83
 
 Run `revdep_details(, "pavo")` for more info
 
@@ -2166,7 +2224,7 @@ Run `revdep_details(, "pavo")` for more info
     ```
     Found the following significant warnings:
       Warning: no DISPLAY variable so Tk is not available
-    See ‘/c4/home/henrik/repositories/parallelly/revdep/checks/pavo/new/pavo.Rcheck/00install.out’ for details.
+    See ‘/scratch/henrik/366801/revdepcheck.extras/parallelly/revdep/checks/pavo/new/pavo.Rcheck/00install.out’ for details.
     ```
 
 # photosynthesis
@@ -2187,7 +2245,7 @@ Run `revdep_details(, "photosynthesis")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.1Mb
+      installed size is  5.3Mb
       sub-directories of 1Mb or more:
         doc    3.4Mb
         help   1.1Mb
@@ -2228,7 +2286,7 @@ Run `revdep_details(, "phylolm")` for more info
 * GitHub: https://github.com/pln-team/PLNmodels
 * Source code: https://github.com/cran/PLNmodels
 * Date/Publication: 2021-03-16 16:10:02 UTC
-* Number of recursive dependencies: 188
+* Number of recursive dependencies: 191
 
 Run `revdep_details(, "PLNmodels")` for more info
 
@@ -2238,7 +2296,7 @@ Run `revdep_details(, "PLNmodels")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 13.1Mb
+      installed size is 13.6Mb
       sub-directories of 1Mb or more:
         doc    2.1Mb
         libs  10.0Mb
@@ -2288,7 +2346,7 @@ Run `revdep_details(, "ppcseq")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 45.6Mb
+      installed size is 45.7Mb
       sub-directories of 1Mb or more:
         data   1.5Mb
         libs  42.8Mb
@@ -2394,10 +2452,10 @@ Run `revdep_details(, "promises")` for more info
 
 <details>
 
-* Version: 1.26.0
+* Version: 1.26.1
 * GitHub: https://github.com/samWieczorek/Prostar
 * Source code: https://github.com/cran/Prostar
-* Date/Publication: 2021-10-26
+* Date/Publication: 2021-11-23
 * Number of recursive dependencies: 333
 
 Run `revdep_details(, "Prostar")` for more info
@@ -2442,6 +2500,47 @@ Run `revdep_details(, "Prostar")` for more info
     Execution halted
     ```
 
+# QDNAseq
+
+<details>
+
+* Version: 1.30.0
+* GitHub: https://github.com/ccagc/QDNAseq
+* Source code: https://github.com/cran/QDNAseq
+* Date/Publication: 2021-10-26
+* Number of recursive dependencies: 75
+
+Run `revdep_details(, "QDNAseq")` for more info
+
+</details>
+
+## In both
+
+*   checking re-building of vignette outputs ... NOTE
+    ```
+    Error(s) in re-building vignettes:
+    --- re-building ‘QDNAseq.Rnw’ using Sweave
+    EM algorithm started ... 
+    
+    Warning in allprior/tot :
+      Recycling array of length 1 in vector-array arithmetic is deprecated.
+      Use c() or as.vector() instead.
+    
+    Warning in allprior/tot :
+      Recycling array of length 1 in vector-array arithmetic is deprecated.
+    ...
+    l.189 \RequirePackage
+                         {parnotes}^^M
+    !  ==> Fatal error occurred, no output PDF file produced!
+    --- failed re-building ‘QDNAseq.Rnw’
+    
+    SUMMARY: processing the following file failed:
+      ‘QDNAseq.Rnw’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
 # QDNAseq.hg19
 
 <details>
@@ -2460,7 +2559,7 @@ Run `revdep_details(, "QDNAseq.hg19")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 35.3Mb
+      installed size is 35.4Mb
       sub-directories of 1Mb or more:
         data  35.3Mb
     ```
@@ -2483,9 +2582,60 @@ Run `revdep_details(, "QDNAseq.mm10")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 31.2Mb
+      installed size is 31.3Mb
       sub-directories of 1Mb or more:
         data  31.2Mb
+    ```
+
+# qtl2pleio
+
+<details>
+
+* Version: 1.4.3
+* GitHub: https://github.com/fboehm/qtl2pleio
+* Source code: https://github.com/cran/qtl2pleio
+* Date/Publication: 2020-12-02 22:50:02 UTC
+* Number of recursive dependencies: 111
+
+Run `revdep_details(, "qtl2pleio")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 20.6Mb
+      sub-directories of 1Mb or more:
+        libs  20.3Mb
+    ```
+
+*   checking LazyData ... NOTE
+    ```
+      'LazyData' is specified without a 'data' directory
+    ```
+
+# RapidoPGS
+
+<details>
+
+* Version: 2.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/RapidoPGS
+* Date/Publication: 2021-06-17 10:10:11 UTC
+* Number of recursive dependencies: 95
+
+Run `revdep_details(, "RapidoPGS")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  8.8Mb
+      sub-directories of 1Mb or more:
+        data   8.5Mb
     ```
 
 # regmedint
@@ -2514,10 +2664,10 @@ Run `revdep_details(, "regmedint")` for more info
 
 <details>
 
-* Version: 1.1.0
+* Version: 1.1.2
 * GitHub: https://github.com/r-spatial/rgee
 * Source code: https://github.com/cran/rgee
-* Date/Publication: 2021-08-10 14:00:02 UTC
+* Date/Publication: 2021-12-15 22:00:02 UTC
 * Number of recursive dependencies: 147
 
 Run `revdep_details(, "rgee")` for more info
@@ -2525,6 +2675,13 @@ Run `revdep_details(, "rgee")` for more info
 </details>
 
 ## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.4Mb
+      sub-directories of 1Mb or more:
+        doc   3.6Mb
+    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -2596,6 +2753,14 @@ Run `revdep_details(, "scDiffCom")` for more info
 
 ## In both
 
+*   checking installed package size ... NOTE
+    ```
+      installed size is  7.1Mb
+      sub-directories of 1Mb or more:
+        R      2.8Mb
+        data   4.3Mb
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
@@ -2650,10 +2815,10 @@ Run `revdep_details(, "sdmApp")` for more info
 
 <details>
 
-* Version: 1.1.6
-* GitHub: NA
+* Version: 1.1.7
+* GitHub: https://github.com/thiyangt/seer
 * Source code: https://github.com/cran/seer
-* Date/Publication: 2021-06-01 04:50:02 UTC
+* Date/Publication: 2021-12-08 05:20:02 UTC
 * Number of recursive dependencies: 111
 
 Run `revdep_details(, "seer")` for more info
@@ -2686,9 +2851,9 @@ Run `revdep_details(, "Seurat")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 11.8Mb
+      installed size is 12.7Mb
       sub-directories of 1Mb or more:
-        R      1.3Mb
+        R      1.8Mb
         libs   9.9Mb
     ```
 
@@ -2715,10 +2880,10 @@ Run `revdep_details(, "shiny")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  9.3Mb
+      installed size is 10.5Mb
       sub-directories of 1Mb or more:
-        R     1.6Mb
-        www   6.6Mb
+        R     2.0Mb
+        www   7.1Mb
     ```
 
 # shiny.worker
@@ -2778,6 +2943,58 @@ Run `revdep_details(, "shinyrecap")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
+# sigminer
+
+<details>
+
+* Version: 2.1.2
+* GitHub: https://github.com/ShixiangWang/sigminer
+* Source code: https://github.com/cran/sigminer
+* Date/Publication: 2021-12-15 07:50:02 UTC
+* Number of recursive dependencies: 220
+
+Run `revdep_details(, "sigminer")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  8.3Mb
+      sub-directories of 1Mb or more:
+        R         1.8Mb
+        data      1.0Mb
+        extdata   2.7Mb
+        help      1.2Mb
+        libs      1.2Mb
+    ```
+
+# Signac
+
+<details>
+
+* Version: 1.5.0
+* GitHub: https://github.com/timoast/signac
+* Source code: https://github.com/cran/Signac
+* Date/Publication: 2021-12-08 17:40:06 UTC
+* Number of recursive dependencies: 243
+
+Run `revdep_details(, "Signac")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  7.0Mb
+      sub-directories of 1Mb or more:
+        R      3.0Mb
+        data   1.0Mb
+        libs   2.5Mb
+    ```
+
 # simglm
 
 <details>
@@ -2808,7 +3025,7 @@ Run `revdep_details(, "simglm")` for more info
 * GitHub: https://github.com/meghapsimatrix/simhelpers
 * Source code: https://github.com/cran/simhelpers
 * Date/Publication: 2021-02-14 17:50:02 UTC
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 103
 
 Run `revdep_details(, "simhelpers")` for more info
 
@@ -2841,8 +3058,9 @@ Run `revdep_details(, "skpr")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 49.7Mb
+      installed size is 50.4Mb
       sub-directories of 1Mb or more:
+        R      1.0Mb
         libs  48.2Mb
     ```
 
@@ -2877,7 +3095,7 @@ Run `revdep_details(, "solitude")` for more info
 * GitHub: https://github.com/mikemahoney218/spacey
 * Source code: https://github.com/cran/spacey
 * Date/Publication: 2020-03-14 18:50:02 UTC
-* Number of recursive dependencies: 85
+* Number of recursive dependencies: 84
 
 Run `revdep_details(, "spacey")` for more info
 
@@ -2914,7 +3132,7 @@ Run `revdep_details(, "SpaDES.core")` for more info
 
 *   checking tests ...
     ```
-      Running ‘test-all.R’/software/c4/cbi/software/R-4.1.2-gcc8/lib64/R/bin/BATCH: line 60: 10897 Segmentation fault      ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
+      Running ‘test-all.R’/software/c4/cbi/software/R-4.1.2-gcc8/lib64/R/bin/BATCH: line 60: 190082 Segmentation fault      ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
     
      ERROR
     Running the tests in ‘tests/test-all.R’ failed.
@@ -2943,7 +3161,7 @@ Run `revdep_details(, "SpaDES.core")` for more info
     --- re-building ‘i-introduction.Rmd’ using rmarkdown
     --- finished re-building ‘i-introduction.Rmd’
     
-    sh: line 1: 13641 Segmentation fault      '/software/c4/cbi/software/R-4.1.2-gcc8/lib64/R/bin/R' --vanilla --no-echo > '/scratch/henrik/RtmpqUVgh3/file33c276c4058c' 2>&1 < '/scratch/henrik/RtmpqUVgh3/file33c229266700'
+    sh: line 1: 191201 Segmentation fault      '/software/c4/cbi/software/R-4.1.2-gcc8/lib64/R/bin/R' --vanilla --no-echo > '/scratch/henrik/366801/RtmpemXd3Z/file2e85965d5ef4a' 2>&1 < '/scratch/henrik/366801/RtmpemXd3Z/file2e8597097f4e9'
     --- re-building ‘ii-modules.Rmd’ using rmarkdown
     
     Attaching package: 'magrittr'
@@ -2986,9 +3204,9 @@ Run `revdep_details(, "spaMM")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 46.7Mb
+      installed size is 48.8Mb
       sub-directories of 1Mb or more:
-        R      2.1Mb
+        R      3.8Mb
         libs  43.6Mb
     ```
 
@@ -3012,7 +3230,7 @@ Run `revdep_details(, "sparrpowR")` for more info
     ```
     Found the following significant warnings:
       Warning: no DISPLAY variable so Tk is not available
-    See ‘/c4/home/henrik/repositories/parallelly/revdep/checks/sparrpowR/new/sparrpowR.Rcheck/00install.out’ for details.
+    See ‘/scratch/henrik/366801/revdepcheck.extras/parallelly/revdep/checks/sparrpowR/new/sparrpowR.Rcheck/00install.out’ for details.
     ```
 
 # SPARSEMODr
@@ -3087,8 +3305,9 @@ Run `revdep_details(, "spatialwarnings")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.2Mb
+      installed size is  7.0Mb
       sub-directories of 1Mb or more:
+        data   1.3Mb
         libs   5.2Mb
     ```
 
@@ -3110,7 +3329,7 @@ Run `revdep_details(, "sphunif")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 20.5Mb
+      installed size is 21.0Mb
       sub-directories of 1Mb or more:
         libs  19.6Mb
     ```
@@ -3138,11 +3357,11 @@ Run `revdep_details(, "spNetwork")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 21.8Mb
+      installed size is 22.2Mb
       sub-directories of 1Mb or more:
-        doc       1.9Mb
+        doc       2.0Mb
         extdata   4.1Mb
-        libs     15.1Mb
+        libs     15.4Mb
     ```
 
 # stars
@@ -3168,7 +3387,7 @@ Run `revdep_details(, "stars")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.6Mb
+      installed size is  9.1Mb
       sub-directories of 1Mb or more:
         doc   2.3Mb
         nc    4.5Mb
@@ -3213,7 +3432,7 @@ Run `revdep_details(, "synergyfinder")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.0Mb
+      installed size is  6.2Mb
       sub-directories of 1Mb or more:
         doc   5.7Mb
     ```
@@ -3300,7 +3519,7 @@ Run `revdep_details(, "targeted")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 13.7Mb
+      installed size is 13.8Mb
       sub-directories of 1Mb or more:
         libs  12.7Mb
     ```
@@ -3371,7 +3590,7 @@ Run `revdep_details(, "TriDimRegression")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 41.3Mb
+      installed size is 41.4Mb
       sub-directories of 1Mb or more:
         libs  40.8Mb
     ```
@@ -3456,10 +3675,10 @@ Run `revdep_details(, "txshift")` for more info
 
 <details>
 
-* Version: 1.1.2
+* Version: 1.1.4
 * GitHub: https://github.com/openbiox/UCSCXenaShiny
 * Source code: https://github.com/cran/UCSCXenaShiny
-* Date/Publication: 2021-11-17 05:30:02 UTC
+* Date/Publication: 2021-12-13 08:00:02 UTC
 * Number of recursive dependencies: 219
 
 Run `revdep_details(, "UCSCXenaShiny")` for more info
@@ -3470,10 +3689,11 @@ Run `revdep_details(, "UCSCXenaShiny")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.8Mb
+      installed size is  6.7Mb
       sub-directories of 1Mb or more:
+        data       1.0Mb
         doc        1.5Mb
-        shinyapp   3.3Mb
+        shinyapp   3.4Mb
     ```
 
 # updog
@@ -3494,7 +3714,7 @@ Run `revdep_details(, "updog")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.7Mb
+      installed size is  6.9Mb
       sub-directories of 1Mb or more:
         libs   6.0Mb
     ```
@@ -3568,17 +3788,17 @@ Run `revdep_details(, "vmeasur")` for more info
     ```
     Found the following significant warnings:
       Warning: no DISPLAY variable so Tk is not available
-    See ‘/c4/home/henrik/repositories/parallelly/revdep/checks/vmeasur/new/vmeasur.Rcheck/00install.out’ for details.
+    See ‘/scratch/henrik/366801/revdepcheck.extras/parallelly/revdep/checks/vmeasur/new/vmeasur.Rcheck/00install.out’ for details.
     ```
 
 # XNAString
 
 <details>
 
-* Version: 1.2.0
+* Version: 1.2.2
 * GitHub: NA
 * Source code: https://github.com/cran/XNAString
-* Date/Publication: 2021-10-26
+* Date/Publication: 2021-11-30
 * Number of recursive dependencies: 94
 
 Run `revdep_details(, "XNAString")` for more info
@@ -3589,8 +3809,9 @@ Run `revdep_details(, "XNAString")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 11.6Mb
+      installed size is 11.9Mb
       sub-directories of 1Mb or more:
+        R      1.8Mb
         libs   9.7Mb
     ```
 
