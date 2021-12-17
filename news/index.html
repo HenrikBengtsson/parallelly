@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.29.0-9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.30.0-9000</span>
       </span>
     </div>
 
@@ -120,14 +120,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.29.0-9004" id="parallelly-1-29-0-9004">parallelly 1.29.0-9004<a class="anchor" aria-label="anchor" href="#parallelly-1-29-0-9004"></a></h2>
+<h2 class="page-header" data-toc-text="1.30.0-9000" id="parallelly-1-30-0-9000">parallelly 1.30.0-9000<a class="anchor" aria-label="anchor" href="#parallelly-1-30-0-9000"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.30.0" id="parallelly-1-30-0">parallelly 1.30.0<a class="anchor" aria-label="anchor" href="#parallelly-1-30-0"></a></h2>
 <div class="section level4">
-<h4 id="new-features-1-29-0-9004">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-29-0-9004"></a></h4>
+<h4 id="new-features-1-30-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-30-0"></a></h4>
 <ul><li><p>makeNodePSOCK(), and therefore also makeClusterPSOCK(), gained argument ‘rscript_sh’, which controls how Rscript arguments are shell quoted. The default is to make a best guess on what type of shell is used where each cluster node is launched. If launched locally, then it whatever platform the current R session is running, i.e. either a POSIX shell (“sh”) or MS Windows (“cmd”). If remotely, then the assumption is that a POSIX shell (“sh”) is used.</p></li>
+<li><p>makeNodePSOCK(), and therefore also makeClusterPSOCK(), gained argument ‘default_packages’, which controls the default set of R packages to be attached on each cluster node at startup. Moreover, if argument ‘rscript’ specifies an ‘Rscript’ executable, then argument ‘default_packages’ is used to populate Rscript command-line option ‘–default-packages=…’. If ‘rscript’ specifies something else, e.g. an ‘R’ or ‘Rterm’ executable, then environment variable ‘R_DEFAULT_PACKAGES=…’ is set accordingly when launching each cluster node.</p></li>
 <li><p>Argument ‘rscript_args’ of makeClusterPSOCK() now supports “*” values. When used, the corresponding element will be replaced with the internally added Rscript command-line options. If not specified, such options are appended at the end.</p></li>
 </ul></div>
 <div class="section level4">
-<h4 id="bug-fixes-1-29-0-9004">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-29-0-9004"></a></h4>
+<h4 id="bug-fixes-1-30-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-30-0"></a></h4>
 <ul><li><p>makeClusterPSOCK() did not support backslashes (‘\’) in ‘rscript_libs’, backslashes that may originate from, for example, Windows network drives. The result was that the worker would silently ignore any ‘rscript_libs’ components with backslashes.</p></li>
 <li><p>The package detects when ‘R CMD check’ runs and adjust default settings via environment variables in order to play nicer with the machine where the checks are running. Some of these environment variables were in this case ignored since parallelly 1.26.0.</p></li>
 </ul></div>
