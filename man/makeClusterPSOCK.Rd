@@ -29,6 +29,9 @@ makeNodePSOCK(
   rscript_envs = NULL,
   rscript_libs = NULL,
   rscript_startup = NULL,
+  rscript_sh = c("auto", "cmd", "sh"),
+  default_packages = c("datasets", "utils", "grDevices", "graphics", "stats", if
+    (methods) "methods"),
   methods = TRUE,
   socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"),
   useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE),
@@ -138,7 +141,24 @@ prior to launching the worker's event loop.
 For instance, use \code{rscript_startup = 'setwd("/path/to")'}
 to set the working directory to \file{/path/to} on \emph{all} workers.}
 
-\item{methods}{If TRUE, then the \pkg{methods} package is also loaded.}
+\item{rscript_sh}{The type of shell used where \code{rscript} is launched,
+which should be \code{"sh"} is launched via a POSIX shell and \code{"cmd"} if
+launched via an MS Windows shell.  This controls how shell command-line
+options are quoted, via
+\code{\link[base:shQuote]{shQuote(..., type = rscript_sh)}}.
+If \code{"auto"} (default), and the cluster node is launched locally, then it
+is set to \code{"sh"} or \code{"cmd"} according to the current platform.  If launched
+remotely, then it is set to \code{"sh"} based on the assumption remote machines
+typically launch commands via SSH in a POSIX shell.}
+
+\item{default_packages}{A character vector or NULL that controls which R
+packages are attached on each cluster node during startup.  An asterisk
+(\code{"*"}) resolves to \code{getOption("defaultPackages")} \emph{on the current machine}.
+If NULL, then the default set of packages R are attached.}
+
+\item{methods}{If TRUE (default), then the \pkg{methods} package is also
+loaded. This is argument exists for legacy reasons due to how
+\command{Rscript} worked in R (< 3.5.0).}
 
 \item{socketOptions}{A character string that sets \R option
 \option{socketOptions} on the worker.}
@@ -422,27 +442,24 @@ running an \R version that is not compatible with the version that your main
 \R session is running.  For instance, if we run R (>= 3.6.0) locally and the
 workers run R (< 3.5.0), we will get:
 \verb{Error in unserialize(node$con) : error reading from connection}.
-This is because R (>= 3.6.0) uses serialization format version 3 whereas
-R (< 3.5.0) only supports version 2.  We can see the version of the \R
-workers by adding \code{rscript_args = c("-e", shQuote("getRversion()"))} when
+This is because R (>= 3.6.0) uses serialization format version 3 by default
+whereas R (< 3.5.0) only supports version 2.  We can see the version of the
+\R workers by adding \code{rscript_args = c("-e", shQuote("getRversion()"))} when
 calling \code{makeClusterPSOCK()}.
 }
 
 \examples{
-options(parallelly.debug = TRUE)
-
 ## NOTE: Drop 'dryrun = TRUE' below in order to actually connect.  Add
 ## 'verbose = TRUE' if you run into problems and need to troubleshoot.
 
 ## EXAMPLE: Two workers on the local machine
 workers <- c("localhost", "localhost")
-cl <- makeClusterPSOCK(workers, dryrun = TRUE)
+cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
 
 ## EXAMPLE: Three remote workers
 ## Setup of three R workers on two remote machines are set up
 workers <- c("n1.remote.org", "n2.remote.org", "n1.remote.org")
-cl <- makeClusterPSOCK(workers, dryrun = TRUE)
-
+cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
 
 ## EXAMPLE: Local and remote workers
 ## Same setup when the two machines are on the local network and
@@ -450,7 +467,17 @@ cl <- makeClusterPSOCK(workers, dryrun = TRUE)
 cl <- makeClusterPSOCK(
   workers,
   revtunnel = FALSE, homogeneous = TRUE,
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
+)
+
+## EXAMPLE: Three remote workers 'n1', 'n2', and 'n3' that can only be
+## accessed via jumphost 'login.remote.org'
+workers <- c("n1", "n2", "n1")
+cl <- makeClusterPSOCK(
+  workers,
+  rshopts = c("-J", "login.remote.org"),
+  homogeneous = FALSE,
+  dryrun = TRUE, quiet = TRUE
 )
 
 ## EXAMPLE: Remote workers with specific setup
@@ -464,8 +491,7 @@ cl <- makeClusterPSOCK(
   master = "gateway", port = 11942,
   ## Run Rscript nicely and skip any startup scripts
   rscript = c("nice", "/path/to/Rscript"),
-  rscript_args = c("--vanilla"),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 ## EXAMPLE: Two workers running in Docker on the local machine
@@ -483,7 +509,7 @@ cl <- makeClusterPSOCK(
   ## not running in the VM, but outside on the host.  To reach the host on
   ## macOS and Windows, make sure to use master = "host.docker.internal"
   # master = "host.docker.internal",  # <= macOS & Windows
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -496,7 +522,7 @@ cl <- makeClusterPSOCK(
     "singularity", "exec", "docker://rocker/r-parallel",
     "Rscript"
   ),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -514,7 +540,7 @@ cl <- makeClusterPSOCK(
   rscript_args = c(
     "-e", shQuote(shQuote("parallel:::.workRSOCK()"))
   ),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -529,7 +555,7 @@ cl <- makeClusterPSOCK(1L,
     "WINEDEBUG=fixme-all", "wine",
     "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe"
   ),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -546,7 +572,7 @@ cl <- lapply(cpu_groups, FUN = function(cpu_group) {
         "/NODE", cpu_group, "/AFFINITY", "0xFFFFFFFFFFFFFFFE",
         "*"
       )),
-      dryrun = TRUE
+      dryrun = TRUE, quiet = TRUE
     )
 })
 ## merge the two 62-node clusters into one with 124 nodes
@@ -578,7 +604,7 @@ cl <- makeClusterPSOCK(
     .libPaths(p)
     install.packages("future")
   })),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -604,7 +630,7 @@ cl <- makeClusterPSOCK(
     "docker", "run", "--net=host", "rocker/r-parallel",
     "Rscript"
   ),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -618,7 +644,7 @@ cl <- makeClusterPSOCK(
   "remote.server.org", user = "bob",
   rshcmd = "<putty-plink>",
   rshopts = c("-P", 2200, "-i", "C:/Users/bobby/.ssh/putty.ppk"),
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 
 
@@ -630,6 +656,6 @@ cl <- makeClusterPSOCK(
 ## preventing it from using other SSH clients on the system search PATH.
 cl <- makeClusterPSOCK(
   "remote.server.org", user = "bob", rshcmd = "<rstudio-ssh>",
-  dryrun = TRUE
+  dryrun = TRUE, quiet = TRUE
 )
 }

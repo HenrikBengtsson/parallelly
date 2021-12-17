@@ -141,6 +141,82 @@ stopifnot(!is.element("parallelly", ns))
 parallel::stopCluster(cl)
 
 
+message("- makeClusterPSOCK() - launch via the R executable")
+
+if (.Platform$OS.type == "windows") {
+  ## R and R.exe fails on MS Windows, cf. R-devel thread "MS Windows: R does
+  ## not escape quotes in CLI options the same way as Rterm and Rscript"
+  ## on 2021-12-15.
+  rscripts <- file.path(R.home("bin"), c("Rterm", "Rterm.exe"))
+} else {
+  rscripts <- file.path(R.home("bin"), "R")
+}
+
+for (rscript in rscripts) {
+  message("  Launcher: ", sQuote(rscript))
+  rscript_args <- c("--no-echo", "--no-restore", "*", "--args")
+  cl <- tryCatch({
+    makeClusterPSOCK(1L, rscript = rscript, rscript_args = rscript_args)
+  }, warning = identity)
+  stopifnot(inherits(cl, "cluster"))
+  parallel::stopCluster(cl)
+}
+
+
+message("- makeClusterPSOCK() - default packages")
+
+if (.Platform$OS.type == "windows") {
+  ## R and R.exe fails on MS Windows, cf. R-devel thread "MS Windows: R does
+  ## not escape quotes in CLI options the same way as Rterm and Rscript"
+  ## on 2021-12-15.
+  rscripts <- file.path(R.home("bin"), c("Rscript", "Rterm", "Rterm.exe"))
+} else {
+  rscripts <- file.path(R.home("bin"), c("Rscript", "R"))
+}
+default_packages <- c("utils", "tools")
+for (rscript in rscripts) {
+  message("  Launcher: ", sQuote(rscript))
+  if (tools::file_path_sans_ext(basename(rscript)) %in% c("R", "Rterm")) {
+    rscript_args <- c("--no-echo", "--no-restore", "*", "--args")
+  } else {
+    rscript_args <- NULL
+  }
+  cl <- tryCatch({
+    makeClusterPSOCK(1L, rscript = rscript, rscript_args = rscript_args, default_packages = default_packages)
+  }, warning = identity)
+  stopifnot(inherits(cl, "cluster"))
+  pkgs <- parallel::clusterEvalQ(cl, { getOption("defaultPackages") })[[1]]
+  stopifnot(identical(pkgs, default_packages))
+  parallel::stopCluster(cl)
+}
+
+if (.Platform$OS.type == "windows") {
+  ## R and R.exe fails on MS Windows, cf. R-devel thread "MS Windows: R does
+  ## not escape quotes in CLI options the same way as Rterm and Rscript"
+  ## on 2021-12-15.
+  rscripts <- file.path(R.home("bin"), c("Rscript", "Rterm", "Rterm.exe"))
+} else {
+  rscripts <- file.path(R.home("bin"), c("Rscript", "R"))
+}
+default_packages <- c("parallelly", "*")
+truth <- unique(c("parallelly", getOption("defaultPackages")))
+for (rscript in rscripts) {
+  message("  Launcher: ", sQuote(rscript))
+  if (tools::file_path_sans_ext(basename(rscript)) %in% c("R", "Rterm")) {
+    rscript_args <- c("--no-echo", "--no-restore", "*", "--args")
+  } else {
+    rscript_args <- NULL
+  }
+  cl <- tryCatch({
+    makeClusterPSOCK(1L, rscript = rscript, rscript_args = rscript_args, default_packages = default_packages)
+  }, warning = identity)
+  stopifnot(inherits(cl, "cluster"))
+  pkgs <- parallel::clusterEvalQ(cl, { getOption("defaultPackages") })[[1]]
+  stopifnot(identical(pkgs, truth))
+  parallel::stopCluster(cl)
+}
+
+
 message("- makeClusterPSOCK() - exceptions")
 
 res <- tryCatch({

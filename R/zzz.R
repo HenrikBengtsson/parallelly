@@ -4,13 +4,6 @@
   if (debug) options(parallelly.debug = TRUE)
   debug <- getOption2("parallelly.debug", debug)
 
-  ## Set package options based on environment variables
-  update_package_options(debug = debug)
-
-  ## If neeeded, work around bug in R preventing us from using the 'parallel'
-  ## setup strategy of PSOCK cluster nodes
-  parallelly_disable_parallel_setup_if_needed()
-
   ## Automatically play nice when 'R CMD check' runs?
   if (isTRUE(as.logical(getEnvVar2("R_PARALLELLY_R_CMD_CHECK_NICE", "TRUE"))) && inRCmdCheck()) {
     if (debug) mdebug("Detected 'R CMD check':\n - adjusting defaults to be a good citizen")
@@ -46,7 +39,14 @@
       Sys.setenv("_R_CHECK_LIMIT_CORES_" = "TRUE")
     }
   }
-  
+
+  ## Set package options based on environment variables
+  update_package_options(debug = debug)
+
+  ## If neeeded, work around bug in R preventing us from using the 'parallel'
+  ## setup strategy of PSOCK cluster nodes
+  parallelly_disable_parallel_setup_if_needed()
+
   if (debug) {
     envs <- Sys.getenv()
     pattern <- sprintf("^R_(FUTURE|%s)_", toupper(.packageName))

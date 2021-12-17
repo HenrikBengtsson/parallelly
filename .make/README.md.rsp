@@ -213,7 +213,7 @@ optional_badges <- function() {
 <%=repos_status()%> <%=github()%> <%=travis()%> <%=appveyor() %> <%=covr()%> <%=optional_badges()%>
 </div>
 
-# <%=pkg()%>: <%=pkg_title()%> <% if (file.exists(file <- "man/figures/logo.png")) { cat(img(file, alt="The 'future' hexlogo", align="right")) } %>
+# <%=pkg()%>: <%=pkg_title()%> <% if (file.exists(file <- "man/figures/logo.png")) { cat(img(file, alt=sprintf("The '%s' hexlogo", pkg()), align="right")) } %>
 
 <% if (!is.na(file <- find_file("OVERVIEW.md"))) { R.rsp::rcat(file=file) } %>
 

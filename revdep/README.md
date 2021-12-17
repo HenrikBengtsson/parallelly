@@ -10,26 +10,26 @@
 |collate  |en_US.UTF-8                                                 |
 |ctype    |en_US.UTF-8                                                 |
 |tz       |America/Los_Angeles                                         |
-|date     |2021-11-20                                                  |
-|pandoc   |2.14.2 @ /software/c4/cbi/software/pandoc-2.14.2/bin/pandoc |
+|date     |2021-12-15                                                  |
+|pandoc   |2.16.2 @ /software/c4/cbi/software/pandoc-2.16.2/bin/pandoc |
 
 # Dependencies
 
 |package    |old    |new         |Δ  |
 |:----------|:------|:-----------|:--|
-|parallelly |1.28.1 |1.28.1-9005 |*  |
+|parallelly |1.29.0 |1.29.0-9005 |*  |
 
 # Revdeps
 
-## All (250)
+## All (264)
 
 |package                                                  |version   |error |warning |note |
 |:--------------------------------------------------------|:---------|:-----|:-------|:----|
 |[ACE](problems.md#ace)                                   |1.12.0    |      |        |3    |
 |[AIPW](problems.md#aipw)                                 |0.6.3.2   |      |        |1    |
-|[alookr](problems.md#alookr)                             |0.3.4     |      |        |1    |
-|[AlpsNMR](problems.md#alpsnmr)                           |3.4.0     |      |        |1    |
-|aroma.affymetrix                                         |3.2.0     |      |        |     |
+|alookr                                                   |0.3.5     |      |        |     |
+|[AlpsNMR](problems.md#alpsnmr)                           |3.4.0     |      |        |2    |
+|[aroma.affymetrix](problems.md#aromaaffymetrix)          |3.2.0     |      |        |1    |
 |[aroma.core](problems.md#aromacore)                      |3.2.2     |      |        |1    |
 |[autohd](problems.md#autohd)                             |0.1.0     |      |        |1    |
 |[BAMBI](problems.md#bambi)                               |2.3.3     |      |        |2    |
@@ -38,20 +38,23 @@
 |bayesian                                                 |0.0.7     |      |        |     |
 |bayesmove                                                |0.2.1     |      |        |     |
 |[bcmaps](problems.md#bcmaps)                             |1.0.2     |      |        |1    |
+|bigparallelr                                             |0.3.2     |      |        |     |
+|bigreadr                                                 |0.2.4     |      |        |     |
 |[bigsnpr](problems.md#bigsnpr)                           |1.8.1     |      |        |1    |
-|[bigstatsr](problems.md#bigstatsr)                       |1.5.1     |      |        |1    |
+|[bigstatsr](problems.md#bigstatsr)                       |1.5.5     |      |        |1    |
 |bigutilsr                                                |0.3.4     |      |        |     |
 |[biscuiteer](problems.md#biscuiteer)                     |1.8.0     |      |2       |2    |
 |[bistablehistory](problems.md#bistablehistory)           |1.0.0     |      |        |3    |
 |bkmrhat                                                  |1.1.1     |      |        |     |
-|[blavaan](problems.md#blavaan)                           |0.3-17    |      |        |2    |
+|[blavaan](problems.md#blavaan)                           |0.3-18    |      |        |2    |
 |[blockCV](problems.md#blockcv)                           |2.1.4     |      |        |2    |
-|[brms](problems.md#brms)                                 |2.16.1    |      |        |2    |
+|[bootUR](problems.md#bootur)                             |0.4.2     |      |        |2    |
+|[brms](problems.md#brms)                                 |2.16.3    |      |        |2    |
 |ceRNAnetsim                                              |1.6.0     |      |        |     |
 |[cfbfastR](problems.md#cfbfastr)                         |1.6.4     |      |        |1    |
 |[ChromSCape](problems.md#chromscape)                     |1.4.0     |      |        |5    |
-|[civis](problems.md#civis)                               |3.0.0     |      |        |1    |
-|Clustering                                               |1.7.3     |      |        |     |
+|[civis](problems.md#civis)                               |3.0.0     |      |        |2    |
+|Clustering                                               |1.7.5     |      |        |     |
 |[CLVTools](problems.md#clvtools)                         |0.8.1     |      |        |1    |
 |codalm                                                   |0.1.2     |      |        |     |
 |[codebook](problems.md#codebook)                         |0.9.2     |      |        |3    |
@@ -61,7 +64,7 @@
 |[CSGo](problems.md#csgo)                                 |0.6.7     |      |        |1    |
 |cvCovEst                                                 |1.0.1     |      |        |     |
 |DALEXtra                                                 |2.1.1     |      |        |     |
-|[datapackage.r](problems.md#datapackager)                |1.3.4     |      |        |1    |
+|[datapackage.r](problems.md#datapackager)                |1.3.4     |1     |        |1    |
 |DeclareDesign                                            |0.28.0    |      |        |     |
 |[delayed](problems.md#delayed)                           |0.3.0     |      |        |2    |
 |dhReg                                                    |0.1.1     |      |        |     |
@@ -82,9 +85,10 @@
 |epwshiftr                                                |0.1.3     |      |        |     |
 |EWCE                                                     |1.2.0     |      |        |     |
 |ezcox                                                    |1.0.2     |      |        |     |
-|[fabletools](problems.md#fabletools)                     |0.3.1     |      |        |1    |
+|fabletools                                               |0.3.2     |      |        |     |
 |FAMoS                                                    |0.3.0     |      |        |     |
 |fastpos                                                  |0.4.1     |      |        |     |
+|fastRhockey                                              |0.1.0     |      |        |     |
 |fiery                                                    |1.1.3     |      |        |     |
 |finbif                                                   |0.6.2     |      |        |     |
 |[fipe](problems.md#fipe)                                 |0.0.1     |      |        |1    |
@@ -95,17 +99,19 @@
 |fundiversity                                             |0.2.1     |      |        |     |
 |funGp                                                    |0.2.2     |      |        |     |
 |furrr                                                    |0.2.3     |      |        |     |
+|future                                                   |1.23.0    |      |        |     |
 |future.apply                                             |1.8.1     |      |        |     |
 |future.batchtools                                        |0.10.0    |      |        |     |
-|future.callr                                             |0.6.1     |      |        |     |
+|future.callr                                             |0.7.0     |      |        |     |
 |future.tests                                             |0.3.0     |      |        |     |
 |fxTWAPLS                                                 |0.0.7     |      |        |     |
 |genBaRcode                                               |1.2.4     |      |        |     |
-|[GeneBreak](problems.md#genebreak)                       |1.24.0    |      |        |1    |
+|[GeneBreak](problems.md#genebreak)                       |1.24.0    |      |        |2    |
+|GenericML                                                |0.1.1     |      |        |     |
 |[geocmeans](problems.md#geocmeans)                       |0.2.0     |      |        |2    |
 |[GetBCBData](problems.md#getbcbdata)                     |0.6       |      |        |2    |
 |[googleComputeEngineR](problems.md#googlecomputeenginer) |0.3.0     |      |        |1    |
-|googlePubsubR                                            |0.0.1     |      |        |     |
+|googlePubsubR                                            |0.0.2     |      |        |     |
 |[googleTagManageR](problems.md#googletagmanager)         |0.1.6     |      |        |1    |
 |[grattan](problems.md#grattan)                           |1.9.0.9   |      |        |2    |
 |[greed](problems.md#greed)                               |0.5.1     |      |        |2    |
@@ -116,6 +122,7 @@
 |gtfs2gps                                                 |1.5-4     |      |        |     |
 |[gWQS](problems.md#gwqs)                                 |3.0.4     |      |        |1    |
 |[hackeRnews](problems.md#hackernews)                     |0.1.0     |      |        |1    |
+|hacksig                                                  |0.1.1     |      |        |     |
 |[hal9001](problems.md#hal9001)                           |0.4.1     |      |        |1    |
 |haldensify                                               |0.2.1     |      |        |     |
 |[HiCcompare](problems.md#hiccompare)                     |1.16.0    |      |1       |2    |
@@ -131,7 +138,8 @@
 |[ipc](problems.md#ipc)                                   |0.1.3     |      |        |1    |
 |isoreader                                                |1.3.2     |      |        |     |
 |[ivmte](problems.md#ivmte)                               |1.4.0     |      |        |1    |
-|JointAI                                                  |1.0.2     |      |        |     |
+|JointAI                                                  |1.0.3     |      |        |     |
+|jstor                                                    |0.3.10    |      |        |     |
 |JuliaConnectoR                                           |1.1.0     |      |        |     |
 |[kernelboot](problems.md#kernelboot)                     |0.1.7     |      |        |1    |
 |[keyATM](problems.md#keyatm)                             |0.4.0     |      |        |1    |
@@ -143,18 +151,19 @@
 |[lidR](problems.md#lidr)                                 |3.2.3     |      |        |1    |
 |lightr                                                   |1.6.2     |      |        |     |
 |[lmtp](problems.md#lmtp)                                 |1.0.0     |      |        |1    |
-|LWFBrook90R                                              |0.4.4     |      |        |     |
+|LWFBrook90R                                              |0.4.5     |      |        |     |
 |[MAI](problems.md#mai)                                   |1.0.0     |      |        |1    |
 |mcboost                                                  |0.3.3.0   |      |        |     |
 |mcmcensemble                                             |3.0.0     |      |        |     |
 |mcp                                                      |0.3.1     |      |        |     |
 |merTools                                                 |0.5.2     |      |        |     |
-|[microservices](problems.md#microservices)               |0.1.2     |1     |        |1    |
+|[microservices](problems.md#microservices)               |0.1.2     |      |        |1    |
 |microSTASIS                                              |0.1.0     |      |        |     |
 |mikropml                                                 |1.2.0     |      |        |     |
-|[MineICA](problems.md#mineica)                           |1.34.0    |1     |2       |5    |
+|[MineICA](problems.md#mineica)                           |1.34.0    |-1    |2       |5    |
 |[missSBM](problems.md#misssbm)                           |1.0.1     |      |        |1    |
 |mistyR                                                   |1.2.1     |      |        |     |
+|mlr3                                                     |0.13.0    |      |        |     |
 |mlr3benchmark                                            |0.1.3     |      |        |     |
 |mlr3cluster                                              |0.1.2     |      |        |     |
 |mlr3data                                                 |0.5.0     |      |        |     |
@@ -181,7 +190,7 @@
 |nfl4th                                                   |1.0.1     |      |        |     |
 |nflfastR                                                 |4.3.0     |      |        |     |
 |nflseedR                                                 |1.0.2     |      |        |     |
-|NMproject                                                |0.6.7     |      |        |     |
+|[NMproject](problems.md#nmproject)                       |0.6.7     |      |        |1    |
 |[onemapsgapi](problems.md#onemapsgapi)                   |1.0.0     |      |        |1    |
 |[OOS](problems.md#oos)                                   |1.0.0     |      |        |1    |
 |origami                                                  |1.0.5     |      |        |     |
@@ -199,37 +208,42 @@
 |[prewas](problems.md#prewas)                             |1.1.1     |      |        |1    |
 |progressr                                                |0.9.0     |      |        |     |
 |[promises](problems.md#promises)                         |1.2.0.1   |      |        |1    |
-|[Prostar](problems.md#prostar)                           |1.26.0    |      |        |2    |
+|[Prostar](problems.md#prostar)                           |1.26.1    |      |        |2    |
 |protti                                                   |0.2.0     |      |        |     |
+|PRSPGx                                                   |0.1.0     |      |        |     |
 |PSCBS                                                    |0.66.0    |      |        |     |
+|[QDNAseq](problems.md#qdnaseq)                           |1.30.0    |      |        |1    |
 |[QDNAseq.hg19](problems.md#qdnaseqhg19)                  |1.24.0    |      |        |1    |
 |[QDNAseq.mm10](problems.md#qdnaseqmm10)                  |1.24.0    |      |        |1    |
-|qgcomp                                                   |2.8.0     |      |        |     |
-|qgcompint                                                |0.6.2     |      |        |     |
+|qgcomp                                                   |2.8.5     |      |        |     |
+|qgcompint                                                |0.6.6     |      |        |     |
+|[qtl2pleio](problems.md#qtl2pleio)                       |1.4.3     |      |        |2    |
 |rangeMapper                                              |2.0.2     |      |        |     |
-|RapidoPGS                                                |2.1.0     |      |        |     |
+|[RapidoPGS](problems.md#rapidopgs)                       |2.1.0     |      |        |1    |
 |rBiasCorrection                                          |0.3.2     |      |        |     |
 |refineR                                                  |1.0.0     |      |        |     |
 |[regmedint](problems.md#regmedint)                       |0.2.1     |      |        |1    |
 |reproducible                                             |1.2.8     |      |        |     |
 |reval                                                    |3.0-0     |      |        |     |
-|[rgee](problems.md#rgee)                                 |1.1.0     |      |        |1    |
+|[rgee](problems.md#rgee)                                 |1.1.2     |      |        |2    |
 |[robotstxt](problems.md#robotstxt)                       |0.7.13    |      |        |2    |
+|robust2sls                                               |0.1.0     |      |        |     |
 |RTransferEntropy                                         |0.2.14    |      |        |     |
 |[sapfluxnetr](problems.md#sapfluxnetr)                   |0.1.3     |      |        |1    |
-|[scDiffCom](problems.md#scdiffcom)                       |0.1.0     |      |        |1    |
+|[scDiffCom](problems.md#scdiffcom)                       |0.1.0     |      |        |2    |
 |SCtools                                                  |0.3.1     |      |        |     |
 |[sctransform](problems.md#sctransform)                   |0.3.2     |      |        |1    |
 |[sdmApp](problems.md#sdmapp)                             |0.0.2     |      |        |1    |
-|[seer](problems.md#seer)                                 |1.1.6     |      |        |1    |
+|[seer](problems.md#seer)                                 |1.1.7     |      |        |1    |
 |semtree                                                  |0.9.17    |      |        |     |
 |sense                                                    |1.0.0     |      |        |     |
 |[Seurat](problems.md#seurat)                             |4.0.5     |      |        |2    |
+|shar                                                     |1.3       |      |        |     |
 |[shiny](problems.md#shiny)                               |1.7.1     |      |        |1    |
 |[shiny.worker](problems.md#shinyworker)                  |0.0.1     |      |        |2    |
 |[shinyrecap](problems.md#shinyrecap)                     |0.1.0     |      |        |2    |
-|sigminer                                                 |2.1.1     |      |        |     |
-|Signac                                                   |1.4.0     |      |        |     |
+|[sigminer](problems.md#sigminer)                         |2.1.2     |      |        |1    |
+|[Signac](problems.md#signac)                             |1.5.0     |      |        |1    |
 |simfinapi                                                |0.2.0     |      |        |     |
 |[simglm](problems.md#simglm)                             |0.8.8     |      |        |1    |
 |[simhelpers](problems.md#simhelpers)                     |0.1.1     |      |        |1    |
@@ -256,7 +270,7 @@
 |[synergyfinder](problems.md#synergyfinder)               |3.2.2     |      |        |3    |
 |[tableschema.r](problems.md#tableschemar)                |1.1.1     |      |        |3    |
 |[targeted](problems.md#targeted)                         |0.2.0     |      |        |1    |
-|targets                                                  |0.8.1     |-1    |        |     |
+|targets                                                  |0.9.0     |      |        |     |
 |tcensReg                                                 |0.1.7     |      |        |     |
 |tcplfit2                                                 |0.1.3     |      |        |     |
 |tealeaves                                                |1.0.5     |      |        |     |
@@ -268,11 +282,11 @@
 |[tsfeatures](problems.md#tsfeatures)                     |1.0.2     |      |        |1    |
 |[TSstudio](problems.md#tsstudio)                         |0.1.6     |      |        |1    |
 |[txshift](problems.md#txshift)                           |0.3.6     |      |        |1    |
-|[UCSCXenaShiny](problems.md#ucscxenashiny)               |1.1.2     |      |        |1    |
+|[UCSCXenaShiny](problems.md#ucscxenashiny)               |1.1.4     |      |        |1    |
 |[updog](problems.md#updog)                               |2.1.1     |      |        |1    |
 |[vip](problems.md#vip)                                   |0.3.2     |      |        |1    |
 |[vivid](problems.md#vivid)                               |0.2.3     |      |        |2    |
 |[vmeasur](problems.md#vmeasur)                           |0.1.4     |      |1       |     |
 |wehoop                                                   |1.2.1     |      |        |     |
-|[XNAString](problems.md#xnastring)                       |1.2.0     |      |        |3    |
+|[XNAString](problems.md#xnastring)                       |1.2.2     |      |        |3    |
 

@@ -1,6 +1,45 @@
 Package: parallelly
 ===================
 
+Version: 1.30.0 [2021-12-15]
+
+NEW FEATURES:
+
+ * makeNodePSOCK(), and therefore also makeClusterPSOCK(), gained argument
+   'rscript_sh', which controls how Rscript arguments are shell quoted. The
+   default is to make a best guess on what type of shell is used where each
+   cluster node is launched.  If launched locally, then it whatever platform
+   the current R session is running, i.e. either a POSIX shell ("sh") or
+   MS Windows ("cmd").  If remotely, then the assumption is that a POSIX
+   shell ("sh") is used.
+
+ * makeNodePSOCK(), and therefore also makeClusterPSOCK(), gained argument
+   'default_packages', which controls the default set of R packages to be
+   attached on each cluster node at startup.  Moreover, if argument 'rscript'
+   specifies an 'Rscript' executable, then argument 'default_packages' is
+   used to populate Rscript command-line option '--default-packages=...'.
+   If 'rscript' specifies something else, e.g. an 'R' or 'Rterm' executable,
+   then environment variable 'R_DEFAULT_PACKAGES=...' is set accordingly when
+   launching each cluster node.
+   
+ * Argument 'rscript_args' of makeClusterPSOCK() now supports "*" values.
+   When used, the corresponding element will be replaced with the internally
+   added Rscript command-line options.  If not specified, such options are
+   appended at the end.
+
+BUG FIXES:
+
+ * makeClusterPSOCK() did not support backslashes ('\') in 'rscript_libs',
+   backslashes that may originate from, for example, Windows network drives.
+   The result was that the worker would silently ignore any 'rscript_libs'
+   components with backslashes.
+ 
+ * The package detects when 'R CMD check' runs and adjust default settings
+   via environment variables in order to play nicer with the machine where
+   the checks are running. Some of these environment variables were in this
+   case ignored since parallelly 1.26.0.
+ 
+
 Version: 1.29.0 [2021-11-20]
 
 SIGNIFICANT CHANGES:
