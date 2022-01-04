@@ -255,10 +255,10 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
           ## The workers will give up after connectTimeout, so there is
           ## no point waiting for them much longer.
           failed <- length(cl) - ready
-          stop(ngettext(failed,
+          stop(sprintf(ngettext(failed,
                "Cluster setup failed. %d worker of %d failed to connect.",
                "Cluster setup failed. %d of %d workers failed to connect."),
-               failed, length(cl))
+               failed, length(cl)))
       }
       a <- socketSelect(append(list(socket), cons), write = FALSE, timeout = connectTimeout)
       canAccept <- a[1]
