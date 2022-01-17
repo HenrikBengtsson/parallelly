@@ -75,9 +75,10 @@ instance \code{\link[=mclapply]{mclapply}()} of the \pkg{parallel}
 package.
 \item \code{"BiocParallel"} -
 Query environment variables \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
-which is defined by \strong{BiocParallel} (>= 1.27.2), and \env{BBS_HOME}
-(logical). If the former is set, this is the number of cores considered.
-If the latter is set, then a maximum of 4 cores is considered.
+which is defined and used by \strong{BiocParallel} (>= 1.27.2), and
+\env{BBS_HOME} (logical) used by the Bioconductor Build System. If the
+former is set, this is the number of cores considered.  If the latter
+is set, then a maximum of 4 cores is considered.
 \item \code{"PBS"} -
 Query TORQUE/PBS environment variables \env{PBS_NUM_PPN} and \env{NCPUS}.
 Depending on PBS system configuration, these \emph{resource}
