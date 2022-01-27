@@ -329,12 +329,16 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     ## options are explicitly set / available.
     idx_fallback <- which(names(ncores) == "fallback")
     if (length(idx_fallback) == 1) {
-      ## Use only if 'system' and 'nproc' are the only other options
+      ## Use only if 'system' and 'nproc' are the only other options ...
       ignore <- c("system", "nproc")
-      if (length(setdiff(names(ncores), c("fallback", ignore))) == 0) {
+      use_fallback <- (length(setdiff(names(ncores), c("fallback", ignore))) == 0)
+      if (use_fallback) {
+        ## ... and nproc == system, which suggests cgroups is *not* in use
+	use_fallback <- identical(ncores[["system"]], ncores[["nproc"]])
+      }
+      if (use_fallback) {
         ncores <- ncores[idx_fallback]
       } else {
-        ## ... otherwise, ignore 'fallback'.
         ncores <- ncores[-idx_fallback]
       }
     }
