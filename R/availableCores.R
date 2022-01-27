@@ -330,12 +330,16 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     idx_fallback <- which(names(ncores) == "fallback")
     if (length(idx_fallback) == 1) {
       ## Use only if 'system' and 'nproc' are the only other options ...
-      ignore <- c("system", "nproc")
-      use_fallback <- (length(setdiff(names(ncores), c("fallback", ignore))) == 0)
-      if (use_fallback) {
-        ## ... and nproc == system, which suggests cgroups is *not* in use
-	use_fallback <- identical(ncores[["system"]], ncores[["nproc"]])
+      others <- setdiff(names(ncores), c("fallback", "system", "nproc"))
+      use_fallback <- (length(others) == 0L)
+
+      ## ... but could it be that cgroups is active? If so, nproc < system
+      if (use_fallback &&
+          is.finite(ncores["system"]) && is.finite(ncores["nproc"]) &&
+          ncores["nproc"] < ncores["system"]) {
+        use_fallback <- FALSE
       }
+      
       if (use_fallback) {
         ncores <- ncores[idx_fallback]
       } else {
