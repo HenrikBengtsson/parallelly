@@ -71,10 +71,9 @@ is_localhost <- local({
 
 ## Checks if a worker is specified by its IP number.
 is_ip_number <- function(worker) {
+  if (!grepl("^([[:digit:]]+[.]){3}[[:digit:]]+$", worker)) return(FALSE)
   ip <- strsplit(worker, split = ".", fixed = TRUE)[[1]]
-  if (length(ip) != 4) return(FALSE)
   ip <- as.integer(ip)
-  if (anyNA(ip)) return(FALSE)
   all(0 <= ip & ip <= 255)
 }
 
