@@ -7,7 +7,7 @@ BUG FIXES:
 
  * availableCores() would return the 'fallback' value when only 'system' and
    'nproc' information was available.  However, in this case, we do want it
-   to return 'nproc' when 'nproc' != 'system', because that is strong
+   to return 'nproc' when 'nproc' != 'system', because that is a strong
    indication that the number of CPU cores is limited by control groups
    (cgroups) on Linux.  If 'nproc' == 'system', we cannot tell whether
    cgroups is enabled or not, which means we will fall back to the 'fallback'

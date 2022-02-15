@@ -132,3 +132,4 @@ isForkedChild
 isNodeAlive
 socketOptions
 donttest
+Rterm
