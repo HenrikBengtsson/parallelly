@@ -24,7 +24,7 @@ number of cores available is always at least one."><meta property="og:image" con
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.30.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.30.0-9001</span>
       </span>
     </div>
 
@@ -197,9 +197,10 @@ instance <code>mclapply()</code> of the <span class="pkg">parallel</span>
 package.</p></li>
 <li><p><code>"BiocParallel"</code> -
 Query environment variables <code class="env">BIOCPARALLEL_WORKER_NUMBER</code> (integer),
-which is defined by <strong>BiocParallel</strong> (&gt;= 1.27.2), and <code class="env">BBS_HOME</code>
-(logical). If the former is set, this is the number of cores considered.
-If the latter is set, then a maximum of 4 cores is considered.</p></li>
+which is defined and used by <strong>BiocParallel</strong> (&gt;= 1.27.2), and
+<code class="env">BBS_HOME</code> (logical) used by the Bioconductor Build System. If the
+former is set, this is the number of cores considered.  If the latter
+is set, then a maximum of 4 cores is considered.</p></li>
 <li><p><code>"PBS"</code> -
 Query TORQUE/PBS environment variables <code class="env">PBS_NUM_PPN</code> and <code class="env">NCPUS</code>.
 Depending on PBS system configuration, these <em>resource</em>
@@ -311,7 +312,7 @@ see <code><a href="availableWorkers.html">availableWorkers()</a></code>.</p></di
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9003.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9003.</p>
 </div>
 
       </footer></div>
