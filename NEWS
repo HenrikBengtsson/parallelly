@@ -154,7 +154,7 @@ BUG FIXES:
    Unknown value on argument 'port': 'auto'" if environment variable
    'R_PARALLEL_PORT' was set to a port number.
 
- * parallelly::availableCores() would produce 'Error in if (grepl("^[1-9]$",
+ * parallelly::availableCores() would produce 'Error in if (grepl("^ [1-9]$",
    res)) return(as.integer(res)) : argument is of length zero' on Linux
    systems without 'nproc' installed.
 
@@ -481,7 +481,7 @@ NEW FEATURES:
    launched by makeClusterPSOCK() by specify them as as "<name>=<value>"
    as part of the 'rscript' vector argument, e.g. rscript=c("ABC=123",
    "DEF='hello world'", "Rscript"). This works because elements in 'rscript'
-   that match regular expression '^[[:alpha:]_][[:alnum:]_]*=.*' are no longer
+   that match regular expression '^ [[:alpha:]_][[:alnum:]_]*=.*' are no longer
    shell quoted.
 
  * makeClusterPSOCK() now returns a cluster that in addition to inheriting
