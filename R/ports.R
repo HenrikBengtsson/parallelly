@@ -21,7 +21,7 @@
 #' is returned.
 #'
 #' @export
-freePort <- function(ports = 1024:65535, default = "first", randomize = TRUE) {
+freePort <- function(ports = 1024:65535, default = "random", randomize = TRUE) {
   if (is.character(default)) {
     default <- match.arg(default, choices = c("first", "random"))
   } else {

@@ -1,7 +1,14 @@
 Package: parallelly
 ===================
 
-Version: 1.30.0-9001 [2022-01-26]
+Version: 1.30.0-9002 [2022-02-22]
+
+SIGNIFICANT CHANGES:
+
+ * Changed the default for argument `default` of freePort() to `"random"`,
+   which used to be `"first"`.  The main reason for this is to make sure
+   the default behavior is to return a random port also on R (< 4.0.0) where
+   we cannot get whether or not a port is available.
 
 BUG FIXES:
 
