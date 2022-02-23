@@ -1,8 +1,8 @@
 pandoc: 2.16.2
-pkgdown: 2.0.2.9000
-pkgdown_sha: 603cee28c4c6b4fbd186363c8559911ebd7b4317
+pkgdown: 2.0.2
+pkgdown_sha: ~
 articles: {}
-last_built: 2022-02-22T05:36Z
+last_built: 2022-02-23T05:06Z
 urls:
   reference: https://parallelly.futureverse.org/reference
   article: https://parallelly.futureverse.org/articles
