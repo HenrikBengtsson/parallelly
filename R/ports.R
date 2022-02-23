@@ -55,7 +55,10 @@ freePort <- function(ports = 1024:65535, default = "random", randomize = TRUE) {
   if (is.character(default)) {
     default <- switch(default,
       first = ports[1],
-      random = stealth_sample(ports, size = 1L)
+      random = {
+        randomize <- FALSE ## No need to randomize again below
+        stealth_sample(ports, size = 1L)
+      }
     )
   }
 
