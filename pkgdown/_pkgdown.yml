@@ -52,7 +52,7 @@ navbar:
       href: https://cloud.r-project.org/package=parallelly
 
 template:
-  bootstrap: 5
+  bootstrap: 3
   params:
     docsearch:
       api_key: aa6e02fc501886fb0f7c91ac4e300456
