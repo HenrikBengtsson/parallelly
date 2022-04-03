@@ -54,11 +54,8 @@ freePort <- function(ports = 1024:65535, default = "random", randomize = TRUE) {
   ## Note, this will become NA_integer_ if length(ports) == 0
   if (is.character(default)) {
     default <- switch(default,
-      first = ports[1],
-      random = {
-        randomize <- FALSE ## No need to randomize again below
-        stealth_sample(ports, size = 1L)
-      }
+      first  = ports[1],
+      random = stealth_sample(ports, size = 1L)
     )
   }
 

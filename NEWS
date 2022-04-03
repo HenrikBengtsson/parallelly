@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.30.0-9003 [2022-04-02]
+Version: 1.30.0-9004 [2022-04-03]
 
 SIGNIFICANT CHANGES:
 
@@ -23,8 +23,12 @@ BUG FIXES:
    other evidence that another number of cores are available to the
    current R process.
 
- * canPortBeUsed() could technically give the false return if a user
-   interrupt was signaled during the port check.
+ * Technically, canPortBeUsed() could falsely return FALSE if the port
+   check was interrupted by, say, a user interrupt.
+
+ * freePort(ports, default = "random") would always use return
+   ports[1] if the system does not allow testing if a port is
+   available or not, or if none of the specified ports are available.
 
 
 Version: 1.30.0 [2021-12-15]
