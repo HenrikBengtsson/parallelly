@@ -1,25 +1,30 @@
 Package: parallelly
 ===================
 
-Version: 1.30.0-9002 [2022-02-22]
+Version: 1.30.0-9003 [2022-04-02]
 
 SIGNIFICANT CHANGES:
 
- * Changed the default for argument `default` of freePort() to `"random"`,
-   which used to be `"first"`.  The main reason for this is to make sure
-   the default behavior is to return a random port also on R (< 4.0.0) where
-   we cannot get whether or not a port is available.
+ * Changed the default for argument `default` of freePort() to
+   `"random"`, which used to be `"first"`.  The main reason for this
+   is to make sure the default behavior is to return a random port
+   also on R (< 4.0.0) where we cannot get whether or not a port is
+   available.
 
 BUG FIXES:
 
- * availableCores() would return the 'fallback' value when only 'system' and
-   'nproc' information was available.  However, in this case, we do want it
-   to return 'nproc' when 'nproc' != 'system', because that is a strong
-   indication that the number of CPU cores is limited by control groups
-   (cgroups) on Linux.  If 'nproc' == 'system', we cannot tell whether
-   cgroups is enabled or not, which means we will fall back to the 'fallback'
-   value if there is no other evidence that another number of cores are
-   available to the current R process.
+ * availableCores() would return the 'fallback' value when only
+   'system' and 'nproc' information was available.  However, in this
+   case, we do want it to return 'nproc' when 'nproc' != 'system',
+   because that is a strong indication that the number of CPU cores is
+   limited by control groups (cgroups) on Linux.  If 'nproc' ==
+   'system', we cannot tell whether cgroups is enabled or not, which
+   means we will fall back to the 'fallback' value if there is no
+   other evidence that another number of cores are available to the
+   current R process.
+
+ * canPortBeUsed() could technically give the false return if a user
+   interrupt was signaled during the port check.
 
 
 Version: 1.30.0 [2021-12-15]

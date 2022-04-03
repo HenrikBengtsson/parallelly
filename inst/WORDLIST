@@ -133,3 +133,4 @@ isNodeAlive
 socketOptions
 donttest
 Rterm
+canPortBeUsed
