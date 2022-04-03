@@ -5,6 +5,9 @@ stealth_sample <- function(x, size = length(x), replace = FALSE, ...) {
 
   ## Nothing to randomize?
   if (length(x) == 1L) {
+    if (!replace && size > 1L) {
+      stopf("Cannot take a sample (n = %d) larger than the population (m = %d) when 'replace = FALSE'", size, length(x))
+    }
     return(rep(x, times = size))
   }
   
