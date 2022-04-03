@@ -1,17 +1,17 @@
 ** System information:
 List of 12
  $ sysname       : chr "Linux"
- $ release       : chr "5.4.0-99-generic"
- $ version       : chr "#112~18.04.1-Ubuntu SMP Thu Feb 3 14:09:57 UTC 2022"
+ $ release       : chr "5.4.0-105-generic"
+ $ version       : chr "#119~18.04.1-Ubuntu SMP Tue Mar 8 11:21:24 UTC 2022"
  $ nodename      : chr "hb-x1"
  $ machine       : chr "x86_64"
  $ login         : chr "hb"
  $ user          : chr "hb"
  $ effective_user: chr "hb"
- $ pid           : int 13625
- $ call          : chr [1:17] "/home/hb/software/R-devel/R-4-1-branch/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/hb/Rtmp1GX25v/worker.rank=1.parallelly.parent=13255.33c719599"| __truncated__ "-e" "options(socketOptions~+~=~+~\"no-delay\")" "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11000" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
- $ pwd           : chr "/tmp/hb/RtmpfsHi7A/parallelly/docs/reference"
- $ time          : POSIXct[1:1], format: "2022-02-22 21:12:08"
+ $ pid           : int 20661
+ $ call          : chr [1:17] "/home/hb/software/R-devel/R-4-2-branch/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/hb/RtmpgeefFi/worker.rank=1.parallelly.parent=20248.4f1857ff7"| __truncated__ "-e" "options(socketOptions~+~=~+~\"no-delay\")" "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11264" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
+ $ pwd           : chr "/tmp/hb/RtmpI8GTKr/parallelly/docs/reference"
+ $ time          : POSIXct[1:1], format: "2022-04-03 12:49:39"
 
 ** Error:
 Error in unserialize(node$con) : error reading from connection
@@ -60,37 +60,37 @@ Calls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize
 
 ** Dumped frames:
 $`workRSOCK()`
-<environment: 0x55bbd1a49628>
+<environment: 0x55b3cfd91250>
 
 $`workLoop(makeSOCKmaster(master, port, setup_timeout, timeout, useXDR, setup`
-<environment: 0x55bbd1a67910>
+<environment: 0x55b3cfdb15f0>
 
 $`workCommand(master)`
-<environment: 0x55bbd1aa6b00>
+<environment: 0x55b3cfdf3388>
 
 $`tryCatch({\n    msg <- recvData(master)\n    if (msg$type == "DONE") {\n        c`
-<environment: 0x55bbd1aa6908>
+<environment: 0x55b3cfdf3190>
 
 $`tryCatchList(expr, classes, parentenv, handlers)`
-<environment: 0x55bbd1aaa070>
+<environment: 0x55b3cfdf2ac8>
 
 $`tryCatchOne(expr, names, parentenv, handlers[[1]])`
-<environment: 0x55bbd1aa9d28>
+<environment: 0x55b3cfdf2780>
 
 $`doTryCatch(return(expr), name, parentenv, handler)`
-<environment: 0x55bbd1aa99e0>
+<environment: 0x55b3cfdf2438>
 
 $`recvData(master)`
-<environment: 0x55bbd1aa9698>
+<environment: 0x55b3cfdf7e40>
 
 $`recvData.SOCK0node(master)`
-<environment: 0x55bbd1aa93f8>
+<environment: 0x55b3cfdf79a8>
 
 $`unserialize(node$con)`
-<environment: 0x55bbd1aa92e0>
+<environment: 0x55b3cfdf7858>
 
 $`(function () \n{\n    tb <- .traceback(NULL)\n    if (is.null(tb)) \n        tb <- `
-<environment: 0x55bbd1aa8e10>
+<environment: 0x55b3cfee7798>
 
 attr(,"error.message")
 [1] "Error in unserialize(node$con) : error reading from connection\nCalls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize\n"
@@ -98,17 +98,17 @@ attr(,"class")
 [1] "dump.frames"
 
 ** Session information:
-R version 4.1.2 Patched (2021-11-01 r81123)
+R version 4.2.0 alpha (2022-04-02 r82066)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Ubuntu 18.04.6 LTS
 
 Matrix products: default
-BLAS:   /home/hb/software/R-devel/R-4-1-branch/lib/R/lib/libRblas.so
-LAPACK: /home/hb/software/R-devel/R-4-1-branch/lib/R/lib/libRlapack.so
+BLAS:   /home/hb/software/R-devel/R-4-2-branch/lib/R/lib/libRblas.so
+LAPACK: /home/hb/software/R-devel/R-4-2-branch/lib/R/lib/libRlapack.so
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=C              
  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
@@ -118,4 +118,4 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 loaded via a namespace (and not attached):
-[1] compiler_4.1.2 parallel_4.1.2 tools_4.1.2    rappdirs_0.3.3
+[1] compiler_4.2.0 parallel_4.2.0 tools_4.2.0    rappdirs_0.3.3
