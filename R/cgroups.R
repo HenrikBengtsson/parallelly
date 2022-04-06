@@ -66,7 +66,7 @@ getCGroupsRoot <- local({
 getCGroupsPath <- function(name) {
   root <- getCGroupsRoot()
   root <- file.path(root, name)
-  if (!file_path("-d", root)) return(NA_character_)
+  if (!file_test("-d", root)) return(NA_character_)
   set <- getCGroups()[name]
   if (is.na(set)) return(NA_character_)
 
@@ -82,7 +82,7 @@ getCGroupsPath <- function(name) {
   }
 
   ## Should the following ever happen?
-  if (!file_path("-d", path)) return(NA_character_)
+  if (!file_test("-d", path)) return(NA_character_)
   
   path <- normalizePath(path, mustWork = FALSE)
   path
