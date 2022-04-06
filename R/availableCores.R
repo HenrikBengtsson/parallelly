@@ -39,6 +39,11 @@
 #' \itemize{
 #'  \item `"system"` -
 #'    Query \code{\link[parallel]{detectCores}(logical = logical)}.
+#'  \item `"cgroups.cpuset"` -
+#'    On Unix, query control group (cgroup) value \code{cpuset.set}.
+#'  \item `"cgroups.cpuquota"` -
+#'    On Unix, query control group (cgroup) value
+#'    \code{cpu.cfs_quota_us} / \code{cpu.cfs_period_us}.
 #'  \item `"nproc"` -
 #'    On Unix, query system command \code{nproc}.
 #'  \item `"mc.cores"` -
@@ -160,7 +165,7 @@
 #'
 #' @importFrom parallel detectCores
 #' @export
-availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
+availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
   ## Local functions
   getenv <- function(name, mode = "integer") {
     value <- trim(getEnvVar2(name, default = NA_character_))
@@ -275,8 +280,18 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     } else if (method == "system") {
       ## Number of cores available according to parallel::detectCores()
       n <- detectCores(logical = logical)
+    } else if (method == "cgroups.cpuset") {
+      ## Number of cores according to Unix Cgroups CPU set
+      n <- getCGroupsCpuSetLength()
+    } else if (method == "cgroups.cpuquota") {
+      ## Number of cores according to Unix Cgroups CPU quota
+      n <- getCGroupsCpuQuota()
+      if (!is.na(n)) {
+        n <- as.integer(floor(n + 0.5))
+	if (n == 0L) n <- 1L  ## If CPU quota < 0.5, round up to one CPU
+      }
     } else if (method == "nproc") {
-      ## Number of cores according Unix 'nproc'
+      ## Number of cores according to Unix 'nproc'
       n <- getNproc()
     } else if (method == "fallback") {
       ## Number of cores available according to parallelly.availableCores.fallback
@@ -329,14 +344,14 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     ## options are explicitly set / available.
     idx_fallback <- which(names(ncores) == "fallback")
     if (length(idx_fallback) == 1) {
-      ## Use only if 'system' and 'nproc' are the only other options ...
-      others <- setdiff(names(ncores), c("fallback", "system", "nproc"))
+      ## Use 'fallback' if and only there are only "special" options specified
+      special <- c("system", "cgroups.cpuset", "cgroups.cpuquote", "nproc")
+      others <- setdiff(names(ncores), c("fallback", special))
       use_fallback <- (length(others) == 0L)
 
-      ## ... but could it be that cgroups is active? If so, nproc < system
-      if (use_fallback &&
-          is.finite(ncores["system"]) && is.finite(ncores["nproc"]) &&
-          ncores["nproc"] < ncores["system"]) {
+      ## ... and all the "special" options agree. If one of them disagree,
+      ## it's likely that cgroups limits the CPUs
+      if (use_fallback && any(ncores[special] < ncores["system"], na.rm = TRUE)) {
         use_fallback <- FALSE
       }
       

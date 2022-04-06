@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.30.0-9004 [2022-04-03]
+Version: 1.30.0-9005 [2022-04-05]
 
 SIGNIFICANT CHANGES:
 
@@ -11,6 +11,20 @@ SIGNIFICANT CHANGES:
    also on R (< 4.0.0) where we cannot get whether or not a port is
    available.
 
+NEW FEATURES:
+
+ * On Unix, availableCores() now queries also control groups (cgroups)
+   field 'cpuset.set' for possible a CPU affinity, i.e. the number of
+   CPUs that cgroups has given the current R process to work with.
+   It also queries fields 'cpu.cfs_quota_us' and 'cpu.cfs_period_us',
+   for a possible CPU quota allocation. If a CPU quota is set, the
+   the number of CPUs is rounded to the nearest integer, unless its
+   less that 0.5, in case it's rounded up to a single CPU. Cgroups
+   CPU limits are not set on all systems, but you might find them set
+   on multi-tenant systems and in high-performance compute (HPC)
+   environments. They may also be set by Linux containers, e.g.
+   'docker run' with option '--cpuset-cpus=0-2,8 ...' or '--cpus=3.2'.
+   
 BUG FIXES:
 
  * availableCores() would return the 'fallback' value when only

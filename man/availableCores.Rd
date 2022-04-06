@@ -6,9 +6,9 @@
 \usage{
 availableCores(
   constraints = NULL,
-  methods = getOption2("parallelly.availableCores.methods", c("system", "nproc",
-    "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF",
-    "fallback", "custom")),
+  methods = getOption2("parallelly.availableCores.methods", c("system",
+    "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel",
+    "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = c(current = 1L),
@@ -58,6 +58,11 @@ are supported:
 \itemize{
 \item \code{"system"} -
 Query \code{\link[parallel]{detectCores}(logical = logical)}.
+\item \code{"cgroups.cpuset"} -
+On Unix, query control group (cgroup) value \code{cpuset.set}.
+\item \code{"cgroups.cpuquota"} -
+On Unix, query control group (cgroup) value
+\code{cpu.cfs_quota_us} / \code{cpu.cfs_period_us}.
 \item \code{"nproc"} -
 On Unix, query system command \code{nproc}.
 \item \code{"mc.cores"} -
