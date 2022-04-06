@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.30.0-9005 [2022-04-05]
+Version: 1.30.0-9006 [2022-04-05]
 
 SIGNIFICANT CHANGES:
 
@@ -31,6 +31,8 @@ NEW FEATURES:
    by Linux containers, e.g. 'docker run --cpuset-cpus=0-2,8 ...'
    
 BUG FIXES:
+
+ * The 'nproc' result for availableCores() was ignored if nproc > 9.
 
  * availableCores() would return the 'fallback' value when only
    'system' and 'nproc' information was available.  However, in this

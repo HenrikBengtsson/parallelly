@@ -418,7 +418,7 @@ getNproc <- function(ignore = c("OMP_NUM_THREADS", "OMP_THREAD_LIMIT")) {
     tryCatch({
       res <- suppressWarnings(system(cmd, intern=TRUE))
       res <- gsub("(^[[:space:]]+|[[:space:]]+$)", "", res[1])
-      if (grepl("^[1-9]$", res)) return(as.integer(res))
+      if (grepl("^[[:digit:]]+$", res)) return(as.integer(res))
     }, error = identity)
   }
   
