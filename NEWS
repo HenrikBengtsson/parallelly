@@ -1,7 +1,7 @@
 Package: parallelly
 ===================
 
-Version: 1.30.0-9006 [2022-04-05]
+Version: 1.30.0-9007 [2022-04-06]
 
 SIGNIFICANT CHANGES:
 
@@ -28,7 +28,12 @@ NEW FEATURES:
    work. Some high-performance compute (HPC) environments set the CPU
    affinity so that jobs do not overuse the CPUs. It may also be set
    by Linux containers, e.g. 'docker run --cpuset-cpus=0-2,8 ...'
-   
+
+ * The minimium value returned by availableCores() is one (1). This
+   can be overridden by new option 'parallelly.availableCores.min'.
+   This can be used to test parallelization methods on single-core
+   machines, e.g. 'options(parallelly.availableCores.min = 2L)'.
+
 BUG FIXES:
 
  * The 'nproc' result for availableCores() was ignored if nproc > 9.

@@ -381,6 +381,20 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     }
   }
 
+  ## Override the minimum of one (1) core?
+  min <- getOption2("parallelly.availableCores.min", 1L)
+  if (length(min) != 1L || !is.numeric(min)) {
+    stop(sprintf("Option %s is not numeric: %s", sQuote("parallelly.availableCores.min"), mode(min)))
+  } else if (!is.finite(min) || min < 1L) {
+    stop(sprintf("Option %s must be an integer greater than one: %d", sQuote("parallelly.availableCores.min"), min))
+  } else if (min > detectCores(logical = logical)) {
+    stop(sprintf("Option %s must not be greater than the number cores on the system: %d > %d", sQuote("parallelly.availableCores.min"), min, detectCores(logical = logical)))
+  } else {
+    idxs <- which(ncores < min)
+    ncores[idxs] <- as.integer(floor(min))
+    names(ncores)[idxs] <- paste(names(ncores)[idxs], "*", sep = "")
+  }
+
   ## Omit some of the cores?
   if (omit > 0L) {
     ncores <- ncores - omit

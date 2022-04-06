@@ -179,29 +179,45 @@ getCGroupsCpuSet <- local({
 
     if (!is.null(cpuset)) return(cpuset)
 
-    value <- getCGroupsValue("cpuset", "cpuset.cpus")
-    if (is.na(value)) {
+    value0 <- getCGroupsValue("cpuset", "cpuset.cpus")
+    if (is.na(value0)) {
       cpuset <<- integer(0L)
       return(cpuset)
     }
     
     ## Parse 0-63; 0-7,9; 0-7,10-12; etc.
-    code <- gsub("-", ":", value, fixed = TRUE)
+    code <- gsub("-", ":", value0, fixed = TRUE)
     code <- sprintf("c(%s)", code)
     expr <- tryCatch({
       parse(text = code)
     }, error = function(ex) {
-      warning("Syntax error parsing %s: %s", sQuote(file), sQuote(value))
+      warning(sprintf("Syntax error parsing %s: %s", sQuote(file), sQuote(value0)))
       integer(0L)
     })
 
-    cpuset <<- tryCatch({
+    value <- tryCatch({
       suppressWarnings(as.integer(eval(expr)))
     }, error = function(ex) {
-      warning("Failed to parse %s: %s", sQuote(file), sQuote(value))
+      warning(sprintf("Failed to parse %s: %s", sQuote(file), sQuote(value0)))
       integer(0L)
     })
+
+    ## Sanity checks
+    if (any(value < 1L | value > detectCores(logical = TRUE))) {
+      warning(sprintf("[INTERNAL]: Will ignore the cgroups CPU set, because it contains one or more CPU indices that is out of range [1,%d]: %s", detectCores(logical = TRUE), value0))
+      value <- integer(0L)
+    }
+
+    if (any(duplicated(value))) {
+      warning(sprintf("[INTERNAL]: Detected and dropped duplicated CPU indices in the cgroups CPU set: %s", value0))
+      value <- unique(value)
+    }
+
+    cpuset <<- value
     
+    ## Should never happen, but just in case
+    stop_if_not(length(cpuset) <= detectCores(logical = TRUE))
+
     cpuset
   }
 })
@@ -259,7 +275,14 @@ getCGroupsCpuQuota <- local({
     total <- getCGroupsCpuPeriodMicroseconds()
     if (!is.na(total) && total < 0) total <- NA_integer_
     
-    quota <<- ms / total
+    value <- ms / total
+
+    if (!is.finite(value) || value <= 0.0 || value > detectCores(logical = TRUE)) {
+      warning(sprintf("[INTERNAL]: Will ignore the cgroups CPU quota, because it is out of range [1,%d]: %s", detectCores(logical = TRUE), value))
+      value <- NA_real_
+    }
+
+    quota <<- value
     
     quota
   }
