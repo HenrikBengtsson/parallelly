@@ -24,7 +24,7 @@ number of cores available is always at least one."><meta property="og:image" con
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.30.0-9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.30.0-9006</span>
       </span>
     </div>
 
@@ -129,9 +129,9 @@ number of cores available is always at least one.</p>
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">availableCores</span><span class="op">(</span>
   constraints <span class="op">=</span> <span class="cn">NULL</span>,
-  methods <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.availableCores.methods"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"system"</span>, <span class="st">"nproc"</span>,
-    <span class="st">"mc.cores"</span>, <span class="st">"BiocParallel"</span>, <span class="st">"_R_CHECK_LIMIT_CORES_"</span>, <span class="st">"PBS"</span>, <span class="st">"SGE"</span>, <span class="st">"Slurm"</span>, <span class="st">"LSF"</span>,
-    <span class="st">"fallback"</span>, <span class="st">"custom"</span><span class="op">)</span><span class="op">)</span>,
+  methods <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.availableCores.methods"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"system"</span>,
+    <span class="st">"cgroups.cpuset"</span>, <span class="st">"cgroups.cpuquota"</span>, <span class="st">"nproc"</span>, <span class="st">"mc.cores"</span>, <span class="st">"BiocParallel"</span>,
+    <span class="st">"_R_CHECK_LIMIT_CORES_"</span>, <span class="st">"PBS"</span>, <span class="st">"SGE"</span>, <span class="st">"Slurm"</span>, <span class="st">"LSF"</span>, <span class="st">"fallback"</span>, <span class="st">"custom"</span><span class="op">)</span><span class="op">)</span>,
   na.rm <span class="op">=</span> <span class="cn">TRUE</span>,
   logical <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.availableCores.logical"</span>, <span class="cn">TRUE</span><span class="op">)</span>,
   default <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>current <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>,
@@ -180,6 +180,11 @@ Together with <code>na.rm = FALSE</code> missing values may also be returned.</p
     <p>The following settings ("methods") for inferring the number of cores
 are supported:</p><ul><li><p><code>"system"</code> -
 Query <code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a>(logical = logical)</code>.</p></li>
+<li><p><code>"cgroups.cpuset"</code> -
+On Unix, query control group (cgroup) value <code>cpuset.set</code>.</p></li>
+<li><p><code>"cgroups.cpuquota"</code> -
+On Unix, query control group (cgroup) value
+<code>cpu.cfs_quota_us</code> / <code>cpu.cfs_period_us</code>.</p></li>
 <li><p><code>"nproc"</code> -
 On Unix, query system command <code>nproc</code>.</p></li>
 <li><p><code>"mc.cores"</code> -
