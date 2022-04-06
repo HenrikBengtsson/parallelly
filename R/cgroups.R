@@ -142,8 +142,8 @@ getCGroupsValue <- local({
   .cache <- list()
   
   function(name, field) {
-    set <- .cache[[name]][[field]]
-    if (!is.null(set)) return(set)
+    ## Note, set <- .cache[[name]][[field]] only works in R (>= 4.0.0)
+    if (field %in% names(.cache[[name]])) return(.cache[[name]][[field]])
     
     path <- getCGroupsPath(name)
     if (is.na(path)) {
