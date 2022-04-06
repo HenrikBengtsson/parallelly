@@ -175,7 +175,7 @@ getCGroupsCpuSet <- local({
   function() {
     ## TEMPORARY: In case the cgroups options causes problems, make
     ## it possible to override their values via hidden opitions
-    cpuset <<- get_package_option("cgroups.cpuset", NULL)
+    cpuset <<- get_package_option("cgroups.cpuset", cpuset)
 
     if (!is.null(cpuset)) return(cpuset)
 
@@ -249,12 +249,16 @@ getCGroupsCpuQuota <- local({
   function() {
     ## TEMPORARY: In case the cgroups options causes problems, make
     ## it possible to override their values via hidden opitions
-    quota <<- get_package_option("cgroups.cpuquota", NULL)
+    quota <<- get_package_option("cgroups.cpuquota", quota)
     
     if (!is.null(quota)) return(quota)
 
     ms <- getCGroupsCpuQuotaMicroseconds()
+    if (!is.na(ms) && ms < 0) ms <- NA_integer_
+    
     total <- getCGroupsCpuPeriodMicroseconds()
+    if (!is.na(total) && total < 0) total <- NA_integer_
+    
     quota <<- ms / total
     
     quota
