@@ -14,16 +14,21 @@ SIGNIFICANT CHANGES:
 NEW FEATURES:
 
  * On Unix, availableCores() now queries also control groups (cgroups)
-   field 'cpuset.set' for possible a CPU affinity, i.e. the number of
-   CPUs that cgroups has given the current R process to work with.
-   It also queries fields 'cpu.cfs_quota_us' and 'cpu.cfs_period_us',
-   for a possible CPU quota allocation. If a CPU quota is set, the
-   the number of CPUs is rounded to the nearest integer, unless its
-   less that 0.5, in case it's rounded up to a single CPU. Cgroups
-   CPU limits are not set on all systems, but you might find them set
-   on multi-tenant systems and in high-performance compute (HPC)
-   environments. They may also be set by Linux containers, e.g.
-   'docker run' with option '--cpuset-cpus=0-2,8 ...' or '--cpus=3.2'.
+   queries fields 'cpu.cfs_quota_us' and 'cpu.cfs_period_us', for a
+   possible CPU quota allocation. If a CPU quota is set, then the
+   number of CPUs is rounded to the nearest integer, unless its less
+   that 0.5, in case it's rounded up to a single CPU. An example,
+   where cgroups CPU quotas can be set to limit the total CPU load, is
+   with Linux containers, e.g. 'docker run --cpus=3.5 ...'
+
+ * In addition to cgroups CPU quotas, availableCores() also queries
+   cgroups for possible a CPU affinity, which is available in field
+   'cpuset.set'. This should give the same result as what the already
+   existing 'nproc' method gives. However, not all systems have the
+   'nproc' tool installed, in which case this new approach should
+   work. Some high-performance compute (HPC) environments set the CPU
+   affinity so that jobs do not overuse the CPUs. It may also be set
+   by Linux containers, e.g. 'docker run --cpuset-cpus=0-2,8 ...'
    
 BUG FIXES:
 

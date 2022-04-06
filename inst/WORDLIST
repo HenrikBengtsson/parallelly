@@ -134,3 +134,6 @@ socketOptions
 donttest
 Rterm
 canPortBeUsed
+cfs
+cpu
+cpuset
