@@ -5,11 +5,10 @@ Version: 1.30.0-9006 [2022-04-05]
 
 SIGNIFICANT CHANGES:
 
- * Changed the default for argument `default` of freePort() to
-   `"random"`, which used to be `"first"`.  The main reason for this
-   is to make sure the default behavior is to return a random port
-   also on R (< 4.0.0) where we cannot get whether or not a port is
-   available.
+ * Changed the default for argument default of freePort() to "random",
+   which used to be "first".  The main reason for this is to make sure
+   the default behavior is to return a random port also on R (< 4.0.0)
+   where we cannot get whether or not a port is available.
 
 NEW FEATURES:
 
