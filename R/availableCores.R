@@ -282,7 +282,7 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
       n <- detectCores(logical = logical)
     } else if (method == "cgroups.cpuset") {
       ## Number of cores according to Unix Cgroups CPU set
-      n <- getCGroupsCpuSetLength()
+      n <- length(getCGroupsCpuSet())
     } else if (method == "cgroups.cpuquota") {
       ## Number of cores according to Unix Cgroups CPU quota
       n <- getCGroupsCpuQuota()

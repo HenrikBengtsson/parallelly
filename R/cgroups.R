@@ -1,6 +1,9 @@
 #-------------------------------------------------------
 # Unix control groups ("cgroups")
 #-------------------------------------------------------
+#  @return An named character vector of zero or more cgroups parameters.
+#  If cgroups is not used, character(0L).
+# 
 #' @importFrom utils file_test
 getCGroups <- local({
   .cache <- NULL
@@ -48,109 +51,204 @@ getCGroups <- local({
 })
 
 
+#  @return An character string to an existing cgroups root folder.
+#  If no such folder could be found, NA_character_ is returned.
+# 
 #' @importFrom utils file_test
 getCGroupsRoot <- local({
-  path <- NULL
+  .cache <- NULL
+  
   function() {
-    if (is.null(path)) {
-      p <- "/sys/fs/cgroup"
-      if (!file_test("-d", p)) p <- NA_character_
-      path <<- p
-    }
+    path <- .cache
+    if (!is.null(path)) return(path)
+    
+    path <- "/sys/fs/cgroup"
+    if (!file_test("-d", path)) path <- NA_character_
+    .cache <<- path
+
     path
-  }  
+  }
+})
+
+
+#  @param name A cgroups set.
+# 
+#  @return An character string to an existing cgroup folder. If no folder
+#  could be found, NA_character_ is returned.
+# 
+#' @importFrom utils file_test
+getCGroupsPath <- local({
+  .cache <- list()
+  
+  function(name) {
+    path <- .cache[[name]]
+    if (!is.null(path)) return(path)
+    
+    root <- getCGroupsRoot()
+    if (is.na(root)) {
+      path <- NA_character_
+      .cache[[name]] <- path
+      return(path)
+    }
+    
+    root <- file.path(root, name)
+    if (!file_test("-d", root)) {
+      path <- NA_character_
+      .cache[[name]] <- path
+      return(path)
+    }
+    
+    set <- getCGroups()[name]
+    if (is.na(set)) {
+      path <- NA_character_
+      .cache[[name]] <- path
+      return(path)
+    }
+  
+    path <- file.path(root, set)
+    while (set != "/") {
+      if (file_test("-d", path)) {
+        break
+      }
+      set_prev <- set
+      set <- dirname(set)
+      if (set == set_prev) break
+      path <- file.path(root, set)
+    }
+  
+    ## Should the following ever happen?
+    if (!file_test("-d", path)) {
+      path <- NA_character_
+      .cache[[name]] <- path
+      return(path)
+    }
+    
+    path <- normalizePath(path, mustWork = FALSE)
+    .cache[[name]] <- path
+    
+    path
+  }
+})
+
+#  @param name A cgroups set.
+# 
+#  @param field A cgroups field.
+# 
+#  @return An character string. If the requested cgroups field could not be
+#  queried, NA_character_ is returned.
+#
+#' @importFrom utils file_test
+getCGroupsValue <- local({
+  .cache <- list()
+  
+  function(name, field) {
+    set <- .cache[[name]][[field]]
+    if (!is.null(set)) return(set)
+    
+    path <- getCGroupsPath(name)
+    if (is.na(path)) {
+      .cache[[name]][[field]] <<- NA_character_
+      return(NA_character_)
+    }
+    file <- file.path(path, field)
+    if (!file_test("-f", file)) {
+      .cache[[name]][[field]] <<- NA_character_
+      return(NA_character_)
+    }
+    
+    value <- readLines(file, warn = FALSE)
+    if (length(value) == 0L) value <- NA_character_
+    .cache[[name]][[field]] <<- value
+    
+    value
+  }
+})
+
+
+#  @return An integer vector of CPU indices. If cgroups field `cpuset.cpus`
+#  could not be queried, integer(0) is returned.
+#
+#' @importFrom utils file_test
+getCGroupsCpuSet <- local({
+  cpuset <- NULL
+  
+  function() {
+    if (!is.null(cpuset)) return(cpuset)
+    
+    value <- getCGroupsValue("cpuset", "cpuset.cpus")
+    if (is.na(value)) {
+      cpuset <<- integer(0L)
+      return(cpuset)
+    }
+    
+    ## Parse 0-63; 0-7,9; 0-7,10-12; etc.
+    code <- gsub("-", ":", value, fixed = TRUE)
+    code <- sprintf("c(%s)", code)
+    expr <- tryCatch({
+      parse(text = code)
+    }, error = function(ex) {
+      warning("Syntax error parsing %s: %s", sQuote(file), sQuote(value))
+      integer(0L)
+    })
+
+    cpuset <<- tryCatch({
+      suppressWarnings(as.integer(eval(expr)))
+    }, error = function(ex) {
+      warning("Failed to parse %s: %s", sQuote(file), sQuote(value))
+      integer(0L)
+    })
+    
+    cpuset
+  }
 })
 
 
 #' @importFrom utils file_test
-getCGroupsPath <- function(name) {
-  root <- getCGroupsRoot()
-  root <- file.path(root, name)
-  if (!file_test("-d", root)) return(NA_character_)
-  set <- getCGroups()[name]
-  if (is.na(set)) return(NA_character_)
-
-  path <- file.path(root, set)
-  while (set != "/") {
-    if (file_test("-d", path)) {
-      break
-    }
-    set_prev <- set
-    set <- dirname(set)
-    if (set == set_prev) break
-    path <- file.path(root, set)
-  }
-
-  ## Should the following ever happen?
-  if (!file_test("-d", path)) return(NA_character_)
+getCGroupsCpuQuotaMicroseconds <- local({
+  value <- NULL
   
-  path <- normalizePath(path, mustWork = FALSE)
-  path
-}
+  function() {
+    if (!is.null(value)) return(value)
+    
+    value <<- suppressWarnings({
+      as.integer(getCGroupsValue("cpu", "cpu.cfs_quota_us"))
+    })
 
-
-#' @importFrom utils file_test
-getCGroupsValue <- function(name, field) {
-  path <- getCGroupsPath(name)
-  if (is.na(path)) return(NA_character_)
-  file <- file.path(path, field)
-  if (!file_test("-f", file)) return(NA_character_)
-  value <- readLines(file, warn = FALSE)
-  if (length(value) == 0L) value <- NA_character_
-  value
-}
-
-
-#' @importFrom utils file_test
-getCGroupsCpuSet <- function() {
-  value <- getCGroupsValue("cpuset", "cpuset.cpus")
-  if (is.na(value)) return(NA_integer_)
-  
-  ## Parse 0-63; 0-7,9; 0-7,10-12; etc.
-  code <- gsub("-", ":", value, fixed = TRUE)
-  code <- sprintf("c(%s)", code)
-  expr <- tryCatch({
-    parse(text = code)
-  }, error = function(ex) {
-    warning("Syntax error parsing %s: %s", sQuote(file), sQuote(value))
-    NULL
-  })
-  if (is.null(expr)) return(NA_integer_)
-  cpus <- eval(expr)
-  if (!is.numeric(cpus)) {
-    warning("Non-numeric values in parsing %s: %s", sQuote(file), sQuote(value))
-    return(NA_integer_)
+    value
   }
-  as.integer(cpus)
-}
-
-getCGroupsCpuSetLength <- function() {
-  cpus <- getCGroupsCpuSet()
-  n <- length(cpus)
-  if (n == 1L && is.na(cpus)) return(NA_integer_)
-  n
-}
+})
 
 
 #' @importFrom utils file_test
-getCGroupsCpuQuotaMicroseconds <- function() {
-  value <- getCGroupsValue("cpu", "cpu.cfs_quota_us")
-  if (is.na(value)) return(NA_integer_)
-  suppressWarnings(as.integer(value))
-}
+getCGroupsCpuPeriodMicroseconds <- local({
+  value <- NULL
+  
+  function() {
+    if (!is.null(value)) return(value)
+    
+    value <<- suppressWarnings({
+      as.integer(getCGroupsValue("cpu", "cpu.cfs_period_us"))
+    })
 
-#' @importFrom utils file_test
-getCGroupsCpuPeriodMicroseconds <- function() {
-  value <- getCGroupsValue("cpu", "cpu.cfs_period_us")
-  if (is.na(value)) return(NA_integer_)
-  suppressWarnings(as.integer(value))
-}
+    value
+  }
+})
 
+
+#  @return A non-negative numeric.
+#  If cgroups is not in use, or could not be queried, NA_real_ is returned.
+#
 #' @importFrom utils file_test
-getCGroupsCpuQuota <- function() {
-  ms <- getCGroupsCpuQuotaMicroseconds()
-  if (is.na(ms) || ms < 0) return(NA_real_)
-  total <- getCGroupsCpuPeriodMicroseconds()
-  if (is.na(total) || total < 0) return(NA_real_)
-  ms / total
-}
+getCGroupsCpuQuota <- local({
+  quota <- NULL
+  
+  function() {
+    if (!is.null(quota)) return(quota)
+    
+    ms <- getCGroupsCpuQuotaMicroseconds()
+    total <- getCGroupsCpuPeriodMicroseconds()
+    quota <<- ms / total
+    
+    quota
+  }
+})
