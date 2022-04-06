@@ -64,11 +64,26 @@ getCGroupsRoot <- local({
 
 #' @importFrom utils file_test
 getCGroupsPath <- function(name) {
-  path <- getCGroupsRoot()
-  if (is.na(path)) return(NA_character_)
+  root <- getCGroupsRoot()
+  root <- file.path(root, name)
+  if (!file_path("-d", root)) return(NA_character_)
   set <- getCGroups()[name]
   if (is.na(set)) return(NA_character_)
-  path <- file.path(path, name, set)
+
+  path <- file.path(root, set)
+  while (set != "/") {
+    if (file_test("-d", path)) {
+      break
+    }
+    set_prev <- set
+    set <- dirname(set)
+    if (set == set_prev) break
+    path <- file.path(root, set)
+  }
+
+  ## Should the following ever happen?
+  if (!file_path("-d", path)) return(NA_character_)
+  
   path <- normalizePath(path, mustWork = FALSE)
   path
 }
