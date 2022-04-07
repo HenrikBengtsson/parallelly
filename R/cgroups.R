@@ -277,9 +277,11 @@ getCGroupsCpuQuota <- local({
     
     value <- ms / total
 
-    if (!is.finite(value) || value <= 0.0 || value > detectCores(logical = TRUE)) {
-      warning(sprintf("[INTERNAL]: Will ignore the cgroups CPU quota, because it is out of range [1,%d]: %s", detectCores(logical = TRUE), value))
-      value <- NA_real_
+    if (!is.na(value)) {
+      if (!is.finite(value) || value <= 0.0 || value > detectCores(logical = TRUE)) {
+        warning(sprintf("[INTERNAL]: Will ignore the cgroups CPU quota, because it is out of range [1,%d]: %s", detectCores(logical = TRUE), value))
+        value <- NA_real_
+      }
     }
 
     quota <<- value
