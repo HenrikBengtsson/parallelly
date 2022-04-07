@@ -16,7 +16,7 @@ The package has been verified using `R CMD check --as-cran` on:
 | R version     | GitHub | R-hub    | mac/win-builder |
 | ------------- | ------ | -------- | --------------- |
 | 3.4.x         | L      |          |                 |
-| 4.0.x         | L M    | L        |                 |
+| 4.0.x         | L M W  | L        |                 |
 | 4.1.x         | L M W  | L M M1 W | M1              |
 | 4.2.0 alpha   | L      |          |    W            |
 | devel         | L M W  | L        |    W            |
