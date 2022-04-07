@@ -10,14 +10,14 @@
 |collate  |en_US.UTF-8                                                     |
 |ctype    |en_US.UTF-8                                                     |
 |tz       |America/Los_Angeles                                             |
-|date     |2022-04-06                                                      |
+|date     |2022-04-07                                                      |
 |pandoc   |2.17.1.1 @ /software/c4/cbi/software/pandoc-2.17.1.1/bin/pandoc |
 
 # Dependencies
 
 |package    |old    |new         |Δ  |
 |:----------|:------|:-----------|:--|
-|parallelly |1.30.0 |1.30.0-9007 |*  |
+|parallelly |1.30.0 |1.30.0-9008 |*  |
 
 # Revdeps
 
