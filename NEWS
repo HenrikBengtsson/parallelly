@@ -26,7 +26,7 @@ NEW FEATURES:
    with Linux containers, e.g. 'docker run --cpus=3.5 ...'
 
  * In addition to cgroups CPU quotas, availableCores() also queries
-   cgroups for possible a CPU affinity, which is available in field
+   cgroups for a possible CPU affinity, which is available in field
    'cpuset.set'. This should give the same result as what the already
    existing 'nproc' method gives. However, not all systems have the
    'nproc' tool installed, in which case this new approach should
