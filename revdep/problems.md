@@ -895,7 +895,7 @@ Run `revdep_details(, "dragon")` for more info
       ── Failure (test_calculate-network-info.R:6:3): fct_calculate_network_info::calculate_modularity() works ──
       calculate_modularity(true_graph_louvain) not equal to `true_modularity`.
       1/1 mismatches
-      [1] 0.431 - 0.443 == -0.012
+      [1] 0.433 - 0.443 == -0.0103
       
       [ FAIL 1 | WARN 0 | SKIP 3 | PASS 199 ]
       Error: Test failures
@@ -1088,13 +1088,13 @@ Run `revdep_details(, "flowGraph")` for more info
     Error(s) in re-building vignettes:
     --- re-building ‘flowGraph.Rmd’ using rmarkdown
     - 8 pops @ layer 1
-    21:56:20-21:56:20 > 16:00:00
+    12:32:45-12:32:45 > 16:00:00
     - 24 pops @ layer 2
-    21:56:20-21:56:20 > 16:00:00
+    12:32:45-12:32:45 > 16:00:00
     - 32 pops @ layer 3
-    21:56:20-21:56:20 > 16:00:00
+    12:32:45-12:32:45 > 16:00:00
     - 16 pops @ layer 4
-    21:56:20-21:56:20 > 16:00:00
+    12:32:45-12:32:45 > 16:00:00
     ...
     Quitting from lines 557-561 (flowGraph.Rmd) 
     Error: processing vignette 'flowGraph.Rmd' failed with diagnostics:
@@ -2065,9 +2065,9 @@ Run `revdep_details(, "MineICA")` for more info
         IQR, mad, sd, var, xtabs
     
     ...
-    l.23 \usepackage
-                    {subfig}^^M
-    !  ==> Fatal error occurred, no output PDF file produced!
+    Error in curl::curl_fetch_memory(url, handle = handle) : 
+      Peer's Certificate issuer is not recognized.
+    
     --- failed re-building ‘MineICA.Rnw’
     
     SUMMARY: processing the following file failed:
@@ -2202,7 +2202,7 @@ Run `revdep_details(, "mlr3proba")` for more info
        21.                     └─private$.simplify_distr(distr)
        22.                       └─mlr3proba:::.__PredictionSurv__.simplify_distr(...)
       
-      [ FAIL 24 | WARN 17 | SKIP 2 | PASS 1724 ]
+      [ FAIL 23 | WARN 17 | SKIP 2 | PASS 1725 ]
       Error: Test failures
       Execution halted
     ```
