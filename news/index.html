@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.30.0-9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.0</span>
       </span>
     </div>
 
@@ -120,19 +120,19 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.30.0-9007" id="parallelly-1300-9007">parallelly 1.30.0-9007<a class="anchor" aria-label="anchor" href="#parallelly-1300-9007"></a></h2>
+<h2 class="page-header" data-toc-text="1.31.0" id="parallelly-1310">parallelly 1.31.0<a class="anchor" aria-label="anchor" href="#parallelly-1310"></a></h2>
 <div class="section level4">
-<h4 id="significant-changes-1-30-0-9007">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-1-30-0-9007"></a></h4>
+<h4 id="significant-changes-1-31-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-1-31-0"></a></h4>
 <ul><li>Changed the default for argument default of freePort() to “random”, which used to be “first”. The main reason for this is to make sure the default behavior is to return a random port also on R (&lt; 4.0.0) where we cannot get whether or not a port is available.</li>
 </ul></div>
 <div class="section level4">
-<h4 id="new-features-1-30-0-9007">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-30-0-9007"></a></h4>
+<h4 id="new-features-1-31-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-31-0"></a></h4>
 <ul><li><p>On Unix, availableCores() now queries also control groups (cgroups) queries fields ‘cpu.cfs_quota_us’ and ‘cpu.cfs_period_us’, for a possible CPU quota allocation. If a CPU quota is set, then the number of CPUs is rounded to the nearest integer, unless its less that 0.5, in case it’s rounded up to a single CPU. An example, where cgroups CPU quotas can be set to limit the total CPU load, is with Linux containers, e.g. ‘docker run –cpus=3.5 …’</p></li>
 <li><p>In addition to cgroups CPU quotas, availableCores() also queries cgroups for possible a CPU affinity, which is available in field ‘cpuset.set’. This should give the same result as what the already existing ‘nproc’ method gives. However, not all systems have the ‘nproc’ tool installed, in which case this new approach should work. Some high-performance compute (HPC) environments set the CPU affinity so that jobs do not overuse the CPUs. It may also be set by Linux containers, e.g. ‘docker run –cpuset-cpus=0-2,8 …’</p></li>
-<li><p>The minimium value returned by availableCores() is one (1). This can be overridden by new option ‘parallelly.availableCores.min’. This can be used to test parallelization methods on single-core machines, e.g. ‘options(parallelly.availableCores.min = 2L)’.</p></li>
+<li><p>The minimum value returned by availableCores() is one (1). This can be overridden by new option ‘parallelly.availableCores.min’. This can be used to test parallelization methods on single-core machines, e.g. ‘options(parallelly.availableCores.min = 2L)’.</p></li>
 </ul></div>
 <div class="section level4">
-<h4 id="bug-fixes-1-30-0-9007">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-30-0-9007"></a></h4>
+<h4 id="bug-fixes-1-31-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-31-0"></a></h4>
 <ul><li><p>The ‘nproc’ result for availableCores() was ignored if nproc &gt; 9.</p></li>
 <li><p>availableCores() would return the ‘fallback’ value when only ‘system’ and ‘nproc’ information was available. However, in this case, we do want it to return ‘nproc’ when ‘nproc’ != ‘system’, because that is a strong indication that the number of CPU cores is limited by control groups (cgroups) on Linux. If ‘nproc’ == ‘system’, we cannot tell whether cgroups is enabled or not, which means we will fall back to the ‘fallback’ value if there is no other evidence that another number of cores are available to the current R process.</p></li>
 <li><p>Technically, canPortBeUsed() could falsely return FALSE if the port check was interrupted by, say, a user interrupt.</p></li>
