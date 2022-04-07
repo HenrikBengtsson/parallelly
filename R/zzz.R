@@ -30,7 +30,9 @@
     ## Lower the risk for port clashes by using a large pool of random ports.
     ## The default 11000:11999 tend to fail occassionally on CRAN but also
     ## locally.
-    Sys.setenv(R_PARALLELLY_RANDOM_PORTS = "20000:39999")
+    if (!nzchar(Sys.getenv("R_PARALLELLY_RANDOM_PORTS", ""))) {
+      Sys.setenv(R_PARALLELLY_RANDOM_PORTS = "20000:39999")
+    }
 
     ## Not all CRAN servers have _R_CHECK_LIMIT_CORES_ set [REF?]. Setting it
     ## to 'TRUE' when unset, will better emulate CRAN submission checks.

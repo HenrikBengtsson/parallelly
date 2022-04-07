@@ -6,9 +6,9 @@
 \usage{
 availableCores(
   constraints = NULL,
-  methods = getOption2("parallelly.availableCores.methods", c("system", "nproc",
-    "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF",
-    "fallback", "custom")),
+  methods = getOption2("parallelly.availableCores.methods", c("system",
+    "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel",
+    "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = c(current = 1L),
@@ -58,6 +58,11 @@ are supported:
 \itemize{
 \item \code{"system"} -
 Query \code{\link[parallel]{detectCores}(logical = logical)}.
+\item \code{"cgroups.cpuset"} -
+On Unix, query control group (cgroup) value \code{cpuset.set}.
+\item \code{"cgroups.cpuquota"} -
+On Unix, query control group (cgroup) value
+\code{cpu.cfs_quota_us} / \code{cpu.cfs_period_us}.
 \item \code{"nproc"} -
 On Unix, query system command \code{nproc}.
 \item \code{"mc.cores"} -
@@ -75,9 +80,10 @@ instance \code{\link[=mclapply]{mclapply}()} of the \pkg{parallel}
 package.
 \item \code{"BiocParallel"} -
 Query environment variables \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
-which is defined by \strong{BiocParallel} (>= 1.27.2), and \env{BBS_HOME}
-(logical). If the former is set, this is the number of cores considered.
-If the latter is set, then a maximum of 4 cores is considered.
+which is defined and used by \strong{BiocParallel} (>= 1.27.2), and
+\env{BBS_HOME} (logical) used by the Bioconductor Build System. If the
+former is set, this is the number of cores considered.  If the latter
+is set, then a maximum of 4 cores is considered.
 \item \code{"PBS"} -
 Query TORQUE/PBS environment variables \env{PBS_NUM_PPN} and \env{NCPUS}.
 Depending on PBS system configuration, these \emph{resource}

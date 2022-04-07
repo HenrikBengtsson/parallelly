@@ -21,7 +21,7 @@
 #' is returned.
 #'
 #' @export
-freePort <- function(ports = 1024:65535, default = "first", randomize = TRUE) {
+freePort <- function(ports = 1024:65535, default = "random", randomize = TRUE) {
   if (is.character(default)) {
     default <- match.arg(default, choices = c("first", "random"))
   } else {
@@ -54,7 +54,7 @@ freePort <- function(ports = 1024:65535, default = "first", randomize = TRUE) {
   ## Note, this will become NA_integer_ if length(ports) == 0
   if (is.character(default)) {
     default <- switch(default,
-      first = ports[1],
+      first  = ports[1],
       random = stealth_sample(ports, size = 1L)
     )
   }
@@ -103,8 +103,16 @@ canPortBeUsed <- function(port) {
   ns <- asNamespace("parallel")
   if (!exists("serverSocket", envir = ns, mode = "function")) return(NA)
   serverSocket <- get("serverSocket", envir = ns, mode = "function")
-  con <- tryCatch(serverSocket(port), error = identity)
-  
+
+  ## suspendInterrupts() is available in R (>= 3.5.0), so we're good here,
+  ## but we use this to avoid 'R CMD check' WARNINGs in R (< 3.5.0)
+  suspendInterrupts <- get("suspendInterrupts", envir = asNamespace("base"), mode = "function")
+
+  ## Prevent user interrupts from giving false results
+  suspendInterrupts({
+    con <- tryCatch(serverSocket(port), error = identity)
+  })
+
   ## Success?
   free <- inherits(con, "connection")
   if (free) close(con)

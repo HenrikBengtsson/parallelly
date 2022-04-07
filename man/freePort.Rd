@@ -4,7 +4,7 @@
 \alias{freePort}
 \title{Find a TCP port that can be opened}
 \usage{
-freePort(ports = 1024:65535, default = "first", randomize = TRUE)
+freePort(ports = 1024:65535, default = "random", randomize = TRUE)
 }
 \arguments{
 \item{ports}{(integer vector, or character string)

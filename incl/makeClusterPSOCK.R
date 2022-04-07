@@ -95,13 +95,20 @@ cl <- makeClusterPSOCK(
 
 ## EXAMPLE: One worker running in Wine for Linux on the local machine
 ## To install R for MS Windows in Wine, do something like:
-## wget https://cran.r-project.org/bin/windows/base/R-4.1.2-win.exe
-## wine R-4.1.2-win.exe /SILENT
-## winecfg  # In GUI, set 'Windows version' to 'Windows 10'
-## wine "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe" --version
+##   winecfg  # In GUI, set 'Windows version' to 'Windows 10'
+##   wget https://cran.r-project.org/bin/windows/base/R-4.1.2-win.exe
+##   wine R-4.1.2-win.exe /SILENT
+## Prevent packages from being installed to R's system library:
+##   chmod ugo-w "$HOME/.wine/drive_c/Program Files/R/R-4.1.2/library/"
+## Verify it works:
+##   wine "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe" --version
 cl <- makeClusterPSOCK(1L,
   rscript = c(
-    "WINEDEBUG=fixme-all", "wine",
+    ## Silence Wine warnings
+    "WINEDEBUG=fixme-all",
+    ## Don't pass LC_*** environments from Linux to Wine
+    sprintf("%s=", grep("LC_", names(Sys.getenv()), value = TRUE)),
+    "wine",
     "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe"
   ),
   dryrun = TRUE, quiet = TRUE

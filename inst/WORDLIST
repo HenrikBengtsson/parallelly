@@ -132,3 +132,8 @@ isForkedChild
 isNodeAlive
 socketOptions
 donttest
+Rterm
+canPortBeUsed
+cfs
+cpu
+cpuset
