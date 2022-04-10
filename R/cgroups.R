@@ -170,7 +170,7 @@ getCGroupsValue <- local({
 #
 #' @importFrom utils file_test
 getCGroupsCpuSet <- local({
-  max_cores <- parallel::detectCores(logical = TRUE)
+  max_cores <- NULL
   cpuset <- NULL
   
   function() {
@@ -204,6 +204,7 @@ getCGroupsCpuSet <- local({
     })
 
     ## Sanity checks
+    if (is.null(max_cores)) max_cores <<- parallel::detectCores(logical = TRUE)
     if (any(value < 0L | value >= max_cores)) {
       warning(sprintf("[INTERNAL]: Will ignore the cgroups CPU set, because it contains one or more CPU indices that is out of range [0,%d]: %s", max_cores - 1L, value0))
       value <- integer(0L)
@@ -261,7 +262,7 @@ getCGroupsCpuPeriodMicroseconds <- local({
 #
 #' @importFrom utils file_test
 getCGroupsCpuQuota <- local({
-  max_cores <- parallel::detectCores(logical = TRUE)
+  max_cores <- NULL
   quota <- NULL
   
   function() {
@@ -280,6 +281,7 @@ getCGroupsCpuQuota <- local({
     value <- ms / total
 
     if (!is.na(value)) {
+      if (is.null(max_cores)) max_cores <<- parallel::detectCores(logical = TRUE)
       if (!is.finite(value) || value <= 0.0 || value > max_cores) {
         warning(sprintf("[INTERNAL]: Will ignore the cgroups CPU quota, because it is out of range [1,%d]: %s", max_cores, value))
         value <- NA_real_
