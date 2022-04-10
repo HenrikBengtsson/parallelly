@@ -203,8 +203,8 @@ getCGroupsCpuSet <- local({
     })
 
     ## Sanity checks
-    if (any(value < 0L | value >= detectCores(logical = TRUE))) {
-      warning(sprintf("[INTERNAL]: Will ignore the cgroups CPU set, because it contains one or more CPU indices that is out of range [0,%d]: %s", detectCores(logical = TRUE)-1, value0))
+    if (any(value < 0L | value >= parallel::detectCores(logical = TRUE))) {
+      warning(sprintf("[INTERNAL]: Will ignore the cgroups CPU set, because it contains one or more CPU indices that is out of range [0,%d]: %s", parallel::detectCores(logical = TRUE)-1, value0))
       value <- integer(0L)
     }
 

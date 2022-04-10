@@ -1,9 +1,14 @@
 Package: parallelly
 ===================
 
-Version: 1.31.0-9000 [2022-04-07]
+Version: 1.31.0-9001 [2022-04-09]
 
- * ...
+BUG FIXES:
+
+ * availableCores() with option 'parallelly.availbleCores.system' set
+   to less that parallel::detectCores() would produce a warning, e.g.
+   "[INTERNAL]: Will ignore the cgroups CPU set, because it contains
+   one or more CPU indices that is out of range [0,0]: 0-7".
  
 
 Version: 1.31.0 [2022-04-07]
