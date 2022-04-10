@@ -4,18 +4,18 @@ detectCores <- local({
   function(logical = TRUE) {
     stop_if_not(is.logical(logical), length(logical) == 1L, !is.na(logical))
     key <- paste("logical=", logical, sep = "")
-    
+
+    ## Get number of system cores from option, cache, and finally
+    ## detectCores().  This is also designed such that it is indeed
+    ## possible to return NA_integer_.
+    value <- getOption2("parallelly.availableCores.system", NULL)
+    if (!is.null(value)) {
+      value <- as.integer(value)
+      return(value)
+    }
+
     value <- cache[[key]]
     if (is.null(value)) {
-      ## Get number of system cores from option, system environment,
-      ## and finally detectCores().  This is also designed such that
-      ## it is indeed possible to return NA_integer_.
-      value <- getOption2("parallelly.availableCores.system", NULL)
-      if (!is.null(value)) {
-        value <- as.integer(value)
-        return(value)
-      }
-      
       value <- parallel::detectCores(logical = logical)
       
       ## If unknown, set default to 1L
