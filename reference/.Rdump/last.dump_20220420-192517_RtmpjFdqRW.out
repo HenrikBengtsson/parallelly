@@ -1,17 +1,17 @@
 ** System information:
 List of 12
  $ sysname       : chr "Linux"
- $ release       : chr "5.4.0-107-generic"
- $ version       : chr "#121-Ubuntu SMP Thu Mar 24 16:04:27 UTC 2022"
+ $ release       : chr "5.4.0-109-generic"
+ $ version       : chr "#123-Ubuntu SMP Fri Apr 8 09:10:54 UTC 2022"
  $ nodename      : chr "hb-x1"
  $ machine       : chr "x86_64"
  $ login         : chr "hb"
  $ user          : chr "hb"
  $ effective_user: chr "hb"
- $ pid           : int 392837
- $ call          : chr [1:17] "/home/hb/software/R-devel/R-4-2-branch/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/hb/RtmpL1efvX/worker.rank=1.parallelly.parent=392470.5fd164db"| __truncated__ "-e" "options(socketOptions~+~=~+~\"no-delay\")" "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11348" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
- $ pwd           : chr "/tmp/hb/RtmpAhfUC6/parallelly/docs/reference"
- $ time          : POSIXct[1:1], format: "2022-04-07 14:57:27"
+ $ pid           : int 115053
+ $ call          : chr [1:17] "/home/hb/shared/software/CBI/R-rc-gcc9/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/hb/Rtmpj18ApX/worker.rank=1.parallelly.parent=114656.1bfe0c82"| __truncated__ "-e" "options(socketOptions~+~=~+~\"no-delay\")" "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11367" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
+ $ pwd           : chr "/tmp/hb/RtmpZZCA4m/parallelly/docs/reference"
+ $ time          : POSIXct[1:1], format: "2022-04-20 19:25:17"
 
 ** Error:
 Error in unserialize(node$con) : error reading from connection
@@ -60,37 +60,37 @@ Calls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize
 
 ** Dumped frames:
 $`workRSOCK()`
-<environment: 0x562db4e540c0>
+<environment: 0x5579eb647970>
 
 $`workLoop(makeSOCKmaster(master, port, setup_timeout, timeout, useXDR, setup`
-<environment: 0x562db4e74410>
+<environment: 0x5579eb66bec0>
 
 $`workCommand(master)`
-<environment: 0x562db4eb8408>
+<environment: 0x5579eb7a8338>
 
 $`tryCatch({\n    msg <- recvData(master)\n    if (msg$type == "DONE") {\n        c`
-<environment: 0x562db4eb8210>
+<environment: 0x5579eb7ac050>
 
 $`tryCatchList(expr, classes, parentenv, handlers)`
-<environment: 0x562db4eb7b48>
+<environment: 0x5579eb7ab950>
 
 $`tryCatchOne(expr, names, parentenv, handlers[[1]])`
-<environment: 0x562db4eb7800>
+<environment: 0x5579eb7ab5d0>
 
 $`doTryCatch(return(expr), name, parentenv, handler)`
-<environment: 0x562db4eb74b8>
+<environment: 0x5579eb7ab020>
 
 $`recvData(master)`
-<environment: 0x562db4ebafa0>
+<environment: 0x5579eb7aacd8>
 
 $`recvData.SOCK0node(master)`
-<environment: 0x562db4ebab08>
+<environment: 0x5579eb7aa338>
 
 $`unserialize(node$con)`
-<environment: 0x562db4eba9b8>
+<environment: 0x5579eb7ae9f0>
 
 $`(function () \n{\n    tb <- .traceback(NULL)\n    if (is.null(tb)) \n        tb <- `
-<environment: 0x562db4faa718>
+<environment: 0x5579eb7ae520>
 
 attr(,"error.message")
 [1] "Error in unserialize(node$con) : error reading from connection\nCalls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize\n"
@@ -98,13 +98,13 @@ attr(,"class")
 [1] "dump.frames"
 
 ** Session information:
-R version 4.2.0 alpha (2022-04-04 r82084)
+R version 4.2.0 RC (2022-04-15 r82193)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Ubuntu 20.04.4 LTS
 
 Matrix products: default
-BLAS:   /home/hb/software/R-devel/R-4-2-branch/lib/R/lib/libRblas.so
-LAPACK: /home/hb/software/R-devel/R-4-2-branch/lib/R/lib/libRlapack.so
+BLAS:   /home/hb/shared/software/CBI/R-rc-gcc9/lib/R/lib/libRblas.so
+LAPACK: /home/hb/shared/software/CBI/R-rc-gcc9/lib/R/lib/libRlapack.so
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              

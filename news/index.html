@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.0-9002</span>
       </span>
     </div>
 
@@ -120,198 +120,407 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.31.0" id="parallelly-1310">parallelly 1.31.0<a class="anchor" aria-label="anchor" href="#parallelly-1310"></a></h2>
+<h2 class="page-header" data-toc-text="1.31.0-9002" id="parallelly-1310-9002">parallelly 1.31.0-9002<a class="anchor" aria-label="anchor" href="#parallelly-1310-9002"></a></h2>
+<div class="section level4">
+<h4 id="bug-fixes-1-31-0-9002">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-31-0-9002"></a></h4>
+<ul><li><p>Changes to option ‘parallelly.availableCores.system’ would be
+ignored after availableCores() had been called.</p></li>
+<li><p>availableCores() with option ‘parallelly.availbleCores.system’
+set to less that parallel::detectCores() would produce a warning, e.g.
+“[INTERNAL]: Will ignore the cgroups CPU set, because it contains one or
+more CPU indices that is out of range [0,0]: 0-7”.</p></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.31.0" id="parallelly-1310">parallelly 1.31.0<small>2022-04-07</small><a class="anchor" aria-label="anchor" href="#parallelly-1310"></a></h2>
 <div class="section level4">
 <h4 id="significant-changes-1-31-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-1-31-0"></a></h4>
-<ul><li>Changed the default for argument default of freePort() to “random”, which used to be “first”. The main reason for this is to make sure the default behavior is to return a random port also on R (&lt; 4.0.0) where we cannot get whether or not a port is available.</li>
+<ul><li>Changed the default for argument default of freePort() to “random”,
+which used to be “first”. The main reason for this is to make sure the
+default behavior is to return a random port also on R (&lt; 4.0.0) where
+we cannot get whether or not a port is available.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="new-features-1-31-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-31-0"></a></h4>
-<ul><li><p>On Unix, availableCores() now queries also control groups (cgroups) queries fields ‘cpu.cfs_quota_us’ and ‘cpu.cfs_period_us’, for a possible CPU quota allocation. If a CPU quota is set, then the number of CPUs is rounded to the nearest integer, unless its less that 0.5, in case it’s rounded up to a single CPU. An example, where cgroups CPU quotas can be set to limit the total CPU load, is with Linux containers, e.g. ‘docker run –cpus=3.5 …’</p></li>
-<li><p>In addition to cgroups CPU quotas, availableCores() also queries cgroups for possible a CPU affinity, which is available in field ‘cpuset.set’. This should give the same result as what the already existing ‘nproc’ method gives. However, not all systems have the ‘nproc’ tool installed, in which case this new approach should work. Some high-performance compute (HPC) environments set the CPU affinity so that jobs do not overuse the CPUs. It may also be set by Linux containers, e.g. ‘docker run –cpuset-cpus=0-2,8 …’</p></li>
-<li><p>The minimum value returned by availableCores() is one (1). This can be overridden by new option ‘parallelly.availableCores.min’. This can be used to test parallelization methods on single-core machines, e.g. ‘options(parallelly.availableCores.min = 2L)’.</p></li>
+<ul><li><p>On Unix, availableCores() now queries also control groups
+(cgroups) queries fields ‘cpu.cfs_quota_us’ and ‘cpu.cfs_period_us’, for
+a possible CPU quota allocation. If a CPU quota is set, then the number
+of CPUs is rounded to the nearest integer, unless its less that 0.5, in
+case it’s rounded up to a single CPU. An example, where cgroups CPU
+quotas can be set to limit the total CPU load, is with Linux containers,
+e.g. ‘docker run –cpus=3.5 …’</p></li>
+<li><p>In addition to cgroups CPU quotas, availableCores() also queries
+cgroups for a possible CPU affinity, which is available in field
+‘cpuset.set’. This should give the same result as what the already
+existing ‘nproc’ method gives. However, not all systems have the ‘nproc’
+tool installed, in which case this new approach should work. Some
+high-performance compute (HPC) environments set the CPU affinity so that
+jobs do not overuse the CPUs. It may also be set by Linux containers,
+e.g. ‘docker run –cpuset-cpus=0-2,8 …’</p></li>
+<li><p>The minimum value returned by availableCores() is one (1). This
+can be overridden by new option ‘parallelly.availableCores.min’. This
+can be used to test parallelization methods on single-core machines,
+e.g. ‘options(parallelly.availableCores.min = 2L)’.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-31-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-31-0"></a></h4>
-<ul><li><p>The ‘nproc’ result for availableCores() was ignored if nproc &gt; 9.</p></li>
-<li><p>availableCores() would return the ‘fallback’ value when only ‘system’ and ‘nproc’ information was available. However, in this case, we do want it to return ‘nproc’ when ‘nproc’ != ‘system’, because that is a strong indication that the number of CPU cores is limited by control groups (cgroups) on Linux. If ‘nproc’ == ‘system’, we cannot tell whether cgroups is enabled or not, which means we will fall back to the ‘fallback’ value if there is no other evidence that another number of cores are available to the current R process.</p></li>
-<li><p>Technically, canPortBeUsed() could falsely return FALSE if the port check was interrupted by, say, a user interrupt.</p></li>
-<li><p>freePort(ports, default = “random”) would always use return ports[1] if the system does not allow testing if a port is available or not, or if none of the specified ports are available.</p></li>
+<ul><li><p>The ‘nproc’ result for availableCores() was ignored if nproc &gt;
+9.</p></li>
+<li><p>availableCores() would return the ‘fallback’ value when only
+‘system’ and ‘nproc’ information was available. However, in this case,
+we do want it to return ‘nproc’ when ‘nproc’ != ‘system’, because that
+is a strong indication that the number of CPU cores is limited by
+control groups (cgroups) on Linux. If ‘nproc’ == ‘system’, we cannot
+tell whether cgroups is enabled or not, which means we will fall back to
+the ‘fallback’ value if there is no other evidence that another number
+of cores are available to the current R process.</p></li>
+<li><p>Technically, canPortBeUsed() could falsely return FALSE if the
+port check was interrupted by, say, a user interrupt.</p></li>
+<li><p>freePort(ports, default = “random”) would always use return
+ports[1] if the system does not allow testing if a port is available or
+not, or if none of the specified ports are available.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.30.0" id="parallelly-1300">parallelly 1.30.0<small>2021-12-17</small><a class="anchor" aria-label="anchor" href="#parallelly-1300"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-30-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-30-0"></a></h4>
-<ul><li><p>makeNodePSOCK(), and therefore also makeClusterPSOCK(), gained argument ‘rscript_sh’, which controls how Rscript arguments are shell quoted. The default is to make a best guess on what type of shell is used where each cluster node is launched. If launched locally, then it whatever platform the current R session is running, i.e. either a POSIX shell (“sh”) or MS Windows (“cmd”). If remotely, then the assumption is that a POSIX shell (“sh”) is used.</p></li>
-<li><p>makeNodePSOCK(), and therefore also makeClusterPSOCK(), gained argument ‘default_packages’, which controls the default set of R packages to be attached on each cluster node at startup. Moreover, if argument ‘rscript’ specifies an ‘Rscript’ executable, then argument ‘default_packages’ is used to populate Rscript command-line option ‘–default-packages=…’. If ‘rscript’ specifies something else, e.g. an ‘R’ or ‘Rterm’ executable, then environment variable ‘R_DEFAULT_PACKAGES=…’ is set accordingly when launching each cluster node.</p></li>
-<li><p>Argument ‘rscript_args’ of makeClusterPSOCK() now supports “*” values. When used, the corresponding element will be replaced with the internally added Rscript command-line options. If not specified, such options are appended at the end.</p></li>
+<ul><li><p>makeNodePSOCK(), and therefore also makeClusterPSOCK(), gained
+argument ‘rscript_sh’, which controls how Rscript arguments are shell
+quoted. The default is to make a best guess on what type of shell is
+used where each cluster node is launched. If launched locally, then it
+whatever platform the current R session is running, i.e. either a POSIX
+shell (“sh”) or MS Windows (“cmd”). If remotely, then the assumption is
+that a POSIX shell (“sh”) is used.</p></li>
+<li><p>makeNodePSOCK(), and therefore also makeClusterPSOCK(), gained
+argument ‘default_packages’, which controls the default set of R
+packages to be attached on each cluster node at startup. Moreover, if
+argument ‘rscript’ specifies an ‘Rscript’ executable, then argument
+‘default_packages’ is used to populate Rscript command-line option
+‘–default-packages=…’. If ‘rscript’ specifies something else, e.g. an
+‘R’ or ‘Rterm’ executable, then environment variable
+‘R_DEFAULT_PACKAGES=…’ is set accordingly when launching each cluster
+node.</p></li>
+<li><p>Argument ‘rscript_args’ of makeClusterPSOCK() now supports “*”
+values. When used, the corresponding element will be replaced with the
+internally added Rscript command-line options. If not specified, such
+options are appended at the end.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-30-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-30-0"></a></h4>
-<ul><li><p>makeClusterPSOCK() did not support backslashes (‘') in ’rscript_libs’, backslashes that may originate from, for example, Windows network drives. The result was that the worker would silently ignore any ‘rscript_libs’ components with backslashes.</p></li>
-<li><p>The package detects when ‘R CMD check’ runs and adjust default settings via environment variables in order to play nicer with the machine where the checks are running. Some of these environment variables were in this case ignored since parallelly 1.26.0.</p></li>
+<ul><li><p>makeClusterPSOCK() did not support backslashes (‘') in
+’rscript_libs’, backslashes that may originate from, for example,
+Windows network drives. The result was that the worker would silently
+ignore any ‘rscript_libs’ components with backslashes.</p></li>
+<li><p>The package detects when ‘R CMD check’ runs and adjust default
+settings via environment variables in order to play nicer with the
+machine where the checks are running. Some of these environment
+variables were in this case ignored since parallelly 1.26.0.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.29.0" id="parallelly-1290">parallelly 1.29.0<small>2021-11-21</small><a class="anchor" aria-label="anchor" href="#parallelly-1290"></a></h2>
 <div class="section level4">
 <h4 id="significant-changes-1-29-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-1-29-0"></a></h4>
-<ul><li>makeClusterPSOCK() launches parallel workers with option ‘socketOptions’ set to “no-delay” by default. This decreases the communication latency between workers and the main R session, significantly so on Unix. This option requires R (&gt;= 4.1.0) and has no effect in early versions of R.</li>
+<ul><li>makeClusterPSOCK() launches parallel workers with option
+‘socketOptions’ set to “no-delay” by default. This decreases the
+communication latency between workers and the main R session,
+significantly so on Unix. This option requires R (&gt;= 4.1.0) and has
+no effect in early versions of R.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="new-features-1-29-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-29-0"></a></h4>
-<ul><li><p>Added argument ‘socketOptions’ to makeClusterPSOCK(), which sets the corresponding R option on each cluster node when they are launched.</p></li>
-<li><p>Argument ‘rscript_envs’ of makeClusterPSOCK() can also be used to unset environment variables cluster nodes. Any named element with value ‘NA_character_’ will be unset.</p></li>
-<li><p>Argument ‘rscript’ of makeClusterPSOCK() now supports “*” values. When used, the corresponding element will be replaced with the “Rscript”, or if ‘homogenous = TRUE’, then absolute path to current “Rscript”.</p></li>
+<ul><li><p>Added argument ‘socketOptions’ to makeClusterPSOCK(), which sets
+the corresponding R option on each cluster node when they are
+launched.</p></li>
+<li><p>Argument ‘rscript_envs’ of makeClusterPSOCK() can also be used to
+unset environment variables cluster nodes. Any named element with value
+‘NA_character_’ will be unset.</p></li>
+<li><p>Argument ‘rscript’ of makeClusterPSOCK() now supports “*” values.
+When used, the corresponding element will be replaced with the
+“Rscript”, or if ‘homogenous = TRUE’, then absolute path to current
+“Rscript”.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="documentation-1-29-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-29-0"></a></h4>
-<ul><li>Add makeClusterPSOCK() example on how to launch workers distributed across multiple CPU Groups on MS Windows 10.</li>
+<ul><li>Add makeClusterPSOCK() example on how to launch workers distributed
+across multiple CPU Groups on MS Windows 10.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-29-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-29-0"></a></h4>
-<ul><li><p>isForkedChild() would only return TRUE in a forked child process, if and only if, it had already been called in the parent R process.</p></li>
-<li><p>Using argument ‘rscript_startup’ would cause makeClusterPSOCK() to fail in R-devel (&gt;= r80666).</p></li>
+<ul><li><p>isForkedChild() would only return TRUE in a forked child process,
+if and only if, it had already been called in the parent R
+process.</p></li>
+<li><p>Using argument ‘rscript_startup’ would cause makeClusterPSOCK()
+to fail in R-devel (&gt;= r80666).</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.28.1" id="parallelly-1281">parallelly 1.28.1<small>2021-09-09</small><a class="anchor" aria-label="anchor" href="#parallelly-1281"></a></h2>
 <div class="section level4">
 <h4 id="cran-policies-1-28-1">Cran Policies<a class="anchor" aria-label="anchor" href="#cran-policies-1-28-1"></a></h4>
-<ul><li>example(“isNodeAlive”) now uses  to avoid long (&gt; 10 s) elapsed run times on MS Windows.</li>
+<ul><li>example(“isNodeAlive”) now uses to avoid long (&gt; 10 s) elapsed
+run times on MS Windows.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.28.0" id="parallelly-1280">parallelly 1.28.0<a class="anchor" aria-label="anchor" href="#parallelly-1280"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-28-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-28-0"></a></h4>
-<ul><li><p>Add isNodeAlive() to check whether a cluster and cluster nodes are alive or not.</p></li>
-<li><p>Add isForkedChild() to check whether or not the current R process is a forked child process.</p></li>
+<ul><li><p>Add isNodeAlive() to check whether a cluster and cluster nodes
+are alive or not.</p></li>
+<li><p>Add isForkedChild() to check whether or not the current R process
+is a forked child process.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-28-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-28-0"></a></h4>
-<ul><li><p>Environment variable ‘R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE’ was incorrectly parsed as a logical instead of a character string. If the variables was set to, say, “quiet”, this would cause an error when the package was loaded.</p></li>
-<li><p>makeClusterPSOCK() failed to fall back to setup_strategy = “sequential”, when not supported by the current R version.</p></li>
+<ul><li><p>Environment variable ‘R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE’
+was incorrectly parsed as a logical instead of a character string. If
+the variables was set to, say, “quiet”, this would cause an error when
+the package was loaded.</p></li>
+<li><p>makeClusterPSOCK() failed to fall back to setup_strategy =
+“sequential”, when not supported by the current R version.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.27.0" id="parallelly-1270">parallelly 1.27.0<small>2021-07-19</small><a class="anchor" aria-label="anchor" href="#parallelly-1270"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-27-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-27-0"></a></h4>
-<ul><li>availableCores() and availableWorkers() now respects environment variable ‘BIOCPARALLEL_WORKER_NUMBER’ introduced in BiocParallel (&gt;= 1.27.2). They also respect ‘BBS_HOME’ which is set on the Bioconductor check servers to limit the number of parallel workers while checking Bioconductor packages.</li>
+<ul><li>availableCores() and availableWorkers() now respects environment
+variable ‘BIOCPARALLEL_WORKER_NUMBER’ introduced in BiocParallel (&gt;=
+1.27.2). They also respect ‘BBS_HOME’ which is set on the Bioconductor
+check servers to limit the number of parallel workers while checking
+Bioconductor packages.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="workaround-1-27-0">Workaround<a class="anchor" aria-label="anchor" href="#workaround-1-27-0"></a></h4>
-<ul><li>makeClusterPSOCK() and parallel::makeCluster() failed with error “Cluster setup failed. &lt;n&gt; of &lt;n&gt; workers failed to connect.” when using the new default ‘setup_strategy = “parallel”’ and when the ‘tcltk’ package is loaded when running R (&gt;= 4.0.0 &amp;&amp; &lt;= 4.1.0) on macOS. Now ‘parallelly’ forces setup_strategy = “sequential” when the ‘tcltk’ package is loaded on these R versions.</li>
+<ul><li>makeClusterPSOCK() and parallel::makeCluster() failed with error
+“Cluster setup failed. &lt;n&gt; of &lt;n&gt; workers failed to
+connect.” when using the new default ‘setup_strategy = “parallel”’ and
+when the ‘tcltk’ package is loaded when running R (&gt;= 4.0.0
+&amp;&amp; &lt;= 4.1.0) on macOS. Now ‘parallelly’ forces setup_strategy
+= “sequential” when the ‘tcltk’ package is loaded on these R
+versions.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-27-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-27-0"></a></h4>
-<ul><li><p>makeClusterPSOCK(…, setup_strategy = “parallel”) would forget to close an socket connection used to set up the workers. This socket connection would be closed by the garbage collector eventually with a warning.</p></li>
-<li><p>parallelly::makeClusterPSOCK() would fail with “Error in freePort(port) : Unknown value on argument ‘port’: ‘auto’” if environment variable ‘R_PARALLEL_PORT’ was set to a port number.</p></li>
-<li><p>parallelly::availableCores() would produce ‘Error in if (grepl(“^ [1-9]$”, res)) return(as.integer(res)) : argument is of length zero’ on Linux systems without ‘nproc’ installed.</p></li>
+<ul><li><p>makeClusterPSOCK(…, setup_strategy = “parallel”) would forget to
+close an socket connection used to set up the workers. This socket
+connection would be closed by the garbage collector eventually with a
+warning.</p></li>
+<li><p>parallelly::makeClusterPSOCK() would fail with “Error in
+freePort(port) : Unknown value on argument ‘port’: ‘auto’” if
+environment variable ‘R_PARALLEL_PORT’ was set to a port
+number.</p></li>
+<li><p>parallelly::availableCores() would produce ‘Error in if (grepl(“^
+[1-9]$”, res)) return(as.integer(res)) : argument is of length zero’ on
+Linux systems without ‘nproc’ installed.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.26.1" id="parallelly-1261">parallelly 1.26.1<small>2021-06-30</small><a class="anchor" aria-label="anchor" href="#parallelly-1261"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-26-1">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-26-1"></a></h4>
-<ul><li>print() on RichSOCKcluster mentions when the cluster is registered to be automatically stopped by the garbage collector.</li>
+<ul><li>print() on RichSOCKcluster mentions when the cluster is registered
+to be automatically stopped by the garbage collector.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="workaround-1-26-1">Workaround<a class="anchor" aria-label="anchor" href="#workaround-1-26-1"></a></h4>
-<ul><li>Depending on R version used, the RStudio Console does not support the new ‘setup_strategy = “parallel”’ when using makeClusterPSOCK() or parallel::makeCluster(). The symptom is that they, after a long wait, result in “Error in makeClusterPSOCK(workers, …) : Cluster setup failed. &lt;n&gt; of &lt;n&gt; workers failed to connect.” This is due to a bug in R, which has been fixed for R (&gt;= 4.1.1) but also in a recent R 4.1.0 Patched. For R (&gt;= 4.0.0) or R (&lt;= 4.1.0), this release works around the problem by forcing ‘setup_strategy = “sequential” for ’parallelly’ and ‘parallel’ when running in the RStudio Console. If you wish to override this behavior, you can always set option ‘parallelly.makeNodePSOCK.setup_strategy’ to “parallel”, e.g. in your ~/.Rprofile file. Alternatively, you can set the environment variable ‘R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY=parallel’, e.g. in your ~/.Renviron file.</li>
+<ul><li>Depending on R version used, the RStudio Console does not support
+the new ‘setup_strategy = “parallel”’ when using makeClusterPSOCK() or
+parallel::makeCluster(). The symptom is that they, after a long wait,
+result in “Error in makeClusterPSOCK(workers, …) : Cluster setup failed.
+&lt;n&gt; of &lt;n&gt; workers failed to connect.” This is due to a bug
+in R, which has been fixed for R (&gt;= 4.1.1) but also in a recent R
+4.1.0 Patched. For R (&gt;= 4.0.0) or R (&lt;= 4.1.0), this release
+works around the problem by forcing ‘setup_strategy = “sequential” for
+’parallelly’ and ‘parallel’ when running in the RStudio Console. If you
+wish to override this behavior, you can always set option
+‘parallelly.makeNodePSOCK.setup_strategy’ to “parallel”, e.g. in your
+~/.Rprofile file. Alternatively, you can set the environment variable
+‘R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY=parallel’, e.g. in your
+~/.Renviron file.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-26-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-26-1"></a></h4>
-<ul><li>On systems with ‘nproc’ installed, availableCores() would be limited by environment variables ‘OMP_NUM_THREADS’ and ‘OMP_THREAD_LIMIT’, if set. For example, on conservative systems that set ‘OMP_NUM_THREADS=1’ as the default, availableCores() would pick this up via ‘nproc’ and return 1. This was not the intended behavior. Now those environment variables are temporarily unset before querying ‘nproc’.</li>
+<ul><li>On systems with ‘nproc’ installed, availableCores() would be limited
+by environment variables ‘OMP_NUM_THREADS’ and ‘OMP_THREAD_LIMIT’, if
+set. For example, on conservative systems that set ‘OMP_NUM_THREADS=1’
+as the default, availableCores() would pick this up via ‘nproc’ and
+return 1. This was not the intended behavior. Now those environment
+variables are temporarily unset before querying ‘nproc’.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.26.0" id="parallelly-1260">parallelly 1.26.0<small>2021-06-09</small><a class="anchor" aria-label="anchor" href="#parallelly-1260"></a></h2>
 <div class="section level4">
 <h4 id="significant-changes-1-26-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-1-26-0"></a></h4>
-<ul><li>R_PARALLELLY_* (and R_FUTURE_*) environment variables are now only read when the ‘parallelly’ package is loaded, where they set the corresponding parallelly.* option. Previously, some of these environment variables were queried by different functions as a fallback to when an option was not set. By only parsing them when the package is loaded, it decrease the overhead in functions, and it clarifies that options can be changed at runtime whereas environment variables should only be set at startup.</li>
+<ul><li>R_PARALLELLY_* (and R_FUTURE_*) environment variables are now only
+read when the ‘parallelly’ package is loaded, where they set the
+corresponding parallelly.* option. Previously, some of these environment
+variables were queried by different functions as a fallback to when an
+option was not set. By only parsing them when the package is loaded, it
+decrease the overhead in functions, and it clarifies that options can be
+changed at runtime whereas environment variables should only be set at
+startup.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="new-features-1-26-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-26-0"></a></h4>
-<ul><li><p>makeClusterPSOCK() now support setting up cluster nodes in parallel similarly to how parallel::makePSOCKcluster() does it. This significantly reduces the setup turnaround time. This is only supported in R (&gt;= 4.0.0). To revert to the sequential setup strategy, set R option ‘parallelly.makeNodePSOCK.setup_strategy’ to “sequential”.</p></li>
-<li><p>Add freePort() to get a random TCP port that can be opened.</p></li>
+<ul><li><p>makeClusterPSOCK() now support setting up cluster nodes in
+parallel similarly to how parallel::makePSOCKcluster() does it. This
+significantly reduces the setup turnaround time. This is only supported
+in R (&gt;= 4.0.0). To revert to the sequential setup strategy, set R
+option ‘parallelly.makeNodePSOCK.setup_strategy’ to
+“sequential”.</p></li>
+<li><p>Add freePort() to get a random TCP port that can be
+opened.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="documentation-1-26-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-26-0"></a></h4>
-<ul><li>Documenting more R options and environment variables used by this package.</li>
+<ul><li>Documenting more R options and environment variables used by this
+package.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-26-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-26-0"></a></h4>
-<ul><li>R option ‘parallelly.availableCores.fallback’ and environment variable ‘R_PARALLELLY_AVAILABLECORES_FALLBACK’ was ignored since parallelly 1.22.0, when support for ‘nproc’ was added to availableCores().</li>
+<ul><li>R option ‘parallelly.availableCores.fallback’ and environment
+variable ‘R_PARALLELLY_AVAILABLECORES_FALLBACK’ was ignored since
+parallelly 1.22.0, when support for ‘nproc’ was added to
+availableCores().</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.25.0" id="parallelly-1250">parallelly 1.25.0<small>2021-04-30</small><a class="anchor" aria-label="anchor" href="#parallelly-1250"></a></h2>
 <div class="section level4">
 <h4 id="significant-changes-1-25-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-1-25-0"></a></h4>
-<ul><li>The default SSH client on MS Windows 10 is now the built in ‘ssh’ client. This means that regardless whether you are on Linux, macOS, or Windows 10, setting up parallel workers on external machines over SSH finally works out of the box without having to install PuTTY or other SSH clients. This was possible because a workaround was found for a Windows 10 bug preventing us from using reverse tunneling over SSH. It turns out the bug reveals itself when using hostname ‘localhost’ but not ‘127.0.0.1’, so we use the latter.</li>
+<ul><li>The default SSH client on MS Windows 10 is now the built in ‘ssh’
+client. This means that regardless whether you are on Linux, macOS, or
+Windows 10, setting up parallel workers on external machines over SSH
+finally works out of the box without having to install PuTTY or other
+SSH clients. This was possible because a workaround was found for a
+Windows 10 bug preventing us from using reverse tunneling over SSH. It
+turns out the bug reveals itself when using hostname ‘localhost’ but not
+‘127.0.0.1’, so we use the latter.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="new-features-1-25-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-25-0"></a></h4>
-<ul><li>availableCores() gained argument ‘omit’ to make it easier to put aside zero or more cores from being used in parallel processing. For example, on a system with four cores, availableCores(omit = 1) returns 3. Importantly, since availableCores() is guaranteed to always return a positive integer, availableCores(omit = 4) == 1, even on systems with four or fewer cores. Using availableCores() - 4 on such systems would return a non-positive value, which would give an error downstream.</li>
+<ul><li>availableCores() gained argument ‘omit’ to make it easier to put
+aside zero or more cores from being used in parallel processing. For
+example, on a system with four cores, availableCores(omit = 1) returns
+3. Importantly, since availableCores() is guaranteed to always return a
+positive integer, availableCores(omit = 4) == 1, even on systems with
+four or fewer cores. Using availableCores() - 4 on such systems would
+return a non-positive value, which would give an error downstream.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-25-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-25-0"></a></h4>
-<ul><li><p>makeClusterPSOCK(), or actually makeNodePSOCK(), did not accept all types of environment variable names when using ‘rscript_envs’, e.g. it would give an error if we tried to pass ‘_R_CLASS_MATRIX_ARRAY_’.</p></li>
-<li><p>makeClusterPSOCK() had a “length &gt; 1 in coercion to logical” bug that could affect especially MS Windows 10 users.</p></li>
+<ul><li><p>makeClusterPSOCK(), or actually makeNodePSOCK(), did not accept
+all types of environment variable names when using ‘rscript_envs’,
+e.g. it would give an error if we tried to pass
+‘_R_CLASS_MATRIX_ARRAY_’.</p></li>
+<li><p>makeClusterPSOCK() had a “length &gt; 1 in coercion to logical”
+bug that could affect especially MS Windows 10 users.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.24.0" id="parallelly-1240">parallelly 1.24.0<small>2021-03-14</small><a class="anchor" aria-label="anchor" href="#parallelly-1240"></a></h2>
 <div class="section level4">
 <h4 id="significant-changes-1-24-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-1-24-0"></a></h4>
-<ul><li>The default SSH client on MS Windows is now, in order of availability: (i) ‘plink’ of the PuTTY software, (ii) ‘ssh’ in the RStudio distribution, and (iii) ‘ssh’ of Windows 10. Previously, the latter was considered first but that still has a bug preventing us from using reverse tunneling.</li>
+<ul><li>The default SSH client on MS Windows is now, in order of
+availability: (i) ‘plink’ of the PuTTY software, (ii) ‘ssh’ in the
+RStudio distribution, and (iii) ‘ssh’ of Windows 10. Previously, the
+latter was considered first but that still has a bug preventing us from
+using reverse tunneling.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="new-features-1-24-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-24-0"></a></h4>
-<ul><li><p>makeClusterPSOCK(), or actually makeNodePSOCK(), gained argument ‘quiet’, which can be used to silence output produced by ‘manual = TRUE’.</p></li>
-<li><p>c() for ‘cluster’ objects now warns about duplicated cluster nodes.</p></li>
-<li><p>Add isForkedNode() to test if a cluster node runs in a forked process.</p></li>
-<li><p>Add isLocalhostNode() to test if a cluster node runs on the current machine.</p></li>
-<li><p>Now availableCores() and availableWorkers() avoid recursive calls to the custom function given by options ‘parallelly.availableCores.custom’ and ‘parallelly.availableWorkers.custom’, respectively.</p></li>
-<li><p>availableWorkers() now recognizes the Slurm environment variable ‘SLURM_JOB_NODELIST’, e.g. “dev1,n[3-4,095-120]”. It will use ‘scontrol show hostnames “$SLURM_JOB_NODELIST”’ to expand it, if supported on the current machine, otherwise it will attempt to parse and expand the nodelist specification using R. If either of environment variable ‘SLURM_JOB_CPUS_PER_NODE’ or ‘SLURM_TASKS_PER_NODE’ is set, then each node in the nodelist will be represented that number of times. If in addition, environment variable ‘SLURM_CPUS_PER_TASK’ (always a scalar), then that is also respected.</p></li>
+<ul><li><p>makeClusterPSOCK(), or actually makeNodePSOCK(), gained argument
+‘quiet’, which can be used to silence output produced by ‘manual =
+TRUE’.</p></li>
+<li><p>c() for ‘cluster’ objects now warns about duplicated cluster
+nodes.</p></li>
+<li><p>Add isForkedNode() to test if a cluster node runs in a forked
+process.</p></li>
+<li><p>Add isLocalhostNode() to test if a cluster node runs on the
+current machine.</p></li>
+<li><p>Now availableCores() and availableWorkers() avoid recursive calls
+to the custom function given by options
+‘parallelly.availableCores.custom’ and
+‘parallelly.availableWorkers.custom’, respectively.</p></li>
+<li><p>availableWorkers() now recognizes the Slurm environment variable
+‘SLURM_JOB_NODELIST’, e.g. “dev1,n[3-4,095-120]”. It will use ‘scontrol
+show hostnames “$SLURM_JOB_NODELIST”’ to expand it, if supported on the
+current machine, otherwise it will attempt to parse and expand the
+nodelist specification using R. If either of environment variable
+‘SLURM_JOB_CPUS_PER_NODE’ or ‘SLURM_TASKS_PER_NODE’ is set, then each
+node in the nodelist will be represented that number of times. If in
+addition, environment variable ‘SLURM_CPUS_PER_TASK’ (always a scalar),
+then that is also respected.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="miscellaneous-1-24-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-1-24-0"></a></h4>
-<ul><li>All code is now using the ‘parallelly.’ prefix for options and the ‘R_PARALLELLY_’ prefix for environment variables. Settings that use the corresponding ‘future.’ and ‘R_FUTURE_’ prefixes are still recognized.</li>
+<ul><li>All code is now using the ‘parallelly.’ prefix for options and the
+‘R_PARALLELLY_’ prefix for environment variables. Settings that use the
+corresponding ‘future.’ and ‘R_FUTURE_’ prefixes are still
+recognized.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-24-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-24-0"></a></h4>
-<ul><li><p>availableCores() did not respect environment variable ‘SLURM_TASKS_PER_NODE’ when the job was allocated more than one node.</p></li>
-<li><p>Above argument ‘quiet’ was introduced in future 1.19.1 but was mistakenly dropped from parallelly 1.20.0 when that was released, and therefore also from future (&gt;= 1.20.0).</p></li>
+<ul><li><p>availableCores() did not respect environment variable
+‘SLURM_TASKS_PER_NODE’ when the job was allocated more than one
+node.</p></li>
+<li><p>Above argument ‘quiet’ was introduced in future 1.19.1 but was
+mistakenly dropped from parallelly 1.20.0 when that was released, and
+therefore also from future (&gt;= 1.20.0).</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.23.0" id="parallelly-1230">parallelly 1.23.0<small>2021-01-04</small><a class="anchor" aria-label="anchor" href="#parallelly-1230"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-23-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-23-0"></a></h4>
-<ul><li><p>availableCores(), availableWorkers(), and freeCores() gained argument ‘logical’, which is passed down to parallel::detectCores() as-is. The default is TRUE but it can be changed by setting the R option ‘parallelly.availableCores.logical’. This option can in turn be set via environment variable ‘R_PARALLELLY_AVAILABLECORES_LOGICAL’ which is applied (only) when the package is loaded.</p></li>
-<li><p>Now makeClusterPSOCK() asserts that there are enough free connections available before attempting to create the parallel workers. If too many workers are requested, an informative error message is produced.</p></li>
-<li><p>Add availableConnections() and freeConnections() to infer the maximum number of connections that the current R installation can have open at any time and how many of those are currently free to be used. This limit is typically 128 but may be different in custom R installations that are built from source.</p></li>
+<ul><li><p>availableCores(), availableWorkers(), and freeCores() gained
+argument ‘logical’, which is passed down to parallel::detectCores()
+as-is. The default is TRUE but it can be changed by setting the R option
+‘parallelly.availableCores.logical’. This option can in turn be set via
+environment variable ‘R_PARALLELLY_AVAILABLECORES_LOGICAL’ which is
+applied (only) when the package is loaded.</p></li>
+<li><p>Now makeClusterPSOCK() asserts that there are enough free
+connections available before attempting to create the parallel workers.
+If too many workers are requested, an informative error message is
+produced.</p></li>
+<li><p>Add availableConnections() and freeConnections() to infer the
+maximum number of connections that the current R installation can have
+open at any time and how many of those are currently free to be used.
+This limit is typically 128 but may be different in custom R
+installations that are built from source.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.22.0" id="parallelly-1220">parallelly 1.22.0<small>2020-12-13</small><a class="anchor" aria-label="anchor" href="#parallelly-1220"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-22-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-22-0"></a></h4>
-<ul><li><p>Now availableCores() queries also Unix command ‘nproc’, if available. This will make it respect the number of CPU/cores limited by ‘cgroups’ and Linux containers.</p></li>
-<li><p>PSOCK cluster workers are now set up to communicate using little endian (useXDR = FALSE) instead of big endian (useXDR = TRUE). Since most modern systems use little endian, ‘useXDR = FALSE’ speeds up the communication noticeably (10-15%) on those systems. The default value of this argument can be controlled by the R option ‘parallelly.makeNodePSOCK.useXDR’ or the corresponding environment variable ‘R_PARALLELLY_MAKENODEPSOCK_USEXDR’.</p></li>
+<ul><li><p>Now availableCores() queries also Unix command ‘nproc’, if
+available. This will make it respect the number of CPU/cores limited by
+‘cgroups’ and Linux containers.</p></li>
+<li><p>PSOCK cluster workers are now set up to communicate using little
+endian (useXDR = FALSE) instead of big endian (useXDR = TRUE). Since
+most modern systems use little endian, ‘useXDR = FALSE’ speeds up the
+communication noticeably (10-15%) on those systems. The default value of
+this argument can be controlled by the R option
+‘parallelly.makeNodePSOCK.useXDR’ or the corresponding environment
+variable ‘R_PARALLELLY_MAKENODEPSOCK_USEXDR’.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="beta-features-1-22-0">Beta Features<a class="anchor" aria-label="anchor" href="#beta-features-1-22-0"></a></h4>
-<ul><li><p>Add cpuLoad() for querying the “average” system load on Unix-like systems.</p></li>
-<li><p>Add freeCores() for estimating the average number of unused cores based on the average system load as given by cpuLoad().</p></li>
+<ul><li><p>Add cpuLoad() for querying the “average” system load on Unix-like
+systems.</p></li>
+<li><p>Add freeCores() for estimating the average number of unused cores
+based on the average system load as given by cpuLoad().</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-22-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-22-0"></a></h4>
-<ul><li>Except for environment variables ‘R_FUTURE_AVAILABLECORES_FALLBACK’ and ‘R_FUTURE_AVAILABLECORES_SYSTEM’, none of the ‘R_PARALLELLY_*’ and ‘R_FUTURE_*’ ones where recognized.</li>
+<ul><li>Except for environment variables ‘R_FUTURE_AVAILABLECORES_FALLBACK’
+and ‘R_FUTURE_AVAILABLECORES_SYSTEM’, none of the ‘R_PARALLELLY_*’ and
+‘R_FUTURE_*’ ones where recognized.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -322,16 +531,34 @@
 </ul></div>
 <div class="section level4">
 <h4 id="new-features-1-21-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-21-0"></a></h4>
-<ul><li><p>makeClusterPSOCK() gained argument ‘validate’ to control whether or not the nodes should be tested after they’ve been created. The validation is done by querying each node for its session information, which is then saved as attribute ‘session_info’ on the cluster node object. This information is also used in error messages, if available. This validation has been done since version 1.5.0 but now it can be disabled. The default of argument ‘validate’ can be controlled via an R options and an environment variable.</p></li>
-<li><p>Now makeNodePSOCK(…, rscript_envs = “UNKNOWN”) produces an informative warning on non-existing environment variables that was skipped.</p></li>
+<ul><li><p>makeClusterPSOCK() gained argument ‘validate’ to control whether
+or not the nodes should be tested after they’ve been created. The
+validation is done by querying each node for its session information,
+which is then saved as attribute ‘session_info’ on the cluster node
+object. This information is also used in error messages, if available.
+This validation has been done since version 1.5.0 but now it can be
+disabled. The default of argument ‘validate’ can be controlled via an R
+options and an environment variable.</p></li>
+<li><p>Now makeNodePSOCK(…, rscript_envs = “UNKNOWN”) produces an
+informative warning on non-existing environment variables that was
+skipped.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-21-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-21-0"></a></h4>
-<ul><li><p>makeClusterPSOCK() would produce an error on ‘one node produced an error: could not find function “getOptionOrEnvVar”’ if ‘parallelly’ is not available on the node.</p></li>
-<li><p>makeClusterPSOCK() would attempt to loaded ‘parallelly’ on the worker. If it’s not available on the worker, it would result in a silent warning on the worker. Now ‘parallelly’ is not loaded.</p></li>
-<li><p>makeClusterPSOCK(…, tries = n) would retry to setup a cluster node also on errors that were unrelated to node setup or node connection errors.</p></li>
-<li><p>The error message on using an invalid ‘rscript_envs’ argument for makeClusterPSOCK() reported on the value of ‘rscript_libs’ (sic!).</p></li>
-<li><p>makeNodePSOCK(…, rscript_envs = “UNKNOWN”) would result in an error when trying to launch the cluster node.</p></li>
+<ul><li><p>makeClusterPSOCK() would produce an error on ‘one node produced
+an error: could not find function “getOptionOrEnvVar”’ if ‘parallelly’
+is not available on the node.</p></li>
+<li><p>makeClusterPSOCK() would attempt to loaded ‘parallelly’ on the
+worker. If it’s not available on the worker, it would result in a silent
+warning on the worker. Now ‘parallelly’ is not loaded.</p></li>
+<li><p>makeClusterPSOCK(…, tries = n) would retry to setup a cluster
+node also on errors that were unrelated to node setup or node connection
+errors.</p></li>
+<li><p>The error message on using an invalid ‘rscript_envs’ argument for
+makeClusterPSOCK() reported on the value of ‘rscript_libs’
+(sic!).</p></li>
+<li><p>makeNodePSOCK(…, rscript_envs = “UNKNOWN”) would result in an
+error when trying to launch the cluster node.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="deprecated-and-defunct-1-21-0">Deprecated and Defunct<a class="anchor" aria-label="anchor" href="#deprecated-and-defunct-1-21-0"></a></h4>
@@ -342,223 +569,383 @@
 <h2 class="page-header" data-toc-text="1.20.0" id="parallelly-1200">parallelly 1.20.0<small>2020-10-20</small><a class="anchor" aria-label="anchor" href="#parallelly-1200"></a></h2>
 <div class="section level4">
 <h4 id="significant-changes-1-20-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-1-20-0"></a></h4>
-<ul><li>Add availableCores(), and availableWorkers(), supportsMulticore(), as.cluster(), autoStopCluster(), makeClusterMPI(), makeClusterPSOCK(), and makeNodePSOCK() from the ‘future’ package.</li>
+<ul><li>Add availableCores(), and availableWorkers(), supportsMulticore(),
+as.cluster(), autoStopCluster(), makeClusterMPI(), makeClusterPSOCK(),
+and makeNodePSOCK() from the ‘future’ package.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="new-features-1-20-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-20-0"></a></h4>
-<ul><li>Add isConnectionValid() and connectionId() adopted from internal code of the ‘future’ package.</li>
+<ul><li>Add isConnectionValid() and connectionId() adopted from internal
+code of the ‘future’ package.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-20-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-20-0"></a></h4>
-<ul><li><p>Renamed environment variable ‘R_FUTURE_MAKENODEPSOCK_tries’ used by makeClusterPSOCK() to ‘R_FUTURE_MAKENODEPSOCK_TRIES’.</p></li>
-<li><p>connectionId() did not return -1L on Solaris for connections with internal ‘nil’ pointers because they were reported as ‘0’ - not ‘nil’ or ‘0x0’.</p></li>
+<ul><li><p>Renamed environment variable ‘R_FUTURE_MAKENODEPSOCK_tries’ used
+by makeClusterPSOCK() to ‘R_FUTURE_MAKENODEPSOCK_TRIES’.</p></li>
+<li><p>connectionId() did not return -1L on Solaris for connections with
+internal ‘nil’ pointers because they were reported as ‘0’ - not ‘nil’ or
+‘0x0’.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="history-1-20-0">History<a class="anchor" aria-label="anchor" href="#history-1-20-0"></a></h4>
-<ul><li>Below is an excerpt of the future’s NEWS entries that are related to the functions in this package.</li>
+<ul><li>Below is an excerpt of the future’s NEWS entries that are related to
+the functions in this package.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.19.0" id="parallelly-1190">parallelly 1.19.0<a class="anchor" aria-label="anchor" href="#parallelly-1190"></a></h2>
 <div class="section level4">
 <h4 id="significant-changes-1-19-0">Significant Changes<a class="anchor" aria-label="anchor" href="#significant-changes-1-19-0"></a></h4>
-<ul><li><p>Now availableCores() better supports Slurm. Specifically, if environment variable ‘SLURM_CPUS_PER_TASK’ is not set, which requires that option –slurm-cpus-per-task=n’ is specified and SLURM_JOB_NUM_NODES=1, then it falls back to using ‘SLURM_CPUS_ON_NODE’, e.g. when using ‘–ntasks=n’.</p></li>
-<li><p>Now availableCores() and availableWorkers() supports LSF/OpenLava. Specifically, they acknowledge environment variable ‘LSB_DJOB_NUMPROC’ and ‘LSB_HOSTS’, respectively.</p></li>
+<ul><li><p>Now availableCores() better supports Slurm. Specifically, if
+environment variable ‘SLURM_CPUS_PER_TASK’ is not set, which requires
+that option –slurm-cpus-per-task=n’ is specified and
+SLURM_JOB_NUM_NODES=1, then it falls back to using ‘SLURM_CPUS_ON_NODE’,
+e.g. when using ‘–ntasks=n’.</p></li>
+<li><p>Now availableCores() and availableWorkers() supports
+LSF/OpenLava. Specifically, they acknowledge environment variable
+‘LSB_DJOB_NUMPROC’ and ‘LSB_HOSTS’, respectively.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="new-features-1-19-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-19-0"></a></h4>
-<ul><li><p>makeClusterPSOCK() will now retry to create a cluster node up to ‘tries’ (default: 3) times before giving up. If argument ‘port’ species more than one port (e.g. port = “random”) then it will also attempt find a valid random port up to ‘tries’ times before giving up. The pre-validation of the random port is only supported in R (&gt;= 4.0.0) and skipped otherwise.</p></li>
-<li><p>makeClusterPSOCK() skips shell quoting of the elements in ‘rscript’ if it inherits from ‘AsIs’.</p></li>
-<li><p>makeClusterPSOCK(), or actually makeNodePSOCK(), gained argument ‘quiet’, which can be used to silence output produced by ‘manual = TRUE’.</p></li>
+<ul><li><p>makeClusterPSOCK() will now retry to create a cluster node up to
+‘tries’ (default: 3) times before giving up. If argument ‘port’ species
+more than one port (e.g. port = “random”) then it will also attempt find
+a valid random port up to ‘tries’ times before giving up. The
+pre-validation of the random port is only supported in R (&gt;= 4.0.0)
+and skipped otherwise.</p></li>
+<li><p>makeClusterPSOCK() skips shell quoting of the elements in
+‘rscript’ if it inherits from ‘AsIs’.</p></li>
+<li><p>makeClusterPSOCK(), or actually makeNodePSOCK(), gained argument
+‘quiet’, which can be used to silence output produced by ‘manual =
+TRUE’.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="performance-1-19-0">Performance<a class="anchor" aria-label="anchor" href="#performance-1-19-0"></a></h4>
-<ul><li>Now plan(multisession), plan(cluster, workers = &lt;number&gt;), and makeClusterPSOCK() which they both use internally, sets up localhost workers twice as fast compared to versions since future 1.12.0, which brings it back to par with a bare-bone parallel::makeCluster(…, setup_strategy = “sequential”) setup. The slowdown was introduced in future 1.12.0 (2019-03-07) when protection against leaving stray R processes behind from failed worker startup was implemented. This protection now makes use of memoization for speedup.</li>
+<ul><li>Now plan(multisession), plan(cluster, workers = &lt;number&gt;), and
+makeClusterPSOCK() which they both use internally, sets up localhost
+workers twice as fast compared to versions since future 1.12.0, which
+brings it back to par with a bare-bone parallel::makeCluster(…,
+setup_strategy = “sequential”) setup. The slowdown was introduced in
+future 1.12.0 (2019-03-07) when protection against leaving stray R
+processes behind from failed worker startup was implemented. This
+protection now makes use of memoization for speedup.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.18.0" id="parallelly-1180">parallelly 1.18.0<a class="anchor" aria-label="anchor" href="#parallelly-1180"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-18-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-18-0"></a></h4>
-<ul><li><p>print() on RichSOCKcluster gives information not only on the name of the host but also on the version of R and the platform of each node (“worker”), e.g. “Socket cluster with 3 nodes where 2 nodes are on host ‘localhost’ (R version 4.0.0 (2020-04-24), platform x86_64-w64-mingw32), 1 node is on host ‘n3’ (R version 3.6.3 (2020-02-29), platform x86_64-pc-linux-gnu)”.</p></li>
-<li><p>It is now possible to set environment variables on workers before they are launched by makeClusterPSOCK() by specify them as as “&lt;name&gt;=&lt;value&gt;” as part of the ‘rscript’ vector argument, e.g. rscript=c(“ABC=123”, “DEF=‘hello world’”, “Rscript”). This works because elements in ‘rscript’ that match regular expression ‘^ [[:alpha:]_][[:alnum:]_]*=.*’ are no longer shell quoted.</p></li>
-<li><p>makeClusterPSOCK() now returns a cluster that in addition to inheriting from’ SOCKcluster’ it will also inherit from ‘RichSOCKcluster’.</p></li>
+<ul><li><p>print() on RichSOCKcluster gives information not only on the name
+of the host but also on the version of R and the platform of each node
+(“worker”), e.g. “Socket cluster with 3 nodes where 2 nodes are on host
+‘localhost’ (R version 4.0.0 (2020-04-24), platform x86_64-w64-mingw32),
+1 node is on host ‘n3’ (R version 3.6.3 (2020-02-29), platform
+x86_64-pc-linux-gnu)”.</p></li>
+<li><p>It is now possible to set environment variables on workers before
+they are launched by makeClusterPSOCK() by specify them as as
+“&lt;name&gt;=&lt;value&gt;” as part of the ‘rscript’ vector argument,
+e.g. rscript=c(“ABC=123”, “DEF=‘hello world’”, “Rscript”). This works
+because elements in ‘rscript’ that match regular expression ‘^
+[[:alpha:]_][[:alnum:]_]*=.*’ are no longer shell quoted.</p></li>
+<li><p>makeClusterPSOCK() now returns a cluster that in addition to
+inheriting from’ SOCKcluster’ it will also inherit from
+‘RichSOCKcluster’.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-18-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-18-0"></a></h4>
-<ul><li><p>Made makeClusterPSOCK() and makeNodePSOCK() agile to the name change from parallel:::.slaveRSOCK() to parallel:::.workRSOCK() in R (&gt;= 4.1.0).</p></li>
-<li><p>makeClusterPSOCK(…, rscript) will not try to locate rscript[1] if argument ‘homogeneous’ is FALSE (or inferred to be FALSE).</p></li>
-<li><p>makeClusterPSOCK(…, rscript_envs) would result in a syntax error when starting the workers due to non-ASCII quotation marks if option ‘useFancyQuotes’ was not set to FALSE.</p></li>
+<ul><li><p>Made makeClusterPSOCK() and makeNodePSOCK() agile to the name
+change from parallel:::.slaveRSOCK() to parallel:::.workRSOCK() in R
+(&gt;= 4.1.0).</p></li>
+<li><p>makeClusterPSOCK(…, rscript) will not try to locate rscript[1] if
+argument ‘homogeneous’ is FALSE (or inferred to be FALSE).</p></li>
+<li><p>makeClusterPSOCK(…, rscript_envs) would result in a syntax error
+when starting the workers due to non-ASCII quotation marks if option
+‘useFancyQuotes’ was not set to FALSE.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.17.0" id="parallelly-1170">parallelly 1.17.0<a class="anchor" aria-label="anchor" href="#parallelly-1170"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-17-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-17-0"></a></h4>
-<ul><li>makeClusterPSOCK() gained argument ‘rscript_envs’ for setting environment variables in workers on startup, e.g. rscript_envs = c(FOO = “3.14”, “BAR”).</li>
+<ul><li>makeClusterPSOCK() gained argument ‘rscript_envs’ for setting
+environment variables in workers on startup, e.g. rscript_envs = c(FOO =
+“3.14”, “BAR”).</li>
 </ul></div>
 <div class="section level4">
 <h4 id="miscellaneous-1-17-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-1-17-0"></a></h4>
-<ul><li>Not all CRAN servers have _R_CHECK_LIMIT_CORES_ set. To better emulate CRAN submission checks, the future package will, when loaded, set this environment variable to ‘TRUE’ if unset and if ‘R CMD check’ is running. Note that future::availableCores() respects _R_CHECK_LIMIT_CORES_ and returns at most 2L (two cores) if detected.</li>
+<ul><li>Not all CRAN servers have _R_CHECK_LIMIT_CORES_ set. To better
+emulate CRAN submission checks, the future package will, when loaded,
+set this environment variable to ‘TRUE’ if unset and if ‘R CMD check’ is
+running. Note that future::availableCores() respects
+_R_CHECK_LIMIT_CORES_ and returns at most 2L (two cores) if
+detected.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.15.1" id="parallelly-1151">parallelly 1.15.1<a class="anchor" aria-label="anchor" href="#parallelly-1151"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-15-1">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-15-1"></a></h4>
-<ul><li>The default range of ports that makeClusterPSOCK() draws a random port from (when argument ‘port’ is not specified) can now be controlled by environment variable ‘R_FUTURE_RANDOM_PORTS’. The default range is still 11000:11999 as with the ‘parallel’ package.</li>
+<ul><li>The default range of ports that makeClusterPSOCK() draws a random
+port from (when argument ‘port’ is not specified) can now be controlled
+by environment variable ‘R_FUTURE_RANDOM_PORTS’. The default range is
+still 11000:11999 as with the ‘parallel’ package.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.15.0" id="parallelly-1150">parallelly 1.15.0<a class="anchor" aria-label="anchor" href="#parallelly-1150"></a></h2>
 <div class="section level4">
 <h4 id="documentation-1-15-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-15-0"></a></h4>
-<ul><li>Added ‘Troubleshooting’ section to ?makeClusterPSOCK with instructions on how to troubleshoot when the setup of local and remote clusters fail.</li>
+<ul><li>Added ‘Troubleshooting’ section to ?makeClusterPSOCK with
+instructions on how to troubleshoot when the setup of local and remote
+clusters fail.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-15-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-15-0"></a></h4>
-<ul><li><p>makeClusterPSOCK() could produce warnings like “cannot open file ‘/tmp/alice/Rtmpi69yYF/future.parent=2622.a3e32bc6af7.pid’: No such file”, e.g. when launching R workers running in Docker containers.</p></li>
-<li><p>makeClusterMPI() did not work for MPI clusters with ‘comm’ other than ‘1’.</p></li>
+<ul><li><p>makeClusterPSOCK() could produce warnings like “cannot open file
+‘/tmp/alice/Rtmpi69yYF/future.parent=2622.a3e32bc6af7.pid’: No such
+file”, e.g. when launching R workers running in Docker
+containers.</p></li>
+<li><p>makeClusterMPI() did not work for MPI clusters with ‘comm’ other
+than ‘1’.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.13.0" id="parallelly-1130">parallelly 1.13.0<a class="anchor" aria-label="anchor" href="#parallelly-1130"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-13-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-13-0"></a></h4>
-<ul><li><p>Now availableCores() also recognizes PBS environment variable ‘NCPUS’, because the PBSPro scheduler does not set ‘PBS_NUM_PPN’.</p></li>
-<li><p>If, option ‘future.availableCores.custom’ is set to a function, then availableCores() will call that function and interpret its value as number of cores. Analogously, option ‘future.availableWorkers.custom’ can be used to specify a hostnames of a set of workers that availableWorkers() sees. These new options provide a mechanism for anyone to customize availableCores() and availableWorkers() in case they do not (yet) recognize, say, environment variables that are specific the user’s compute environment or HPC scheduler.</p></li>
-<li><p>makeClusterPSOCK() gained support for argument ‘rscript_startup’ for evaluating one or more R expressions in the background R worker prior to the worker event loop launching. This provides a more convenient approach than having to use, say, ‘rscript_args = c(“-e”, sQuote(code))’.</p></li>
-<li><p>makeClusterPSOCK() gained support for argument ‘rscript_libs’ to control the R package library search path on the workers. For example, to _prepend_ the folder ‘~/R-libs’ on the workers, use ‘rscript_libs = c(“~/R-libs”, “*”)’, where “*” will be resolved to the current ‘.libPaths()’ on the workers.</p></li>
+<ul><li><p>Now availableCores() also recognizes PBS environment variable
+‘NCPUS’, because the PBSPro scheduler does not set
+‘PBS_NUM_PPN’.</p></li>
+<li><p>If, option ‘future.availableCores.custom’ is set to a function,
+then availableCores() will call that function and interpret its value as
+number of cores. Analogously, option ‘future.availableWorkers.custom’
+can be used to specify a hostnames of a set of workers that
+availableWorkers() sees. These new options provide a mechanism for
+anyone to customize availableCores() and availableWorkers() in case they
+do not (yet) recognize, say, environment variables that are specific the
+user’s compute environment or HPC scheduler.</p></li>
+<li><p>makeClusterPSOCK() gained support for argument ‘rscript_startup’
+for evaluating one or more R expressions in the background R worker
+prior to the worker event loop launching. This provides a more
+convenient approach than having to use, say, ‘rscript_args = c(“-e”,
+sQuote(code))’.</p></li>
+<li><p>makeClusterPSOCK() gained support for argument ‘rscript_libs’ to
+control the R package library search path on the workers. For example,
+to _prepend_ the folder ‘~/R-libs’ on the workers, use ‘rscript_libs =
+c(“~/R-libs”, “*”)’, where “*” will be resolved to the current
+‘.libPaths()’ on the workers.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-13-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-13-0"></a></h4>
-<ul><li>makeClusterPSOCK() did not shell quote the Rscript executable when running its pre-tests checking whether localhost Rscript processes can be killed by their PIDs or not.</li>
+<ul><li>makeClusterPSOCK() did not shell quote the Rscript executable when
+running its pre-tests checking whether localhost Rscript processes can
+be killed by their PIDs or not.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.12.0" id="parallelly-1120">parallelly 1.12.0<a class="anchor" aria-label="anchor" href="#parallelly-1120"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-12-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-12-0"></a></h4>
-<ul><li>If makeClusterPSOCK() fails to create one of many nodes, then it will attempt to stop any nodes that were successfully created. This lowers the risk for leaving R worker processes behind.</li>
+<ul><li>If makeClusterPSOCK() fails to create one of many nodes, then it
+will attempt to stop any nodes that were successfully created. This
+lowers the risk for leaving R worker processes behind.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-12-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-12-0"></a></h4>
-<ul><li>makeClusterPSOCK() in future (&gt;= 1.11.1) produced warnings when argument ‘rscript’ had length(rscript) &gt; 1.</li>
+<ul><li>makeClusterPSOCK() in future (&gt;= 1.11.1) produced warnings when
+argument ‘rscript’ had length(rscript) &gt; 1.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.11.1.1" id="parallelly-11111">parallelly 1.11.1.1<a class="anchor" aria-label="anchor" href="#parallelly-11111"></a></h2>
 <div class="section level4">
 <h4 id="bug-fixes-1-11-1-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-11-1-1"></a></h4>
-<ul><li>When makeClusterPSOCK() fails to connect to a worker, it produces an error with detailed information on what could have happened. In rare cases, another error could be produced when generating the information on what the workers PID is.</li>
+<ul><li>When makeClusterPSOCK() fails to connect to a worker, it produces an
+error with detailed information on what could have happened. In rare
+cases, another error could be produced when generating the information
+on what the workers PID is.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.11.1" id="parallelly-1111">parallelly 1.11.1<a class="anchor" aria-label="anchor" href="#parallelly-1111"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-11-1">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-11-1"></a></h4>
-<ul><li>The defaults of several arguments of makeClusterPSOCK() and makeNodePSOCK() can now be controlled via environment variables in addition to R options that was supported in the past. An advantage of using environment variables is that they will be inherited by child processes, also nested ones.</li>
+<ul><li>The defaults of several arguments of makeClusterPSOCK() and
+makeNodePSOCK() can now be controlled via environment variables in
+addition to R options that was supported in the past. An advantage of
+using environment variables is that they will be inherited by child
+processes, also nested ones.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="software-quality-1-11-1">Software Quality<a class="anchor" aria-label="anchor" href="#software-quality-1-11-1"></a></h4>
-<ul><li>TESTS: When the ‘future’ package is loaded, it checks whether ‘R CMD check’ is running or not. If it is, then a few future-specific environment variables are adjusted such that the tests play nice with the testing environment. For instance, it sets the socket connection timeout for PSOCK cluster workers to 120 seconds (instead of the default 30 days!). This will lower the risk for more and more zombie worker processes cluttering up the test machine (e.g. CRAN servers) in case a worker process is left behind despite the main R processes is terminated. Note that these adjustments are applied automatically to the checks of any package that depends on, or imports, the ‘future’ package.</li>
+<ul><li>TESTS: When the ‘future’ package is loaded, it checks whether ‘R CMD
+check’ is running or not. If it is, then a few future-specific
+environment variables are adjusted such that the tests play nice with
+the testing environment. For instance, it sets the socket connection
+timeout for PSOCK cluster workers to 120 seconds (instead of the default
+30 days!). This will lower the risk for more and more zombie worker
+processes cluttering up the test machine (e.g. CRAN servers) in case a
+worker process is left behind despite the main R processes is
+terminated. Note that these adjustments are applied automatically to the
+checks of any package that depends on, or imports, the ‘future’
+package.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-11-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-11-1"></a></h4>
-<ul><li>Whenever makeClusterPSOCK() would fail to connect to a worker, for instance due to a port clash, then it would leave the R worker process running - also after the main R process terminated. When the worker is running on the same machine, makeClusterPSOCK() will now attempt to kill such stray R processes. Note that parallel::makePSOCKcluster() still has this problem.</li>
+<ul><li>Whenever makeClusterPSOCK() would fail to connect to a worker, for
+instance due to a port clash, then it would leave the R worker process
+running - also after the main R process terminated. When the worker is
+running on the same machine, makeClusterPSOCK() will now attempt to kill
+such stray R processes. Note that parallel::makePSOCKcluster() still has
+this problem.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.11.0" id="parallelly-1110">parallelly 1.11.0<a class="anchor" aria-label="anchor" href="#parallelly-1110"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-11-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-11-0"></a></h4>
-<ul><li><p>makeClusterPSOCK() produces more informative error messages whenever the setup of R workers fails. Also, its verbose messages are now prefixed with “[local output]” to help distinguish the output produced by the current R session from that produced by background workers.</p></li>
-<li><p>It is now possible to specify what type of SSH clients makeClusterPSOCK() automatically searches for and in what order, e.g. ‘rshcmd = c(“&lt;rstudio-ssh&gt;”, “&lt;putty-plink&gt;”)’.</p></li>
-<li><p>Now makeClusterPSOCK() preserves the global RNG state (.Random.seed) also when it draws a random port number.</p></li>
+<ul><li><p>makeClusterPSOCK() produces more informative error messages
+whenever the setup of R workers fails. Also, its verbose messages are
+now prefixed with “[local output]” to help distinguish the output
+produced by the current R session from that produced by background
+workers.</p></li>
+<li><p>It is now possible to specify what type of SSH clients
+makeClusterPSOCK() automatically searches for and in what order, e.g.
+‘rshcmd = c(“&lt;rstudio-ssh&gt;”, “&lt;putty-plink&gt;”)’.</p></li>
+<li><p>Now makeClusterPSOCK() preserves the global RNG state
+(.Random.seed) also when it draws a random port number.</p></li>
 <li><p>makeClusterPSOCK() gained argument ‘rshlogfile’.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-11-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-11-0"></a></h4>
-<ul><li>makeClusterPSOCK(…, rscript = “my_r”) would in some cases fail to find the intended ‘my_r’ executable.</li>
+<ul><li>makeClusterPSOCK(…, rscript = “my_r”) would in some cases fail to
+find the intended ‘my_r’ executable.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.10.0" id="parallelly-1100">parallelly 1.10.0<a class="anchor" aria-label="anchor" href="#parallelly-1100"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-10-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-10-0"></a></h4>
-<ul><li><p>Add makeClusterMPI(n) for creating MPI-based clusters of a similar kind as parallel::makeCluster(n, type = “MPI”) but that also attempts to workaround issues where parallel::stopCluster() causes R to stall.</p></li>
-<li><p>makeClusterPSOCK() and makeClusterMPI() gained argument ‘autoStop’ for controlling whether the cluster should be automatically stopped when garbage collected or not.</p></li>
+<ul><li><p>Add makeClusterMPI(n) for creating MPI-based clusters of a
+similar kind as parallel::makeCluster(n, type = “MPI”) but that also
+attempts to workaround issues where parallel::stopCluster() causes R to
+stall.</p></li>
+<li><p>makeClusterPSOCK() and makeClusterMPI() gained argument
+‘autoStop’ for controlling whether the cluster should be automatically
+stopped when garbage collected or not.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.9.0" id="parallelly-190">parallelly 1.9.0<a class="anchor" aria-label="anchor" href="#parallelly-190"></a></h2>
 <div class="section level4">
 <h4 id="bug-fixes-1-9-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-9-0"></a></h4>
-<ul><li>makeClusterPSOCK() produced a warning when environment variable ‘R_PARALLEL_PORT’ was set to ‘random’ (e.g. as on CRAN).</li>
+<ul><li>makeClusterPSOCK() produced a warning when environment variable
+‘R_PARALLEL_PORT’ was set to ‘random’ (e.g. as on CRAN).</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.8.1" id="parallelly-181">parallelly 1.8.1<a class="anchor" aria-label="anchor" href="#parallelly-181"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-8-1">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-8-1"></a></h4>
-<ul><li>makeClusterPSOCK() now produces a more informative warning if environment variable R_PARALLEL_PORT specifies a non-numeric port.</li>
+<ul><li>makeClusterPSOCK() now produces a more informative warning if
+environment variable R_PARALLEL_PORT specifies a non-numeric port.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.7.0" id="parallelly-170">parallelly 1.7.0<a class="anchor" aria-label="anchor" href="#parallelly-170"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-7-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-7-0"></a></h4>
-<ul><li>On Windows, makeClusterPSOCK(), and therefore plan(multisession) and plan(multiprocess), will use the SSH client distributed with RStudio as a fallback if neither ‘ssh’ nor ‘plink’ is available on the system PATH.</li>
+<ul><li>On Windows, makeClusterPSOCK(), and therefore plan(multisession) and
+plan(multiprocess), will use the SSH client distributed with RStudio as
+a fallback if neither ‘ssh’ nor ‘plink’ is available on the system
+PATH.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-7-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-7-0"></a></h4>
-<ul><li>makeClusterPSOCK(…, renice = 19) would launch each PSOCK worker via ‘nice +19’ resulting in the error “nice: ‘+19’: No such file or directory”. This bug was inherited from parallel::makePSOCKcluster(). Now using ‘nice –adjustment=19’ instead.</li>
+<ul><li>makeClusterPSOCK(…, renice = 19) would launch each PSOCK worker via
+‘nice +19’ resulting in the error “nice: ‘+19’: No such file or
+directory”. This bug was inherited from parallel::makePSOCKcluster().
+Now using ‘nice –adjustment=19’ instead.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.5.0" id="parallelly-150">parallelly 1.5.0<a class="anchor" aria-label="anchor" href="#parallelly-150"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-5-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-5-0"></a></h4>
-<ul><li><p>makeClusterPSOCK() now defaults to use the Windows PuTTY software’s SSH client ‘plink -ssh’, if ‘ssh’ is not found.</p></li>
-<li><p>Argument ‘homogeneous’ of makeNodePSOCK(), a helper function of makeClusterPSOCK(), will default to FALSE also if the hostname is a fully qualified domain name (FQDN), that is, it “contains periods”. For instance, c(‘node1’, ‘node2.server.org’) will use homogeneous = TRUE for the first worker and homogeneous = FALSE for the second.</p></li>
-<li><p>makeClusterPSOCK() now asserts that each cluster node is functioning by retrieving and recording the node’s session information including the process ID of the corresponding R process.</p></li>
+<ul><li><p>makeClusterPSOCK() now defaults to use the Windows PuTTY
+software’s SSH client ‘plink -ssh’, if ‘ssh’ is not found.</p></li>
+<li><p>Argument ‘homogeneous’ of makeNodePSOCK(), a helper function of
+makeClusterPSOCK(), will default to FALSE also if the hostname is a
+fully qualified domain name (FQDN), that is, it “contains periods”. For
+instance, c(‘node1’, ‘node2.server.org’) will use homogeneous = TRUE for
+the first worker and homogeneous = FALSE for the second.</p></li>
+<li><p>makeClusterPSOCK() now asserts that each cluster node is
+functioning by retrieving and recording the node’s session information
+including the process ID of the corresponding R process.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="documentation-1-5-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-5-0"></a></h4>
-<ul><li>Help on makeClusterPSOCK() gained more detailed descriptions on arguments and what their defaults are.</li>
+<ul><li>Help on makeClusterPSOCK() gained more detailed descriptions on
+arguments and what their defaults are.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.4.0" id="parallelly-140">parallelly 1.4.0<a class="anchor" aria-label="anchor" href="#parallelly-140"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-4-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-4-0"></a></h4>
-<ul><li>The default values for arguments ‘connectTimeout’ and ‘timeout’ of makeNodePSOCK() can now be controlled via global options.</li>
+<ul><li>The default values for arguments ‘connectTimeout’ and ‘timeout’ of
+makeNodePSOCK() can now be controlled via global options.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="deprecated-and-defunct-1-4-0">Deprecated and Defunct<a class="anchor" aria-label="anchor" href="#deprecated-and-defunct-1-4-0"></a></h4>
-<ul><li>availableCores(method = “mc.cores”) is now defunct in favor of “mc.cores+1”.</li>
+<ul><li>availableCores(method = “mc.cores”) is now defunct in favor of
+“mc.cores+1”.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.3.0" id="parallelly-130">parallelly 1.3.0<a class="anchor" aria-label="anchor" href="#parallelly-130"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-3-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-3-0"></a></h4>
-<ul><li><p>makeClusterPSOCK() treats workers that refer to a local machine by its local or canonical hostname as “localhost”. This avoids having to launch such workers over SSH, which may not be supported on all systems / compute cluster.</p></li>
-<li><p>Added availableWorkers(). By default it returns localhost workers according to availableCores(). In addition, it detects common HPC allocations given in environment variables set by the HPC scheduler.</p></li>
-<li><p>Option ‘future.availableCores.fallback’, which defaults to environment variable ‘R_FUTURE_AVAILABLECORES_FALLBACK’ can now be used to specify the default number of cores / workers returned by availableCores() and availableWorkers() when no other settings are available. For instance, if R_FUTURE_AVAILABLECORES_FALLBACK=1 is set system wide in an HPC environment, then all R processes that uses availableCores() to detect how many cores can be used will run as single-core processes. Without this fallback setting, and without other core-specifying settings, the default will be to use all cores on the machine, which does not play well on multi-user systems.</p></li>
+<ul><li><p>makeClusterPSOCK() treats workers that refer to a local machine
+by its local or canonical hostname as “localhost”. This avoids having to
+launch such workers over SSH, which may not be supported on all systems
+/ compute cluster.</p></li>
+<li><p>Added availableWorkers(). By default it returns localhost workers
+according to availableCores(). In addition, it detects common HPC
+allocations given in environment variables set by the HPC
+scheduler.</p></li>
+<li><p>Option ‘future.availableCores.fallback’, which defaults to
+environment variable ‘R_FUTURE_AVAILABLECORES_FALLBACK’ can now be used
+to specify the default number of cores / workers returned by
+availableCores() and availableWorkers() when no other settings are
+available. For instance, if R_FUTURE_AVAILABLECORES_FALLBACK=1 is set
+system wide in an HPC environment, then all R processes that uses
+availableCores() to detect how many cores can be used will run as
+single-core processes. Without this fallback setting, and without other
+core-specifying settings, the default will be to use all cores on the
+machine, which does not play well on multi-user systems.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-3-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3-0"></a></h4>
-<ul><li><p>Creation of cluster futures (including multisession ones) would time out already after 40 seconds if all workers were busy. New default timeout is 30 days (option ‘future.wait.timeout’).</p></li>
-<li><p>availableCores(methods = “_R_CHECK_LIMIT_CORES_”) would give an error if not running R CMD check.</p></li>
+<ul><li><p>Creation of cluster futures (including multisession ones) would
+time out already after 40 seconds if all workers were busy. New default
+timeout is 30 days (option ‘future.wait.timeout’).</p></li>
+<li><p>availableCores(methods = “_R_CHECK_LIMIT_CORES_”) would give an
+error if not running R CMD check.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.2.0" id="parallelly-120">parallelly 1.2.0<a class="anchor" aria-label="anchor" href="#parallelly-120"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-2-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-2-0"></a></h4>
-<ul><li><p>Added makeClusterPSOCK() - a version of parallel::makePSOCKcluster() that allows for more flexible control of how PSOCK cluster workers are set up and how they are launched and communicated with if running on external machines.</p></li>
-<li><p>Added generic as.cluster() for coercing objects to cluster objects to be used as in plan(cluster, workers = as.cluster(x)). Also added a c() implementation for cluster objects such that multiple cluster objects can be combined into a single one.</p></li>
+<ul><li><p>Added makeClusterPSOCK() - a version of
+parallel::makePSOCKcluster() that allows for more flexible control of
+how PSOCK cluster workers are set up and how they are launched and
+communicated with if running on external machines.</p></li>
+<li><p>Added generic as.cluster() for coercing objects to cluster
+objects to be used as in plan(cluster, workers = as.cluster(x)). Also
+added a c() implementation for cluster objects such that multiple
+cluster objects can be combined into a single one.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-1-2-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-0"></a></h4>
@@ -569,42 +956,57 @@
 <h2 class="page-header" data-toc-text="1.1.1" id="parallelly-111">parallelly 1.1.1<a class="anchor" aria-label="anchor" href="#parallelly-111"></a></h2>
 <div class="section level4">
 <h4 id="bug-fixes-1-1-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-1"></a></h4>
-<ul><li>For the special case where ‘remote’ futures use workers = “localhost” they (again) use the exact same R executable as the main / calling R session (in all other cases it uses whatever ‘Rscript’ is found in the PATH). This was already indeed implemented in 1.0.1, but with the added support for reverse SSH tunnels in 1.1.0 this default behavior was lost.</li>
+<ul><li>For the special case where ‘remote’ futures use workers =
+“localhost” they (again) use the exact same R executable as the main /
+calling R session (in all other cases it uses whatever ‘Rscript’ is
+found in the PATH). This was already indeed implemented in 1.0.1, but
+with the added support for reverse SSH tunnels in 1.1.0 this default
+behavior was lost.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.0" id="parallelly-110">parallelly 1.1.0<a class="anchor" aria-label="anchor" href="#parallelly-110"></a></h2>
 <div class="section level4">
 <h4 id="new-features-1-1-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-1-0"></a></h4>
-<ul><li>REMOTE CLUSTERS: It is now very simple to use cluster() and remote() to connect to remote clusters / machines. As long as you can connect via ssh to those machines, it works also with these future. The new code completely avoids incoming firewall and incoming port forwarding issues previously needed. This is done by using reverse SSH tunneling. There is also no need to worry about internal or external IP numbers.</li>
+<ul><li>REMOTE CLUSTERS: It is now very simple to use cluster() and remote()
+to connect to remote clusters / machines. As long as you can connect via
+ssh to those machines, it works also with these future. The new code
+completely avoids incoming firewall and incoming port forwarding issues
+previously needed. This is done by using reverse SSH tunneling. There is
+also no need to worry about internal or external IP numbers.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.15.0" id="parallelly-0150">parallelly 0.15.0<a class="anchor" aria-label="anchor" href="#parallelly-0150"></a></h2>
 <div class="section level4">
 <h4 id="new-features-0-15-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-15-0"></a></h4>
-<ul><li>Now availableCores() also acknowledges environment variable NSLOTS set by Sun/Oracle Grid Engine (SGE).</li>
+<ul><li>Now availableCores() also acknowledges environment variable NSLOTS
+set by Sun/Oracle Grid Engine (SGE).</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.12.0" id="parallelly-0120">parallelly 0.12.0<a class="anchor" aria-label="anchor" href="#parallelly-0120"></a></h2>
 <div class="section level4">
 <h4 id="bug-fixes-0-12-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-12-0"></a></h4>
-<ul><li>FIX: Now availableCores() returns 3L (=2L+1L) instead of 2L if _R_CHECK_LIMIT_CORES_ is set.</li>
+<ul><li>FIX: Now availableCores() returns 3L (=2L+1L) instead of 2L if
+_R_CHECK_LIMIT_CORES_ is set.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.10.0" id="parallelly-0100">parallelly 0.10.0<a class="anchor" aria-label="anchor" href="#parallelly-0100"></a></h2>
 <div class="section level4">
 <h4 id="new-features-0-10-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-10-0"></a></h4>
-<ul><li>Now availableCores() also acknowledges the number of CPUs allotted by Slurm.</li>
+<ul><li>Now availableCores() also acknowledges the number of CPUs allotted
+by Slurm.</li>
 </ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.8.0" id="parallelly-080">parallelly 0.8.0<a class="anchor" aria-label="anchor" href="#parallelly-080"></a></h2>
 <div class="section level4">
 <h4 id="new-features-0-8-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-8-0"></a></h4>
-<ul><li>availableCores(“mc.cores”) returns getOption(“mc.cores”) + 1L, because option ‘mc.cores’ specifies “allowed number of _additional_ R processes” to be used in addition to the main R process.</li>
+<ul><li>availableCores(“mc.cores”) returns getOption(“mc.cores”) + 1L,
+because option ‘mc.cores’ specifies “allowed number of _additional_ R
+processes” to be used in addition to the main R process.</li>
 </ul></div>
 </div>
   </div>
@@ -621,7 +1023,8 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2 and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9003.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+2.0.2.</p>
 </div>
 
       </footer></div>
