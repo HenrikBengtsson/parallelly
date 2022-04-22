@@ -5,6 +5,7 @@
 \alias{parallelly.debug}
 \alias{parallelly.availableCores.custom}
 \alias{parallelly.availableCores.methods}
+\alias{parallelly.availableCores.min}
 \alias{parallelly.availableCores.fallback}
 \alias{parallelly.availableCores.omit}
 \alias{parallelly.availableCores.system}
@@ -15,6 +16,7 @@
 \alias{R_PARALLELLY_AVAILABLECORES_FALLBACK}
 \alias{R_PARALLELLY_AVAILABLECORES_OMIT}
 \alias{R_PARALLELLY_AVAILABLECORES_SYSTEM}
+\alias{R_PARALLELLY_AVAILABLECORES_MIN}
 \alias{R_PARALLELLY_FORK_ENABLE}
 \alias{R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE}
 \alias{future.availableCores.custom}
@@ -93,6 +95,8 @@ The below \R options and environment variables control the default results of \c
 \item{\option{parallelly.availableCores.fallback}:}{(integer) Number of cores to use when no core-specifying settings are detected other than \code{"system"} and \code{"nproc"}.  This options makes it possible to set the default number of cores returned by \code{availableCores()} / \code{availableWorkers()} yet allow users and schedulers to override it.  In multi-tenant environment, such as HPC clusters, it is useful to set environment variable \env{R_PARALLELLY_AVAILABLECORES_FALLBACK} to \code{1}, which will set this option when the package is loaded.}
 
 \item{\option{parallelly.availableCores.system}:}{(integer) Number of "system" cores used instead of what is reported by \code{\link{availableCores}(which = "system")}. This option allows you to effectively override what \code{parallel::detectCores()} reports the system has.}
+
+\item{\option{parallelly.availableCores.min}:}{(integer) The minimum number of cores \code{\link[=availableCores]{availableCores()}} is allowed to return. This can be used to force multiple cores on a single-core environment. If this is limit is applied, the names of the returned value are appended with an asterisk (\code{*}).  (Default: \code{1L})}
 
 \item{\option{parallelly.availableCores.omit}:}{(integer) Number of cores to set aside, i.e. not to include.}
 
