@@ -64,7 +64,7 @@ Run `revdep_details(, "AIPW")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/AlpsNMR
 * Date/Publication: 2021-10-26
-* Number of recursive dependencies: 167
+* Number of recursive dependencies: 169
 
 Run `revdep_details(, "AlpsNMR")` for more info
 
@@ -108,7 +108,7 @@ Run `revdep_details(, "aroma.core")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/autohd
 * Date/Publication: 2021-05-10 08:02:24 UTC
-* Number of recursive dependencies: 123
+* Number of recursive dependencies: 125
 
 Run `revdep_details(, "autohd")` for more info
 
@@ -474,26 +474,17 @@ Run `revdep_details(, "bootUR")` for more info
 
 <details>
 
-* Version: 2.16.3
+* Version: 2.17.0
 * GitHub: https://github.com/paul-buerkner/brms
 * Source code: https://github.com/cran/brms
-* Date/Publication: 2021-11-22 19:50:02 UTC
-* Number of recursive dependencies: 177
+* Date/Publication: 2022-04-13 14:22:29 UTC
+* Number of recursive dependencies: 178
 
 Run `revdep_details(, "brms")` for more info
 
 </details>
 
 ## In both
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Missing link or links in documentation object 'get_refmodel.brmsfit.Rd':
-      ‘[projpred:get-refmodel]{get_refmodel}’
-      ‘[projpred:get-refmodel]{init_refmodel}’
-    
-    See section 'Cross-references' in the 'Writing R Extensions' manual.
-    ```
 
 *   checking package dependencies ... NOTE
     ```
@@ -502,10 +493,10 @@ Run `revdep_details(, "brms")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.5Mb
+      installed size is  8.7Mb
       sub-directories of 1Mb or more:
-        R     4.1Mb
-        doc   2.4Mb
+        R     4.2Mb
+        doc   3.6Mb
     ```
 
 # cfbfastR
@@ -663,7 +654,7 @@ Run `revdep_details(, "codebook")` for more info
 * GitHub: https://github.com/cbhurley/condvis2
 * Source code: https://github.com/cran/condvis2
 * Date/Publication: 2020-09-25 09:20:09 UTC
-* Number of recursive dependencies: 179
+* Number of recursive dependencies: 181
 
 Run `revdep_details(, "condvis2")` for more info
 
@@ -865,10 +856,10 @@ Run `revdep_details(, "dispositionEffect")` for more info
 
 <details>
 
-* Version: 1.2.0
+* Version: 1.2.1
 * GitHub: https://github.com/sjspielman/dragon
 * Source code: https://github.com/cran/dragon
-* Date/Publication: 2021-07-07 17:30:10 UTC
+* Date/Publication: 2022-04-08 08:42:33 UTC
 * Number of recursive dependencies: 135
 
 Run `revdep_details(, "dragon")` for more info
@@ -876,31 +867,6 @@ Run `revdep_details(, "dragon")` for more info
 </details>
 
 ## In both
-
-*   checking tests ...
-    ```
-      Running ‘testthat.R’
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Complete output:
-      > library(testthat)
-      > library(dragon)
-      > 
-      > test_check("dragon")
-      [ FAIL 1 | WARN 0 | SKIP 3 | PASS 199 ]
-      
-    ...
-      
-      ══ Failed tests ════════════════════════════════════════════════════════════════
-      ── Failure (test_calculate-network-info.R:6:3): fct_calculate_network_info::calculate_modularity() works ──
-      calculate_modularity(true_graph_louvain) not equal to `true_modularity`.
-      1/1 mismatches
-      [1] 0.433 - 0.443 == -0.0103
-      
-      [ FAIL 1 | WARN 0 | SKIP 3 | PASS 199 ]
-      Error: Test failures
-      Execution halted
-    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -1088,13 +1054,13 @@ Run `revdep_details(, "flowGraph")` for more info
     Error(s) in re-building vignettes:
     --- re-building ‘flowGraph.Rmd’ using rmarkdown
     - 8 pops @ layer 1
-    12:32:45-12:32:45 > 16:00:00
+    18:28:56-18:28:56 > 16:00:00
     - 24 pops @ layer 2
-    12:32:45-12:32:45 > 16:00:00
+    18:28:56-18:28:56 > 16:00:00
     - 32 pops @ layer 3
-    12:32:45-12:32:45 > 16:00:00
+    18:28:56-18:28:56 > 16:00:00
     - 16 pops @ layer 4
-    12:32:45-12:32:45 > 16:00:00
+    18:28:56-18:28:56 > 16:00:00
     ...
     Quitting from lines 557-561 (flowGraph.Rmd) 
     Error: processing vignette 'flowGraph.Rmd' failed with diagnostics:
@@ -1285,10 +1251,10 @@ Run `revdep_details(, "googleComputeEngineR")` for more info
 
 <details>
 
-* Version: 0.1.6
+* Version: 0.2.0
 * GitHub: NA
 * Source code: https://github.com/cran/googleTagManageR
-* Date/Publication: 2020-10-05 13:20:10 UTC
+* Date/Publication: 2022-04-16 18:12:29 UTC
 * Number of recursive dependencies: 70
 
 Run `revdep_details(, "googleTagManageR")` for more info
@@ -1300,7 +1266,7 @@ Run `revdep_details(, "googleTagManageR")` for more info
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
-      ‘assertthat’ ‘future’ ‘httr’ ‘jsonlite’
+      ‘assertthat’ ‘future’ ‘httr’
       All declared Imports should be used.
     ```
 
@@ -1855,7 +1821,7 @@ Run `revdep_details(, "lmtp")` for more info
 * GitHub: https://github.com/KechrisLab/MAI
 * Source code: https://github.com/cran/MAI
 * Date/Publication: 2021-10-26
-* Number of recursive dependencies: 162
+* Number of recursive dependencies: 164
 
 Run `revdep_details(, "MAI")` for more info
 
@@ -2065,9 +2031,9 @@ Run `revdep_details(, "MineICA")` for more info
         IQR, mad, sd, var, xtabs
     
     ...
-    Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Peer's Certificate issuer is not recognized.
-    
+    l.23 \usepackage
+                    {subfig}^^M
+    !  ==> Fatal error occurred, no output PDF file produced!
     --- failed re-building ‘MineICA.Rnw’
     
     SUMMARY: processing the following file failed:
@@ -2100,46 +2066,21 @@ Run `revdep_details(, "missSBM")` for more info
         libs   6.5Mb
     ```
 
-# mlr3fselect
+# mlr3hyperband
 
 <details>
 
-* Version: 0.6.1
-* GitHub: https://github.com/mlr-org/mlr3fselect
-* Source code: https://github.com/cran/mlr3fselect
-* Date/Publication: 2022-01-20 16:02:46 UTC
-* Number of recursive dependencies: 53
+* Version: 0.4.0
+* GitHub: https://github.com/mlr-org/mlr3hyperband
+* Source code: https://github.com/cran/mlr3hyperband
+* Date/Publication: 2022-02-10 18:40:02 UTC
+* Number of recursive dependencies: 58
 
-Run `revdep_details(, "mlr3fselect")` for more info
+Run `revdep_details(, "mlr3hyperband")` for more info
 
 </details>
 
 ## In both
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘mlr3fselect-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: AutoFSelector
-    > ### Title: AutoFSelector
-    > ### Aliases: AutoFSelector
-    > 
-    > ### ** Examples
-    > 
-    > library(mlr3)
-    ...
-    > measure = msr("classif.ce")
-    > 
-    > terminator = trm("evals", n_evals = 3)
-    > fselector = fs("exhaustive_search")
-    > afs = AutoFSelector$new(learner, resampling, measure, terminator, fselector,
-    +   store_fselect_instance = TRUE)
-    > 
-    > afs$train(task)
-    Error: 'FSelectorExhaustiveSearch' does not support param types: 'ParamLgl'
-    Execution halted
-    ```
 
 *   checking tests ...
     ```
@@ -2147,21 +2088,62 @@ Run `revdep_details(, "mlr3fselect")` for more info
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 50 lines of output:
-      ── Error (test_extract_inner_fselect_result.R:3:3): extract_inner_fselect_results function works ──
-      Error: 'FSelectorRandomSearch' does not support param types: 'ParamLgl'
+      ── Error (test_TunerHyperband.R:91:3): TunerHyperband errors if not enough parameters are sampled ──
+      Error in `private$.optimize(inst)`: Assertion on 'sampler$param_set$ids()' failed: Must be a set equal to {'x','message_train'}, but is missing elements {'message_train'}.
       Backtrace:
            ▆
-        1. └─mlr3fselect::fselect_nested(...) at test_extract_inner_fselect_result.R:3:2
-        2.   └─mlr3::resample(task, afs, outer_resampling, store_models = TRUE)
+        1. ├─testthat::expect_error(...) at test_TunerHyperband.R:91:2
+        2. │ └─testthat:::expect_condition_matching(...)
     ...
-        5.         ├─future::value(fs)
-        6.         └─future:::value.list(fs)
-        7.           ├─future::resolve(...)
-        8.           └─future:::resolve.list(...)
-        9.             └─future signalConditionsASAP(obj, resignal = FALSE, pos = ii)
-       10.               └─future:::signalConditions(...)
+       15.             │   └─base tryCatchOne(expr, names, parentenv, handlers[[1L]])
+       16.             │     └─base doTryCatch(return(expr), name, parentenv, handler)
+       17.             └─private$.optimize(inst)
+       18.               └─checkmate::assert_set_equal(sampler$param_set$ids(), search_space_sampler$ids())
+       19.                 └─checkmate::makeAssertion(x, res, .var.name, add)
+       20.                   └─checkmate:::mstop(...)
       
-      [ FAIL 13 | WARN 4 | SKIP 8 | PASS 94 ]
+      [ FAIL 4 | WARN 0 | SKIP 0 | PASS 132 ]
+      Error: Test failures
+      Execution halted
+    ```
+
+# mlr3pipelines
+
+<details>
+
+* Version: 0.4.0
+* GitHub: https://github.com/mlr-org/mlr3pipelines
+* Source code: https://github.com/cran/mlr3pipelines
+* Date/Publication: 2021-11-15 12:10:14 UTC
+* Number of recursive dependencies: 171
+
+Run `revdep_details(, "mlr3pipelines")` for more info
+
+</details>
+
+## In both
+
+*   checking tests ...
+    ```
+      Running ‘testthat.R’
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Complete output:
+      > library("checkmate")
+      > library("testthat")
+      > library("mlr3")
+      > library("paradox")
+      > library("mlr3pipelines")
+      > 
+    ...
+        5. │     │ └─base::withCallingHandlers(...)
+        6. │     └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
+        7. └─mlr3pipelines selnme(bh_task)
+        8.   └─checkmate::assert_subset(feature_names, task$feature_names)
+        9.     └─checkmate::makeAssertion(x, res, .var.name, add)
+       10.       └─checkmate:::mstop(...)
+      
+      [ FAIL 1 | WARN 0 | SKIP 78 | PASS 12463 ]
       Error: Test failures
       Execution halted
     ```
@@ -2202,7 +2184,7 @@ Run `revdep_details(, "mlr3proba")` for more info
        21.                     └─private$.simplify_distr(distr)
        22.                       └─mlr3proba:::.__PredictionSurv__.simplify_distr(...)
       
-      [ FAIL 23 | WARN 17 | SKIP 2 | PASS 1725 ]
+      [ FAIL 24 | WARN 17 | SKIP 2 | PASS 1724 ]
       Error: Test failures
       Execution halted
     ```
@@ -2286,7 +2268,7 @@ Run `revdep_details(, "momentuHMM")` for more info
 * GitHub: https://github.com/ModelOriented/EMMA
 * Source code: https://github.com/cran/NADIA
 * Date/Publication: 2021-01-06 15:00:05 UTC
-* Number of recursive dependencies: 161
+* Number of recursive dependencies: 163
 
 Run `revdep_details(, "NADIA")` for more info
 
@@ -2642,7 +2624,7 @@ Run `revdep_details(, "promises")` for more info
 * GitHub: https://github.com/samWieczorek/Prostar
 * Source code: https://github.com/cran/Prostar
 * Date/Publication: 2022-01-23
-* Number of recursive dependencies: 318
+* Number of recursive dependencies: 320
 
 Run `revdep_details(, "Prostar")` for more info
 
@@ -3251,11 +3233,11 @@ Run `revdep_details(, "simhelpers")` for more info
 
 <details>
 
-* Version: 1.0.0
+* Version: 1.1.4
 * GitHub: https://github.com/tylermorganwall/skpr
 * Source code: https://github.com/cran/skpr
-* Date/Publication: 2021-08-17 16:30:18 UTC
-* Number of recursive dependencies: 120
+* Date/Publication: 2022-04-08 19:40:02 UTC
+* Number of recursive dependencies: 125
 
 Run `revdep_details(, "skpr")` for more info
 
@@ -3265,9 +3247,9 @@ Run `revdep_details(, "skpr")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 49.7Mb
+      installed size is 47.8Mb
       sub-directories of 1Mb or more:
-        libs  48.2Mb
+        libs  46.3Mb
     ```
 
 # solitude
@@ -3320,14 +3302,55 @@ Run `revdep_details(, "spacey")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
+# SpaDES.core
+
+<details>
+
+* Version: 1.0.10
+* GitHub: https://github.com/PredictiveEcology/SpaDES.core
+* Source code: https://github.com/cran/SpaDES.core
+* Date/Publication: 2022-01-19 16:22:46 UTC
+* Number of recursive dependencies: 152
+
+Run `revdep_details(, "SpaDES.core")` for more info
+
+</details>
+
+## In both
+
+*   checking tests ...
+    ```
+      Running ‘test-all.R’/software/c4/cbi/software/R-4.1.3-gcc8/lib64/R/bin/BATCH: line 60: 178045 Aborted                 (core dumped) ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
+    
+     ERROR
+    Running the tests in ‘tests/test-all.R’ failed.
+    Last 50 lines of output:
+      2aeb0f223000-2aeb0f224000 rw-p 00005000 00:51 14904115739124963607       /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/fastmatch/libs/fastmatch.so
+      2aeb0f224000-2aeb0f243000 r-xp 00000000 00:51 1694581867248469962        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/SpaDES.tools/libs/SpaDES.tools.so
+      2aeb0f243000-2aeb0f443000 ---p 0001f000 00:51 1694581867248469962        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/SpaDES.tools/libs/SpaDES.tools.so
+      2aeb0f443000-2aeb0f444000 r--p 0001f000 00:51 1694581867248469962        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/SpaDES.tools/libs/SpaDES.tools.so
+      2aeb0f444000-2aeb0f445000 rw-p 00020000 00:51 1694581867248469962        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/SpaDES.tools/libs/SpaDES.tools.so
+    ...
+      2aeb11e5b000-2aeb1205b000 rw-p 00000000 00:00 0 
+      2aeb1205b000-2aeb1205c000 ---p 00000000 00:00 0 
+      2aeb1205c000-2aeb1225c000 rw-p 00000000 00:00 0 
+      2aeb1225c000-2aeb1225e000 r-xp 00000000 00:51 10083358983309695917       /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/xfun/libs/xfun.so
+      2aeb1225e000-2aeb1245d000 ---p 00002000 00:51 10083358983309695917       /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/xfun/libs/xfun.so
+      2aeb1245d000-2aeb1245e000 r--p 00001000 00:51 10083358983309695917       /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/xfun/libs/xfun.so
+      2aeb1245e000-2aeb1245f000 rw-p 00002000 00:51 10083358983309695917       /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/xfun/libs/xfun.so
+      7fffa194b000-7fffa1ab0000 rw-p 00000000 00:00 0                          [stack]
+      7fffa1ab4000-7fffa1ab6000 r-xp 00000000 00:00 0                          [vdso]
+      ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+    ```
+
 # spaMM
 
 <details>
 
-* Version: 3.11.3
+* Version: 3.11.14
 * GitHub: NA
 * Source code: https://github.com/cran/spaMM
-* Date/Publication: 2022-03-23 22:40:02 UTC
+* Date/Publication: 2022-04-09 23:30:02 UTC
 * Number of recursive dependencies: 100
 
 Run `revdep_details(, "spaMM")` for more info
@@ -3344,7 +3367,7 @@ Run `revdep_details(, "spaMM")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 46.8Mb
+      installed size is 46.9Mb
       sub-directories of 1Mb or more:
         R      2.2Mb
         libs  43.6Mb
@@ -3482,11 +3505,11 @@ Run `revdep_details(, "sphunif")` for more info
 
 <details>
 
-* Version: 0.2.1
+* Version: 0.4.3
 * GitHub: https://github.com/JeremyGelb/spNetwork
 * Source code: https://github.com/cran/spNetwork
-* Date/Publication: 2021-10-30 09:50:02 UTC
-* Number of recursive dependencies: 151
+* Date/Publication: 2022-04-21 12:40:02 UTC
+* Number of recursive dependencies: 148
 
 Run `revdep_details(, "spNetwork")` for more info
 
@@ -3494,23 +3517,48 @@ Run `revdep_details(, "spNetwork")` for more info
 
 ## In both
 
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error(s) in re-building vignettes:
+    --- re-building ‘Isochrones.Rmd’ using rmarkdown
+    Linking to GEOS 3.9.1, GDAL 2.4.4, PROJ 4.9.3; sf_use_s2() is TRUE
+    
+    Attaching package: 'smoothr'
+    
+    The following object is masked from 'package:stats':
+    
+        smooth
+    
+    ...
+    
+    --- re-building ‘TNKDE.Rmd’ using rmarkdown
+    Linking to GEOS 3.9.1, GDAL 2.4.4, PROJ 4.9.3; sf_use_s2() is TRUE
+    --- finished re-building ‘TNKDE.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘NKDE.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
 *   checking installed package size ... NOTE
     ```
-      installed size is 22.1Mb
+      installed size is 21.0Mb
       sub-directories of 1Mb or more:
-        doc       1.9Mb
-        extdata   4.1Mb
-        libs     15.5Mb
+        doc       1.0Mb
+        extdata   5.6Mb
+        libs     13.5Mb
     ```
 
 # ssdtools
 
 <details>
 
-* Version: 1.0.0
+* Version: 1.0.1
 * GitHub: https://github.com/bcgov/ssdtools
 * Source code: https://github.com/cran/ssdtools
-* Date/Publication: 2022-04-01 07:10:02 UTC
+* Date/Publication: 2022-04-10 21:40:02 UTC
 * Number of recursive dependencies: 141
 
 Run `revdep_details(, "ssdtools")` for more info
@@ -3525,12 +3573,6 @@ Run `revdep_details(, "ssdtools")` for more info
       sub-directories of 1Mb or more:
         doc    1.2Mb
         libs  15.1Mb
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘ssddata’
-      All declared Imports should be used.
     ```
 
 # stars
@@ -3846,10 +3888,10 @@ Run `revdep_details(, "txshift")` for more info
 
 <details>
 
-* Version: 1.1.5
+* Version: 1.1.7
 * GitHub: https://github.com/openbiox/UCSCXenaShiny
 * Source code: https://github.com/cran/UCSCXenaShiny
-* Date/Publication: 2022-01-15 11:32:42 UTC
+* Date/Publication: 2022-04-13 07:52:38 UTC
 * Number of recursive dependencies: 187
 
 Run `revdep_details(, "UCSCXenaShiny")` for more info
@@ -3860,9 +3902,9 @@ Run `revdep_details(, "UCSCXenaShiny")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.8Mb
+      installed size is  6.0Mb
       sub-directories of 1Mb or more:
-        doc        1.5Mb
+        doc        1.1Mb
         shinyapp   3.3Mb
     ```
 
