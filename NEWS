@@ -1,6 +1,19 @@
 Package: parallelly
 ===================
 
+Version: 1.31.1 [2022-04-21]
+
+BUG FIXES:
+
+ * Changes to option 'parallelly.availableCores.system' would be
+   ignored if done after the first call to availableCores().
+
+ * availableCores() with option 'parallelly.availableCores.system' set
+   to less that parallel::detectCores() would produce a warning, e.g.
+   "[INTERNAL]: Will ignore the cgroups CPU set, because it contains
+   one or more CPU indices that is out of range [0,0]: 0-7".
+ 
+
 Version: 1.31.0 [2022-04-07]
 
 SIGNIFICANT CHANGES:
@@ -8,7 +21,7 @@ SIGNIFICANT CHANGES:
  * Changed the default for argument default of freePort() to "random",
    which used to be "first".  The main reason for this is to make sure
    the default behavior is to return a random port also on R (< 4.0.0)
-   where we cannot get whether or not a port is available.
+   where we cannot test whether or not a port is available.
 
 NEW FEATURES:
 
@@ -21,7 +34,7 @@ NEW FEATURES:
    with Linux containers, e.g. 'docker run --cpus=3.5 ...'
 
  * In addition to cgroups CPU quotas, availableCores() also queries
-   cgroups for possible a CPU affinity, which is available in field
+   cgroups for a possible CPU affinity, which is available in field
    'cpuset.set'. This should give the same result as what the already
    existing 'nproc' method gives. However, not all systems have the
    'nproc' tool installed, in which case this new approach should

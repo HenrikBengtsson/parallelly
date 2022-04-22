@@ -41,6 +41,8 @@
 #' 
 #'  \item{\option{parallelly.availableCores.system}:}{(integer) Number of "system" cores used instead of what is reported by \code{\link{availableCores}(which = "system")}. This option allows you to effectively override what `parallel::detectCores()` reports the system has.}
 #'
+#'  \item{\option{parallelly.availableCores.min}:}{(integer) The minimum number of cores [availableCores()] is allowed to return. This can be used to force multiple cores on a single-core environment. If this is limit is applied, the names of the returned value are appended with an asterisk (`*`).  (Default: `1L`)}
+#'
 #'  \item{\option{parallelly.availableCores.omit}:}{(integer) Number of cores to set aside, i.e. not to include.}
 #'
 #'  \item{\option{parallelly.availableWorkers.methods}:}{(character vector) Default lookup methods for [availableWorkers()]. (Default: `c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")`)}
@@ -118,6 +120,7 @@
 #'
 #' parallelly.availableCores.custom
 #' parallelly.availableCores.methods
+#' parallelly.availableCores.min
 #' parallelly.availableCores.fallback
 #' parallelly.availableCores.omit
 #' parallelly.availableCores.system
@@ -128,6 +131,7 @@
 #' R_PARALLELLY_AVAILABLECORES_FALLBACK
 #' R_PARALLELLY_AVAILABLECORES_OMIT
 #' R_PARALLELLY_AVAILABLECORES_SYSTEM
+#' R_PARALLELLY_AVAILABLECORES_MIN
 #' R_PARALLELLY_FORK_ENABLE
 #' R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE
 #'
@@ -284,6 +288,7 @@ update_package_option <- function(name, mode = "character", default = NULL, pack
 update_package_options <- function(debug = FALSE) {
   update_package_option("availableCores.methods", mode = "character", split = ",", debug = debug)
   update_package_option("availableCores.fallback", mode = "integer", disallow = NULL, debug = debug)
+  update_package_option("availableCores.min", mode = "integer", disallow = "NA", debug = debug)
   update_package_option("availableCores.system", mode = "integer", disallow = NULL, debug = debug)
   update_package_option("availableCores.logical", mode = "logical", debug = debug)
   update_package_option("availableCores.omit", mode = "integer", debug = debug)

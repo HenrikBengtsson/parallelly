@@ -56,7 +56,6 @@
 #' @example incl/makeClusterPSOCK.R
 #'
 #' @importFrom parallel stopCluster
-#' @importFrom utils packageVersion
 #' @export
 makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOption2("parallelly.makeNodePSOCK.tries", 3L), delay = getOption2("parallelly.makeNodePSOCK.tries.delay", 15.0), validate = getOption2("parallelly.makeNodePSOCK.validate", TRUE), verbose = getOption2("parallelly.debug", FALSE)) {
   localhostHostname <- getOption2("parallelly.localhost.hostname", "localhost")
