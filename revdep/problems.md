@@ -1054,13 +1054,13 @@ Run `revdep_details(, "flowGraph")` for more info
     Error(s) in re-building vignettes:
     --- re-building ‘flowGraph.Rmd’ using rmarkdown
     - 8 pops @ layer 1
-    18:28:56-18:28:56 > 16:00:00
+    22:58:25-22:58:25 > 16:00:00
     - 24 pops @ layer 2
-    18:28:56-18:28:56 > 16:00:00
+    22:58:25-22:58:25 > 16:00:00
     - 32 pops @ layer 3
-    18:28:56-18:28:56 > 16:00:00
+    22:58:25-22:58:25 > 16:00:00
     - 16 pops @ layer 4
-    18:28:56-18:28:56 > 16:00:00
+    22:58:25-22:58:25 > 16:00:00
     ...
     Quitting from lines 557-561 (flowGraph.Rmd) 
     Error: processing vignette 'flowGraph.Rmd' failed with diagnostics:
@@ -3320,26 +3320,26 @@ Run `revdep_details(, "SpaDES.core")` for more info
 
 *   checking tests ...
     ```
-      Running ‘test-all.R’/software/c4/cbi/software/R-4.1.3-gcc8/lib64/R/bin/BATCH: line 60: 178045 Aborted                 (core dumped) ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
+      Running ‘test-all.R’/software/c4/cbi/software/R-4.1.3-gcc8/lib64/R/bin/BATCH: line 60: 193167 Aborted                 (core dumped) ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
     
      ERROR
     Running the tests in ‘tests/test-all.R’ failed.
     Last 50 lines of output:
-      2aeb0f223000-2aeb0f224000 rw-p 00005000 00:51 14904115739124963607       /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/fastmatch/libs/fastmatch.so
-      2aeb0f224000-2aeb0f243000 r-xp 00000000 00:51 1694581867248469962        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/SpaDES.tools/libs/SpaDES.tools.so
-      2aeb0f243000-2aeb0f443000 ---p 0001f000 00:51 1694581867248469962        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/SpaDES.tools/libs/SpaDES.tools.so
-      2aeb0f443000-2aeb0f444000 r--p 0001f000 00:51 1694581867248469962        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/SpaDES.tools/libs/SpaDES.tools.so
-      2aeb0f444000-2aeb0f445000 rw-p 00020000 00:51 1694581867248469962        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/SpaDES.tools/libs/SpaDES.tools.so
+      2ba40786c000-2ba40786d000 rw-p 00005000 00:51 4442830567488610558        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/fastmatch/libs/fastmatch.so
+      2ba40786d000-2ba40788c000 r-xp 00000000 00:51 5625168141725479072        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/SpaDES.tools/libs/SpaDES.tools.so
+      2ba40788c000-2ba407a8c000 ---p 0001f000 00:51 5625168141725479072        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/SpaDES.tools/libs/SpaDES.tools.so
+      2ba407a8c000-2ba407a8d000 r--p 0001f000 00:51 5625168141725479072        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/SpaDES.tools/libs/SpaDES.tools.so
+      2ba407a8d000-2ba407a8e000 rw-p 00020000 00:51 5625168141725479072        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/SpaDES.tools/libs/SpaDES.tools.so
     ...
-      2aeb11e5b000-2aeb1205b000 rw-p 00000000 00:00 0 
-      2aeb1205b000-2aeb1205c000 ---p 00000000 00:00 0 
-      2aeb1205c000-2aeb1225c000 rw-p 00000000 00:00 0 
-      2aeb1225c000-2aeb1225e000 r-xp 00000000 00:51 10083358983309695917       /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/xfun/libs/xfun.so
-      2aeb1225e000-2aeb1245d000 ---p 00002000 00:51 10083358983309695917       /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/xfun/libs/xfun.so
-      2aeb1245d000-2aeb1245e000 r--p 00001000 00:51 10083358983309695917       /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/xfun/libs/xfun.so
-      2aeb1245e000-2aeb1245f000 rw-p 00002000 00:51 10083358983309695917       /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/xfun/libs/xfun.so
-      7fffa194b000-7fffa1ab0000 rw-p 00000000 00:00 0                          [stack]
-      7fffa1ab4000-7fffa1ab6000 r-xp 00000000 00:00 0                          [vdso]
+      2ba40a4a4000-2ba40a6a4000 rw-p 00000000 00:00 0 
+      2ba40a6a4000-2ba40a6a5000 ---p 00000000 00:00 0 
+      2ba40a6a5000-2ba40a8a5000 rw-p 00000000 00:00 0 
+      2ba40a8a5000-2ba40a8a7000 r-xp 00000000 00:51 7029834161001189632        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/xfun/libs/xfun.so
+      2ba40a8a7000-2ba40aaa6000 ---p 00002000 00:51 7029834161001189632        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/xfun/libs/xfun.so
+      2ba40aaa6000-2ba40aaa7000 r--p 00001000 00:51 7029834161001189632        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/xfun/libs/xfun.so
+      2ba40aaa7000-2ba40aaa8000 rw-p 00002000 00:51 7029834161001189632        /c4/home/henrik/repositories/parallelly/revdep/library/SpaDES.core/xfun/libs/xfun.so
+      7ffc9ec25000-7ffc9ed8a000 rw-p 00000000 00:00 0                          [stack]
+      7ffc9edea000-7ffc9edec000 r-xp 00000000 00:00 0                          [vdso]
       ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
     ```
 
