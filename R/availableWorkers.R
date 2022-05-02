@@ -55,7 +55,7 @@
 #'    if it is smaller, then that is used for all nodes.
 #'    For example, if `SLURM_NODELIST="n1,n[03-05]"` (expands to
 #'    `c("n1", "n03", "n04", "n05")`) and `SLURM_JOB_CPUS_PER_NODE="2(x2),3,2"`
-#'    (expands to `c(2, 2, 3, 2, 2)`), then
+#'    (expands to `c(2, 2, 3, 2)`), then
 #'    `c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05", "n05")` is
 #'    returned.  If in addition, `SLURM_CPUS_PER_TASK=1`, which can happen
 #'    depending on hyperthreading configurations on the Slurm cluster, then 

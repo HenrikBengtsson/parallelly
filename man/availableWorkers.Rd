@@ -74,7 +74,7 @@ is set, which is always a scalar, then that is respected too, i.e.
 if it is smaller, then that is used for all nodes.
 For example, if \code{SLURM_NODELIST="n1,n[03-05]"} (expands to
 \code{c("n1", "n03", "n04", "n05")}) and \code{SLURM_JOB_CPUS_PER_NODE="2(x2),3,2"}
-(expands to \code{c(2, 2, 3, 2, 2)}), then
+(expands to \code{c(2, 2, 3, 2)}), then
 \code{c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05", "n05")} is
 returned.  If in addition, \code{SLURM_CPUS_PER_TASK=1}, which can happen
 depending on hyperthreading configurations on the Slurm cluster, then
