@@ -867,7 +867,7 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
                  sprintf("\n  %s\n", rsh_call))
         msg <- c(msg, sprintf("and (ii) start worker #%s from there:", rank),
                  sprintf("\n  %s\n", cmd))
-        msg <- c(msg, sprintf("Alternatively, start worker #%s from the local machine by combining both step in a single call:", rank),
+        msg <- c(msg, sprintf("Alternatively, start worker #%s from the local machine by combining both steps in a single call:", rank),
                  sprintf("\n  %s\n", local_cmd))
       }
       msg <- paste(c(msg, ""), collapse = "\n")
