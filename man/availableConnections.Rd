@@ -26,7 +26,9 @@ output via text connections.
 \section{How to increase the limit}{
 
 This limit of 128 connections can only be changed by rebuilding \R from
-source.  The limited is hardcoded as a\if{html}{\out{<div class="sourceCode c">}}\preformatted{#define NCONNECTIONS 128
+source.  The limited is hardcoded as a
+
+\if{html}{\out{<div class="sourceCode c">}}\preformatted{#define NCONNECTIONS 128
 }\if{html}{\out{</div>}}
 
 in \file{src/main/connections.c}.
