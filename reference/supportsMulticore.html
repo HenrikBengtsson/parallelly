@@ -35,7 +35,7 @@ is supported in the current R session."><meta property="og:image" content="https
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9002</span>
       </span>
     </div>
 
@@ -135,7 +135,7 @@ is supported in the current R session."><meta property="og:image" content="https
     <div class="ref-description">
     <p>Certain parallelization methods in R rely on <em>forked</em> processing, e.g.
 <code><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">parallel::mclapply()</a></code>, <code>parallel::makeCluster(n, type = "FORK")</code>,
-<code>doMC::registerDoMC()</code>, and <code>future::plan("multicore")</code>.
+<code><a href="https://rdrr.io/pkg/doMC/man/registerDoMC.html" class="external-link">doMC::registerDoMC()</a></code>, and <code>future::plan("multicore")</code>.
 Process forking is done by the operating system and support for it in
 <span style="R">R</span> is restricted to Unix-like operating systems such as Linux, Solaris,
 and macOS.  R running on Microsoft Windows does not support forked
@@ -211,8 +211,7 @@ of these to <code>TRUE</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
 </div>
 
       </footer></div>

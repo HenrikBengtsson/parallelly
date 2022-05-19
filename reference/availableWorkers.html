@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9002</span>
       </span>
     </div>
 
@@ -191,7 +191,7 @@ is set, which is always a scalar, then that is respected too, i.e.
 if it is smaller, then that is used for all nodes.
 For example, if <code>SLURM_NODELIST="n1,n[03-05]"</code> (expands to
 <code>c("n1", "n03", "n04", "n05")</code>) and <code>SLURM_JOB_CPUS_PER_NODE="2(x2),3,2"</code>
-(expands to <code>c(2, 2, 3, 2, 2)</code>), then
+(expands to <code>c(2, 2, 3, 2)</code>), then
 <code>c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05", "n05")</code> is
 returned.  If in addition, <code>SLURM_CPUS_PER_TASK=1</code>, which can happen
 depending on hyperthreading configurations on the Slurm cluster, then
@@ -258,8 +258,7 @@ see <code><a href="availableCores.html">availableCores()</a></code>.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
-2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
 </div>
 
       </footer></div>
