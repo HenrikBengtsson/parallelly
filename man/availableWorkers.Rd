@@ -97,7 +97,7 @@ One known limitation is that "multi-dimensional" ranges are not supported,
 e.g. \code{"a[1-2]b[3-4]"} is expanded by \command{scontrol} to
 \code{c("a1b3", "a1b4", "a2b3", "a2b4")}.  If \command{scontrol} is not
 available, then any components that failed to be parsed are dropped with
-an informative warning message.  If no compents could be parsed, then
+an informative warning message.  If no components could be parsed, then
 the result of \code{methods = "Slurm"} will be empty.
 }
 

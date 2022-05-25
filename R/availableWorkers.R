@@ -77,7 +77,7 @@
 #' e.g. `"a[1-2]b[3-4]"` is expanded by \command{scontrol} to
 #' `c("a1b3", "a1b4", "a2b3", "a2b4")`.  If \command{scontrol} is not
 #' available, then any components that failed to be parsed are dropped with
-#' an informative warning message.  If no compents could be parsed, then
+#' an informative warning message.  If no components could be parsed, then
 #' the result of `methods = "Slurm"` will be empty.
 #'
 #' @examples
