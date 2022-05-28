@@ -3,16 +3,17 @@
 ## New Features
 
  * `availableCores()` and `availableWorkers()` gained support for the
-   'Fujitsu Technical Computing Suite' job scheduler.  Specifically, they
-   acknowledges environment variables `PJM_VNODE_CORE`, `PJM_PROC_BY_NODE`,
-   and `PJM_O_NODEINF`.
+   'Fujitsu Technical Computing Suite' job scheduler.  Specifically,
+   they acknowledges environment variables `PJM_VNODE_CORE`,
+   `PJM_PROC_BY_NODE`, and `PJM_O_NODEINF`.
 
 ## Bug Fixes
 
- * ``makeClusterPSOCK()`` failed with "Error: node\$session_info\$process\$pid
-   == pid is not TRUE" on some locales.
+ * ``makeClusterPSOCK()`` failed with "Error:
+   node\$session_info\$process\$pid == pid is not TRUE" on some
+   locales.
 
- * Some warnings and errors produced showed the wrong call.
+ * Some warnings and errors showed the wrong call.
 
 
 # Version 1.31.1 [2022-04-21]
