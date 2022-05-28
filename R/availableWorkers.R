@@ -61,6 +61,12 @@
 #'    depending on hyperthreading configurations on the Slurm cluster, then 
 #'    `c("n1", "n03", "n04", "n05")` is returned.
 #'
+#'  \item `"PJM"` - 
+#'    Query Fujitsu Technical Computing Suite (that we choose to shorten
+#'    as "PJM") the hostname file given by environment variable
+#'    \env{PJM_O_NODEINF}.
+#'    This set when submitted with `pjsub -L vnode=2 -L vnode-core=8 hello.sh`.
+#'
 #'  \item `"custom"` -
 #'    If option \option{parallelly.availableWorkers.custom} is set and a function,
 #'    then this function will be called (without arguments) and it's value
@@ -105,7 +111,7 @@
 #'
 #' @importFrom utils file_test
 #' @export
-availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = getOption2("parallelly.localhost.hostname", "localhost"), which = c("auto", "min", "max", "all")) {
+availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "PJM", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = getOption2("parallelly.localhost.hostname", "localhost"), which = c("auto", "min", "max", "all")) {
   ## Local functions
   getenv <- function(name) {
     as.character(trim(getEnvVar2(name, default = NA_character_)))
@@ -235,6 +241,25 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
       data <- getenv("LSB_HOSTS")
       if (is.na(data)) next
       w <- split(data)
+    } else if (method == "PJM") {
+      pathname <- getenv("PJM_O_NODEINF")
+      if (is.na(pathname)) next
+      if (!file_test("-f", pathname)) {
+        warnf("Environment variable %s was set but no such file %s exists", sQuote("PJM_O_NODEINF"), sQuote(pathname))
+        next
+      }
+      data <- read_pjm_nodefile(pathname, sort = FALSE)
+      ## This will query PJM for the number of cores per worker, which we
+      ## assume is the same for all workers, because I don't think it can
+      ## be different across workers, but not 100% sure.  If for some 
+      ## reason availableCores() don't find a PJM environment variable of
+      ## interest, it'll fall back to the default (=1).  If so, we give
+      ## an informative warning with troubleshooting info. /HB 2022-05-28
+      cores_per_worker <- availableCores(methods = method)
+      if (!grepl("PJM", names(cores_per_worker))) {
+        warnf("Inferred parallel workers from the hostname file given by environment variable %s, but could not find a corresponding 'PJM_*' environment variable for inferring the number of cores per worker: %s", sQuote("PJM_O_NODEINF"), paste(sQuote(grep("^PJM_", names(Sys.getenv()), value = TRUE)), collapse = ", "))
+      }
+      w <- rep(data$node, each = cores_per_worker)
     } else if (method == "custom") {
       fcn <- getOption2("parallelly.availableWorkers.custom", NULL)
       if (!is.function(fcn)) next
@@ -332,6 +357,12 @@ read_pbs_nodefile <- function(pathname, sort = TRUE) {
   }
 
   data
+}
+
+
+#' @importFrom utils read.table
+read_pjm_nodefile <- function(pathname, sort = TRUE) {
+  read_pbs_nodefile(pathname, sort = sort)
 }
 
 

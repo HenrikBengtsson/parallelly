@@ -6,8 +6,8 @@
 \usage{
 availableWorkers(
   methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores",
-    "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom",
-    "system", "fallback")),
+    "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "PJM",
+    "custom", "system", "fallback")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = getOption2("parallelly.localhost.hostname", "localhost"),
@@ -79,6 +79,12 @@ For example, if \code{SLURM_NODELIST="n1,n[03-05]"} (expands to
 returned.  If in addition, \code{SLURM_CPUS_PER_TASK=1}, which can happen
 depending on hyperthreading configurations on the Slurm cluster, then
 \code{c("n1", "n03", "n04", "n05")} is returned.
+
+\item \code{"PJM"} -
+Query Fujitsu Technical Computing Suite (that we choose to shorten
+as "PJM") the hostname file given by environment variable
+\env{PJM_O_NODEINF}.
+This set when submitted with \verb{pjsub -L vnode=2 -L vnode-core=8 hello.sh}.
 
 \item \code{"custom"} -
 If option \option{parallelly.availableWorkers.custom} is set and a function,
