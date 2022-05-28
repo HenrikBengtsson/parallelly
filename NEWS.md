@@ -12,6 +12,8 @@
  * ``makeClusterPSOCK()`` failed with "Error: node\$session_info\$process\$pid
    == pid is not TRUE" on some locales.
 
+ * Some warnings and errors produced showed the wrong call.
+
 
 # Version 1.31.1 [2022-04-21]
 
