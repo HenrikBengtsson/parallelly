@@ -6,7 +6,7 @@
 \usage{
 availableWorkers(
   methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores",
-    "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "PJM",
+    "BiocParallel", "_R_CHECK_LIMIT_CORES_", "LSF", "PJM", "PBS", "SGE", "Slurm",
     "custom", "system", "fallback")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
@@ -45,13 +45,22 @@ current machine that \code{\link[=availableCores]{availableCores()}} allows for 
 
 In addition, the following settings ("methods") are also acknowledged:
 \itemize{
+\item \code{"LSF"} -
+Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
+
+\item \code{"PJM"} -
+Query Fujitsu Technical Computing Suite (that we choose to shorten
+as "PJM") the hostname file given by environment variable
+\env{PJM_O_NODEINF}.
+This set when submitted with \verb{pjsub -L vnode=2 -L vnode-core=8 hello.sh}.
+
 \item \code{"PBS"} -
 Query TORQUE/PBS environment variable \env{PBS_NODEFILE}.
 If this is set and specifies an existing file, then the set
 of workers is read from that file, where one worker (node)
 is given per line.
 An example of a job submission that results in this is
-\verb{qsub -l nodes = 4:ppn = 2}, which requests four nodes each
+\verb{qsub -l nodes=4:ppn=2}, which requests four nodes each
 with two cores.
 
 \item \code{"SGE"} -
@@ -60,9 +69,6 @@ Query Sun/Oracle Grid Engine (SGE) environment variable
 An example of a job submission that results in this is
 \verb{qsub -pe mpi 8} (or \verb{qsub -pe ompi 8}), which
 requests eight cores on a any number of machines.
-
-\item \code{"LSF"} -
-Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
 
 \item \code{"Slurm"} -
 Query Slurm environment variable \env{SLURM_JOB_NODELIST} (fallback
@@ -79,12 +85,6 @@ For example, if \code{SLURM_NODELIST="n1,n[03-05]"} (expands to
 returned.  If in addition, \code{SLURM_CPUS_PER_TASK=1}, which can happen
 depending on hyperthreading configurations on the Slurm cluster, then
 \code{c("n1", "n03", "n04", "n05")} is returned.
-
-\item \code{"PJM"} -
-Query Fujitsu Technical Computing Suite (that we choose to shorten
-as "PJM") the hostname file given by environment variable
-\env{PJM_O_NODEINF}.
-This set when submitted with \verb{pjsub -L vnode=2 -L vnode-core=8 hello.sh}.
 
 \item \code{"custom"} -
 If option \option{parallelly.availableWorkers.custom} is set and a function,
