@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9005</span>
       </span>
     </div>
 
@@ -127,8 +127,8 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">availableWorkers</span><span class="op">(</span>
   methods <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.availableWorkers.methods"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mc.cores"</span>,
-    <span class="st">"BiocParallel"</span>, <span class="st">"_R_CHECK_LIMIT_CORES_"</span>, <span class="st">"PBS"</span>, <span class="st">"SGE"</span>, <span class="st">"Slurm"</span>, <span class="st">"LSF"</span>, <span class="st">"custom"</span>,
-    <span class="st">"system"</span>, <span class="st">"fallback"</span><span class="op">)</span><span class="op">)</span>,
+    <span class="st">"BiocParallel"</span>, <span class="st">"_R_CHECK_LIMIT_CORES_"</span>, <span class="st">"LSF"</span>, <span class="st">"PJM"</span>, <span class="st">"PBS"</span>, <span class="st">"SGE"</span>, <span class="st">"Slurm"</span>,
+    <span class="st">"custom"</span>, <span class="st">"system"</span>, <span class="st">"fallback"</span><span class="op">)</span><span class="op">)</span>,
   na.rm <span class="op">=</span> <span class="cn">TRUE</span>,
   logical <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.availableCores.logical"</span>, <span class="cn">TRUE</span><span class="op">)</span>,
   default <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.localhost.hostname"</span>, <span class="st">"localhost"</span><span class="op">)</span>,
@@ -165,13 +165,20 @@ of names of machines / compute nodes, but may also be IP numbers.</p>
 <code>rep("localhost", times = availableCores(methods = method, logical = logical))</code>,
 which means that each will at least use as many parallel workers on the
 current machine that <code><a href="availableCores.html">availableCores()</a></code> allows for that method.</p>
-<p>In addition, the following settings ("methods") are also acknowledged:</p><ul><li><p><code>"PBS"</code> -
+<p>In addition, the following settings ("methods") are also acknowledged:</p><ul><li><p><code>"LSF"</code> -
+Query LSF/OpenLava environment variable <code class="env">LSB_HOSTS</code>.</p></li>
+<li><p><code>"PJM"</code> -
+Query Fujitsu Technical Computing Suite (that we choose to shorten
+as "PJM") the hostname file given by environment variable
+<code class="env">PJM_O_NODEINF</code>.
+This set when submitted with <code>pjsub -L vnode=2 -L vnode-core=8 hello.sh</code>.</p></li>
+<li><p><code>"PBS"</code> -
 Query TORQUE/PBS environment variable <code class="env">PBS_NODEFILE</code>.
 If this is set and specifies an existing file, then the set
 of workers is read from that file, where one worker (node)
 is given per line.
 An example of a job submission that results in this is
-<code>qsub -l nodes = 4:ppn = 2</code>, which requests four nodes each
+<code>qsub -l nodes=4:ppn=2</code>, which requests four nodes each
 with two cores.</p></li>
 <li><p><code>"SGE"</code> -
 Query Sun/Oracle Grid Engine (SGE) environment variable
@@ -179,8 +186,6 @@ Query Sun/Oracle Grid Engine (SGE) environment variable
 An example of a job submission that results in this is
 <code>qsub -pe mpi 8</code> (or <code>qsub -pe ompi 8</code>), which
 requests eight cores on a any number of machines.</p></li>
-<li><p><code>"LSF"</code> -
-Query LSF/OpenLava environment variable <code class="env">LSB_HOSTS</code>.</p></li>
 <li><p><code>"Slurm"</code> -
 Query Slurm environment variable <code class="env">SLURM_JOB_NODELIST</code> (fallback
 to legacy <code class="env">SLURM_NODELIST</code>) and parse set of nodes.
@@ -214,7 +219,7 @@ One known limitation is that "multi-dimensional" ranges are not supported,
 e.g. <code>"a[1-2]b[3-4]"</code> is expanded by <code class="command">scontrol</code> to
 <code>c("a1b3", "a1b4", "a2b3", "a2b4")</code>.  If <code class="command">scontrol</code> is not
 available, then any components that failed to be parsed are dropped with
-an informative warning message.  If no compents could be parsed, then
+an informative warning message.  If no components could be parsed, then
 the result of <code>methods = "Slurm"</code> will be empty.</p>
     </div>
     <div id="see-also">

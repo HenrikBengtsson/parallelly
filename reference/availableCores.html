@@ -24,7 +24,7 @@ number of cores available is always at least one."><meta property="og:image" con
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9005</span>
       </span>
     </div>
 
@@ -131,7 +131,7 @@ number of cores available is always at least one.</p>
   constraints <span class="op">=</span> <span class="cn">NULL</span>,
   methods <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.availableCores.methods"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"system"</span>,
     <span class="st">"cgroups.cpuset"</span>, <span class="st">"cgroups.cpuquota"</span>, <span class="st">"nproc"</span>, <span class="st">"mc.cores"</span>, <span class="st">"BiocParallel"</span>,
-    <span class="st">"_R_CHECK_LIMIT_CORES_"</span>, <span class="st">"PBS"</span>, <span class="st">"SGE"</span>, <span class="st">"Slurm"</span>, <span class="st">"LSF"</span>, <span class="st">"fallback"</span>, <span class="st">"custom"</span><span class="op">)</span><span class="op">)</span>,
+    <span class="st">"_R_CHECK_LIMIT_CORES_"</span>, <span class="st">"LSF"</span>, <span class="st">"PJM"</span>, <span class="st">"PBS"</span>, <span class="st">"SGE"</span>, <span class="st">"Slurm"</span>, <span class="st">"fallback"</span>, <span class="st">"custom"</span><span class="op">)</span><span class="op">)</span>,
   na.rm <span class="op">=</span> <span class="cn">TRUE</span>,
   logical <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.availableCores.logical"</span>, <span class="cn">TRUE</span><span class="op">)</span>,
   default <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>current <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>,
@@ -206,6 +206,16 @@ which is defined and used by <strong>BiocParallel</strong> (&gt;= 1.27.2), and
 <code class="env">BBS_HOME</code> (logical) used by the Bioconductor Build System. If the
 former is set, this is the number of cores considered.  If the latter
 is set, then a maximum of 4 cores is considered.</p></li>
+<li><p><code>"LSF"</code> -
+Query Platform Load Sharing Facility (LSF) environment variable
+<code class="env">LSB_DJOB_NUMPROC</code>.
+Jobs with multiple (CPU) slots can be submitted on LSF using
+<code>bsub -n 2 -R "span[hosts=1]" &lt; hello.sh</code>.</p></li>
+<li><p><code>"PJM"</code> -
+Query Fujitsu Technical Computing Suite (that we choose to shorten
+as "PJM") environment variables <code class="env">PJM_VNODE_CORE</code> and
+<code class="env">PJM_PROC_BY_NODE</code>.
+The first is set when submitted with <code>pjsub -L vnode-core=8 hello.sh</code>.</p></li>
 <li><p><code>"PBS"</code> -
 Query TORQUE/PBS environment variables <code class="env">PBS_NUM_PPN</code> and <code class="env">NCPUS</code>.
 Depending on PBS system configuration, these <em>resource</em>
@@ -227,11 +237,6 @@ e.g. <code>sbatch --cpus-per-task=2 hello.sh</code> or by adding
 If <code class="env">SLURM_CPUS_PER_TASK</code> is not set, then it will fall back to
 use <code class="env">SLURM_CPUS_ON_NODE</code> if the job is a single-node job
 (<code class="env">SLURM_JOB_NUM_NODES</code> is 1), e.g. <code>sbatch --ntasks=2 hello.sh</code>.</p></li>
-<li><p><code>"LSF"</code> -
-Query Platform Load Sharing Facility (LSF) environment variable
-<code class="env">LSB_DJOB_NUMPROC</code>.
-Jobs with multiple (CPU) slots can be submitted on LSF using
-<code>bsub -n 2 -R "span[hosts=1]" &lt; hello.sh</code>.</p></li>
 <li><p><code>"custom"</code> -
 If option <span class="option">parallelly.availableCores.custom</span> is set and a function,
 then this function will be called (without arguments) and it's value
