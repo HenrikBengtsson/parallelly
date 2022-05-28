@@ -91,6 +91,11 @@
 #'    \env{LSB_DJOB_NUMPROC}.
 #'    Jobs with multiple (CPU) slots can be submitted on LSF using
 #'    `bsub -n 2 -R "span[hosts=1]" < hello.sh`.
+#'  \item `"PJM"` - 
+#'    Query Fujitsu Technical Computing Suite (that we choose to shorten
+#'    as "PJM") environment variables \env{PJM_VNODE_CORE} and
+#'    \env{PJM_PROC_BY_NODE}.
+#'    The first is set when submitted with `pjsub -L vnode-core=8 hello.sh`.
 #'  \item `"custom"` -
 #'    If option \option{parallelly.availableCores.custom} is set and a function,
 #'    then this function will be called (without arguments) and it's value
@@ -165,7 +170,7 @@
 #'
 #' @importFrom parallel detectCores
 #' @export
-availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
+availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "PJM", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
   ## Local functions
   getenv <- function(name, mode = "integer") {
     value <- trim(getEnvVar2(name, default = NA_character_))
@@ -257,6 +262,22 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     } else if (method == "LSF") {
       ## Number of slots assigned by LSF
       n <- getenv("LSB_DJOB_NUMPROC")
+    } else if (method == "PJM") {
+      ## Number of slots assigned by Fujitsu Technical Computing Suite
+      ## We choose to call this job scheduler "PJM" based on the prefix
+      ## it's environment variables use.
+      ## PJM_VNODE_CORE: e.g. pjsub -L vnode-core=8
+      ## "This environment variable is set only when virtual nodes
+      ##  are allocated, and it is not set when nodes are allocated."
+      n <- getenv("PJM_VNODE_CORE")
+      if (is.na(n)) {
+        ## PJM_PROC_BY_NODE: e.g. pjsub -L vnode-core=8
+        ## "Maximum number of processes that are generated per node by
+        ##  an MPI program. However, if a single node (node=1) or virtual
+        ##  node (vnode=1) is allocated and the mpi option of the pjsub
+        ##  command is not specified, this environment variable is not set."
+        n <- getenv("PJM_PROC_BY_NODE")
+      }
     } else if (method == "mc.cores") {
       ## Number of cores by option defined by 'parallel' package
       n <- getopt("mc.cores")

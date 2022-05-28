@@ -1,4 +1,10 @@
-# Version 1.31.1-9002 [2022-05-19]
+# Version (development version)
+
+## New Features
+
+ * `availableCores()` gained support for the
+   Fujitsu Technical Computing Suite.  Specifically, it acknowledges
+   environment variables `PJM_VNODE_CORE` and `PJM_PROC_BY_NODE`.
 
 ## Bug Fixes
 

@@ -8,7 +8,7 @@ availableCores(
   constraints = NULL,
   methods = getOption2("parallelly.availableCores.methods", c("system",
     "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel",
-    "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")),
+    "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "PJM", "fallback", "custom")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = c(current = 1L),
@@ -110,6 +110,11 @@ Query Platform Load Sharing Facility (LSF) environment variable
 \env{LSB_DJOB_NUMPROC}.
 Jobs with multiple (CPU) slots can be submitted on LSF using
 \verb{bsub -n 2 -R "span[hosts=1]" < hello.sh}.
+\item \code{"PJM"} -
+Query Fujitsu Technical Computing Suite (that we choose to shorten
+as "PJM") environment variables \env{PJM_VNODE_CORE} and
+\env{PJM_PROC_BY_NODE}.
+The first is set when submitted with \verb{pjsub -L vnode-core=8 hello.sh}.
 \item \code{"custom"} -
 If option \option{parallelly.availableCores.custom} is set and a function,
 then this function will be called (without arguments) and it's value
