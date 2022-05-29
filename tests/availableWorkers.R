@@ -110,9 +110,9 @@ message("*** read_pbs_nodefile() ... DONE")
 
 message("*** read_pjm_nodefile() ...")
 
-workers <- workers0
+workersT <- unique(workers0)
 pathname <- tempfile()
-writeLines(workers, con = pathname)
+writeLines(workersT, con = pathname)
 
 data <- read_pjm_nodefile(pathname)
 str(data)
@@ -120,8 +120,9 @@ stopifnot(
   c("node") %in% colnames(data),
   is.character(data$node),
   !anyNA(data$node),
-  nrow(data$node) == length(workers),
-  all(sort(data$node) == sort(workers))
+  nrow(data$node) == length(workersT),
+  all(sort(data$node) == sort(workersT)),
+  identical(data$node, unique(data$node))
 )
 
 Sys.setenv(PJM_O_NODEINF = pathname)
@@ -131,19 +132,35 @@ Sys.setenv(PJM_VNODE_CORE = "1")
 workers <- availableWorkers(methods = "PJM")
 print(workers)
 stopifnot(
-  length(workers) == length(workers0),
-  all(sort(workers) == sort(workers0))
+  length(workers) == length(workersT),
+  all(sort(workers) == sort(workersT))
 )
 
+message("- PJM_VNODE=", length(workersT))
 message("- PJM_VNODE_CORE=2")
-Sys.setenv(PJM_VNODE_CORE = "3")
+Sys.setenv(PJM_VNODE = length(workersT))
+Sys.setenv(PJM_VNODE_CORE = "2")
 workers <- availableWorkers(methods = "PJM")
 print(workers)
 stopifnot(
-  length(workers) == 3L * length(workers0),
-  all(workers %in% workers0),
-  all(workers0 %in% workers)
+  length(workers) == 2L * length(workersT),
+  all(workers %in% workersT),
+  all(workersT %in% workers)
 )
+
+
+message("- PJM_VNODE=1 (incompatible => warning)")
+message("- PJM_VNODE_CORE=2")
+Sys.setenv(PJM_VNODE = "1")
+Sys.setenv(PJM_VNODE_CORE = "2")
+workers <- availableWorkers(methods = "PJM")
+print(workers)
+stopifnot(
+  length(workers) == 2L * length(workersT),
+  all(workers %in% workersT),
+  all(workersT %in% workers)
+)
+
 
 message("- PJM_O_NODEINF = <non-existing-file>")
 Sys.setenv(PJM_O_NODEINF = "<non-existing-file>")
@@ -153,7 +170,6 @@ res <- tryCatch({
 stopifnot(inherits(res, "warning"))
 
 message("*** read_pjm_nodefile() ... DONE")
-
 
 
 

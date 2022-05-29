@@ -249,6 +249,13 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
         next
       }
       data <- read_pjm_nodefile(pathname, sort = FALSE)
+
+      ## Sanity check against PJM_VNODE
+      n <- suppressWarnings(as.integer(getenv("PJM_VNODE")))
+      if (!is.na(n) && n != nrow(data)) {
+        warnf("Environment variable %s does not agree with the number of hosts in file %s: %s != %s", sQuote("PJM_VNODE"), sQuote("PJM_O_NODEINF"), getenv("PJM_VNODE"), nrow(data))
+      }
+
       ## This will query PJM for the number of cores per worker, which we
       ## assume is the same for all workers, because I don't think it can
       ## be different across workers, but not 100% sure.  If for some 
