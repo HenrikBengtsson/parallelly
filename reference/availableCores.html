@@ -223,8 +223,8 @@ parameters may or may not default to one.
 An example of a job submission that results in this is
 <code>qsub -l nodes=1:ppn=2</code>, which requests one node with two cores.</p></li>
 <li><p><code>"SGE"</code> -
-Query Sun/Oracle Grid Engine (SGE) environment variable
-<code class="env">NSLOTS</code>.
+Query Sun Grid Engine/Oracle Grid Engine/Son of Grid Engine (SGE)
+environment variable <code class="env">NSLOTS</code>.
 An example of a job submission that results in this is
 <code>qsub -pe smp 2</code> (or <code>qsub -pe by_node 2</code>), which
 requests two cores on a single machine.</p></li>
