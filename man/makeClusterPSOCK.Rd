@@ -485,10 +485,10 @@ cl <- makeClusterPSOCK(
 
 ## EXAMPLE: Remote workers with specific setup
 ## Setup of remote worker with more detailed control on
-## authentication and reverse SSH tunnelling
+## authentication and reverse SSH tunneling
 cl <- makeClusterPSOCK(
   "remote.server.org", user = "johnny",
-  ## Manual configuration of reverse SSH tunnelling
+  ## Manual configuration of reverse SSH tunneling
   revtunnel = FALSE,
   rshopts = c("-v", "-R 11000:gateway:11942"),
   master = "gateway", port = 11942,
@@ -666,6 +666,24 @@ cl <- makeClusterPSOCK(
 ## preventing it from using other SSH clients on the system search PATH.
 cl <- makeClusterPSOCK(
   "remote.server.org", user = "bob", rshcmd = "<rstudio-ssh>",
+  dryrun = TRUE, quiet = TRUE
+)
+
+
+## EXAMPLE: The 'Fujitsu Technical Computing Suite' is a high-performance
+## compute (HPC) job scheduler where one can request compute resources on
+## multiple nodes, each running multiple cores.  For example,
+##
+##   pjsub -L vnode=3 -L vnode-core=18 script.sh
+##
+## reserves 18 cores on three nodes. The job script runs on the first
+## with enviroment variables set to infer the other nodes, resulting in
+## availableWorkers() to return 3 * 18 workers. When the HPC environment
+## does not support SSH between compute nodes, one can use the 'pjrsh'
+## command to launch the parallel workers.
+cl <- makeClusterPSOCK(
+  availableWorkers(),
+  rshcmd = "pjrsh",
   dryrun = TRUE, quiet = TRUE
 )
 }
