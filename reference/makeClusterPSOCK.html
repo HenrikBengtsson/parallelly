@@ -31,7 +31,7 @@ R workers, and how to connect to external machines."><meta property="og:image" c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9009</span>
       </span>
     </div>
 
@@ -175,7 +175,7 @@ for controlling the setup of the system calls that launch the background
   renice <span class="op">=</span> <span class="cn">NA_integer_</span>,
   rshcmd <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.rshcmd"</span>, <span class="cn">NULL</span><span class="op">)</span>,
   user <span class="op">=</span> <span class="cn">NULL</span>,
-  revtunnel <span class="op">=</span> <span class="cn">TRUE</span>,
+  revtunnel <span class="op">=</span> <span class="cn">NA</span>,
   rshlogfile <span class="op">=</span> <span class="cn">NULL</span>,
   rshopts <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.rshopts"</span>, <span class="cn">NULL</span><span class="op">)</span>,
   rank <span class="op">=</span> <span class="fl">1L</span>,
@@ -325,7 +325,9 @@ another host.</p></dd>
 that the worker <span style="R">R</span> process sets up a socket connection to its local port
 <code>(port - rank + 1)</code> which then reaches the master on port <code>port</code>.
 If FALSE, then the worker will try to connect directly to port <code>port</code> on
-<code>master</code>.  For more details, see below.</p></dd>
+<code>master</code>.
+If NA, then TRUE or FALSE is inferred from inspection of <code>rshcmd[1]</code>.
+For more details, see below.</p></dd>
 <dt>rshlogfile</dt>
 <dd><p>(optional) If a filename, the output produced by the
 <code>rshcmd</code> call is logged to this file, of if TRUE, then it is logged
@@ -451,11 +453,12 @@ for "ssh key authentication".</p>
     <h2>Reverse SSH tunneling</h2>
     
 
-<p>The default is to use reverse SSH tunneling (<code>revtunnel = TRUE</code>) for
-workers running on other machines.  This avoids the complication of
-otherwise having to configure port forwarding in firewalls, which often
-requires static IP address as well as privileges to edit the firewall
-on your outgoing router, something most users don't have.
+<p>If SSH is used, which is inferred from <code>rshcmd[1]</code>, then the default is
+to use reverse SSH tunneling (<code>revtunnel = TRUE</code>), otherwise not
+(<code>revtunnel = FALSE</code>). Using reverse SSH tunneling, avoids complications
+from otherwise having to configure port forwarding in firewalls, which
+often requires static IP address as well as privileges to edit the
+firewall on your outgoing router, something most users don't have.
 It also has the advantage of not having to know the internal and / or the
 public IP address / hostname of the master.
 Yet another advantage is that there will be no need for a DNS lookup by the
