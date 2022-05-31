@@ -70,7 +70,7 @@ used.
 \code{rshcmd}, which typically is an SSH client.  Instead, if the SSH daemon
 runs on a different port than the default 22, specify the SSH port by
 appending it to the hostname, e.g. \code{"remote.server.org:2200"} or via
-SSH options \code{-p}, e.g. \code{rshopts = c("-p", "2200")}.}}
+SSH options \option{-p}, e.g. \code{rshopts = c("-p", "2200")}.}}
 
 \item{\dots}{Optional arguments passed to
 \code{makeNode(workers[i], ..., rank = i)} where \code{i = seq_along(workers)}.}
@@ -161,7 +161,7 @@ loaded. This is argument exists for legacy reasons due to how
 \command{Rscript} worked in R (< 3.5.0).}
 
 \item{socketOptions}{A character string that sets \R option
-\option{socketOptions} on the worker.}
+\code{socketOptions} on the worker.}
 
 \item{useXDR}{If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).}
 
@@ -194,10 +194,10 @@ For more details, see below.}
 \code{rshcmd} call is logged to this file, of if TRUE, then it is logged
 to a temporary file.  The log file name is available as an attribute
 as part of the return node object.
-\emph{Warning: This only works with SSH clients that support option
-\verb{-E out.log}}.  For example, PuTTY's \command{plink} does \emph{not} support
-this option, and any attempts to specify \code{rshlogfile} will cause the SSH
-connection to fail.}
+\emph{Warning: This only works with SSH clients that support command-line
+option \option{-E out.log`}}.  For example, PuTTY's \command{plink} does
+\emph{not} support this option, and any attempts to specify \code{rshlogfile} will
+cause the SSH connection to fail.}
 
 \item{rank}{A unique one-based index for each worker (automatically set).}
 
@@ -255,7 +255,9 @@ to an external host.
 
 The default method for connecting to an external host is via SSH and the
 system executable for this is given by argument \code{rshcmd}.  The default
-is given by option \option{parallelly.makeNodePSOCK.rshcmd}.  If that is not
+is given by option
+\code{\link[=parallelly.options]{parallelly.makeNodePSOCK.rshcmd}}.
+If that is not
 set, then the default is to use \command{ssh} on Unix-like systems,
 including macOS as well as Windows 10.  On older MS Windows versions, which
 does not have a built-in \command{ssh} client, the default is to use
@@ -281,15 +283,16 @@ accordingly.
 
 You can override the default set of SSH clients that are searched for
 by specifying them in argument \code{rshcmd} or via option
-\option{parallelly.makeNodePSOCK.rshcmd} using the format \verb{<...>}, e.g.
+\code{\link[=parallelly.options]{parallelly.makeNodePSOCK.rshcmd}}
+using the format \verb{<...>}, e.g.
 \code{rshcmd = c("<rstudio-ssh>", "<putty-plink>", "<ssh>")}.  See
 below for examples.
 
 If no SSH-client is found, an informative error message is produced.
 
-Additional SSH options may be specified via argument \code{rshopts}, which
-defaults to option \option{parallelly.makeNodePSOCK.rshopts}. For instance, a
-private SSH key can be provided as
+Additional SSH command-line options may be specified via argument \code{rshopts},
+which defaults to option \code{parallelly.makeNodePSOCK.rshopts}. For
+instance, a private SSH key can be provided as
 \code{rshopts = c("-i", "~/.ssh/my_private_key")}.  PuTTY users should
 specify a PuTTY PPK file, e.g.
 \code{rshopts = c("-i", "C:/Users/joe/.ssh/my_keys.ppk")}.
@@ -302,7 +305,7 @@ Contrary to \code{rshcmd}, elements of \code{rshopts} are not quoted.
 functions to log in and launch \R workers on external machines that requires
 a password to be entered manually for authentication.}
 The only known exception is the PuTTY client on Windows for which one can
-pass the password via command-line option \code{-pw}, e.g.
+pass the password via command-line option \option{-pw}, e.g.
 \code{rshopts = c("-pw", "MySecretPassword")}.
 
 Note, depending on whether you run \R in a terminal or via a GUI, you might

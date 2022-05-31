@@ -93,7 +93,9 @@ depending on hyperthreading configurations on the Slurm cluster, then
 \code{c("n1", "n03", "n04", "n05")} is returned.
 
 \item \code{"custom"} -
-If option \option{parallelly.availableWorkers.custom} is set and a function,
+If option
+\code{\link[=parallelly.options]{parallelly.availableWorkers.custom}}
+is set and a function,
 then this function will be called (without arguments) and it's value
 will be coerced to a character vector, which will be interpreted as
 hostnames of available workers.

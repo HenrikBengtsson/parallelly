@@ -28,7 +28,7 @@
 #' `rshcmd`, which typically is an SSH client.  Instead, if the SSH daemon
 #' runs on a different port than the default 22, specify the SSH port by
 #' appending it to the hostname, e.g. `"remote.server.org:2200"` or via
-#' SSH options `-p`, e.g. `rshopts = c("-p", "2200")`._
+#' SSH options \option{-p}, e.g. `rshopts = c("-p", "2200")`._
 #' 
 #' @param \dots Optional arguments passed to
 #' `makeNode(workers[i], ..., rank = i)` where `i = seq_along(workers)`.

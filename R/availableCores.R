@@ -53,14 +53,14 @@
 #'  \item `"mc.cores"` -
 #'    If available, returns the value of option
 #'    \code{\link[base:options]{mc.cores}}.
-#'    Note that \option{mc.cores} is defined as the number of
+#'    Note that `mc.cores` is defined as the number of
 #'    _additional_ \R processes that can be used in addition to the
 #'    main \R process.  This means that with `mc.cores = 0` all
 #'    calculations should be done in the main \R process, i.e. we have
 #'    exactly one core available for our calculations.
-#'    The \option{mc.cores} option defaults to environment variable
+#'    The `mc.cores` option defaults to environment variable
 #'    \env{MC_CORES} (and is set accordingly when the \pkg{parallel}
-#'    package is loaded).  The \option{mc.cores} option is used by for
+#'    package is loaded).  The `mc.cores` option is used by for
 #'    instance \code{\link[=mclapply]{mclapply}()} of the \pkg{parallel}
 #'    package.
 #'
@@ -108,7 +108,9 @@
 #'    (\env{SLURM_JOB_NUM_NODES} is 1), e.g. `sbatch --ntasks=2 hello.sh`.
 #'
 #'  \item `"custom"` -
-#'    If option \option{parallelly.availableCores.custom} is set and a function,
+#'    If option
+#'    \code{\link[=parallelly.options]{parallelly.availableCores.custom}}
+#'    is set and a function,
 #'    then this function will be called (without arguments) and it's value
 #'    will be coerced to an integer, which will be interpreted as a number
 #'    of available cores.  If the value is NA, then it will be ignored.

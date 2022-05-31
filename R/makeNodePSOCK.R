@@ -70,7 +70,7 @@
 #' @param useXDR If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).
 #' 
 #' @param socketOptions A character string that sets \R option 
-#' \option{socketOptions} on the worker.
+#' \code{socketOptions} on the worker.
 #' 
 #' @param outfile Where to direct the \link[base:showConnections]{stdout} and
 #' \link[base:showConnections]{stderr} connection output from the workers.
@@ -92,10 +92,10 @@
 #' `rshcmd` call is logged to this file, of if TRUE, then it is logged
 #' to a temporary file.  The log file name is available as an attribute
 #' as part of the return node object.
-#' _Warning: This only works with SSH clients that support option
-#' `-E out.log`_.  For example, PuTTY's \command{plink} does _not_ support
-#' this option, and any attempts to specify `rshlogfile` will cause the SSH
-#' connection to fail.
+#' _Warning: This only works with SSH clients that support command-line
+#' option \option{-E out.log`}_.  For example, PuTTY's \command{plink} does
+#' _not_ support this option, and any attempts to specify `rshlogfile` will
+#' cause the SSH connection to fail.
 #'
 #' @param user (optional) The user name to be used when communicating with
 #' another host.
@@ -143,7 +143,9 @@
 #' 
 #' The default method for connecting to an external host is via SSH and the
 #' system executable for this is given by argument `rshcmd`.  The default
-#' is given by option \option{parallelly.makeNodePSOCK.rshcmd}.  If that is not
+#' is given by option
+#' \code{\link[=parallelly.options]{parallelly.makeNodePSOCK.rshcmd}}.
+#' If that is not
 #' set, then the default is to use \command{ssh} on Unix-like systems,
 #' including macOS as well as Windows 10.  On older MS Windows versions, which
 #' does not have a built-in \command{ssh} client, the default is to use
@@ -169,15 +171,16 @@
 #'
 #' You can override the default set of SSH clients that are searched for
 #' by specifying them in argument `rshcmd` or via option
-#' \option{parallelly.makeNodePSOCK.rshcmd} using the format `<...>`, e.g.
+#' \code{\link[=parallelly.options]{parallelly.makeNodePSOCK.rshcmd}}
+#' using the format `<...>`, e.g.
 #' `rshcmd = c("<rstudio-ssh>", "<putty-plink>", "<ssh>")`.  See
 #' below for examples.
 #'
 #' If no SSH-client is found, an informative error message is produced.
 #'
-#' Additional SSH options may be specified via argument `rshopts`, which
-#' defaults to option \option{parallelly.makeNodePSOCK.rshopts}. For instance, a
-#' private SSH key can be provided as
+#' Additional SSH command-line options may be specified via argument `rshopts`,
+#' which defaults to option \code{parallelly.makeNodePSOCK.rshopts}. For
+#' instance, a private SSH key can be provided as
 #' `rshopts = c("-i", "~/.ssh/my_private_key")`.  PuTTY users should
 #' specify a PuTTY PPK file, e.g.
 #' `rshopts = c("-i", "C:/Users/joe/.ssh/my_keys.ppk")`.
@@ -188,7 +191,7 @@
 #' functions to log in and launch \R workers on external machines that requires
 #' a password to be entered manually for authentication._
 #' The only known exception is the PuTTY client on Windows for which one can
-#' pass the password via command-line option `-pw`, e.g. 
+#' pass the password via command-line option \option{-pw}, e.g. 
 #' `rshopts = c("-pw", "MySecretPassword")`.
 #'
 #' Note, depending on whether you run \R in a terminal or via a GUI, you might

@@ -32,12 +32,12 @@
 #' A warning will also be produced informing the user about this the first
 #' time time this function is called in an \R session.
 #' This warning can be disabled by setting R option
-#' \option{parallelly.supportsMulticore.unstable}, or environment variable
+#' `parallelly.supportsMulticore.unstable`, or environment variable
 #' \env{R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE} to `"quiet"`.
 #'
 #' @section Enable or disable forked processing:
 #' It is possible to disable forked processing for futures by setting \R
-#' option \option{parallelly.fork.enable} to `FALSE`.  Alternatively, one can
+#' option `parallelly.fork.enable` to `FALSE`.  Alternatively, one can
 #' set environment variable \env{R_PARALLELLY_FORK_ENABLE} to `false`.
 #' Analogously, it is possible to override disabled forking by setting one
 #' of these to `TRUE`.
