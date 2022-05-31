@@ -324,7 +324,7 @@
 #' @importFrom tools pskill
 #' @importFrom utils flush.console
 #' @export
-makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, rscript_sh = c("auto", "cmd", "sh"), default_packages = c("datasets", "utils", "grDevices", "graphics", "stats", if (methods) "methods"), methods = TRUE, socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"), useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
+makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, rscript_sh = c("auto", "cmd", "sh"), default_packages = c("datasets", "utils", "grDevices", "graphics", "stats", if (methods) "methods"), methods = TRUE, socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"), useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = NA, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
   verbose <- as.logical(verbose)
   stop_if_not(length(verbose) == 1L, !is.na(verbose))
   verbose_prefix <- "[local output] "
@@ -383,9 +383,6 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   port <- as.integer(port)
   assertPort(port)
 
-  revtunnel <- as.logical(revtunnel)
-  stop_if_not(length(revtunnel) == 1L)
-
   ## Find default SSH client?
   if (!localMachine && (is.null(rshcmd) || all(grepl("^<[a-zA-Z-]+>$", rshcmd)))) {
     if (is.null(rshcmd)) {
@@ -416,10 +413,36 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     ## Holds a pathname with an optional set of command-line options
     stop_if_not(is.character(rshcmd), length(rshcmd) >= 1L)
   } else if (!is.null(rshcmd)) {
-    if (is.null(attr(rshcmd, "type"))) attr(rshcmd, "type") <- "<unknown>"
+    ## Try to guess "type" of 'rshcmd' from it's basename
+    basename <- tolower(basename(rshcmd[1]))
+    if (basename %in% c("ssh", "plink")) {
+      type <- "ssh"
+    } else if (basename %in% c("rsh")) {
+      type <- "rsh"
+    } else {
+      type <- "<unknown>"
+    }
+    if (is.null(attr(rshcmd, "type"))) attr(rshcmd, "type") <- type
     if (is.null(attr(rshcmd, "version"))) attr(rshcmd, "version") <- "<unknown>"
   }
+
+  revtunnel <- as.logical(revtunnel)
+  stop_if_not(length(revtunnel) == 1L)
   
+  ## Should reverse tunneling be used or not?
+  if (is.na(revtunnel)) {
+    if (localMachine) {
+      mdebugf("%slocalMachine=TRUE => revtunnel=FALSE\n", verbose_prefix)
+      revtunnel <- FALSE
+    } else if (identical(attr(rshcmd, "type"), "ssh")) {
+      mdebugf("%slocalMachine=FALSE && 'rshcmd' type is \"%s\" => revtunnel=TRUE\n", verbose_prefix, attr(rshcmd, "type"))
+      revtunnel <- TRUE
+    } else {
+      mdebugf("%slocalMachine=FALSE && 'rshcmd' type is \"%s\" => revtunnel=FALSE\n", verbose_prefix, attr(rshcmd, "type"))
+      revtunnel <- FALSE
+    }
+  }
+
   if (!is.null(rshlogfile)) {
     if (is.logical(rshlogfile)) {
       stop_if_not(!is.na(rshlogfile))
@@ -856,6 +879,7 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
 
   verbose <- as.logical(verbose)
   stop_if_not(length(verbose) == 1L, !is.na(verbose))
+  verbose_prefix <- "[local output] "
 
   is_worker_output_visible <- is.null(outfile)
 

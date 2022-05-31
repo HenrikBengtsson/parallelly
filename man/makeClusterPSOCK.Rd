@@ -39,7 +39,7 @@ makeNodePSOCK(
   renice = NA_integer_,
   rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL),
   user = NULL,
-  revtunnel = TRUE,
+  revtunnel = NA,
   rshlogfile = NULL,
   rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL),
   rank = 1L,
