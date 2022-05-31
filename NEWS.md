@@ -9,9 +9,10 @@
 
 ## Bug Fixes
 
- * ``makeClusterPSOCK()`` failed with "Error:
-   node\$session_info\$process\$pid == pid is not TRUE" on some
-   locales.
+ * `makeClusterPSOCK()` would fail with `Error:
+   node$session_info$process$pid == pid is not TRUE` when running R
+   in Simplified Chinese (`LANGUAGE=zh_CN`), Traditional Chinese
+   (Taiwan) (`LANGUAGE=zh_TW`), or Korean (`LANGUAGE=ko`) locales.
 
  * Some warnings and errors showed the wrong call.
 
