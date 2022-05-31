@@ -14,7 +14,8 @@
  * `availableCores()` and `availableWorkers()` gained support for the
    'Fujitsu Technical Computing Suite' job scheduler.  Specifically,
    they acknowledges environment variables `PJM_VNODE_CORE`,
-   `PJM_PROC_BY_NODE`, and `PJM_O_NODEINF`.
+   `PJM_PROC_BY_NODE`, and `PJM_O_NODEINF`.  See
+   `help("makeClusterPSOCK", package = "parallelly")` for an example.
 
 ## Bug Fixes
 
