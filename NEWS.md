@@ -5,9 +5,9 @@
  * The default for argument `revtunnel` of `makeNodePSOCK()`, and
    therefore also of `makeClusterPSOCK()`, is now `NA`, which means
    it's agile to whether `rshcmd[1]` specifies an SSH client, or not.
-   If SSH is used, then it will resolve to `revtunnel=TRUE`, otherwise
-   to `revtunnel=FALSE`.  This removed the need for setting
-   `revtunnel=FALSE`, when non-SSH clients are used.
+   If SSH is used, then it will resolve to `revtunnel = TRUE`,
+   otherwise to `revtunnel = FALSE`.  This removed the need for
+   setting `revtunnel = FALSE`, when non-SSH clients are used.
 
 ## New Features
 
