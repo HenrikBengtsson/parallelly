@@ -91,6 +91,8 @@ If option \option{parallelly.availableWorkers.custom} is set and a function,
 then this function will be called (without arguments) and it's value
 will be coerced to a character vector, which will be interpreted as
 hostnames of available workers.
+It is safe for this custom function to call \code{availableWorkers()}; if
+done, the custom function will \emph{not} be recursively called.
 }
 }
 \section{Known limitations}{
@@ -121,6 +123,17 @@ message(paste("Available workers:",
 ## Always use two workers on host 'n1' and one on host 'n2'
 options(parallelly.availableWorkers.custom = function() {
   c("n1", "n1", "n2")
+})
+message(paste("Available workers:",
+        paste(sQuote(availableWorkers()), collapse = ", ")))
+}
+
+\dontrun{
+## A 50\% random subset of the available workers.
+## Note that it is safe to call availableWorkers() here.
+options(parallelly.availableWorkers.custom = function() {
+  workers <- parallelly::availableWorkers()
+  sample(workers, size = 0.50 * length(workers))
 })
 message(paste("Available workers:",
         paste(sQuote(availableWorkers()), collapse = ", ")))

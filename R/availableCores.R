@@ -112,6 +112,8 @@
 #'    then this function will be called (without arguments) and it's value
 #'    will be coerced to an integer, which will be interpreted as a number
 #'    of available cores.  If the value is NA, then it will be ignored.
+#'    It is safe for this custom function to call `availableCores()`; if
+#'    done, the custom function will _not_ be recursively called.
 #' }
 #' For any other value of a `methods` element, the \R option with the
 #' same name is queried.  If that is not set, the system environment
@@ -168,9 +170,11 @@
 #' })
 #' message(paste("Number of cores available:", availableCores()))
 #'
-#' ## What is available minus one core but at least one
+#' ## Use 50% of the cores according to availableCores(), e.g.
+#' ## allocated by a job scheduler or cgroups.
+#' ## Note that it is safe to call availableCores() here.
 #' options(parallelly.availableCores.custom = function() {
-#'   max(1L, parallelly::availableCores() - 1L)
+#'   0.50 * parallelly::availableCores()
 #' })
 #' message(paste("Number of cores available:", availableCores()))
 #' }
