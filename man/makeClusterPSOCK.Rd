@@ -186,7 +186,9 @@ another host.}
 that the worker \R process sets up a socket connection to its local port
 \code{(port - rank + 1)} which then reaches the master on port \code{port}.
 If FALSE, then the worker will try to connect directly to port \code{port} on
-\code{master}.  For more details, see below.}
+\code{master}.
+If NA, then TRUE or FALSE is inferred from inspection of \code{rshcmd[1]}.
+For more details, see below.}
 
 \item{rshlogfile}{(optional) If a filename, the output produced by the
 \code{rshcmd} call is logged to this file, of if TRUE, then it is logged
@@ -331,11 +333,12 @@ for "ssh key authentication".
 
 \section{Reverse SSH tunneling}{
 
-The default is to use reverse SSH tunneling (\code{revtunnel = TRUE}) for
-workers running on other machines.  This avoids the complication of
-otherwise having to configure port forwarding in firewalls, which often
-requires static IP address as well as privileges to edit the firewall
-on your outgoing router, something most users don't have.
+If SSH is used, which is inferred from \code{rshcmd[1]}, then the default is
+to use reverse SSH tunneling (\code{revtunnel = TRUE}), otherwise not
+(\code{revtunnel = FALSE}). Using reverse SSH tunneling, avoids complications
+from otherwise having to configure port forwarding in firewalls, which
+often requires static IP address as well as privileges to edit the
+firewall on your outgoing router, something most users don't have.
 It also has the advantage of not having to know the internal and / or the
 public IP address / hostname of the master.
 Yet another advantage is that there will be no need for a DNS lookup by the
