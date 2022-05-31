@@ -91,8 +91,8 @@
 #'    `qsub -l nodes=1:ppn=2`, which requests one node with two cores.
 #'
 #'  \item `"SGE"` -
-#'    Query Sun/Oracle Grid Engine (SGE) environment variable
-#'    \env{NSLOTS}.
+#'    Query Sun Grid Engine/Oracle Grid Engine/Son of Grid Engine (SGE)
+#'    environment variable \env{NSLOTS}.
 #'    An example of a job submission that results in this is
 #'    `qsub -pe smp 2` (or `qsub -pe by_node 2`), which
 #'    requests two cores on a single machine.

@@ -70,7 +70,7 @@ An example of a job submission that results in this is
 with two cores.
 
 \item \code{"SGE"} -
-Query Sun/Oracle Grid Engine (SGE) environment variable
+Query Sun Grid Engine/Oracle Grid Engine/Son of Grid Engine (SGE)
 \env{PE_HOSTFILE}.
 An example of a job submission that results in this is
 \verb{qsub -pe mpi 8} (or \verb{qsub -pe ompi 8}), which
