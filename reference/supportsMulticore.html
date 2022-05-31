@@ -35,7 +35,7 @@ is supported in the current R session."><meta property="og:image" content="https
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9010</span>
       </span>
     </div>
 
@@ -177,7 +177,7 @@ This function detects when running in such an environment and returns
 A warning will also be produced informing the user about this the first
 time time this function is called in an <span style="R">R</span> session.
 This warning can be disabled by setting R option
-<span class="option">parallelly.supportsMulticore.unstable</span>, or environment variable
+<code>parallelly.supportsMulticore.unstable</code>, or environment variable
 <code class="env">R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE</code> to <code>"quiet"</code>.</p>
     </div>
     <div id="enable-or-disable-forked-processing">
@@ -185,7 +185,7 @@ This warning can be disabled by setting R option
     
 
 <p>It is possible to disable forked processing for futures by setting <span style="R">R</span>
-option <span class="option">parallelly.fork.enable</span> to <code>FALSE</code>.  Alternatively, one can
+option <code>parallelly.fork.enable</code> to <code>FALSE</code>.  Alternatively, one can
 set environment variable <code class="env">R_PARALLELLY_FORK_ENABLE</code> to <code>false</code>.
 Analogously, it is possible to override disabled forking by setting one
 of these to <code>TRUE</code>.</p>

@@ -24,7 +24,7 @@ number of cores available is always at least one."><meta property="og:image" con
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9010</span>
       </span>
     </div>
 
@@ -190,14 +190,14 @@ On Unix, query system command <code>nproc</code>.</p></li>
 <li><p><code>"mc.cores"</code> -
 If available, returns the value of option
 <code><a href="https://rdrr.io/r/base/options.html" class="external-link">mc.cores</a></code>.
-Note that <span class="option">mc.cores</span> is defined as the number of
+Note that <code>mc.cores</code> is defined as the number of
 <em>additional</em> <span style="R">R</span> processes that can be used in addition to the
 main <span style="R">R</span> process.  This means that with <code>mc.cores = 0</code> all
 calculations should be done in the main <span style="R">R</span> process, i.e. we have
 exactly one core available for our calculations.
-The <span class="option">mc.cores</span> option defaults to environment variable
+The <code>mc.cores</code> option defaults to environment variable
 <code class="env">MC_CORES</code> (and is set accordingly when the <span class="pkg">parallel</span>
-package is loaded).  The <span class="option">mc.cores</span> option is used by for
+package is loaded).  The <code>mc.cores</code> option is used by for
 instance <code>mclapply()</code> of the <span class="pkg">parallel</span>
 package.</p></li>
 <li><p><code>"BiocParallel"</code> -
@@ -238,7 +238,9 @@ If <code class="env">SLURM_CPUS_PER_TASK</code> is not set, then it will fall ba
 use <code class="env">SLURM_CPUS_ON_NODE</code> if the job is a single-node job
 (<code class="env">SLURM_JOB_NUM_NODES</code> is 1), e.g. <code>sbatch --ntasks=2 hello.sh</code>.</p></li>
 <li><p><code>"custom"</code> -
-If option <span class="option">parallelly.availableCores.custom</span> is set and a function,
+If option
+<code><a href="parallelly.options.html">parallelly.availableCores.custom</a></code>
+is set and a function,
 then this function will be called (without arguments) and it's value
 will be coerced to an integer, which will be interpreted as a number
 of available cores.  If the value is NA, then it will be ignored.

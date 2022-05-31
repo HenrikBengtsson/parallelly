@@ -24,7 +24,7 @@ and check whether or not the connection is still valid."><meta property="og:imag
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9010</span>
       </span>
     </div>
 
@@ -231,7 +231,7 @@ indices. To get a connection by its index, use <code><a href="https://rdrr.io/r/
 <span class="r-in"><span class="fu">isConnectionValid</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stdout</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>  <span class="co">## TRUE</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"reason")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Connection (connection: index=3, description=\"output\", class=\"textConnection\", mode=\"wr\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=NA) is no longer valid. It differ from the currently registered R connection with the same index 3 (connection: index=3, description=\"output\", class=\"textConnection\", mode=\"wr\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=1812, raw_id=\"&lt;pointer: 0x714&gt;\")"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Connection (connection: index=3, description=\"output\", class=\"textConnection\", mode=\"wr\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=NA) is no longer valid. It differ from the currently registered R connection with the same index 3 (connection: index=3, description=\"output\", class=\"textConnection\", mode=\"wr\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=1818, raw_id=\"&lt;pointer: 0x71a&gt;\")"</span>
 <span class="r-in"><span class="fu">connectionId</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stdout</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>       <span class="co">## 1L</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
 <span class="r-in"><span class="fu">isConnectionValid</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stderr</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>  <span class="co">## TRUE</span></span>
@@ -250,7 +250,7 @@ indices. To get a connection by its index, use <code><a href="https://rdrr.io/r/
 <span class="r-in"><span class="fu">isConnectionValid</span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">con</span><span class="op">)</span>     <span class="co">## FALSE with attribute 'reason'</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"reason")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Connection (connection: index=4, description=\"/tmp/hb/Rtmpa30Gl7/file2077c13883abcd\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=-1) is no longer valid. It differ from the currently registered R connection with the same index 4 (connection: index=4, description=\"/tmp/hb/Rtmpa30Gl7/file2077c13883abcd\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=1818, raw_id=\"&lt;pointer: 0x71a&gt;\")"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Connection (connection: index=4, description=\"/tmp/hb/RtmpiZxWn9/file211e6922230889\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=-1) is no longer valid. It differ from the currently registered R connection with the same index 4 (connection: index=4, description=\"/tmp/hb/RtmpiZxWn9/file211e6922230889\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=1824, raw_id=\"&lt;pointer: 0x720&gt;\")"</span>
 <span class="r-in"><span class="fu">connectionId</span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">con</span><span class="op">)</span>          <span class="co">## -1L</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/connections.html" class="external-link">close</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span>

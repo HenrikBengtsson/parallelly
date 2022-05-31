@@ -28,7 +28,7 @@ further notice."><meta property="og:image" content="https://parallelly.futurever
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9009</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.31.1-9010</span>
       </span>
     </div>
 
@@ -149,8 +149,8 @@ and <code>R_PARALLELLY_</code>, respectively.  Because of the backward compatibi
 with the <span class="pkg">future</span> package, the same settings can also be controlled
 by options and environment variables with prefixes <code>future.</code> and
 <code>R_FUTURE_</code> until further notice, e.g. setting option
-<span class="option">future.availableCores.fallback=1</span> is the same as setting option
-<span class="option">parallelly.availableCores.fallback=1</span>, and setting environment
+<code>future.availableCores.fallback=1</code> is the same as setting option
+<code>parallelly.availableCores.fallback=1</code>, and setting environment
 variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same as setting
 <code class="env">R_PARALLELLY_AVAILABLECORES_FALLBACK=1</code>.</p>
     </div>
@@ -160,39 +160,39 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
 
 
 <p>The below <span style="R">R</span> options and environment variables control the default results of <code><a href="availableCores.html">availableCores()</a></code> and <code><a href="availableWorkers.html">availableWorkers()</a></code>.</p>
-<dl><dt><span class="option">parallelly.availableCores.logical</span>:</dt>
+<dl><dt><code>parallelly.availableCores.logical</code>:</dt>
 <dd><p>(logical) The default value of argument <code>logical</code> as used by <code><a href="availableCores.html">availableCores()</a></code>, <code><a href="availableWorkers.html">availableWorkers()</a></code>, and <code><a href="availableCores.html">availableCores()</a></code> for querying <code>parallel::detectCores(logical = logical)</code>.  The default is <code>TRUE</code> just like it is for <code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">parallel::detectCores()</a></code>.</p></dd>
 
 
-<dt><span class="option">parallelly.availableCores.methods</span>:</dt>
+<dt><code>parallelly.availableCores.methods</code>:</dt>
 <dd><p>(character vector) Default lookup methods for <code><a href="availableCores.html">availableCores()</a></code>. (Default: <code>c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")</code>)</p></dd>
 
 
-<dt><span class="option">parallelly.availableCores.custom</span>:</dt>
+<dt><code>parallelly.availableCores.custom</code>:</dt>
 <dd><p>(function) If set and a function, then this function will be called (without arguments) by <code><a href="availableCores.html">availableCores()</a></code> where its value, coerced to an integer, is interpreted as a number of cores.</p></dd>
 
 
-<dt><span class="option">parallelly.availableCores.fallback</span>:</dt>
+<dt><code>parallelly.availableCores.fallback</code>:</dt>
 <dd><p>(integer) Number of cores to use when no core-specifying settings are detected other than <code>"system"</code> and <code>"nproc"</code>.  This options makes it possible to set the default number of cores returned by <code><a href="availableCores.html">availableCores()</a></code> / <code><a href="availableWorkers.html">availableWorkers()</a></code> yet allow users and schedulers to override it.  In multi-tenant environment, such as HPC clusters, it is useful to set environment variable <code class="env">R_PARALLELLY_AVAILABLECORES_FALLBACK</code> to <code>1</code>, which will set this option when the package is loaded.</p></dd>
 
 
-<dt><span class="option">parallelly.availableCores.system</span>:</dt>
+<dt><code>parallelly.availableCores.system</code>:</dt>
 <dd><p>(integer) Number of "system" cores used instead of what is reported by <code><a href="availableCores.html">availableCores</a>(which = "system")</code>. This option allows you to effectively override what <code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">parallel::detectCores()</a></code> reports the system has.</p></dd>
 
 
-<dt><span class="option">parallelly.availableCores.min</span>:</dt>
+<dt><code>parallelly.availableCores.min</code>:</dt>
 <dd><p>(integer) The minimum number of cores <code><a href="availableCores.html">availableCores()</a></code> is allowed to return. This can be used to force multiple cores on a single-core environment. If this is limit is applied, the names of the returned value are appended with an asterisk (<code>*</code>).  (Default: <code>1L</code>)</p></dd>
 
 
-<dt><span class="option">parallelly.availableCores.omit</span>:</dt>
+<dt><code>parallelly.availableCores.omit</code>:</dt>
 <dd><p>(integer) Number of cores to set aside, i.e. not to include.</p></dd>
 
 
-<dt><span class="option">parallelly.availableWorkers.methods</span>:</dt>
+<dt><code>parallelly.availableWorkers.methods</code>:</dt>
 <dd><p>(character vector) Default lookup methods for <code><a href="availableWorkers.html">availableWorkers()</a></code>. (Default: <code>c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")</code>)</p></dd>
 
 
-<dt><span class="option">parallelly.availableWorkers.custom</span>:</dt>
+<dt><code>parallelly.availableWorkers.custom</code>:</dt>
 <dd><p>(function) If set and a function, then this function will be called (without arguments) by <code><a href="availableWorkers.html">availableWorkers()</a></code> where its value, coerced to a character vector, is interpreted as hostnames of available workers.</p></dd>
 
 
@@ -203,11 +203,11 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
 
 
 <p>The below <span style="R">R</span> options and environment variables control the default result of <code><a href="supportsMulticore.html">supportsMulticore()</a></code>.</p>
-<dl><dt><span class="option">parallelly.fork.enable</span>:</dt>
+<dl><dt><code>parallelly.fork.enable</code>:</dt>
 <dd><p>(logical) Enable or disable <em>forked</em> processing.  If <code>FALSE</code>, multicore futures becomes sequential futures.  If <code>NA</code>, or not set (the default), the a set of best-practices rules decide whether should be supported or not.</p></dd>
 
 
-<dt><span class="option">parallelly.supportsMulticore.unstable</span>:</dt>
+<dt><code>parallelly.supportsMulticore.unstable</code>:</dt>
 <dd><p>(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If <code>"warn"</code> (default), then an informative warning is produces the first time 'multicore' or 'multiprocess' futures are used.  If <code>"quiet"</code>, no warning is produced.</p></dd>
 
 
@@ -218,43 +218,43 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
 
 
 <p>The below <span style="R">R</span> options and environment variables control the default results of <code><a href="makeClusterPSOCK.html">makeClusterPSOCK()</a></code> and its helper function <code><a href="makeClusterPSOCK.html">makeNodePSOCK()</a></code> that creates the individual cluster nodes.</p>
-<dl><dt><span class="option">parallelly.makeNodePSOCK.setup_strategy</span>:</dt>
+<dl><dt><code>parallelly.makeNodePSOCK.setup_strategy</code>:</dt>
 <dd><p>(character) If <code>"parallel"</code> (default), the PSOCK cluster nodes are set up concurrently.  If <code>"sequential"</code>, they are set up sequentially.</p></dd>
 
 
-<dt><span class="option">parallelly.makeNodePSOCK.validate</span>:</dt>
+<dt><code>parallelly.makeNodePSOCK.validate</code>:</dt>
 <dd><p>(logical) If TRUE (default), after the nodes have been created, they are all validated that they work by inquiring about their session information, which is saved in attribute <code>session_info</code> of each node.</p></dd>
 
 
-<dt><span class="option">parallelly.makeNodePSOCK.connectTimeout</span>:</dt>
+<dt><code>parallelly.makeNodePSOCK.connectTimeout</code>:</dt>
 <dd><p>(numeric) The maximum time (in seconds) allowed for each socket connection between the master and a worker to be established (defaults to 2*60 seconds = 2 minutes).</p></dd>
 
 
-<dt><span class="option">parallelly.makeNodePSOCK.timeout</span>:</dt>
+<dt><code>parallelly.makeNodePSOCK.timeout</code>:</dt>
 <dd><p>(numeric) The maximum time (in seconds) allowed to pass without the master and a worker communicate with each other (defaults to 30<em>24</em>60*60 seconds = 30 days).</p></dd>
 
 
-<dt><span class="option">parallelly.makeNodePSOCK.useXDR</span>:</dt>
+<dt><code>parallelly.makeNodePSOCK.useXDR</code>:</dt>
 <dd><p>(logical) If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).</p></dd>
 
 
-<dt><span class="option">parallelly.makeNodePSOCK.socketOptions</span>:</dt>
-<dd><p>(character string) If set to another value than <code>"NULL"</code>, then option <span class="option">socketOptions</span> is set to this value on the workers during startup. See <code><a href="https://rdrr.io/r/base/connections.html" class="external-link">base::socketConnection()</a></code> for details. (defaults to <code>"no-delay"</code>)</p></dd>
+<dt><code>parallelly.makeNodePSOCK.socketOptions</code>:</dt>
+<dd><p>(character string) If set to another value than <code>"NULL"</code>, then option <code>socketOptions</code> is set to this value on the workers during startup. See <code><a href="https://rdrr.io/r/base/connections.html" class="external-link">base::socketConnection()</a></code> for details. (defaults to <code>"no-delay"</code>)</p></dd>
 
 
-<dt><span class="option">parallelly.makeNodePSOCK.rshcmd</span>:</dt>
+<dt><code>parallelly.makeNodePSOCK.rshcmd</code>:</dt>
 <dd><p>(character vector) The command to be run on the master to launch a process on another host.</p></dd>
 
 
-<dt><span class="option">parallelly.makeNodePSOCK.rshopts</span>:</dt>
+<dt><code>parallelly.makeNodePSOCK.rshopts</code>:</dt>
 <dd><p>(character vector) Addition command-line options appended to <code>rshcmd</code>.  These arguments are only applied when connecting to non-localhost machines.</p></dd>
 
 
-<dt><span class="option">parallelly.makeNodePSOCK.tries</span>:</dt>
+<dt><code>parallelly.makeNodePSOCK.tries</code>:</dt>
 <dd><p>(integer) The maximum number of attempts done to launch each node.  Only used when setting up cluster nodes using the sequential strategy.</p></dd>
 
 
-<dt><span class="option">parallelly.makeNodePSOCK.tries.delay</span>:</dt>
+<dt><code>parallelly.makeNodePSOCK.tries.delay</code>:</dt>
 <dd><p>(numeric) The number of seconds to wait before trying to launch a cluster node that failed to launch previously.  Only used when setting up cluster nodes using the sequential strategy.</p></dd>
 
 
@@ -264,7 +264,7 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
     
 
 
-<dl><dt><span class="option">parallelly.debug</span>:</dt>
+<dl><dt><code>parallelly.debug</code>:</dt>
 <dd><p>(logical) If <code>TRUE</code>, extensive debug messages are generated. (Default: <code>FALSE</code>)</p></dd>
 
 
@@ -273,14 +273,14 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
     <h2>Environment variables that set R options</h2>
     
 
-<p>All of the above <span style="R">R</span> <span class="option">parallelly.*</span> options can be set by
+<p>All of the above <span style="R">R</span> <code>parallelly.*</code> options can be set by
 corresponding environment variables <code class="env">R_PARALLELLY_*</code> <em>when the
 <span class="pkg">parallelly</span> package is loaded</em>.
 For example, if <code>R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY = "sequential"</code>,
-then option <span class="option">parallelly.makeNodePSOCK.setup_strategy</span> is set to
+then option <code>parallelly.makeNodePSOCK.setup_strategy</code> is set to
 <code>"sequential"</code> (character).
 Similarly, if <code>R_PARALLELLY_AVAILABLECORES_FALLBACK = "1"</code>, then option
-<span class="option">parallelly.availableCores.fallback</span> is set to <code>1</code> (integer).</p>
+<code>parallelly.availableCores.fallback</code> is set to <code>1</code> (integer).</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
