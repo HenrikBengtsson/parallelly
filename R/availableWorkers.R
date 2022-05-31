@@ -33,7 +33,13 @@
 #'    Query Fujitsu Technical Computing Suite (that we choose to shorten
 #'    as "PJM") the hostname file given by environment variable
 #'    \env{PJM_O_NODEINF}.
-#'    This set when submitted with `pjsub -L vnode=2 -L vnode-core=8 hello.sh`.
+#'    The \env{PJM_O_NODEINF} file lists the hostnames of the nodes alloted.
+#'    This function returns those hostnames each repeated `availableCores()`
+#'    times, where `availableCores()` reflects \env{PJM_VNODE_CORE}.
+#'    For example, for `pjsub -L vnode=2 -L vnode-core=8 hello.sh`, the
+#'    \env{PJM_O_NODEINF} file gives two hostnames, and \env{PJM_VNODE_CORE}
+#'    gives eight cores per host, resulting in a character vector of 16
+#'    hostnames (for two unique hostnames).
 #'
 #'  \item `"PBS"` -
 #'    Query TORQUE/PBS environment variable \env{PBS_NODEFILE}.
