@@ -8,7 +8,7 @@ availableCores(
   constraints = NULL,
   methods = getOption2("parallelly.availableCores.methods", c("system",
     "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel",
-    "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")),
+    "_R_CHECK_LIMIT_CORES_", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = c(current = 1L),
@@ -58,44 +58,64 @@ are supported:
 \itemize{
 \item \code{"system"} -
 Query \code{\link[parallel]{detectCores}(logical = logical)}.
+
 \item \code{"cgroups.cpuset"} -
 On Unix, query control group (cgroup) value \code{cpuset.set}.
+
 \item \code{"cgroups.cpuquota"} -
 On Unix, query control group (cgroup) value
 \code{cpu.cfs_quota_us} / \code{cpu.cfs_period_us}.
+
 \item \code{"nproc"} -
 On Unix, query system command \code{nproc}.
+
 \item \code{"mc.cores"} -
 If available, returns the value of option
 \code{\link[base:options]{mc.cores}}.
-Note that \option{mc.cores} is defined as the number of
+Note that \code{mc.cores} is defined as the number of
 \emph{additional} \R processes that can be used in addition to the
 main \R process.  This means that with \code{mc.cores = 0} all
 calculations should be done in the main \R process, i.e. we have
 exactly one core available for our calculations.
-The \option{mc.cores} option defaults to environment variable
+The \code{mc.cores} option defaults to environment variable
 \env{MC_CORES} (and is set accordingly when the \pkg{parallel}
-package is loaded).  The \option{mc.cores} option is used by for
+package is loaded).  The \code{mc.cores} option is used by for
 instance \code{\link[=mclapply]{mclapply}()} of the \pkg{parallel}
 package.
+
 \item \code{"BiocParallel"} -
 Query environment variables \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
 which is defined and used by \strong{BiocParallel} (>= 1.27.2), and
 \env{BBS_HOME} (logical) used by the Bioconductor Build System. If the
 former is set, this is the number of cores considered.  If the latter
 is set, then a maximum of 4 cores is considered.
+
+\item \code{"LSF"} -
+Query Platform Load Sharing Facility (LSF) environment variable
+\env{LSB_DJOB_NUMPROC}.
+Jobs with multiple (CPU) slots can be submitted on LSF using
+\verb{bsub -n 2 -R "span[hosts=1]" < hello.sh}.
+
+\item \code{"PJM"} -
+Query Fujitsu Technical Computing Suite (that we choose to shorten
+as "PJM") environment variables \env{PJM_VNODE_CORE} and
+\env{PJM_PROC_BY_NODE}.
+The first is set when submitted with \verb{pjsub -L vnode-core=8 hello.sh}.
+
 \item \code{"PBS"} -
 Query TORQUE/PBS environment variables \env{PBS_NUM_PPN} and \env{NCPUS}.
 Depending on PBS system configuration, these \emph{resource}
 parameters may or may not default to one.
 An example of a job submission that results in this is
 \verb{qsub -l nodes=1:ppn=2}, which requests one node with two cores.
+
 \item \code{"SGE"} -
-Query Sun/Oracle Grid Engine (SGE) environment variable
-\env{NSLOTS}.
+Query Sun Grid Engine/Oracle Grid Engine/Son of Grid Engine (SGE)
+environment variable \env{NSLOTS}.
 An example of a job submission that results in this is
 \verb{qsub -pe smp 2} (or \verb{qsub -pe by_node 2}), which
 requests two cores on a single machine.
+
 \item \code{"Slurm"} -
 Query Simple Linux Utility for Resource Management (Slurm)
 environment variable \env{SLURM_CPUS_PER_TASK}.
@@ -105,16 +125,16 @@ e.g. \verb{sbatch --cpus-per-task=2 hello.sh} or by adding
 If \env{SLURM_CPUS_PER_TASK} is not set, then it will fall back to
 use \env{SLURM_CPUS_ON_NODE} if the job is a single-node job
 (\env{SLURM_JOB_NUM_NODES} is 1), e.g. \verb{sbatch --ntasks=2 hello.sh}.
-\item \code{"LSF"} -
-Query Platform Load Sharing Facility (LSF) environment variable
-\env{LSB_DJOB_NUMPROC}.
-Jobs with multiple (CPU) slots can be submitted on LSF using
-\verb{bsub -n 2 -R "span[hosts=1]" < hello.sh}.
+
 \item \code{"custom"} -
-If option \option{parallelly.availableCores.custom} is set and a function,
+If option
+\code{\link[=parallelly.options]{parallelly.availableCores.custom}}
+is set and a function,
 then this function will be called (without arguments) and it's value
 will be coerced to an integer, which will be interpreted as a number
 of available cores.  If the value is NA, then it will be ignored.
+It is safe for this custom function to call \code{availableCores()}; if
+done, the custom function will \emph{not} be recursively called.
 }
 For any other value of a \code{methods} element, the \R option with the
 same name is queried.  If that is not set, the system environment
@@ -124,11 +144,15 @@ variable is queried.  If neither is set, a missing value is returned.
 
 Note that some machines might have a limited number of cores, or the R
 process runs in a container or a cgroup that only provides a small number
-of cores.  In such cases:\if{html}{\out{<div class="sourceCode r">}}\preformatted{ncores <- availableCores() - 1
+of cores.  In such cases:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{ncores <- availableCores() - 1
 }\if{html}{\out{</div>}}
 
 may return zero, which is often not intended and is likely to give an
-error downstream.  Instead, use:\if{html}{\out{<div class="sourceCode r">}}\preformatted{ncores <- availableCores(omit = 1)
+error downstream.  Instead, use:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{ncores <- availableCores(omit = 1)
 }\if{html}{\out{</div>}}
 
 to put aside one of the cores from being used.  Regardless how many cores
@@ -169,9 +193,11 @@ options(parallelly.availableCores.custom = function() {
 })
 message(paste("Number of cores available:", availableCores()))
 
-## What is available minus one core but at least one
+## Use 50\% of the cores according to availableCores(), e.g.
+## allocated by a job scheduler or cgroups.
+## Note that it is safe to call availableCores() here.
 options(parallelly.availableCores.custom = function() {
-  max(1L, parallelly::availableCores() - 1L)
+  0.50 * parallelly::availableCores()
 })
 message(paste("Number of cores available:", availableCores()))
 }

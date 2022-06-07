@@ -25,7 +25,6 @@ jobs:
           - {os: ubuntu-20.04,   r: 'devel'    }
           - {os: ubuntu-20.04,   r: 'next'     }
           - {os: ubuntu-20.04,   r: 'release'  }
-          - {os: ubuntu-20.04,   r: 'release', usexdr: TRUE, label: 'xdr=TRUE' }
           - {os: ubuntu-20.04,   r: 'oldrel'   }
           - {os: ubuntu-20.04,   r: 'oldrel-1' }
           - {os: ubuntu-20.04,   r: 'oldrel-2' }
@@ -41,8 +40,6 @@ jobs:
       _R_CHECK_LENGTH_1_LOGIC2_: true
       _R_CHECK_MATRIX_DATA_: true
       _R_CHECK_SUGGESTS_ONLY_: true
-      ## Specific to this package
-      R_PARALLELLY_MAKENODEPSOCK_USEXDR: ${{ matrix.config.usexdr }}
       
     steps:
       - uses: actions/checkout@v2

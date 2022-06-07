@@ -70,7 +70,7 @@
 #' @param useXDR If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).
 #' 
 #' @param socketOptions A character string that sets \R option 
-#' \option{socketOptions} on the worker.
+#' \code{socketOptions} on the worker.
 #' 
 #' @param outfile Where to direct the \link[base:showConnections]{stdout} and
 #' \link[base:showConnections]{stderr} connection output from the workers.
@@ -92,10 +92,10 @@
 #' `rshcmd` call is logged to this file, of if TRUE, then it is logged
 #' to a temporary file.  The log file name is available as an attribute
 #' as part of the return node object.
-#' _Warning: This only works with SSH clients that support option
-#' `-E out.log`_.  For example, PuTTY's \command{plink} does _not_ support
-#' this option, and any attempts to specify `rshlogfile` will cause the SSH
-#' connection to fail.
+#' _Warning: This only works with SSH clients that support command-line
+#' option \option{-E out.log`}_.  For example, PuTTY's \command{plink} does
+#' _not_ support this option, and any attempts to specify `rshlogfile` will
+#' cause the SSH connection to fail.
 #'
 #' @param user (optional) The user name to be used when communicating with
 #' another host.
@@ -104,7 +104,9 @@
 #' that the worker \R process sets up a socket connection to its local port
 #' `(port - rank + 1)` which then reaches the master on port `port`.
 #' If FALSE, then the worker will try to connect directly to port `port` on
-#' `master`.  For more details, see below.
+#' `master`.
+#' If NA, then TRUE or FALSE is inferred from inspection of `rshcmd[1]`.
+#' For more details, see below.
 #' 
 #' @param manual If TRUE the workers will need to be run manually. The command
 #' to run will be displayed.
@@ -141,7 +143,9 @@
 #' 
 #' The default method for connecting to an external host is via SSH and the
 #' system executable for this is given by argument `rshcmd`.  The default
-#' is given by option \option{parallelly.makeNodePSOCK.rshcmd}.  If that is not
+#' is given by option
+#' \code{\link[=parallelly.options]{parallelly.makeNodePSOCK.rshcmd}}.
+#' If that is not
 #' set, then the default is to use \command{ssh} on Unix-like systems,
 #' including macOS as well as Windows 10.  On older MS Windows versions, which
 #' does not have a built-in \command{ssh} client, the default is to use
@@ -167,15 +171,16 @@
 #'
 #' You can override the default set of SSH clients that are searched for
 #' by specifying them in argument `rshcmd` or via option
-#' \option{parallelly.makeNodePSOCK.rshcmd} using the format `<...>`, e.g.
+#' \code{\link[=parallelly.options]{parallelly.makeNodePSOCK.rshcmd}}
+#' using the format `<...>`, e.g.
 #' `rshcmd = c("<rstudio-ssh>", "<putty-plink>", "<ssh>")`.  See
 #' below for examples.
 #'
 #' If no SSH-client is found, an informative error message is produced.
 #'
-#' Additional SSH options may be specified via argument `rshopts`, which
-#' defaults to option \option{parallelly.makeNodePSOCK.rshopts}. For instance, a
-#' private SSH key can be provided as
+#' Additional SSH command-line options may be specified via argument `rshopts`,
+#' which defaults to option \code{parallelly.makeNodePSOCK.rshopts}. For
+#' instance, a private SSH key can be provided as
 #' `rshopts = c("-i", "~/.ssh/my_private_key")`.  PuTTY users should
 #' specify a PuTTY PPK file, e.g.
 #' `rshopts = c("-i", "C:/Users/joe/.ssh/my_keys.ppk")`.
@@ -186,7 +191,7 @@
 #' functions to log in and launch \R workers on external machines that requires
 #' a password to be entered manually for authentication._
 #' The only known exception is the PuTTY client on Windows for which one can
-#' pass the password via command-line option `-pw`, e.g. 
+#' pass the password via command-line option \option{-pw}, e.g. 
 #' `rshopts = c("-pw", "MySecretPassword")`.
 #'
 #' Note, depending on whether you run \R in a terminal or via a GUI, you might
@@ -213,11 +218,12 @@
 #' for "ssh key authentication".
 #'
 #' @section Reverse SSH tunneling:
-#' The default is to use reverse SSH tunneling (`revtunnel = TRUE`) for
-#' workers running on other machines.  This avoids the complication of
-#' otherwise having to configure port forwarding in firewalls, which often
-#' requires static IP address as well as privileges to edit the firewall
-#' on your outgoing router, something most users don't have.
+#' If SSH is used, which is inferred from `rshcmd[1]`, then the default is
+#' to use reverse SSH tunneling (`revtunnel = TRUE`), otherwise not
+#' (`revtunnel = FALSE`). Using reverse SSH tunneling, avoids complications
+#' from otherwise having to configure port forwarding in firewalls, which
+#' often requires static IP address as well as privileges to edit the
+#' firewall on your outgoing router, something most users don't have.
 #' It also has the advantage of not having to know the internal and / or the
 #' public IP address / hostname of the master.
 #' Yet another advantage is that there will be no need for a DNS lookup by the
@@ -321,9 +327,10 @@
 #' @importFrom tools pskill
 #' @importFrom utils flush.console
 #' @export
-makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, rscript_sh = c("auto", "cmd", "sh"), default_packages = c("datasets", "utils", "grDevices", "graphics", "stats", if (methods) "methods"), methods = TRUE, socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"), useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = TRUE, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
+makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "localhost"), master = NULL, port, connectTimeout = getOption2("parallelly.makeNodePSOCK.connectTimeout", 2 * 60), timeout = getOption2("parallelly.makeNodePSOCK.timeout", 30 * 24 * 60 * 60), rscript = NULL, homogeneous = NULL, rscript_args = NULL, rscript_envs = NULL, rscript_libs = NULL, rscript_startup = NULL, rscript_sh = c("auto", "cmd", "sh"), default_packages = c("datasets", "utils", "grDevices", "graphics", "stats", if (methods) "methods"), methods = TRUE, socketOptions = getOption2("parallelly.makeNodePSOCK.socketOptions", "no-delay"), useXDR = getOption2("parallelly.makeNodePSOCK.useXDR", FALSE), outfile = "/dev/null", renice = NA_integer_, rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL), user = NULL, revtunnel = NA, rshlogfile = NULL, rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL), rank = 1L, manual = FALSE, dryrun = FALSE, quiet = FALSE, setup_strategy = getOption2("parallelly.makeNodePSOCK.setup_strategy", "parallel"), action = c("launch", "options"), verbose = FALSE) {
   verbose <- as.logical(verbose)
   stop_if_not(length(verbose) == 1L, !is.na(verbose))
+  verbose_prefix <- "[local output] "
 
   if (inherits(worker, "makeNodePSOCKOptions")) {
     return(launchNodePSOCK(options = worker, verbose = verbose))
@@ -364,6 +371,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   
   ## Locate a default SSH client?
   if (identical(rshcmd, "")) rshcmd <- NULL
+  
   if (!is.null(rshcmd)) {
     rshcmd <- as.character(rshcmd)
     stop_if_not(length(rshcmd) >= 1L)
@@ -378,8 +386,65 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   port <- as.integer(port)
   assertPort(port)
 
+  ## Find default SSH client?
+  if (!localMachine && (is.null(rshcmd) || all(grepl("^<[a-zA-Z-]+>$", rshcmd)))) {
+    if (is.null(rshcmd)) {
+      which <- NULL
+      if (verbose) {
+        mdebugf("%sWill search for all 'rshcmd' available\n",
+                verbose_prefix)
+      }
+    } else if (all(grepl("^<[a-zA-Z-]+>$", rshcmd))) {
+      if (verbose) {
+        mdebugf("%sWill search for specified 'rshcmd' types: %s\n",
+                verbose_prefix, paste(sQuote(rshcmd), collapse = ", "))
+      }
+      which <- gsub("^<([a-zA-Z-]+)>$", "\\1", rshcmd)
+    }
+
+    rshcmd <- find_rshcmd(which = which,
+                          must_work = !localMachine && !manual && !dryrun)
+    if (verbose) {
+      s <- unlist(lapply(rshcmd, FUN = function(r) {
+        sprintf("%s [type=%s, version=%s]", paste(sQuote(r), collapse = ", "), sQuote(attr(r, "type")), sQuote(attr(r, "version")))
+      }))
+      s <- paste(sprintf("%s %d. %s", verbose_prefix, seq_along(s), s), collapse = "\n")
+      mdebugf("%sFound the following available 'rshcmd':\n%s", verbose_prefix, s)
+    }
+    rshcmd <- rshcmd[[1]]
+    
+    ## Holds a pathname with an optional set of command-line options
+    stop_if_not(is.character(rshcmd), length(rshcmd) >= 1L)
+  } else if (!is.null(rshcmd)) {
+    ## Try to guess "type" of 'rshcmd' from it's basename
+    basename <- tolower(basename(rshcmd[1]))
+    if (basename %in% c("ssh", "plink")) {
+      type <- "ssh"
+    } else if (basename %in% c("rsh")) {
+      type <- "rsh"
+    } else {
+      type <- "<unknown>"
+    }
+    if (is.null(attr(rshcmd, "type"))) attr(rshcmd, "type") <- type
+    if (is.null(attr(rshcmd, "version"))) attr(rshcmd, "version") <- "<unknown>"
+  }
+
   revtunnel <- as.logical(revtunnel)
-  stop_if_not(length(revtunnel) == 1L, !is.na(revtunnel))
+  stop_if_not(length(revtunnel) == 1L)
+  
+  ## Should reverse tunneling be used or not?
+  if (is.na(revtunnel)) {
+    if (localMachine) {
+      mdebugf("%slocalMachine=TRUE => revtunnel=FALSE\n", verbose_prefix)
+      revtunnel <- FALSE
+    } else if (identical(attr(rshcmd, "type"), "ssh")) {
+      mdebugf("%slocalMachine=FALSE && 'rshcmd' type is \"%s\" => revtunnel=TRUE\n", verbose_prefix, attr(rshcmd, "type"))
+      revtunnel <- TRUE
+    } else {
+      mdebugf("%slocalMachine=FALSE && 'rshcmd' type is \"%s\" => revtunnel=FALSE\n", verbose_prefix, attr(rshcmd, "type"))
+      revtunnel <- FALSE
+    }
+  }
 
   if (!is.null(rshlogfile)) {
     if (is.logical(rshlogfile)) {
@@ -519,8 +584,6 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   stop_if_not(length(rank) == 1L, !is.na(rank))
 
   action <- match.arg(action, choices = c("launch", "options"))
-
-  verbose_prefix <- "[local output] "
 
   ## Shell quote the Rscript executable?
   if (!inherits(rscript, "AsIs")) {
@@ -713,45 +776,12 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   }
 
   if (!localMachine) {
-    ## Find default SSH client
-    find <- is.null(rshcmd)
-    if (find) {
-      which <- NULL
-      if (verbose) {
-        mdebugf("%sWill search for all 'rshcmd' available\n",
-                verbose_prefix)
-      }
-    } else if (all(grepl("^<[a-zA-Z-]+>$", rshcmd))) {
-      find <- TRUE
-      if (verbose) {
-        mdebugf("%sWill search for specified 'rshcmd' types: %s\n",
-                verbose_prefix, paste(sQuote(rshcmd), collapse = ", "))
-      }
-      which <- gsub("^<([a-zA-Z-]+)>$", "\\1", rshcmd)
-    }
-
-    if (find) {
-      rshcmd <- find_rshcmd(which = which,
-                            must_work = !localMachine && !manual && !dryrun)
-      if (verbose) {
-        s <- unlist(lapply(rshcmd, FUN = function(r) {
-          sprintf("%s [type=%s, version=%s]", paste(sQuote(r), collapse = ", "), sQuote(attr(r, "type")), sQuote(attr(r, "version")))
-        }))
-        s <- paste(sprintf("%s %d. %s", verbose_prefix, seq_along(s), s), collapse = "\n")
-        mdebugf("%sFound the following available 'rshcmd':\n%s", verbose_prefix, s)
-      }
-      rshcmd <- rshcmd[[1]]
-    } else {
-      if (is.null(attr(rshcmd, "type"))) attr(rshcmd, "type") <- "<unknown>"
-      if (is.null(attr(rshcmd, "version"))) attr(rshcmd, "version") <- "<unknown>"
-    }
-    
-    ## Holds a pathname with an optional set of command-line options
+    ## Must hold a pathname with an optional set of command-line options
     stop_if_not(is.character(rshcmd), length(rshcmd) >= 1L)
-    
+
+    ## Create label
     s <- sprintf("type=%s, version=%s", sQuote(attr(rshcmd, "type")), sQuote(attr(rshcmd, "version")))
     rshcmd_label <- sprintf("%s [%s]", paste(sQuote(rshcmd), collapse = ", "), s)
-
     if (verbose) mdebugf("%sUsing 'rshcmd': %s", verbose_prefix, rshcmd_label)
     
     ## User?
@@ -852,7 +882,6 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
 
   verbose <- as.logical(verbose)
   stop_if_not(length(verbose) == 1L, !is.na(verbose))
-
   verbose_prefix <- "[local output] "
 
   is_worker_output_visible <- is.null(outfile)
@@ -867,7 +896,7 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
                  sprintf("\n  %s\n", rsh_call))
         msg <- c(msg, sprintf("and (ii) start worker #%s from there:", rank),
                  sprintf("\n  %s\n", cmd))
-        msg <- c(msg, sprintf("Alternatively, start worker #%s from the local machine by combining both step in a single call:", rank),
+        msg <- c(msg, sprintf("Alternatively, start worker #%s from the local machine by combining both steps in a single call:", rank),
                  sprintf("\n  %s\n", local_cmd))
       }
       msg <- paste(c(msg, ""), collapse = "\n")

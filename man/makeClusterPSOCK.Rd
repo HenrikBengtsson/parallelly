@@ -39,7 +39,7 @@ makeNodePSOCK(
   renice = NA_integer_,
   rshcmd = getOption2("parallelly.makeNodePSOCK.rshcmd", NULL),
   user = NULL,
-  revtunnel = TRUE,
+  revtunnel = NA,
   rshlogfile = NULL,
   rshopts = getOption2("parallelly.makeNodePSOCK.rshopts", NULL),
   rank = 1L,
@@ -70,7 +70,7 @@ used.
 \code{rshcmd}, which typically is an SSH client.  Instead, if the SSH daemon
 runs on a different port than the default 22, specify the SSH port by
 appending it to the hostname, e.g. \code{"remote.server.org:2200"} or via
-SSH options \code{-p}, e.g. \code{rshopts = c("-p", "2200")}.}}
+SSH options \option{-p}, e.g. \code{rshopts = c("-p", "2200")}.}}
 
 \item{\dots}{Optional arguments passed to
 \code{makeNode(workers[i], ..., rank = i)} where \code{i = seq_along(workers)}.}
@@ -161,7 +161,7 @@ loaded. This is argument exists for legacy reasons due to how
 \command{Rscript} worked in R (< 3.5.0).}
 
 \item{socketOptions}{A character string that sets \R option
-\option{socketOptions} on the worker.}
+\code{socketOptions} on the worker.}
 
 \item{useXDR}{If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).}
 
@@ -186,16 +186,18 @@ another host.}
 that the worker \R process sets up a socket connection to its local port
 \code{(port - rank + 1)} which then reaches the master on port \code{port}.
 If FALSE, then the worker will try to connect directly to port \code{port} on
-\code{master}.  For more details, see below.}
+\code{master}.
+If NA, then TRUE or FALSE is inferred from inspection of \code{rshcmd[1]}.
+For more details, see below.}
 
 \item{rshlogfile}{(optional) If a filename, the output produced by the
 \code{rshcmd} call is logged to this file, of if TRUE, then it is logged
 to a temporary file.  The log file name is available as an attribute
 as part of the return node object.
-\emph{Warning: This only works with SSH clients that support option
-\verb{-E out.log}}.  For example, PuTTY's \command{plink} does \emph{not} support
-this option, and any attempts to specify \code{rshlogfile} will cause the SSH
-connection to fail.}
+\emph{Warning: This only works with SSH clients that support command-line
+option \option{-E out.log`}}.  For example, PuTTY's \command{plink} does
+\emph{not} support this option, and any attempts to specify \code{rshlogfile} will
+cause the SSH connection to fail.}
 
 \item{rank}{A unique one-based index for each worker (automatically set).}
 
@@ -253,7 +255,9 @@ to an external host.
 
 The default method for connecting to an external host is via SSH and the
 system executable for this is given by argument \code{rshcmd}.  The default
-is given by option \option{parallelly.makeNodePSOCK.rshcmd}.  If that is not
+is given by option
+\code{\link[=parallelly.options]{parallelly.makeNodePSOCK.rshcmd}}.
+If that is not
 set, then the default is to use \command{ssh} on Unix-like systems,
 including macOS as well as Windows 10.  On older MS Windows versions, which
 does not have a built-in \command{ssh} client, the default is to use
@@ -279,15 +283,16 @@ accordingly.
 
 You can override the default set of SSH clients that are searched for
 by specifying them in argument \code{rshcmd} or via option
-\option{parallelly.makeNodePSOCK.rshcmd} using the format \verb{<...>}, e.g.
+\code{\link[=parallelly.options]{parallelly.makeNodePSOCK.rshcmd}}
+using the format \verb{<...>}, e.g.
 \code{rshcmd = c("<rstudio-ssh>", "<putty-plink>", "<ssh>")}.  See
 below for examples.
 
 If no SSH-client is found, an informative error message is produced.
 
-Additional SSH options may be specified via argument \code{rshopts}, which
-defaults to option \option{parallelly.makeNodePSOCK.rshopts}. For instance, a
-private SSH key can be provided as
+Additional SSH command-line options may be specified via argument \code{rshopts},
+which defaults to option \code{parallelly.makeNodePSOCK.rshopts}. For
+instance, a private SSH key can be provided as
 \code{rshopts = c("-i", "~/.ssh/my_private_key")}.  PuTTY users should
 specify a PuTTY PPK file, e.g.
 \code{rshopts = c("-i", "C:/Users/joe/.ssh/my_keys.ppk")}.
@@ -300,7 +305,7 @@ Contrary to \code{rshcmd}, elements of \code{rshopts} are not quoted.
 functions to log in and launch \R workers on external machines that requires
 a password to be entered manually for authentication.}
 The only known exception is the PuTTY client on Windows for which one can
-pass the password via command-line option \code{-pw}, e.g.
+pass the password via command-line option \option{-pw}, e.g.
 \code{rshopts = c("-pw", "MySecretPassword")}.
 
 Note, depending on whether you run \R in a terminal or via a GUI, you might
@@ -331,11 +336,12 @@ for "ssh key authentication".
 
 \section{Reverse SSH tunneling}{
 
-The default is to use reverse SSH tunneling (\code{revtunnel = TRUE}) for
-workers running on other machines.  This avoids the complication of
-otherwise having to configure port forwarding in firewalls, which often
-requires static IP address as well as privileges to edit the firewall
-on your outgoing router, something most users don't have.
+If SSH is used, which is inferred from \code{rshcmd[1]}, then the default is
+to use reverse SSH tunneling (\code{revtunnel = TRUE}), otherwise not
+(\code{revtunnel = FALSE}). Using reverse SSH tunneling, avoids complications
+from otherwise having to configure port forwarding in firewalls, which
+often requires static IP address as well as privileges to edit the
+firewall on your outgoing router, something most users don't have.
 It also has the advantage of not having to know the internal and / or the
 public IP address / hostname of the master.
 Yet another advantage is that there will be no need for a DNS lookup by the
@@ -482,10 +488,10 @@ cl <- makeClusterPSOCK(
 
 ## EXAMPLE: Remote workers with specific setup
 ## Setup of remote worker with more detailed control on
-## authentication and reverse SSH tunnelling
+## authentication and reverse SSH tunneling
 cl <- makeClusterPSOCK(
   "remote.server.org", user = "johnny",
-  ## Manual configuration of reverse SSH tunnelling
+  ## Manual configuration of reverse SSH tunneling
   revtunnel = FALSE,
   rshopts = c("-v", "-R 11000:gateway:11942"),
   master = "gateway", port = 11942,
@@ -663,6 +669,24 @@ cl <- makeClusterPSOCK(
 ## preventing it from using other SSH clients on the system search PATH.
 cl <- makeClusterPSOCK(
   "remote.server.org", user = "bob", rshcmd = "<rstudio-ssh>",
+  dryrun = TRUE, quiet = TRUE
+)
+
+
+## EXAMPLE: The 'Fujitsu Technical Computing Suite' is a high-performance
+## compute (HPC) job scheduler where one can request compute resources on
+## multiple nodes, each running multiple cores.  For example,
+##
+##   pjsub -L vnode=3 -L vnode-core=18 script.sh
+##
+## reserves 18 cores on three nodes. The job script runs on the first
+## with enviroment variables set to infer the other nodes, resulting in
+## availableWorkers() to return 3 * 18 workers. When the HPC environment
+## does not support SSH between compute nodes, one can use the 'pjrsh'
+## command to launch the parallel workers.
+cl <- makeClusterPSOCK(
+  availableWorkers(),
+  rshcmd = "pjrsh",
   dryrun = TRUE, quiet = TRUE
 )
 }

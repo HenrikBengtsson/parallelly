@@ -26,24 +26,36 @@
 #'
 #' In addition, the following settings ("methods") are also acknowledged:
 #' \itemize{
+#'  \item `"LSF"` -
+#'    Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
+#'
+#'  \item `"PJM"` - 
+#'    Query Fujitsu Technical Computing Suite (that we choose to shorten
+#'    as "PJM") the hostname file given by environment variable
+#'    \env{PJM_O_NODEINF}.
+#'    The \env{PJM_O_NODEINF} file lists the hostnames of the nodes alloted.
+#'    This function returns those hostnames each repeated `availableCores()`
+#'    times, where `availableCores()` reflects \env{PJM_VNODE_CORE}.
+#'    For example, for `pjsub -L vnode=2 -L vnode-core=8 hello.sh`, the
+#'    \env{PJM_O_NODEINF} file gives two hostnames, and \env{PJM_VNODE_CORE}
+#'    gives eight cores per host, resulting in a character vector of 16
+#'    hostnames (for two unique hostnames).
+#'
 #'  \item `"PBS"` -
 #'    Query TORQUE/PBS environment variable \env{PBS_NODEFILE}.
 #'    If this is set and specifies an existing file, then the set
 #'    of workers is read from that file, where one worker (node)
 #'    is given per line.
 #'    An example of a job submission that results in this is
-#'    `qsub -l nodes = 4:ppn = 2`, which requests four nodes each
+#'    `qsub -l nodes=4:ppn=2`, which requests four nodes each
 #'    with two cores.
 #'
 #'  \item `"SGE"` -
-#'    Query Sun/Oracle Grid Engine (SGE) environment variable
+#'    Query Sun Grid Engine/Oracle Grid Engine/Son of Grid Engine (SGE)
 #'    \env{PE_HOSTFILE}.
 #'    An example of a job submission that results in this is
 #'    `qsub -pe mpi 8` (or `qsub -pe ompi 8`), which
 #'    requests eight cores on a any number of machines.
-#'
-#'  \item `"LSF"` -
-#'    Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
 #'
 #'  \item `"Slurm"` -
 #'    Query Slurm environment variable \env{SLURM_JOB_NODELIST} (fallback
@@ -55,17 +67,21 @@
 #'    if it is smaller, then that is used for all nodes.
 #'    For example, if `SLURM_NODELIST="n1,n[03-05]"` (expands to
 #'    `c("n1", "n03", "n04", "n05")`) and `SLURM_JOB_CPUS_PER_NODE="2(x2),3,2"`
-#'    (expands to `c(2, 2, 3, 2, 2)`), then
+#'    (expands to `c(2, 2, 3, 2)`), then
 #'    `c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05", "n05")` is
 #'    returned.  If in addition, `SLURM_CPUS_PER_TASK=1`, which can happen
 #'    depending on hyperthreading configurations on the Slurm cluster, then 
 #'    `c("n1", "n03", "n04", "n05")` is returned.
 #'
 #'  \item `"custom"` -
-#'    If option \option{parallelly.availableWorkers.custom} is set and a function,
+#'    If option
+#'    \code{\link[=parallelly.options]{parallelly.availableWorkers.custom}}
+#'    is set and a function,
 #'    then this function will be called (without arguments) and it's value
 #'    will be coerced to a character vector, which will be interpreted as
 #'    hostnames of available workers.
+#'    It is safe for this custom function to call `availableWorkers()`; if
+#'    done, the custom function will _not_ be recursively called.
 #' }
 #'
 #' @section Known limitations:
@@ -77,7 +93,7 @@
 #' e.g. `"a[1-2]b[3-4]"` is expanded by \command{scontrol} to
 #' `c("a1b3", "a1b4", "a2b3", "a2b4")`.  If \command{scontrol} is not
 #' available, then any components that failed to be parsed are dropped with
-#' an informative warning message.  If no compents could be parsed, then
+#' an informative warning message.  If no components could be parsed, then
 #' the result of `methods = "Slurm"` will be empty.
 #'
 #' @examples
@@ -99,13 +115,24 @@
 #'         paste(sQuote(availableWorkers()), collapse = ", ")))
 #' }
 #'
+#' \dontrun{
+#' ## A 50% random subset of the available workers.
+#' ## Note that it is safe to call availableWorkers() here.
+#' options(parallelly.availableWorkers.custom = function() {
+#'   workers <- parallelly::availableWorkers()
+#'   sample(workers, size = 0.50 * length(workers))
+#' })
+#' message(paste("Available workers:",
+#'         paste(sQuote(availableWorkers()), collapse = ", ")))
+#' }
+#'
 #' @seealso
 #' To get the number of available workers on the current machine,
 #' see [availableCores()].
 #'
 #' @importFrom utils file_test
 #' @export
-availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = getOption2("parallelly.localhost.hostname", "localhost"), which = c("auto", "min", "max", "all")) {
+availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "LSF", "PJM", "PBS", "SGE", "Slurm", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = getOption2("parallelly.localhost.hostname", "localhost"), which = c("auto", "min", "max", "all")) {
   ## Local functions
   getenv <- function(name) {
     as.character(trim(getEnvVar2(name, default = NA_character_)))
@@ -235,6 +262,32 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
       data <- getenv("LSB_HOSTS")
       if (is.na(data)) next
       w <- split(data)
+    } else if (method == "PJM") {
+      pathname <- getenv("PJM_O_NODEINF")
+      if (is.na(pathname)) next
+      if (!file_test("-f", pathname)) {
+        warnf("Environment variable %s was set but no such file %s exists", sQuote("PJM_O_NODEINF"), sQuote(pathname))
+        next
+      }
+      data <- read_pjm_nodefile(pathname, sort = FALSE)
+
+      ## Sanity check against PJM_VNODE
+      n <- suppressWarnings(as.integer(getenv("PJM_VNODE")))
+      if (!is.na(n) && n != nrow(data)) {
+        warnf("Environment variable %s does not agree with the number of hosts in file %s: %s != %s", sQuote("PJM_VNODE"), sQuote("PJM_O_NODEINF"), getenv("PJM_VNODE"), nrow(data))
+      }
+
+      ## This will query PJM for the number of cores per worker, which we
+      ## assume is the same for all workers, because I don't think it can
+      ## be different across workers, but not 100% sure.  If for some 
+      ## reason availableCores() don't find a PJM environment variable of
+      ## interest, it'll fall back to the default (=1).  If so, we give
+      ## an informative warning with troubleshooting info. /HB 2022-05-28
+      cores_per_worker <- availableCores(methods = method)
+      if (!grepl("PJM", names(cores_per_worker))) {
+        warnf("Inferred parallel workers from the hostname file given by environment variable %s, but could not find a corresponding 'PJM_*' environment variable for inferring the number of cores per worker: %s", sQuote("PJM_O_NODEINF"), paste(sQuote(grep("^PJM_", names(Sys.getenv()), value = TRUE)), collapse = ", "))
+      }
+      w <- rep(data$node, each = cores_per_worker)
     } else if (method == "custom") {
       fcn <- getOption2("parallelly.availableWorkers.custom", NULL)
       if (!is.function(fcn)) next
@@ -332,6 +385,12 @@ read_pbs_nodefile <- function(pathname, sort = TRUE) {
   }
 
   data
+}
+
+
+#' @importFrom utils read.table
+read_pjm_nodefile <- function(pathname, sort = TRUE) {
+  read_pbs_nodefile(pathname, sort = sort)
 }
 
 

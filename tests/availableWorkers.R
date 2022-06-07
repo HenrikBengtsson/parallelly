@@ -26,13 +26,14 @@ print(availableWorkers(methods = "PBS"))
 print(availableWorkers(methods = "SGE"))
 print(availableWorkers(methods = "Slurm"))
 print(availableWorkers(methods = "LSF"))
-
+print(availableWorkers(methods = "PJM"))
 
 
 message("*** HPC related ...")
 
 sge_expand_node_count_pairs <- parallelly:::sge_expand_node_count_pairs
 read_pbs_nodefile <- parallelly:::read_pbs_nodefile
+read_pjm_nodefile <- parallelly:::read_pjm_nodefile
 read_pe_hostfile <- parallelly:::read_pe_hostfile
 
 workers0 <- c("n1", "n2", "n3", "n1", "n6", "n3", "n3", "n5")
@@ -103,6 +104,73 @@ res <- tryCatch({
 stopifnot(inherits(res, "warning"))
 
 message("*** read_pbs_nodefile() ... DONE")
+
+
+
+
+message("*** read_pjm_nodefile() ...")
+
+workersT <- unique(workers0)
+pathname <- tempfile()
+writeLines(workersT, con = pathname)
+
+data <- read_pjm_nodefile(pathname)
+str(data)
+stopifnot(
+  c("node") %in% colnames(data),
+  is.character(data$node),
+  !anyNA(data$node),
+  nrow(data$node) == length(workersT),
+  all(sort(data$node) == sort(workersT)),
+  identical(data$node, unique(data$node))
+)
+
+Sys.setenv(PJM_O_NODEINF = pathname)
+
+message("- PJM_VNODE_CORE=1")
+Sys.setenv(PJM_VNODE_CORE = "1")
+workers <- availableWorkers(methods = "PJM")
+print(workers)
+stopifnot(
+  length(workers) == length(workersT),
+  all(sort(workers) == sort(workersT))
+)
+
+message("- PJM_VNODE=", length(workersT))
+message("- PJM_VNODE_CORE=2")
+Sys.setenv(PJM_VNODE = length(workersT))
+Sys.setenv(PJM_VNODE_CORE = "2")
+workers <- availableWorkers(methods = "PJM")
+print(workers)
+stopifnot(
+  length(workers) == 2L * length(workersT),
+  all(workers %in% workersT),
+  all(workersT %in% workers)
+)
+
+
+message("- PJM_VNODE=1 (incompatible => warning)")
+message("- PJM_VNODE_CORE=2")
+Sys.setenv(PJM_VNODE = "1")
+Sys.setenv(PJM_VNODE_CORE = "2")
+workers <- availableWorkers(methods = "PJM")
+print(workers)
+stopifnot(
+  length(workers) == 2L * length(workersT),
+  all(workers %in% workersT),
+  all(workersT %in% workers)
+)
+
+
+message("- PJM_O_NODEINF = <non-existing-file>")
+Sys.setenv(PJM_O_NODEINF = "<non-existing-file>")
+res <- tryCatch({
+  workers <- availableWorkers(methods = "PJM")
+}, warning = identity)
+stopifnot(inherits(res, "warning"))
+
+message("*** read_pjm_nodefile() ... DONE")
+
 
 
 message("*** read_pe_hostfile() ...")

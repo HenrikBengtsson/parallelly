@@ -74,8 +74,8 @@ and \code{R_PARALLELLY_}, respectively.  Because of the backward compatibility
 with the \pkg{future} package, the same settings can also be controlled
 by options and environment variables with prefixes \code{future.} and
 \code{R_FUTURE_} until further notice, e.g. setting option
-\option{future.availableCores.fallback=1} is the same as setting option
-\option{parallelly.availableCores.fallback=1}, and setting environment
+\code{future.availableCores.fallback=1} is the same as setting option
+\code{parallelly.availableCores.fallback=1}, and setting environment
 variable \env{R_FUTURE_AVAILABLECORES_FALLBACK=1} is the same as setting
 \env{R_PARALLELLY_AVAILABLECORES_FALLBACK=1}.
 }
@@ -86,23 +86,23 @@ variable \env{R_FUTURE_AVAILABLECORES_FALLBACK=1} is the same as setting
 The below \R options and environment variables control the default results of \code{\link[=availableCores]{availableCores()}} and \code{\link[=availableWorkers]{availableWorkers()}}.
 
 \describe{
-\item{\option{parallelly.availableCores.logical}:}{(logical) The default value of argument \code{logical} as used by \code{availableCores()}, \code{availableWorkers()}, and \code{availableCores()} for querying \code{parallel::detectCores(logical = logical)}.  The default is \code{TRUE} just like it is for \code{\link[parallel:detectCores]{parallel::detectCores()}}.}
+\item{\code{parallelly.availableCores.logical}:}{(logical) The default value of argument \code{logical} as used by \code{availableCores()}, \code{availableWorkers()}, and \code{availableCores()} for querying \code{parallel::detectCores(logical = logical)}.  The default is \code{TRUE} just like it is for \code{\link[parallel:detectCores]{parallel::detectCores()}}.}
 
-\item{\option{parallelly.availableCores.methods}:}{(character vector) Default lookup methods for \code{\link[=availableCores]{availableCores()}}. (Default: \code{c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")})}
+\item{\code{parallelly.availableCores.methods}:}{(character vector) Default lookup methods for \code{\link[=availableCores]{availableCores()}}. (Default: \code{c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")})}
 
-\item{\option{parallelly.availableCores.custom}:}{(function) If set and a function, then this function will be called (without arguments) by \code{\link[=availableCores]{availableCores()}} where its value, coerced to an integer, is interpreted as a number of cores.}
+\item{\code{parallelly.availableCores.custom}:}{(function) If set and a function, then this function will be called (without arguments) by \code{\link[=availableCores]{availableCores()}} where its value, coerced to an integer, is interpreted as a number of cores.}
 
-\item{\option{parallelly.availableCores.fallback}:}{(integer) Number of cores to use when no core-specifying settings are detected other than \code{"system"} and \code{"nproc"}.  This options makes it possible to set the default number of cores returned by \code{availableCores()} / \code{availableWorkers()} yet allow users and schedulers to override it.  In multi-tenant environment, such as HPC clusters, it is useful to set environment variable \env{R_PARALLELLY_AVAILABLECORES_FALLBACK} to \code{1}, which will set this option when the package is loaded.}
+\item{\code{parallelly.availableCores.fallback}:}{(integer) Number of cores to use when no core-specifying settings are detected other than \code{"system"} and \code{"nproc"}.  This options makes it possible to set the default number of cores returned by \code{availableCores()} / \code{availableWorkers()} yet allow users and schedulers to override it.  In multi-tenant environment, such as HPC clusters, it is useful to set environment variable \env{R_PARALLELLY_AVAILABLECORES_FALLBACK} to \code{1}, which will set this option when the package is loaded.}
 
-\item{\option{parallelly.availableCores.system}:}{(integer) Number of "system" cores used instead of what is reported by \code{\link{availableCores}(which = "system")}. This option allows you to effectively override what \code{parallel::detectCores()} reports the system has.}
+\item{\code{parallelly.availableCores.system}:}{(integer) Number of "system" cores used instead of what is reported by \code{\link{availableCores}(which = "system")}. This option allows you to effectively override what \code{parallel::detectCores()} reports the system has.}
 
-\item{\option{parallelly.availableCores.min}:}{(integer) The minimum number of cores \code{\link[=availableCores]{availableCores()}} is allowed to return. This can be used to force multiple cores on a single-core environment. If this is limit is applied, the names of the returned value are appended with an asterisk (\code{*}).  (Default: \code{1L})}
+\item{\code{parallelly.availableCores.min}:}{(integer) The minimum number of cores \code{\link[=availableCores]{availableCores()}} is allowed to return. This can be used to force multiple cores on a single-core environment. If this is limit is applied, the names of the returned value are appended with an asterisk (\code{*}).  (Default: \code{1L})}
 
-\item{\option{parallelly.availableCores.omit}:}{(integer) Number of cores to set aside, i.e. not to include.}
+\item{\code{parallelly.availableCores.omit}:}{(integer) Number of cores to set aside, i.e. not to include.}
 
-\item{\option{parallelly.availableWorkers.methods}:}{(character vector) Default lookup methods for \code{\link[=availableWorkers]{availableWorkers()}}. (Default: \code{c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")})}
+\item{\code{parallelly.availableWorkers.methods}:}{(character vector) Default lookup methods for \code{\link[=availableWorkers]{availableWorkers()}}. (Default: \code{c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")})}
 
-\item{\option{parallelly.availableWorkers.custom}:}{(function) If set and a function, then this function will be called (without arguments) by \code{\link[=availableWorkers]{availableWorkers()}} where its value, coerced to a character vector, is interpreted as hostnames of available workers.}
+\item{\code{parallelly.availableWorkers.custom}:}{(function) If set and a function, then this function will be called (without arguments) by \code{\link[=availableWorkers]{availableWorkers()}} where its value, coerced to a character vector, is interpreted as hostnames of available workers.}
 }
 }
 
@@ -112,9 +112,9 @@ The below \R options and environment variables control the default results of \c
 The below \R options and environment variables control the default result of \code{\link[=supportsMulticore]{supportsMulticore()}}.
 
 \describe{
-\item{\option{parallelly.fork.enable}:}{(logical) Enable or disable \emph{forked} processing.  If \code{FALSE}, multicore futures becomes sequential futures.  If \code{NA}, or not set (the default), the a set of best-practices rules decide whether should be supported or not.}
+\item{\code{parallelly.fork.enable}:}{(logical) Enable or disable \emph{forked} processing.  If \code{FALSE}, multicore futures becomes sequential futures.  If \code{NA}, or not set (the default), the a set of best-practices rules decide whether should be supported or not.}
 
-\item{\option{parallelly.supportsMulticore.unstable}:}{(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If \code{"warn"} (default), then an informative warning is produces the first time 'multicore' or 'multiprocess' futures are used.  If \code{"quiet"}, no warning is produced.}
+\item{\code{parallelly.supportsMulticore.unstable}:}{(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If \code{"warn"} (default), then an informative warning is produces the first time 'multicore' or 'multiprocess' futures are used.  If \code{"quiet"}, no warning is produced.}
 }
 }
 
@@ -124,25 +124,25 @@ The below \R options and environment variables control the default result of \co
 The below \R options and environment variables control the default results of \code{\link[=makeClusterPSOCK]{makeClusterPSOCK()}} and its helper function \code{\link[=makeNodePSOCK]{makeNodePSOCK()}} that creates the individual cluster nodes.
 
 \describe{
-\item{\option{parallelly.makeNodePSOCK.setup_strategy}:}{(character) If \code{"parallel"} (default), the PSOCK cluster nodes are set up concurrently.  If \code{"sequential"}, they are set up sequentially.}
+\item{\code{parallelly.makeNodePSOCK.setup_strategy}:}{(character) If \code{"parallel"} (default), the PSOCK cluster nodes are set up concurrently.  If \code{"sequential"}, they are set up sequentially.}
 
-\item{\option{parallelly.makeNodePSOCK.validate}:}{(logical) If TRUE (default), after the nodes have been created, they are all validated that they work by inquiring about their session information, which is saved in attribute \code{session_info} of each node.}
+\item{\code{parallelly.makeNodePSOCK.validate}:}{(logical) If TRUE (default), after the nodes have been created, they are all validated that they work by inquiring about their session information, which is saved in attribute \code{session_info} of each node.}
 
-\item{\option{parallelly.makeNodePSOCK.connectTimeout}:}{(numeric) The maximum time (in seconds) allowed for each socket connection between the master and a worker to be established (defaults to 2*60 seconds = 2 minutes).}
+\item{\code{parallelly.makeNodePSOCK.connectTimeout}:}{(numeric) The maximum time (in seconds) allowed for each socket connection between the master and a worker to be established (defaults to 2*60 seconds = 2 minutes).}
 
-\item{\option{parallelly.makeNodePSOCK.timeout}:}{(numeric) The maximum time (in seconds) allowed to pass without the master and a worker communicate with each other (defaults to 30\emph{24}60*60 seconds = 30 days).}
+\item{\code{parallelly.makeNodePSOCK.timeout}:}{(numeric) The maximum time (in seconds) allowed to pass without the master and a worker communicate with each other (defaults to 30\emph{24}60*60 seconds = 30 days).}
 
-\item{\option{parallelly.makeNodePSOCK.useXDR}:}{(logical) If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).}
+\item{\code{parallelly.makeNodePSOCK.useXDR}:}{(logical) If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).}
 
-\item{\option{parallelly.makeNodePSOCK.socketOptions}:}{(character string) If set to another value than \code{"NULL"}, then option \option{socketOptions} is set to this value on the workers during startup. See \code{\link[base:connections]{base::socketConnection()}} for details. (defaults to \code{"no-delay"})}
+\item{\code{parallelly.makeNodePSOCK.socketOptions}:}{(character string) If set to another value than \code{"NULL"}, then option \code{socketOptions} is set to this value on the workers during startup. See \code{\link[base:connections]{base::socketConnection()}} for details. (defaults to \code{"no-delay"})}
 
-\item{\option{parallelly.makeNodePSOCK.rshcmd}:}{(character vector) The command to be run on the master to launch a process on another host.}
+\item{\code{parallelly.makeNodePSOCK.rshcmd}:}{(character vector) The command to be run on the master to launch a process on another host.}
 
-\item{\option{parallelly.makeNodePSOCK.rshopts}:}{(character vector) Addition command-line options appended to \code{rshcmd}.  These arguments are only applied when connecting to non-localhost machines.}
+\item{\code{parallelly.makeNodePSOCK.rshopts}:}{(character vector) Addition command-line options appended to \code{rshcmd}.  These arguments are only applied when connecting to non-localhost machines.}
 
-\item{\option{parallelly.makeNodePSOCK.tries}:}{(integer) The maximum number of attempts done to launch each node.  Only used when setting up cluster nodes using the sequential strategy.}
+\item{\code{parallelly.makeNodePSOCK.tries}:}{(integer) The maximum number of attempts done to launch each node.  Only used when setting up cluster nodes using the sequential strategy.}
 
-\item{\option{parallelly.makeNodePSOCK.tries.delay}:}{(numeric) The number of seconds to wait before trying to launch a cluster node that failed to launch previously.  Only used when setting up cluster nodes using the sequential strategy.}
+\item{\code{parallelly.makeNodePSOCK.tries.delay}:}{(numeric) The number of seconds to wait before trying to launch a cluster node that failed to launch previously.  Only used when setting up cluster nodes using the sequential strategy.}
 }
 }
 
@@ -150,20 +150,20 @@ The below \R options and environment variables control the default results of \c
 
 
 \describe{
-\item{\option{parallelly.debug}:}{(logical) If \code{TRUE}, extensive debug messages are generated. (Default: \code{FALSE})}
+\item{\code{parallelly.debug}:}{(logical) If \code{TRUE}, extensive debug messages are generated. (Default: \code{FALSE})}
 }
 }
 
 \section{Environment variables that set R options}{
 
-All of the above \R \option{parallelly.*} options can be set by
+All of the above \R \verb{parallelly.*} options can be set by
 corresponding environment variables \env{R_PARALLELLY_*} \emph{when the
 \pkg{parallelly} package is loaded}.
 For example, if \code{R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY = "sequential"},
-then option \option{parallelly.makeNodePSOCK.setup_strategy} is set to
+then option \code{parallelly.makeNodePSOCK.setup_strategy} is set to
 \code{"sequential"} (character).
 Similarly, if \code{R_PARALLELLY_AVAILABLECORES_FALLBACK = "1"}, then option
-\option{parallelly.availableCores.fallback} is set to \code{1} (integer).
+\code{parallelly.availableCores.fallback} is set to \code{1} (integer).
 }
 
 \examples{

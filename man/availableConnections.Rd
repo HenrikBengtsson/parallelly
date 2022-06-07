@@ -12,7 +12,7 @@ freeConnections()
 \value{
 A non-negative integer, or \code{+Inf} if the available number of connections
 is greated than 16384, which is a limit be set via option
-\option{parallelly.availableConnections.tries}.
+\code{\link[=parallelly.options]{parallelly.availableConnections.tries}}.
 }
 \description{
 The number of \link{connections} that can be open at the same time in \R is
@@ -26,7 +26,9 @@ output via text connections.
 \section{How to increase the limit}{
 
 This limit of 128 connections can only be changed by rebuilding \R from
-source.  The limited is hardcoded as a\if{html}{\out{<div class="sourceCode c">}}\preformatted{#define NCONNECTIONS 128
+source.  The limited is hardcoded as a
+
+\if{html}{\out{<div class="sourceCode c">}}\preformatted{#define NCONNECTIONS 128
 }\if{html}{\out{</div>}}
 
 in \file{src/main/connections.c}.

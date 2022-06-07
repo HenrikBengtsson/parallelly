@@ -39,44 +39,64 @@
 #' \itemize{
 #'  \item `"system"` -
 #'    Query \code{\link[parallel]{detectCores}(logical = logical)}.
+#'
 #'  \item `"cgroups.cpuset"` -
 #'    On Unix, query control group (cgroup) value \code{cpuset.set}.
+#'
 #'  \item `"cgroups.cpuquota"` -
 #'    On Unix, query control group (cgroup) value
 #'    \code{cpu.cfs_quota_us} / \code{cpu.cfs_period_us}.
+#'
 #'  \item `"nproc"` -
 #'    On Unix, query system command \code{nproc}.
+#'
 #'  \item `"mc.cores"` -
 #'    If available, returns the value of option
 #'    \code{\link[base:options]{mc.cores}}.
-#'    Note that \option{mc.cores} is defined as the number of
+#'    Note that `mc.cores` is defined as the number of
 #'    _additional_ \R processes that can be used in addition to the
 #'    main \R process.  This means that with `mc.cores = 0` all
 #'    calculations should be done in the main \R process, i.e. we have
 #'    exactly one core available for our calculations.
-#'    The \option{mc.cores} option defaults to environment variable
+#'    The `mc.cores` option defaults to environment variable
 #'    \env{MC_CORES} (and is set accordingly when the \pkg{parallel}
-#'    package is loaded).  The \option{mc.cores} option is used by for
+#'    package is loaded).  The `mc.cores` option is used by for
 #'    instance \code{\link[=mclapply]{mclapply}()} of the \pkg{parallel}
 #'    package.
+#'
 #'  \item `"BiocParallel"` -
 #'    Query environment variables \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
 #'    which is defined and used by **BiocParallel** (>= 1.27.2), and
 #'    \env{BBS_HOME} (logical) used by the Bioconductor Build System. If the
 #'    former is set, this is the number of cores considered.  If the latter
 #'    is set, then a maximum of 4 cores is considered.
+#'
+#'  \item `"LSF"` - 
+#'    Query Platform Load Sharing Facility (LSF) environment variable
+#'    \env{LSB_DJOB_NUMPROC}.
+#'    Jobs with multiple (CPU) slots can be submitted on LSF using
+#'    `bsub -n 2 -R "span[hosts=1]" < hello.sh`.
+#'
+#'  \item `"PJM"` - 
+#'    Query Fujitsu Technical Computing Suite (that we choose to shorten
+#'    as "PJM") environment variables \env{PJM_VNODE_CORE} and
+#'    \env{PJM_PROC_BY_NODE}.
+#'    The first is set when submitted with `pjsub -L vnode-core=8 hello.sh`.
+#'
 #'  \item `"PBS"` -
 #'    Query TORQUE/PBS environment variables \env{PBS_NUM_PPN} and \env{NCPUS}.
 #'    Depending on PBS system configuration, these _resource_
 #'    parameters may or may not default to one.
 #'    An example of a job submission that results in this is
 #'    `qsub -l nodes=1:ppn=2`, which requests one node with two cores.
+#'
 #'  \item `"SGE"` -
-#'    Query Sun/Oracle Grid Engine (SGE) environment variable
-#'    \env{NSLOTS}.
+#'    Query Sun Grid Engine/Oracle Grid Engine/Son of Grid Engine (SGE)
+#'    environment variable \env{NSLOTS}.
 #'    An example of a job submission that results in this is
 #'    `qsub -pe smp 2` (or `qsub -pe by_node 2`), which
 #'    requests two cores on a single machine.
+#'
 #'  \item `"Slurm"` -
 #'    Query Simple Linux Utility for Resource Management (Slurm)
 #'    environment variable \env{SLURM_CPUS_PER_TASK}.
@@ -86,16 +106,16 @@
 #'    If \env{SLURM_CPUS_PER_TASK} is not set, then it will fall back to
 #'    use \env{SLURM_CPUS_ON_NODE} if the job is a single-node job
 #'    (\env{SLURM_JOB_NUM_NODES} is 1), e.g. `sbatch --ntasks=2 hello.sh`.
-#'  \item `"LSF"` - 
-#'    Query Platform Load Sharing Facility (LSF) environment variable
-#'    \env{LSB_DJOB_NUMPROC}.
-#'    Jobs with multiple (CPU) slots can be submitted on LSF using
-#'    `bsub -n 2 -R "span[hosts=1]" < hello.sh`.
+#'
 #'  \item `"custom"` -
-#'    If option \option{parallelly.availableCores.custom} is set and a function,
+#'    If option
+#'    \code{\link[=parallelly.options]{parallelly.availableCores.custom}}
+#'    is set and a function,
 #'    then this function will be called (without arguments) and it's value
 #'    will be coerced to an integer, which will be interpreted as a number
 #'    of available cores.  If the value is NA, then it will be ignored.
+#'    It is safe for this custom function to call `availableCores()`; if
+#'    done, the custom function will _not_ be recursively called.
 #' }
 #' For any other value of a `methods` element, the \R option with the
 #' same name is queried.  If that is not set, the system environment
@@ -152,9 +172,11 @@
 #' })
 #' message(paste("Number of cores available:", availableCores()))
 #'
-#' ## What is available minus one core but at least one
+#' ## Use 50% of the cores according to availableCores(), e.g.
+#' ## allocated by a job scheduler or cgroups.
+#' ## Note that it is safe to call availableCores() here.
 #' options(parallelly.availableCores.custom = function() {
-#'   max(1L, parallelly::availableCores() - 1L)
+#'   0.50 * parallelly::availableCores()
 #' })
 #' message(paste("Number of cores available:", availableCores()))
 #' }
@@ -165,7 +187,7 @@
 #'
 #' @importFrom parallel detectCores
 #' @export
-availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
+availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
   ## Local functions
   getenv <- function(name, mode = "integer") {
     value <- trim(getEnvVar2(name, default = NA_character_))
@@ -257,6 +279,22 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     } else if (method == "LSF") {
       ## Number of slots assigned by LSF
       n <- getenv("LSB_DJOB_NUMPROC")
+    } else if (method == "PJM") {
+      ## Number of slots assigned by Fujitsu Technical Computing Suite
+      ## We choose to call this job scheduler "PJM" based on the prefix
+      ## it's environment variables use.
+      ## PJM_VNODE_CORE: e.g. pjsub -L vnode-core=8
+      ## "This environment variable is set only when virtual nodes
+      ##  are allocated, and it is not set when nodes are allocated."
+      n <- getenv("PJM_VNODE_CORE")
+      if (is.na(n)) {
+        ## PJM_PROC_BY_NODE: e.g. pjsub -L vnode-core=8
+        ## "Maximum number of processes that are generated per node by
+        ##  an MPI program. However, if a single node (node=1) or virtual
+        ##  node (vnode=1) is allocated and the mpi option of the pjsub
+        ##  command is not specified, this environment variable is not set."
+        n <- getenv("PJM_PROC_BY_NODE")
+      }
     } else if (method == "mc.cores") {
       ## Number of cores by option defined by 'parallel' package
       n <- getopt("mc.cores")

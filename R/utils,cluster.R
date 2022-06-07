@@ -230,13 +230,6 @@ add_cluster_session_info <- local({
   
       pkgs <- getOption2("parallelly.makeNodePSOCK.sessionInfo.pkgs", FALSE)
       node$session_info <- clusterCall(cl[ii], fun = get_session_info, pkgs = pkgs)[[1]]
-  
-      ## Sanity check, iff possible
-      if (inherits(node, "SOCK0node") || inherits(node, "SOCKnode")) {
-        pid <- capture.output(print(node))
-        pid <- as.integer(gsub(".* ", "", pid))
-        stop_if_not(node$session_info$process$pid == pid)
-      }
       
       cl[[ii]] <- node
     }

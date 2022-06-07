@@ -6,8 +6,8 @@
 \usage{
 availableWorkers(
   methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores",
-    "BiocParallel", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom",
-    "system", "fallback")),
+    "BiocParallel", "_R_CHECK_LIMIT_CORES_", "LSF", "PJM", "PBS", "SGE", "Slurm",
+    "custom", "system", "fallback")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = getOption2("parallelly.localhost.hostname", "localhost"),
@@ -45,24 +45,36 @@ current machine that \code{\link[=availableCores]{availableCores()}} allows for 
 
 In addition, the following settings ("methods") are also acknowledged:
 \itemize{
+\item \code{"LSF"} -
+Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
+
+\item \code{"PJM"} -
+Query Fujitsu Technical Computing Suite (that we choose to shorten
+as "PJM") the hostname file given by environment variable
+\env{PJM_O_NODEINF}.
+The \env{PJM_O_NODEINF} file lists the hostnames of the nodes alloted.
+This function returns those hostnames each repeated \code{availableCores()}
+times, where \code{availableCores()} reflects \env{PJM_VNODE_CORE}.
+For example, for \verb{pjsub -L vnode=2 -L vnode-core=8 hello.sh}, the
+\env{PJM_O_NODEINF} file gives two hostnames, and \env{PJM_VNODE_CORE}
+gives eight cores per host, resulting in a character vector of 16
+hostnames (for two unique hostnames).
+
 \item \code{"PBS"} -
 Query TORQUE/PBS environment variable \env{PBS_NODEFILE}.
 If this is set and specifies an existing file, then the set
 of workers is read from that file, where one worker (node)
 is given per line.
 An example of a job submission that results in this is
-\verb{qsub -l nodes = 4:ppn = 2}, which requests four nodes each
+\verb{qsub -l nodes=4:ppn=2}, which requests four nodes each
 with two cores.
 
 \item \code{"SGE"} -
-Query Sun/Oracle Grid Engine (SGE) environment variable
+Query Sun Grid Engine/Oracle Grid Engine/Son of Grid Engine (SGE)
 \env{PE_HOSTFILE}.
 An example of a job submission that results in this is
 \verb{qsub -pe mpi 8} (or \verb{qsub -pe ompi 8}), which
 requests eight cores on a any number of machines.
-
-\item \code{"LSF"} -
-Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
 
 \item \code{"Slurm"} -
 Query Slurm environment variable \env{SLURM_JOB_NODELIST} (fallback
@@ -74,17 +86,21 @@ is set, which is always a scalar, then that is respected too, i.e.
 if it is smaller, then that is used for all nodes.
 For example, if \code{SLURM_NODELIST="n1,n[03-05]"} (expands to
 \code{c("n1", "n03", "n04", "n05")}) and \code{SLURM_JOB_CPUS_PER_NODE="2(x2),3,2"}
-(expands to \code{c(2, 2, 3, 2, 2)}), then
+(expands to \code{c(2, 2, 3, 2)}), then
 \code{c("n1", "n1", "n03", "n03", "n04", "n04", "n04", "n05", "n05")} is
 returned.  If in addition, \code{SLURM_CPUS_PER_TASK=1}, which can happen
 depending on hyperthreading configurations on the Slurm cluster, then
 \code{c("n1", "n03", "n04", "n05")} is returned.
 
 \item \code{"custom"} -
-If option \option{parallelly.availableWorkers.custom} is set and a function,
+If option
+\code{\link[=parallelly.options]{parallelly.availableWorkers.custom}}
+is set and a function,
 then this function will be called (without arguments) and it's value
 will be coerced to a character vector, which will be interpreted as
 hostnames of available workers.
+It is safe for this custom function to call \code{availableWorkers()}; if
+done, the custom function will \emph{not} be recursively called.
 }
 }
 \section{Known limitations}{
@@ -97,7 +113,7 @@ One known limitation is that "multi-dimensional" ranges are not supported,
 e.g. \code{"a[1-2]b[3-4]"} is expanded by \command{scontrol} to
 \code{c("a1b3", "a1b4", "a2b3", "a2b4")}.  If \command{scontrol} is not
 available, then any components that failed to be parsed are dropped with
-an informative warning message.  If no compents could be parsed, then
+an informative warning message.  If no components could be parsed, then
 the result of \code{methods = "Slurm"} will be empty.
 }
 
@@ -115,6 +131,17 @@ message(paste("Available workers:",
 ## Always use two workers on host 'n1' and one on host 'n2'
 options(parallelly.availableWorkers.custom = function() {
   c("n1", "n1", "n2")
+})
+message(paste("Available workers:",
+        paste(sQuote(availableWorkers()), collapse = ", ")))
+}
+
+\dontrun{
+## A 50\% random subset of the available workers.
+## Note that it is safe to call availableWorkers() here.
+options(parallelly.availableWorkers.custom = function() {
+  workers <- parallelly::availableWorkers()
+  sample(workers, size = 0.50 * length(workers))
 })
 message(paste("Available workers:",
         paste(sQuote(availableWorkers()), collapse = ", ")))
