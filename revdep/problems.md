@@ -461,7 +461,7 @@ Run `revdep_details(, "bootUR")` for more info
 * GitHub: https://github.com/paul-buerkner/brms
 * Source code: https://github.com/cran/brms
 * Date/Publication: 2022-04-13 14:22:29 UTC
-* Number of recursive dependencies: 178
+* Number of recursive dependencies: 177
 
 Run `revdep_details(, "brms")` for more info
 
@@ -512,7 +512,7 @@ Run `revdep_details(, "cfbfastR")` for more info
 * GitHub: https://github.com/vallotlab/ChromSCape
 * Source code: https://github.com/cran/ChromSCape
 * Date/Publication: 2022-04-26
-* Number of recursive dependencies: 261
+* Number of recursive dependencies: 217
 
 Run `revdep_details(, "ChromSCape")` for more info
 
@@ -638,7 +638,7 @@ Run `revdep_details(, "civis")` for more info
 * GitHub: https://github.com/rubenarslan/codebook
 * Source code: https://github.com/cran/codebook
 * Date/Publication: 2020-06-06 23:40:03 UTC
-* Number of recursive dependencies: 154
+* Number of recursive dependencies: 153
 
 Run `revdep_details(, "codebook")` for more info
 
@@ -692,7 +692,7 @@ Run `revdep_details(, "condvis2")` for more info
 * GitHub: https://github.com/M-E-Rademaker/cSEM
 * Source code: https://github.com/cran/cSEM
 * Date/Publication: 2021-04-19 22:00:18 UTC
-* Number of recursive dependencies: 122
+* Number of recursive dependencies: 121
 
 Run `revdep_details(, "cSEM")` for more info
 
@@ -873,7 +873,7 @@ Run `revdep_details(, "easyalluvial")` for more info
 * GitHub: https://github.com/mdsteiner/EFAtools
 * Source code: https://github.com/cran/EFAtools
 * Date/Publication: 2022-04-24 14:40:02 UTC
-* Number of recursive dependencies: 90
+* Number of recursive dependencies: 89
 
 Run `revdep_details(, "EFAtools")` for more info
 
@@ -1129,7 +1129,7 @@ Run `revdep_details(, "geocmeans")` for more info
 * GitHub: https://github.com/msperlin/GetBCBData
 * Source code: https://github.com/cran/GetBCBData
 * Date/Publication: 2021-01-21 17:40:07 UTC
-* Number of recursive dependencies: 88
+* Number of recursive dependencies: 75
 
 Run `revdep_details(, "GetBCBData")` for more info
 
@@ -2951,7 +2951,7 @@ Run `revdep_details(, "sentopics")` for more info
 * GitHub: https://github.com/satijalab/seurat
 * Source code: https://github.com/cran/Seurat
 * Date/Publication: 2022-05-02 05:40:02 UTC
-* Number of recursive dependencies: 257
+* Number of recursive dependencies: 256
 
 Run `revdep_details(, "Seurat")` for more info
 
@@ -3530,6 +3530,32 @@ Run `revdep_details(, "targeted")` for more info
         libs  15.5Mb
     ```
 
+# targets
+
+<details>
+
+* Version: 0.12.1
+* GitHub: https://github.com/ropensci/targets
+* Source code: https://github.com/cran/targets
+* Date/Publication: 2022-06-03 19:00:02 UTC
+* Number of recursive dependencies: 168
+
+Run `revdep_details(, "targets")` for more info
+
+</details>
+
+## Newly fixed
+
+*   R CMD check timed out
+    
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘arrow’
+    ```
+
 # text
 
 <details>
@@ -3538,7 +3564,7 @@ Run `revdep_details(, "targeted")` for more info
 * GitHub: https://github.com/OscarKjell/text
 * Source code: https://github.com/cran/text
 * Date/Publication: 2022-05-30 11:20:02 UTC
-* Number of recursive dependencies: 148
+* Number of recursive dependencies: 146
 
 Run `revdep_details(, "text")` for more info
 
@@ -3682,7 +3708,7 @@ Run `revdep_details(, "txshift")` for more info
 * GitHub: https://github.com/openbiox/UCSCXenaShiny
 * Source code: https://github.com/cran/UCSCXenaShiny
 * Date/Publication: 2022-04-13 07:52:38 UTC
-* Number of recursive dependencies: 187
+* Number of recursive dependencies: 186
 
 Run `revdep_details(, "UCSCXenaShiny")` for more info
 
@@ -3750,7 +3776,7 @@ Run `revdep_details(, "vip")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/vivid
 * Date/Publication: 2021-11-20 01:30:02 UTC
-* Number of recursive dependencies: 202
+* Number of recursive dependencies: 201
 
 Run `revdep_details(, "vivid")` for more info
 

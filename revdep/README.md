@@ -10,7 +10,7 @@
 |collate  |en_US.UTF-8                                             |
 |ctype    |en_US.UTF-8                                             |
 |tz       |America/Los_Angeles                                     |
-|date     |2022-06-01                                              |
+|date     |2022-06-07                                              |
 |pandoc   |2.18 @ /software/c4/cbi/software/pandoc-2.18/bin/pandoc |
 
 # Dependencies
@@ -21,7 +21,13 @@
 
 # Revdeps
 
-## All (292)
+## Failed to check (1)
+
+|package |version |error |warning |note |
+|:-------|:-------|:-----|:-------|:----|
+|Signac  |?       |      |        |     |
+
+## All (293)
 
 |package                                                  |version   |error |warning |note |
 |:--------------------------------------------------------|:---------|:-----|:-------|:----|
@@ -126,7 +132,7 @@
 |[GREENeR](problems.md#greener)                           |0.1.0     |2     |        |     |
 |greta                                                    |0.4.2     |      |        |     |
 |gstat                                                    |2.0-9     |      |        |     |
-|GSVA                                                     |1.44.0    |      |        |     |
+|GSVA                                                     |1.44.1    |      |        |     |
 |[gsynth](problems.md#gsynth)                             |1.2.1     |      |        |1    |
 |gtfs2gps                                                 |2.0-2     |      |        |     |
 |[gWQS](problems.md#gwqs)                                 |3.0.4     |      |        |1    |
@@ -200,9 +206,10 @@
 |mlr3verse                                                |0.2.5     |      |        |     |
 |mlr3viz                                                  |0.5.9     |      |        |     |
 |[mlrintermbo](problems.md#mlrintermbo)                   |0.5.0     |      |        |1    |
+|modeltime                                                |1.2.1     |      |        |     |
 |[momentuHMM](problems.md#momentuhmm)                     |1.5.4     |      |        |1    |
 |MOSS                                                     |0.2.2     |      |        |     |
-|mpathsenser                                              |1.0.2     |      |        |     |
+|mpathsenser                                              |1.0.3     |      |        |     |
 |mrgsim.parallel                                          |0.2.1     |      |        |     |
 |[NADIA](problems.md#nadia)                               |0.4.1     |      |        |2    |
 |nfl4th                                                   |1.0.1     |      |        |     |
@@ -225,7 +232,7 @@
 |[ppcseq](problems.md#ppcseq)                             |1.4.0     |      |        |3    |
 |[ppseq](problems.md#ppseq)                               |0.1.1     |      |        |1    |
 |[prewas](problems.md#prewas)                             |1.1.1     |      |        |1    |
-|progressr                                                |0.10.0    |      |        |     |
+|progressr                                                |0.10.1    |      |        |     |
 |projpred                                                 |2.1.2     |      |        |     |
 |[promises](problems.md#promises)                         |1.2.0.1   |      |        |1    |
 |[Prostar](problems.md#prostar)                           |1.28.1    |      |        |2    |
@@ -243,7 +250,7 @@
 |rangeMapper                                              |2.0.2     |      |        |     |
 |RapidoPGS                                                |2.1.0     |      |        |     |
 |rBiasCorrection                                          |0.3.3     |      |        |     |
-|refineR                                                  |1.0.0     |      |        |     |
+|refineR                                                  |1.5.0     |      |        |     |
 |[regmedint](problems.md#regmedint)                       |1.0.0     |      |        |1    |
 |[remiod](problems.md#remiod)                             |1.0.0     |      |        |1    |
 |reproducible                                             |1.2.8     |      |        |     |
@@ -254,7 +261,7 @@
 |RTransferEntropy                                         |0.2.14    |      |        |     |
 |[sapfluxnetr](problems.md#sapfluxnetr)                   |0.1.3     |      |        |1    |
 |[scDiffCom](problems.md#scdiffcom)                       |0.1.0     |      |1       |1    |
-|SCtools                                                  |0.3.1     |      |        |     |
+|SCtools                                                  |0.3.2     |      |        |     |
 |[sctransform](problems.md#sctransform)                   |0.3.3     |      |        |1    |
 |[sdmApp](problems.md#sdmapp)                             |0.0.2     |      |        |1    |
 |[seer](problems.md#seer)                                 |1.1.7     |      |        |1    |
@@ -268,7 +275,7 @@
 |[shiny.worker](problems.md#shinyworker)                  |0.0.1     |      |        |2    |
 |[SIAMCAT](problems.md#siamcat)                           |2.0.0     |      |        |3    |
 |sigminer                                                 |2.1.4     |      |        |     |
-|Signac                                                   |1.6.0     |      |        |     |
+|Signac                                                   |?         |      |        |     |
 |simfinapi                                                |0.2.0     |      |        |     |
 |simglm                                                   |0.8.9     |      |        |     |
 |simhelpers                                               |0.1.2     |      |        |     |
@@ -293,11 +300,11 @@
 |[stars](problems.md#stars)                               |0.5-5     |      |        |2    |
 |startR                                                   |2.2.0     |      |        |     |
 |steps                                                    |1.2.1     |      |        |     |
-|supercells                                               |0.8.2     |      |        |     |
+|supercells                                               |0.9.1     |      |        |     |
 |[synergyfinder](problems.md#synergyfinder)               |3.4.0     |      |2       |2    |
 |[tableschema.r](problems.md#tableschemar)                |1.1.1     |      |        |3    |
 |[targeted](problems.md#targeted)                         |0.2.0     |      |        |1    |
-|targets                                                  |0.12.0    |      |        |     |
+|[targets](problems.md#targets)                           |0.12.1    |-1    |        |1    |
 |tcensReg                                                 |0.1.7     |      |        |     |
 |tcplfit2                                                 |0.1.3     |      |        |     |
 |tealeaves                                                |1.0.5     |      |        |     |
