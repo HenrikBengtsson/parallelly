@@ -98,8 +98,10 @@ jobs:
           parallelly::availableCores(which = "all")
           pkgs <- installed.packages()[, "Package"]
           sessioninfo::session_info(pkgs, include_base = TRUE)
-          ## Verify LANGUAGE: Generate a i18n translatable warning
-          dummy <- as.integer("a")
+          ## Verify LANGUAGE settings by generating a translatable error
+          message("LANGUAGE=", sQuote(Sys.getenv("LANGUAGE")))
+          message("locales: ", sQuote(Sys.getlocale())
+          tryCatch(log("a"), error = conditionMessage)
         shell: Rscript {0}
 
       - name: Check
