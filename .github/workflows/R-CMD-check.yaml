@@ -29,7 +29,9 @@ jobs:
           - {os: ubuntu-20.04,   r: 'oldrel-1' }
           - {os: ubuntu-20.04,   r: 'oldrel-2' }
           - {os: ubuntu-20.04,   r: '3.4'      }
-
+          - {os: ubuntu-20.04,   r: 'release'  , language=ko,    label: LANGUAGE=ko }
+          - {os: ubuntu-20.04,   r: 'release'  , language=zh_CN, label: LANGUAGE=zh_CN }
+          - {os: ubuntu-20.04,   r: 'release'  , language=zh_TW, label: LANGUAGE=zh_TW }
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       RSPM: https://packagemanager.rstudio.com/cran/__linux__/focal/latest
@@ -40,6 +42,8 @@ jobs:
       _R_CHECK_LENGTH_1_LOGIC2_: true
       _R_CHECK_MATRIX_DATA_: true
       _R_CHECK_SUGGESTS_ONLY_: true
+      ## Test in other locale (optional)
+      LANGUAGE=${{ matrix.config.language }}
       
     steps:
       - uses: actions/checkout@v2
@@ -94,6 +98,8 @@ jobs:
           parallelly::availableCores(which = "all")
           pkgs <- installed.packages()[, "Package"]
           sessioninfo::session_info(pkgs, include_base = TRUE)
+          ## Verify LANGUAGE: Generate a i18n translatable warning
+          Rscript -e 'dummy <- as.integer("a")'
         shell: Rscript {0}
 
       - name: Check
