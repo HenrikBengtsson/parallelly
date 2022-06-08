@@ -19,7 +19,7 @@ jobs:
           - {os: windows-latest, r: 'devel'    }
           - {os: windows-latest, r: 'release'  }
           - {os: windows-latest, r: 'oldrel'   }
-          - {os: macOS-latest,   r: 'devel'    }
+#          - {os: macOS-latest,   r: 'devel'    }
           - {os: macOS-latest,   r: 'release'  }
           - {os: macOS-latest,   r: 'oldrel'   }
           - {os: ubuntu-20.04,   r: 'devel'    }
@@ -78,6 +78,17 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
           sudo apt install -y libcurl4-openssl-dev
+          ## Install a language pack?
+          if [[ -n "$LANGUAGE" ]]; then                      \
+            if [[ "$LANGUAGE" == "zh_CN" ]]; then            \
+              sudo apt install -y language-pack-zh-hans;     \
+            else if [[ "$LANGUAGE" == "zh_TW" ]]; then       \
+              sudo apt install -y language-pack-zh-hant;     \
+            else                                             \
+              sudo apt install -y language-pack-${LANGUAGE}; \
+            fi
+          fi
+          
 
       - name: Install R package dependencies
         run: |
@@ -99,8 +110,8 @@ jobs:
           pkgs <- installed.packages()[, "Package"]
           sessioninfo::session_info(pkgs, include_base = TRUE)
           ## Verify LANGUAGE settings by generating a translatable error
-          message("LANGUAGE=", sQuote(Sys.getenv("LANGUAGE")))
-          message("locales: ", sQuote(Sys.getlocale()))
+          cat(sprintf("LANGUAGE=%s\n", sQuote(Sys.getenv("LANGUAGE"))))
+          cat(sprintf("locales: %s\n", sQuote(Sys.getlocale())))
           tryCatch(log("a"), error = conditionMessage)
         shell: Rscript {0}
 
