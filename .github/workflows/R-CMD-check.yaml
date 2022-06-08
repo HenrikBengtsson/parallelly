@@ -43,7 +43,7 @@ jobs:
       _R_CHECK_MATRIX_DATA_: true
       _R_CHECK_SUGGESTS_ONLY_: true
       ## Test in other locale (optional)
-      LANGUAGE=${{ matrix.config.language }}
+      LANGUAGE: ${{ matrix.config.language }}
       
     steps:
       - uses: actions/checkout@v2
