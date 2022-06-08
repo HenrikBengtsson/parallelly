@@ -86,7 +86,7 @@ jobs:
               sudo apt install -y language-pack-zh-hant;     \
             else                                             \
               sudo apt install -y language-pack-${LANGUAGE}; \
-            fi
+            fi;                                              \
           fi
           
 
