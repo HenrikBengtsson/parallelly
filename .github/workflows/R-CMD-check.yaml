@@ -82,7 +82,7 @@ jobs:
           if [[ -n "$LANGUAGE" ]]; then                      \
             if [[ "$LANGUAGE" == "zh_CN" ]]; then            \
               sudo apt install -y language-pack-zh-hans;     \
-            else if [[ "$LANGUAGE" == "zh_TW" ]]; then       \
+            elif [[ "$LANGUAGE" == "zh_TW" ]]; then          \
               sudo apt install -y language-pack-zh-hant;     \
             else                                             \
               sudo apt install -y language-pack-${LANGUAGE}; \
