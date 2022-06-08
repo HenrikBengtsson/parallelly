@@ -99,7 +99,7 @@ jobs:
           pkgs <- installed.packages()[, "Package"]
           sessioninfo::session_info(pkgs, include_base = TRUE)
           ## Verify LANGUAGE: Generate a i18n translatable warning
-          Rscript -e 'dummy <- as.integer("a")'
+          dummy <- as.integer("a")
         shell: Rscript {0}
 
       - name: Check
