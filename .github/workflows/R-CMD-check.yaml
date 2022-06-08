@@ -78,17 +78,6 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
           sudo apt install -y libcurl4-openssl-dev
-          ## Install a language pack?
-          if [[ -n "$LANGUAGE" ]]; then                      \
-            if [[ "$LANGUAGE" == "zh_CN" ]]; then            \
-              sudo apt install -y language-pack-zh-hans;     \
-            elif [[ "$LANGUAGE" == "zh_TW" ]]; then          \
-              sudo apt install -y language-pack-zh-hant;     \
-            else                                             \
-              sudo apt install -y language-pack-${LANGUAGE}; \
-            fi;                                              \
-          fi
-          
 
       - name: Install R package dependencies
         run: |
