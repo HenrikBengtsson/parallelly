@@ -31,7 +31,7 @@ R workers, and how to connect to external machines."><meta property="og:image" c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.0-9002</span>
       </span>
     </div>
 
@@ -141,51 +141,51 @@ for controlling the setup of the system calls that launch the background
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">makeClusterPSOCK</span><span class="op">(</span>
-  <span class="va">workers</span>,
-  makeNode <span class="op">=</span> <span class="va">makeNodePSOCK</span>,
-  port <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"random"</span><span class="op">)</span>,
-  <span class="va">...</span>,
-  autoStop <span class="op">=</span> <span class="cn">FALSE</span>,
-  tries <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.tries"</span>, <span class="fl">3L</span><span class="op">)</span>,
-  delay <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.tries.delay"</span>, <span class="fl">15</span><span class="op">)</span>,
-  validate <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.validate"</span>, <span class="cn">TRUE</span><span class="op">)</span>,
-  verbose <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.debug"</span>, <span class="cn">FALSE</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">makeNodePSOCK</span><span class="op">(</span>
-  worker <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.localhost.hostname"</span>, <span class="st">"localhost"</span><span class="op">)</span>,
-  master <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">port</span>,
-  connectTimeout <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.connectTimeout"</span>, <span class="fl">2</span> <span class="op">*</span> <span class="fl">60</span><span class="op">)</span>,
-  timeout <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.timeout"</span>, <span class="fl">30</span> <span class="op">*</span> <span class="fl">24</span> <span class="op">*</span> <span class="fl">60</span> <span class="op">*</span> <span class="fl">60</span><span class="op">)</span>,
-  rscript <span class="op">=</span> <span class="cn">NULL</span>,
-  homogeneous <span class="op">=</span> <span class="cn">NULL</span>,
-  rscript_args <span class="op">=</span> <span class="cn">NULL</span>,
-  rscript_envs <span class="op">=</span> <span class="cn">NULL</span>,
-  rscript_libs <span class="op">=</span> <span class="cn">NULL</span>,
-  rscript_startup <span class="op">=</span> <span class="cn">NULL</span>,
-  rscript_sh <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"cmd"</span>, <span class="st">"sh"</span><span class="op">)</span>,
-  default_packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"datasets"</span>, <span class="st">"utils"</span>, <span class="st">"grDevices"</span>, <span class="st">"graphics"</span>, <span class="st">"stats"</span>, <span class="kw">if</span>
-    <span class="op">(</span><span class="va">methods</span><span class="op">)</span> <span class="st">"methods"</span><span class="op">)</span>,
-  methods <span class="op">=</span> <span class="cn">TRUE</span>,
-  socketOptions <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.socketOptions"</span>, <span class="st">"no-delay"</span><span class="op">)</span>,
-  useXDR <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.useXDR"</span>, <span class="cn">FALSE</span><span class="op">)</span>,
-  outfile <span class="op">=</span> <span class="st">"/dev/null"</span>,
-  renice <span class="op">=</span> <span class="cn">NA_integer_</span>,
-  rshcmd <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.rshcmd"</span>, <span class="cn">NULL</span><span class="op">)</span>,
-  user <span class="op">=</span> <span class="cn">NULL</span>,
-  revtunnel <span class="op">=</span> <span class="cn">NA</span>,
-  rshlogfile <span class="op">=</span> <span class="cn">NULL</span>,
-  rshopts <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.rshopts"</span>, <span class="cn">NULL</span><span class="op">)</span>,
-  rank <span class="op">=</span> <span class="fl">1L</span>,
-  manual <span class="op">=</span> <span class="cn">FALSE</span>,
-  dryrun <span class="op">=</span> <span class="cn">FALSE</span>,
-  quiet <span class="op">=</span> <span class="cn">FALSE</span>,
-  setup_strategy <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.setup_strategy"</span>, <span class="st">"parallel"</span><span class="op">)</span>,
-  action <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"launch"</span>, <span class="st">"options"</span><span class="op">)</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">makeClusterPSOCK</span><span class="op">(</span></span>
+<span>  <span class="va">workers</span>,</span>
+<span>  makeNode <span class="op">=</span> <span class="va">makeNodePSOCK</span>,</span>
+<span>  port <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"random"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  autoStop <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  tries <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.tries"</span>, <span class="fl">3L</span><span class="op">)</span>,</span>
+<span>  delay <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.tries.delay"</span>, <span class="fl">15</span><span class="op">)</span>,</span>
+<span>  validate <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.validate"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.debug"</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">makeNodePSOCK</span><span class="op">(</span></span>
+<span>  worker <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.localhost.hostname"</span>, <span class="st">"localhost"</span><span class="op">)</span>,</span>
+<span>  master <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">port</span>,</span>
+<span>  connectTimeout <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.connectTimeout"</span>, <span class="fl">2</span> <span class="op">*</span> <span class="fl">60</span><span class="op">)</span>,</span>
+<span>  timeout <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.timeout"</span>, <span class="fl">30</span> <span class="op">*</span> <span class="fl">24</span> <span class="op">*</span> <span class="fl">60</span> <span class="op">*</span> <span class="fl">60</span><span class="op">)</span>,</span>
+<span>  rscript <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  homogeneous <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rscript_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rscript_envs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rscript_libs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rscript_startup <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rscript_sh <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"cmd"</span>, <span class="st">"sh"</span><span class="op">)</span>,</span>
+<span>  default_packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"datasets"</span>, <span class="st">"utils"</span>, <span class="st">"grDevices"</span>, <span class="st">"graphics"</span>, <span class="st">"stats"</span>, <span class="kw">if</span></span>
+<span>    <span class="op">(</span><span class="va">methods</span><span class="op">)</span> <span class="st">"methods"</span><span class="op">)</span>,</span>
+<span>  methods <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  socketOptions <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.socketOptions"</span>, <span class="st">"no-delay"</span><span class="op">)</span>,</span>
+<span>  useXDR <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.useXDR"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  outfile <span class="op">=</span> <span class="st">"/dev/null"</span>,</span>
+<span>  renice <span class="op">=</span> <span class="cn">NA_integer_</span>,</span>
+<span>  rshcmd <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.rshcmd"</span>, <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>  user <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  revtunnel <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  rshlogfile <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rshopts <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.rshopts"</span>, <span class="cn">NULL</span><span class="op">)</span>,</span>
+<span>  rank <span class="op">=</span> <span class="fl">1L</span>,</span>
+<span>  manual <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dryrun <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  setup_strategy <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.makeNodePSOCK.setup_strategy"</span>, <span class="st">"parallel"</span><span class="op">)</span>,</span>
+<span>  action <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"launch"</span>, <span class="st">"options"</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -193,9 +193,13 @@ for controlling the setup of the system calls that launch the background
     <dl><dt>workers</dt>
 <dd><p>The hostnames of workers (as a character vector) or the number
 of localhost workers (as a positive integer).</p></dd>
+
+
 <dt>makeNode</dt>
 <dd><p>A function that creates a <code>"SOCKnode"</code> or
 <code>"SOCK0node"</code> object, which represents a connection to a worker.</p></dd>
+
+
 <dt>port</dt>
 <dd><p>The port number of the master used for communicating with all
 the workers (via socket connections).  If an integer vector of ports, then a
@@ -210,51 +214,75 @@ used.
 runs on a different port than the default 22, specify the SSH port by
 appending it to the hostname, e.g. <code>"remote.server.org:2200"</code> or via
 SSH options <span class="option">-p</span>, e.g. <code>rshopts = c("-p", "2200")</code>.</em></p></dd>
+
+
 <dt>...</dt>
 <dd><p>Optional arguments passed to
 <code>makeNode(workers[i], ..., rank = i)</code> where <code>i = seq_along(workers)</code>.</p></dd>
+
+
 <dt>autoStop</dt>
 <dd><p>If TRUE, the cluster will be automatically stopped
 using <code><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">stopCluster</a>()</code> when it is
 garbage collected, unless already stopped.  See also <code><a href="autoStopCluster.html">autoStopCluster()</a></code>.</p></dd>
+
+
 <dt>tries, delay</dt>
 <dd><p>Maximum number of attempts done to launch each node
 with <code>makeNode()</code> and the delay (in seconds) in-between attempts.
 If argument <code>port</code> specifies more than one port, e.g. <code>port = "random"</code>
 then a random port will be drawn and validated at most <code>tries</code> times.
 Arguments <code>tries</code> and <code>delay</code> are used only when <code>setup_strategy == "sequential</code>.</p></dd>
+
+
 <dt>validate</dt>
 <dd><p>If TRUE (default), after the nodes have been created, they are all
 validated that they work by inquiring about their session information,
 which is saved in attribute <code>session_info</code> of each node.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>If TRUE, informative messages are outputted.</p></dd>
+
+
 <dt>worker</dt>
 <dd><p>The hostname or IP number of the machine where the worker
 should run.</p></dd>
+
+
 <dt>master</dt>
 <dd><p>The hostname or IP number of the master / calling machine, as
 known to the workers.  If NULL (default), then the default is
 <code>Sys.info()[["nodename"]]</code> unless <code>worker</code> is <em>localhost</em> or
 <code>revtunnel = TRUE</code> in case it is <code>"localhost"</code>.</p></dd>
+
+
 <dt>connectTimeout</dt>
 <dd><p>The maximum time (in seconds) allowed for each socket
 connection between the master and a worker to be established (defaults to
 2 minutes). <em>See note below on current lack of support on Linux and
 macOS systems.</em></p></dd>
+
+
 <dt>timeout</dt>
 <dd><p>The maximum time (in seconds) allowed to pass without the
 master and a worker communicate with each other (defaults to 30 days).</p></dd>
+
+
 <dt>rscript, homogeneous</dt>
 <dd><p>The system command for launching <code class="command">Rscript</code>
 on the worker and whether it is installed in the same path as the calling
 machine or not.  For more details, see below.</p></dd>
+
+
 <dt>rscript_args</dt>
 <dd><p>Additional arguments to <code class="command">Rscript</code> (as a character
 vector).  This argument can be used to customize the <span style="R">R</span> environment of the
 workers before they launches.
 For instance, use <code>rscript_args = c("-e", shQuote('setwd("/path/to")'))</code>
 to set the working directory to <code class="file">/path/to</code> on <em>all</em> workers.</p></dd>
+
+
 <dt>rscript_envs</dt>
 <dd><p>A named character vector environment variables to
 set or unset on worker at startup, e.g.
@@ -265,6 +293,8 @@ variable.  Non-existing environment variables will be dropped.
 These variables are set using <code><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv()</a></code>.
 An named element with value <code>NA_character_</code> will cause that variable to be
 unset, which is done via <code><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.unsetenv()</a></code>.</p></dd>
+
+
 <dt>rscript_libs</dt>
 <dd><p>A character vector of <span style="R">R</span> library paths that will be
 used for the library search path of the <span style="R">R</span> workers.  An asterisk
@@ -273,12 +303,16 @@ worker</em>. That is, to <code>prepend</code> a folder, instead of replacing the
 existing ones, use <code>rscript_libs = c("new_folder", "*")</code>.
 To pass down a non-default library path currently set <em>on the main <span style="R">R</span>
 session</em> to the workers, use <code>rscript_libs = .libPaths()</code>.</p></dd>
+
+
 <dt>rscript_startup</dt>
 <dd><p>An <span style="R">R</span> expression or a character vector of <span style="R">R</span> code,
 or a list with a mix of these, that will be evaluated on the <span style="R">R</span> worker
 prior to launching the worker's event loop.
 For instance, use <code>rscript_startup = 'setwd("/path/to")'</code>
 to set the working directory to <code class="file">/path/to</code> on <em>all</em> workers.</p></dd>
+
+
 <dt>rscript_sh</dt>
 <dd><p>The type of shell used where <code>rscript</code> is launched,
 which should be <code>"sh"</code> is launched via a POSIX shell and <code>"cmd"</code> if
@@ -289,37 +323,55 @@ If <code>"auto"</code> (default), and the cluster node is launched locally, then
 is set to <code>"sh"</code> or <code>"cmd"</code> according to the current platform.  If launched
 remotely, then it is set to <code>"sh"</code> based on the assumption remote machines
 typically launch commands via SSH in a POSIX shell.</p></dd>
+
+
 <dt>default_packages</dt>
 <dd><p>A character vector or NULL that controls which R
 packages are attached on each cluster node during startup.  An asterisk
 (<code>"*"</code>) resolves to <code>getOption("defaultPackages")</code> <em>on the current machine</em>.
 If NULL, then the default set of packages R are attached.</p></dd>
+
+
 <dt>methods</dt>
 <dd><p>If TRUE (default), then the <span class="pkg">methods</span> package is also
 loaded. This is argument exists for legacy reasons due to how
 <code class="command">Rscript</code> worked in R (&lt; 3.5.0).</p></dd>
+
+
 <dt>socketOptions</dt>
 <dd><p>A character string that sets <span style="R">R</span> option
 <code>socketOptions</code> on the worker.</p></dd>
+
+
 <dt>useXDR</dt>
 <dd><p>If FALSE (default), the communication between master and workers, which is binary, will use small-endian (faster), otherwise big-endian ("XDR"; slower).</p></dd>
+
+
 <dt>outfile</dt>
 <dd><p>Where to direct the <a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stdout</a> and
 <a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stderr</a> connection output from the workers.
 If NULL, then no redirection of output is done, which means that the
 output is relayed in the terminal on the local computer.  On Windows, the
 output is only relayed when running <span style="R">R</span> from a terminal but not from a GUI.</p></dd>
+
+
 <dt>renice</dt>
 <dd><p>A numerical 'niceness' (priority) to set for the worker
 processes.</p></dd>
+
+
 <dt>rshcmd, rshopts</dt>
 <dd><p>The command (character vector) to be run on the master
 to launch a process on another host and any additional arguments (character
 vector).  These arguments are only applied if <code>machine</code> is not
 <em>localhost</em>.  For more details, see below.</p></dd>
+
+
 <dt>user</dt>
 <dd><p>(optional) The user name to be used when communicating with
 another host.</p></dd>
+
+
 <dt>revtunnel</dt>
 <dd><p>If TRUE, a reverse SSH tunnel is set up for each worker such
 that the worker <span style="R">R</span> process sets up a socket connection to its local port
@@ -328,6 +380,8 @@ If FALSE, then the worker will try to connect directly to port <code>port</code>
 <code>master</code>.
 If NA, then TRUE or FALSE is inferred from inspection of <code>rshcmd[1]</code>.
 For more details, see below.</p></dd>
+
+
 <dt>rshlogfile</dt>
 <dd><p>(optional) If a filename, the output produced by the
 <code>rshcmd</code> call is logged to this file, of if TRUE, then it is logged
@@ -337,30 +391,50 @@ as part of the return node object.
 option <span class="option">-E out.log`</span></em>.  For example, PuTTY's <code class="command">plink</code> does
 <em>not</em> support this option, and any attempts to specify <code>rshlogfile</code> will
 cause the SSH connection to fail.</p></dd>
+
+
 <dt>rank</dt>
 <dd><p>A unique one-based index for each worker (automatically set).</p></dd>
+
+
 <dt>manual</dt>
 <dd><p>If TRUE the workers will need to be run manually. The command
 to run will be displayed.</p></dd>
+
+
 <dt>dryrun</dt>
 <dd><p>If TRUE, nothing is set up, but a message suggesting how to
 launch the worker from the terminal is outputted.  This is useful for
 troubleshooting.</p></dd>
+
+
 <dt>quiet</dt>
 <dd><p>If TRUE, then no output will be produced other than that from
 using <code>verbose = TRUE</code>.</p></dd>
+
+
 <dt>setup_strategy</dt>
 <dd><p>If <code>"parallel"</code> (default), the workers are set up
 concurrently, one after the other.  If <code>"sequential"</code>, they are set up
 sequentially.</p></dd>
+
+
 <dt>action</dt>
 <dd><p>This is an internal argument.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of class <code>c("RichSOCKcluster", "SOCKcluster", "cluster")</code>consisting of a list of <code>"SOCKnode"</code> or <code>"SOCK0node"</code> workers (that also
-inherit from <code>RichSOCKnode</code>).
-<code>makeNodePSOCK()</code> returns a <code>"SOCKnode"</code> or
+    
+
+<p>An object of class <code>c("RichSOCKcluster", "SOCKcluster", "cluster")</code></p>
+
+
+<p>consisting of a list of <code>"SOCKnode"</code> or <code>"SOCK0node"</code> workers (that also
+inherit from <code>RichSOCKnode</code>).</p>
+
+
+<p><code>makeNodePSOCK()</code> returns a <code>"SOCKnode"</code> or
 <code>"SOCK0node"</code> object representing an established connection to a worker.</p>
     </div>
     <div id="definition-of-localhost">
@@ -573,242 +647,242 @@ calling <code>makeClusterPSOCK()</code>.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## NOTE: Drop 'dryrun = TRUE' below in order to actually connect.  Add</span></span>
-<span class="r-in"><span class="co">## 'verbose = TRUE' if you run into problems and need to troubleshoot.</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: Two workers on the local machine</span></span>
-<span class="r-in"><span class="va">workers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"localhost"</span>, <span class="st">"localhost"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span><span class="va">workers</span>, dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: Three remote workers</span></span>
-<span class="r-in"><span class="co">## Setup of three R workers on two remote machines are set up</span></span>
-<span class="r-in"><span class="va">workers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n1.remote.org"</span>, <span class="st">"n2.remote.org"</span>, <span class="st">"n1.remote.org"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span><span class="va">workers</span>, dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: Local and remote workers</span></span>
-<span class="r-in"><span class="co">## Same setup when the two machines are on the local network and</span></span>
-<span class="r-in"><span class="co">## have identical software setups</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">workers</span>,</span>
-<span class="r-in">  revtunnel <span class="op">=</span> <span class="cn">FALSE</span>, homogeneous <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: Three remote workers 'n1', 'n2', and 'n3' that can only be</span></span>
-<span class="r-in"><span class="co">## accessed via jumphost 'login.remote.org'</span></span>
-<span class="r-in"><span class="va">workers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n1"</span>, <span class="st">"n2"</span>, <span class="st">"n1"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span>
-<span class="r-in">  <span class="va">workers</span>,</span>
-<span class="r-in">  rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-J"</span>, <span class="st">"login.remote.org"</span><span class="op">)</span>,</span>
-<span class="r-in">  homogeneous <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: Remote workers with specific setup</span></span>
-<span class="r-in"><span class="co">## Setup of remote worker with more detailed control on</span></span>
-<span class="r-in"><span class="co">## authentication and reverse SSH tunneling</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"remote.server.org"</span>, user <span class="op">=</span> <span class="st">"johnny"</span>,</span>
-<span class="r-in">  <span class="co">## Manual configuration of reverse SSH tunneling</span></span>
-<span class="r-in">  revtunnel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">  rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-v"</span>, <span class="st">"-R 11000:gateway:11942"</span><span class="op">)</span>,</span>
-<span class="r-in">  master <span class="op">=</span> <span class="st">"gateway"</span>, port <span class="op">=</span> <span class="fl">11942</span>,</span>
-<span class="r-in">  <span class="co">## Run Rscript nicely and skip any startup scripts</span></span>
-<span class="r-in">  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nice"</span>, <span class="st">"/path/to/Rscript"</span><span class="op">)</span>,</span>
-<span class="r-in">  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: Two workers running in Docker on the local machine</span></span>
-<span class="r-in"><span class="co">## Setup of 2 Docker workers running rocker/r-parallel</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"localhost"</span>, times <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="co">## Launch Rscript inside Docker container</span></span>
-<span class="r-in">  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="st">"docker"</span>, <span class="st">"run"</span>, <span class="st">"--net=host"</span>, <span class="st">"rocker/r-parallel"</span>,</span>
-<span class="r-in">    <span class="st">"Rscript"</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  <span class="co">## IMPORTANT: Because Docker runs inside a virtual machine (VM) on macOS</span></span>
-<span class="r-in">  <span class="co">## and Windows (not Linux), when the R worker tries to connect back to</span></span>
-<span class="r-in">  <span class="co">## the default 'localhost' it will fail, because the main R session is</span></span>
-<span class="r-in">  <span class="co">## not running in the VM, but outside on the host.  To reach the host on</span></span>
-<span class="r-in">  <span class="co">## macOS and Windows, make sure to use master = "host.docker.internal"</span></span>
-<span class="r-in">  <span class="co"># master = "host.docker.internal",  # &lt;= macOS &amp; Windows</span></span>
-<span class="r-in">  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: Two workers running in Singularity on the local machine</span></span>
-<span class="r-in"><span class="co">## Setup of 2 Singularity workers running rocker/r-parallel</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"localhost"</span>, times <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="co">## Launch Rscript inside Linux container</span></span>
-<span class="r-in">  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="st">"singularity"</span>, <span class="st">"exec"</span>, <span class="st">"docker://rocker/r-parallel"</span>,</span>
-<span class="r-in">    <span class="st">"Rscript"</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: One worker running in udocker on the local machine</span></span>
-<span class="r-in"><span class="co">## Setup of a single udocker.py worker running rocker/r-parallel</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"localhost"</span>,</span>
-<span class="r-in">  <span class="co">## Launch Rscript inside Docker container (using udocker)</span></span>
-<span class="r-in">  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="st">"udocker.py"</span>, <span class="st">"run"</span>, <span class="st">"rocker/r-parallel"</span>,</span>
-<span class="r-in">    <span class="st">"Rscript"</span></span>
-<span class="r-in">  <span class="op">)</span>, </span>
-<span class="r-in">  <span class="co">## Manually launch parallel workers</span></span>
-<span class="r-in">  <span class="co">## (need double shQuote():s because udocker.py drops one level)</span></span>
-<span class="r-in">  rscript_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="st">"-e"</span>, <span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="st">"parallel:::.workRSOCK()"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: One worker running in Wine for Linux on the local machine</span></span>
-<span class="r-in"><span class="co">## To install R for MS Windows in Wine, do something like:</span></span>
-<span class="r-in"><span class="co">##   winecfg  # In GUI, set 'Windows version' to 'Windows 10'</span></span>
-<span class="r-in"><span class="co">##   wget https://cran.r-project.org/bin/windows/base/R-4.1.2-win.exe</span></span>
-<span class="r-in"><span class="co">##   wine R-4.1.2-win.exe /SILENT</span></span>
-<span class="r-in"><span class="co">## Prevent packages from being installed to R's system library:</span></span>
-<span class="r-in"><span class="co">##   chmod ugo-w "$HOME/.wine/drive_c/Program Files/R/R-4.1.2/library/"</span></span>
-<span class="r-in"><span class="co">## Verify it works:</span></span>
-<span class="r-in"><span class="co">##   wine "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe" --version</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span><span class="fl">1L</span>,</span>
-<span class="r-in">  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="co">## Silence Wine warnings</span></span>
-<span class="r-in">    <span class="st">"WINEDEBUG=fixme-all"</span>,</span>
-<span class="r-in">    <span class="co">## Don't pass LC_*** environments from Linux to Wine</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"%s="</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"LC_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">    <span class="st">"wine"</span>,</span>
-<span class="r-in">    <span class="st">"C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe"</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: Launch 124 workers on MS Windows 10, where half are</span></span>
-<span class="r-in"><span class="co">## running on CPU Group #0 and half on CPU Group #1.  </span></span>
-<span class="r-in"><span class="co">## (https://lovickconsulting.com/2021/11/18/</span></span>
-<span class="r-in"><span class="co">##  running-r-clusters-on-an-amd-threadripper-3990x-in-windows-10-2/)</span></span>
-<span class="r-in"><span class="va">ncores</span> <span class="op">&lt;-</span> <span class="fl">124</span></span>
-<span class="r-in"><span class="va">cpu_groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">cpu_groups</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">cpu_group</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">    <span class="fu">parallelly</span><span class="fu">::</span><span class="fu">makeClusterPSOCK</span><span class="op">(</span><span class="va">ncores</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%/%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">cpu_groups</span><span class="op">)</span>,</span>
-<span class="r-in">      rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">        <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"COMSPEC"</span><span class="op">)</span>, <span class="st">"/c"</span>, <span class="st">"start"</span>, <span class="st">"/B"</span>,</span>
-<span class="r-in">        <span class="st">"/NODE"</span>, <span class="va">cpu_group</span>, <span class="st">"/AFFINITY"</span>, <span class="st">"0xFFFFFFFFFFFFFFFE"</span>,</span>
-<span class="r-in">        <span class="st">"*"</span></span>
-<span class="r-in">      <span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">      dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">    <span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">## merge the two 62-node clusters into one with 124 nodes</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">c</span>, <span class="va">cl</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## NOTE: Drop 'dryrun = TRUE' below in order to actually connect.  Add</span></span></span>
+<span class="r-in"><span><span class="co">## 'verbose = TRUE' if you run into problems and need to troubleshoot.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: Two workers on the local machine</span></span></span>
+<span class="r-in"><span><span class="va">workers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"localhost"</span>, <span class="st">"localhost"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span><span class="va">workers</span>, dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: Three remote workers</span></span></span>
+<span class="r-in"><span><span class="co">## Setup of three R workers on two remote machines are set up</span></span></span>
+<span class="r-in"><span><span class="va">workers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n1.remote.org"</span>, <span class="st">"n2.remote.org"</span>, <span class="st">"n1.remote.org"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span><span class="va">workers</span>, dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: Local and remote workers</span></span></span>
+<span class="r-in"><span><span class="co">## Same setup when the two machines are on the local network and</span></span></span>
+<span class="r-in"><span><span class="co">## have identical software setups</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">workers</span>,</span></span>
+<span class="r-in"><span>  revtunnel <span class="op">=</span> <span class="cn">FALSE</span>, homogeneous <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: Three remote workers 'n1', 'n2', and 'n3' that can only be</span></span></span>
+<span class="r-in"><span><span class="co">## accessed via jumphost 'login.remote.org'</span></span></span>
+<span class="r-in"><span><span class="va">workers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n1"</span>, <span class="st">"n2"</span>, <span class="st">"n1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">workers</span>,</span></span>
+<span class="r-in"><span>  rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-J"</span>, <span class="st">"login.remote.org"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  homogeneous <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: Remote workers with specific setup</span></span></span>
+<span class="r-in"><span><span class="co">## Setup of remote worker with more detailed control on</span></span></span>
+<span class="r-in"><span><span class="co">## authentication and reverse SSH tunneling</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"remote.server.org"</span>, user <span class="op">=</span> <span class="st">"johnny"</span>,</span></span>
+<span class="r-in"><span>  <span class="co">## Manual configuration of reverse SSH tunneling</span></span></span>
+<span class="r-in"><span>  revtunnel <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-v"</span>, <span class="st">"-R 11000:gateway:11942"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  master <span class="op">=</span> <span class="st">"gateway"</span>, port <span class="op">=</span> <span class="fl">11942</span>,</span></span>
+<span class="r-in"><span>  <span class="co">## Run Rscript nicely and skip any startup scripts</span></span></span>
+<span class="r-in"><span>  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nice"</span>, <span class="st">"/path/to/Rscript"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: Two workers running in Docker on the local machine</span></span></span>
+<span class="r-in"><span><span class="co">## Setup of 2 Docker workers running rocker/r-parallel</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"localhost"</span>, times <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="co">## Launch Rscript inside Docker container</span></span></span>
+<span class="r-in"><span>  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"docker"</span>, <span class="st">"run"</span>, <span class="st">"--net=host"</span>, <span class="st">"rocker/r-parallel"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Rscript"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="co">## IMPORTANT: Because Docker runs inside a virtual machine (VM) on macOS</span></span></span>
+<span class="r-in"><span>  <span class="co">## and Windows (not Linux), when the R worker tries to connect back to</span></span></span>
+<span class="r-in"><span>  <span class="co">## the default 'localhost' it will fail, because the main R session is</span></span></span>
+<span class="r-in"><span>  <span class="co">## not running in the VM, but outside on the host.  To reach the host on</span></span></span>
+<span class="r-in"><span>  <span class="co">## macOS and Windows, make sure to use master = "host.docker.internal"</span></span></span>
+<span class="r-in"><span>  <span class="co"># master = "host.docker.internal",  # &lt;= macOS &amp; Windows</span></span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: Two workers running in Singularity on the local machine</span></span></span>
+<span class="r-in"><span><span class="co">## Setup of 2 Singularity workers running rocker/r-parallel</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"localhost"</span>, times <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="co">## Launch Rscript inside Linux container</span></span></span>
+<span class="r-in"><span>  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"singularity"</span>, <span class="st">"exec"</span>, <span class="st">"docker://rocker/r-parallel"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Rscript"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: One worker running in udocker on the local machine</span></span></span>
+<span class="r-in"><span><span class="co">## Setup of a single udocker.py worker running rocker/r-parallel</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"localhost"</span>,</span></span>
+<span class="r-in"><span>  <span class="co">## Launch Rscript inside Docker container (using udocker)</span></span></span>
+<span class="r-in"><span>  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"udocker.py"</span>, <span class="st">"run"</span>, <span class="st">"rocker/r-parallel"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Rscript"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>, </span></span>
+<span class="r-in"><span>  <span class="co">## Manually launch parallel workers</span></span></span>
+<span class="r-in"><span>  <span class="co">## (need double shQuote():s because udocker.py drops one level)</span></span></span>
+<span class="r-in"><span>  rscript_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"-e"</span>, <span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="st">"parallel:::.workRSOCK()"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: One worker running in Wine for Linux on the local machine</span></span></span>
+<span class="r-in"><span><span class="co">## To install R for MS Windows in Wine, do something like:</span></span></span>
+<span class="r-in"><span><span class="co">##   winecfg  # In GUI, set 'Windows version' to 'Windows 10'</span></span></span>
+<span class="r-in"><span><span class="co">##   wget https://cran.r-project.org/bin/windows/base/R-4.1.2-win.exe</span></span></span>
+<span class="r-in"><span><span class="co">##   wine R-4.1.2-win.exe /SILENT</span></span></span>
+<span class="r-in"><span><span class="co">## Prevent packages from being installed to R's system library:</span></span></span>
+<span class="r-in"><span><span class="co">##   chmod ugo-w "$HOME/.wine/drive_c/Program Files/R/R-4.1.2/library/"</span></span></span>
+<span class="r-in"><span><span class="co">## Verify it works:</span></span></span>
+<span class="r-in"><span><span class="co">##   wine "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe" --version</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span><span class="fl">1L</span>,</span></span>
+<span class="r-in"><span>  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="co">## Silence Wine warnings</span></span></span>
+<span class="r-in"><span>    <span class="st">"WINEDEBUG=fixme-all"</span>,</span></span>
+<span class="r-in"><span>    <span class="co">## Don't pass LC_*** environments from Linux to Wine</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"%s="</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"LC_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"wine"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: Launch 124 workers on MS Windows 10, where half are</span></span></span>
+<span class="r-in"><span><span class="co">## running on CPU Group #0 and half on CPU Group #1.  </span></span></span>
+<span class="r-in"><span><span class="co">## (https://lovickconsulting.com/2021/11/18/</span></span></span>
+<span class="r-in"><span><span class="co">##  running-r-clusters-on-an-amd-threadripper-3990x-in-windows-10-2/)</span></span></span>
+<span class="r-in"><span><span class="va">ncores</span> <span class="op">&lt;-</span> <span class="fl">124</span></span></span>
+<span class="r-in"><span><span class="va">cpu_groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">cpu_groups</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">cpu_group</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">parallelly</span><span class="fu">::</span><span class="fu">makeClusterPSOCK</span><span class="op">(</span><span class="va">ncores</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%/%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">cpu_groups</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"COMSPEC"</span><span class="op">)</span>, <span class="st">"/c"</span>, <span class="st">"start"</span>, <span class="st">"/B"</span>,</span></span>
+<span class="r-in"><span>        <span class="st">"/NODE"</span>, <span class="va">cpu_group</span>, <span class="st">"/AFFINITY"</span>, <span class="st">"0xFFFFFFFFFFFFFFFE"</span>,</span></span>
+<span class="r-in"><span>        <span class="st">"*"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## merge the two 62-node clusters into one with 124 nodes</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">c</span>, <span class="va">cl</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The combined cluster contains 61 duplicated nodes</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: Remote worker running on AWS</span></span>
-<span class="r-in"><span class="co">## Launching worker on Amazon AWS EC2 running one of the</span></span>
-<span class="r-in"><span class="co">## Amazon Machine Images (AMI) provided by RStudio</span></span>
-<span class="r-in"><span class="co">## (https://www.louisaslett.com/RStudio_AMI/)</span></span>
-<span class="r-in"><span class="va">public_ip</span> <span class="op">&lt;-</span> <span class="st">"1.2.3.4"</span></span>
-<span class="r-in"><span class="va">ssh_private_key_file</span> <span class="op">&lt;-</span> <span class="st">"~/.ssh/my-private-aws-key.pem"</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span>
-<span class="r-in">  <span class="co">## Public IP number of EC2 instance</span></span>
-<span class="r-in">  <span class="va">public_ip</span>,</span>
-<span class="r-in">  <span class="co">## User name (always 'ubuntu')</span></span>
-<span class="r-in">  user <span class="op">=</span> <span class="st">"ubuntu"</span>,</span>
-<span class="r-in">  <span class="co">## Use private SSH key registered with AWS</span></span>
-<span class="r-in">  rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="st">"-o"</span>, <span class="st">"StrictHostKeyChecking=no"</span>,</span>
-<span class="r-in">    <span class="st">"-o"</span>, <span class="st">"IdentitiesOnly=yes"</span>,</span>
-<span class="r-in">    <span class="st">"-i"</span>, <span class="va">ssh_private_key_file</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  <span class="co">## Set up .libPaths() for the 'ubuntu' user</span></span>
-<span class="r-in">  <span class="co">## and then install the future package</span></span>
-<span class="r-in">  rscript_startup <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">local</a></span><span class="op">(</span><span class="op">{</span></span>
-<span class="r-in">    <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"R_LIBS_USER"</span><span class="op">)</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">p</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"future"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: Remote worker running on GCE</span></span>
-<span class="r-in"><span class="co">## Launching worker on Google Cloud Engine (GCE) running a</span></span>
-<span class="r-in"><span class="co">## container based VM (with a #cloud-config specification)</span></span>
-<span class="r-in"><span class="va">public_ip</span> <span class="op">&lt;-</span> <span class="st">"1.2.3.4"</span></span>
-<span class="r-in"><span class="va">user</span> <span class="op">&lt;-</span> <span class="st">"johnny"</span></span>
-<span class="r-in"><span class="va">ssh_private_key_file</span> <span class="op">&lt;-</span> <span class="st">"~/.ssh/google_compute_engine"</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span>
-<span class="r-in">  <span class="co">## Public IP number of GCE instance</span></span>
-<span class="r-in">  <span class="va">public_ip</span>,</span>
-<span class="r-in">  <span class="co">## User name (== SSH key label (sic!))</span></span>
-<span class="r-in">  user <span class="op">=</span> <span class="va">user</span>,</span>
-<span class="r-in">  <span class="co">## Use private SSH key registered with GCE</span></span>
-<span class="r-in">  rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="st">"-o"</span>, <span class="st">"StrictHostKeyChecking=no"</span>,</span>
-<span class="r-in">    <span class="st">"-o"</span>, <span class="st">"IdentitiesOnly=yes"</span>,</span>
-<span class="r-in">    <span class="st">"-i"</span>, <span class="va">ssh_private_key_file</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  <span class="co">## Launch Rscript inside Docker container</span></span>
-<span class="r-in">  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="st">"docker"</span>, <span class="st">"run"</span>, <span class="st">"--net=host"</span>, <span class="st">"rocker/r-parallel"</span>,</span>
-<span class="r-in">    <span class="st">"Rscript"</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: Remote worker running on Linux from Windows machine</span></span>
-<span class="r-in"><span class="co">## Connect to remote Unix machine 'remote.server.org' on port 2200</span></span>
-<span class="r-in"><span class="co">## as user 'bob' from a Windows machine with PuTTY installed.</span></span>
-<span class="r-in"><span class="co">## Using the explicit special rshcmd = "&lt;putty-plink&gt;", will force</span></span>
-<span class="r-in"><span class="co">## makeClusterPSOCK() to search for and use the PuTTY plink software,</span></span>
-<span class="r-in"><span class="co">## preventing it from using other SSH clients on the system search PATH.</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"remote.server.org"</span>, user <span class="op">=</span> <span class="st">"bob"</span>,</span>
-<span class="r-in">  rshcmd <span class="op">=</span> <span class="st">"&lt;putty-plink&gt;"</span>,</span>
-<span class="r-in">  rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-P"</span>, <span class="fl">2200</span>, <span class="st">"-i"</span>, <span class="st">"C:/Users/bobby/.ssh/putty.ppk"</span><span class="op">)</span>,</span>
-<span class="r-in">  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: Remote worker running on Linux from RStudio on Windows</span></span>
-<span class="r-in"><span class="co">## Connect to remote Unix machine 'remote.server.org' on port 2200</span></span>
-<span class="r-in"><span class="co">## as user 'bob' from a Windows machine via RStudio's SSH client.</span></span>
-<span class="r-in"><span class="co">## Using the explicit special rshcmd = "&lt;rstudio-ssh&gt;", will force</span></span>
-<span class="r-in"><span class="co">## makeClusterPSOCK() to use the SSH client that comes with RStudio,</span></span>
-<span class="r-in"><span class="co">## preventing it from using other SSH clients on the system search PATH.</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"remote.server.org"</span>, user <span class="op">=</span> <span class="st">"bob"</span>, rshcmd <span class="op">=</span> <span class="st">"&lt;rstudio-ssh&gt;"</span>,</span>
-<span class="r-in">  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: Remote worker running on AWS</span></span></span>
+<span class="r-in"><span><span class="co">## Launching worker on Amazon AWS EC2 running one of the</span></span></span>
+<span class="r-in"><span><span class="co">## Amazon Machine Images (AMI) provided by RStudio</span></span></span>
+<span class="r-in"><span><span class="co">## (https://www.louisaslett.com/RStudio_AMI/)</span></span></span>
+<span class="r-in"><span><span class="va">public_ip</span> <span class="op">&lt;-</span> <span class="st">"1.2.3.4"</span></span></span>
+<span class="r-in"><span><span class="va">ssh_private_key_file</span> <span class="op">&lt;-</span> <span class="st">"~/.ssh/my-private-aws-key.pem"</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="co">## Public IP number of EC2 instance</span></span></span>
+<span class="r-in"><span>  <span class="va">public_ip</span>,</span></span>
+<span class="r-in"><span>  <span class="co">## User name (always 'ubuntu')</span></span></span>
+<span class="r-in"><span>  user <span class="op">=</span> <span class="st">"ubuntu"</span>,</span></span>
+<span class="r-in"><span>  <span class="co">## Use private SSH key registered with AWS</span></span></span>
+<span class="r-in"><span>  rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"-o"</span>, <span class="st">"StrictHostKeyChecking=no"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"-o"</span>, <span class="st">"IdentitiesOnly=yes"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"-i"</span>, <span class="va">ssh_private_key_file</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="co">## Set up .libPaths() for the 'ubuntu' user</span></span></span>
+<span class="r-in"><span>  <span class="co">## and then install the future package</span></span></span>
+<span class="r-in"><span>  rscript_startup <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">local</a></span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"R_LIBS_USER"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">p</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"future"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: Remote worker running on GCE</span></span></span>
+<span class="r-in"><span><span class="co">## Launching worker on Google Cloud Engine (GCE) running a</span></span></span>
+<span class="r-in"><span><span class="co">## container based VM (with a #cloud-config specification)</span></span></span>
+<span class="r-in"><span><span class="va">public_ip</span> <span class="op">&lt;-</span> <span class="st">"1.2.3.4"</span></span></span>
+<span class="r-in"><span><span class="va">user</span> <span class="op">&lt;-</span> <span class="st">"johnny"</span></span></span>
+<span class="r-in"><span><span class="va">ssh_private_key_file</span> <span class="op">&lt;-</span> <span class="st">"~/.ssh/google_compute_engine"</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="co">## Public IP number of GCE instance</span></span></span>
+<span class="r-in"><span>  <span class="va">public_ip</span>,</span></span>
+<span class="r-in"><span>  <span class="co">## User name (== SSH key label (sic!))</span></span></span>
+<span class="r-in"><span>  user <span class="op">=</span> <span class="va">user</span>,</span></span>
+<span class="r-in"><span>  <span class="co">## Use private SSH key registered with GCE</span></span></span>
+<span class="r-in"><span>  rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"-o"</span>, <span class="st">"StrictHostKeyChecking=no"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"-o"</span>, <span class="st">"IdentitiesOnly=yes"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"-i"</span>, <span class="va">ssh_private_key_file</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="co">## Launch Rscript inside Docker container</span></span></span>
+<span class="r-in"><span>  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"docker"</span>, <span class="st">"run"</span>, <span class="st">"--net=host"</span>, <span class="st">"rocker/r-parallel"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Rscript"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: Remote worker running on Linux from Windows machine</span></span></span>
+<span class="r-in"><span><span class="co">## Connect to remote Unix machine 'remote.server.org' on port 2200</span></span></span>
+<span class="r-in"><span><span class="co">## as user 'bob' from a Windows machine with PuTTY installed.</span></span></span>
+<span class="r-in"><span><span class="co">## Using the explicit special rshcmd = "&lt;putty-plink&gt;", will force</span></span></span>
+<span class="r-in"><span><span class="co">## makeClusterPSOCK() to search for and use the PuTTY plink software,</span></span></span>
+<span class="r-in"><span><span class="co">## preventing it from using other SSH clients on the system search PATH.</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"remote.server.org"</span>, user <span class="op">=</span> <span class="st">"bob"</span>,</span></span>
+<span class="r-in"><span>  rshcmd <span class="op">=</span> <span class="st">"&lt;putty-plink&gt;"</span>,</span></span>
+<span class="r-in"><span>  rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-P"</span>, <span class="fl">2200</span>, <span class="st">"-i"</span>, <span class="st">"C:/Users/bobby/.ssh/putty.ppk"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: Remote worker running on Linux from RStudio on Windows</span></span></span>
+<span class="r-in"><span><span class="co">## Connect to remote Unix machine 'remote.server.org' on port 2200</span></span></span>
+<span class="r-in"><span><span class="co">## as user 'bob' from a Windows machine via RStudio's SSH client.</span></span></span>
+<span class="r-in"><span><span class="co">## Using the explicit special rshcmd = "&lt;rstudio-ssh&gt;", will force</span></span></span>
+<span class="r-in"><span><span class="co">## makeClusterPSOCK() to use the SSH client that comes with RStudio,</span></span></span>
+<span class="r-in"><span><span class="co">## preventing it from using other SSH clients on the system search PATH.</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"remote.server.org"</span>, user <span class="op">=</span> <span class="st">"bob"</span>, rshcmd <span class="op">=</span> <span class="st">"&lt;rstudio-ssh&gt;"</span>,</span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Failed to locate a default SSH client (checked: ‘rstudio-ssh’). Please specify one via argument 'rshcmd'. Will still try with ‘ssh’.</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## EXAMPLE: The 'Fujitsu Technical Computing Suite' is a high-performance</span></span>
-<span class="r-in"><span class="co">## compute (HPC) job scheduler where one can request compute resources on</span></span>
-<span class="r-in"><span class="co">## multiple nodes, each running multiple cores.  For example,</span></span>
-<span class="r-in"><span class="co">##</span></span>
-<span class="r-in"><span class="co">##   pjsub -L vnode=3 -L vnode-core=18 script.sh</span></span>
-<span class="r-in"><span class="co">##</span></span>
-<span class="r-in"><span class="co">## reserves 18 cores on three nodes. The job script runs on the first</span></span>
-<span class="r-in"><span class="co">## with enviroment variables set to infer the other nodes, resulting in</span></span>
-<span class="r-in"><span class="co">## availableWorkers() to return 3 * 18 workers. When the HPC environment</span></span>
-<span class="r-in"><span class="co">## does not support SSH between compute nodes, one can use the 'pjrsh'</span></span>
-<span class="r-in"><span class="co">## command to launch the parallel workers.</span></span>
-<span class="r-in"><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu"><a href="availableWorkers.html">availableWorkers</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">  rshcmd <span class="op">=</span> <span class="st">"pjrsh"</span>,</span>
-<span class="r-in">  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: The 'Fujitsu Technical Computing Suite' is a high-performance</span></span></span>
+<span class="r-in"><span><span class="co">## compute (HPC) job scheduler where one can request compute resources on</span></span></span>
+<span class="r-in"><span><span class="co">## multiple nodes, each running multiple cores.  For example,</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">##   pjsub -L vnode=3 -L vnode-core=18 script.sh</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## reserves 18 cores on three nodes. The job script runs on the first</span></span></span>
+<span class="r-in"><span><span class="co">## with enviroment variables set to infer the other nodes, resulting in</span></span></span>
+<span class="r-in"><span><span class="co">## availableWorkers() to return 3 * 18 workers. When the HPC environment</span></span></span>
+<span class="r-in"><span><span class="co">## does not support SSH between compute nodes, one can use the 'pjrsh'</span></span></span>
+<span class="r-in"><span><span class="co">## command to launch the parallel workers.</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="availableWorkers.html">availableWorkers</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  rshcmd <span class="op">=</span> <span class="st">"pjrsh"</span>,</span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -823,7 +897,7 @@ calling <code>makeClusterPSOCK()</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
 </div>
 
       </footer></div>

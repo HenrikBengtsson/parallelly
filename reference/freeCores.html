@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.0-9002</span>
       </span>
     </div>
 
@@ -125,12 +125,12 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">freeCores</span><span class="op">(</span>
-  memory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"5min"</span>, <span class="st">"15min"</span>, <span class="st">"1min"</span><span class="op">)</span>,
-  fraction <span class="op">=</span> <span class="fl">0.9</span>,
-  logical <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.availableCores.logical"</span>, <span class="cn">TRUE</span><span class="op">)</span>,
-  default <span class="op">=</span> <span class="fu">parallelly</span><span class="fu">::</span><span class="fu"><a href="availableCores.html">availableCores</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">freeCores</span><span class="op">(</span></span>
+<span>  memory <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"5min"</span>, <span class="st">"15min"</span>, <span class="st">"1min"</span><span class="op">)</span>,</span>
+<span>  fraction <span class="op">=</span> <span class="fl">0.9</span>,</span>
+<span>  logical <span class="op">=</span> <span class="fu"><a href="getOption2.html">getOption2</a></span><span class="op">(</span><span class="st">"parallelly.availableCores.logical"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  default <span class="op">=</span> <span class="fu">parallelly</span><span class="fu">::</span><span class="fu"><a href="availableCores.html">availableCores</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -138,29 +138,38 @@
     <dl><dt>memory</dt>
 <dd><p>(character) The time period used to infer the system load,
 with alternatives being 5 minutes (default), 15 minutes, or 1 minute.</p></dd>
+
+
 <dt>fraction</dt>
 <dd><p>(non-negative numeric) A scale factor.</p></dd>
+
+
 <dt>logical</dt>
 <dd><p>Passed as-is to <code><a href="availableCores.html">availableCores()</a></code>.</p></dd>
+
+
 <dt>default</dt>
 <dd><p>(integer) The value to be returned if the system load is
 unknown, i.e. <code><a href="cpuLoad.html">cpuLoad()</a></code> return missing values.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An positive integer with attributes <code>loadavg</code> (named numeric),
+    
+
+<p>An positive integer with attributes <code>loadavg</code> (named numeric),
 <code>maxCores</code> (named integer), argument <code>memory</code> (character), and
 argument <code>fraction</code> (numeric).</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">free</span> <span class="op">&lt;-</span> <span class="fu">freeCores</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">free</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">free</span> <span class="op">&lt;-</span> <span class="fu">freeCores</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">free</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"loadavg")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1min  5min 15min </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5.41  3.80  3.24 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1.22  1.09  0.88 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"maxCores")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> system </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      8 </span>
@@ -168,11 +177,11 @@ argument <code>fraction</code> (numeric).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "5min"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"fraction")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co">## Make availableCores() agile to the system load</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>parallelly.availableCores.custom <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="fu">freeCores</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co">## Make availableCores() agile to the system load</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>parallelly.availableCores.custom <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="fu">freeCores</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -187,7 +196,7 @@ argument <code>fraction</code> (numeric).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
 </div>
 
       </footer></div>

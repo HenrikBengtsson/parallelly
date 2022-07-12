@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.0-9002</span>
       </span>
     </div>
 
@@ -125,12 +125,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">cpuLoad</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cpuLoad</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="value">
     <h2>Value</h2>
-    <p>A named numeric vector with three elements <code>1min</code>, <code>5min</code>, and
+    
+
+<p>A named numeric vector with three elements <code>1min</code>, <code>5min</code>, and
 <code>15min</code> with non-negative values.
 These values represent estimates of the CPU load during the last minute,
 the last five minutes, and the last fifteen minutes [1].
@@ -152,10 +154,10 @@ Brendan Gregg's Blog, 2017-08-08,
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">loadavg</span> <span class="op">&lt;-</span> <span class="fu">cpuLoad</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">loadavg</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">loadavg</span> <span class="op">&lt;-</span> <span class="fu">cpuLoad</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">loadavg</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1min  5min 15min </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5.54  3.80  3.23 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1.22  1.09  0.88 </span>
 </code></pre></div>
     </div>
   </div>
@@ -170,7 +172,7 @@ Brendan Gregg's Blog, 2017-08-08,
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
 </div>
 
       </footer></div>

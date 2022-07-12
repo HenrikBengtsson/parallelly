@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.0-9002</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">find_rshcmd</span><span class="op">(</span>which <span class="op">=</span> <span class="cn">NULL</span>, first <span class="op">=</span> <span class="cn">FALSE</span>, must_work <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">find_rshcmd</span><span class="op">(</span>which <span class="op">=</span> <span class="cn">NULL</span>, first <span class="op">=</span> <span class="cn">FALSE</span>, must_work <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -134,16 +134,23 @@
 <dd><p>A character vector specifying which types of SSH clients
 to search for.  If NULL, a default set of clients supported by the
 current platform is searched for.</p></dd>
+
+
 <dt>first</dt>
 <dd><p>If TRUE, the first client found is returned, otherwise
 all located clients are returned.</p></dd>
+
+
 <dt>must_work</dt>
 <dd><p>If TRUE and no clients was found, then an error
 is produced, otherwise only a warning.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A named list of pathnames to all located SSH clients.
+    
+
+<p>A named list of pathnames to all located SSH clients.
 The pathnames may be followed by zero or more command-line options,
 i.e. the elements of the returned list are character vectors of length
 one or more.
@@ -164,7 +171,7 @@ executable for its version (via command-line option <code>-V</code>).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
 </div>
 
       </footer></div>
