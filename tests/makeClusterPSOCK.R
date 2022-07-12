@@ -48,6 +48,9 @@ print(cl)
 
 cl <- makeClusterPSOCK(1L)
 print(cl)
+node <- cl[[1]]
+utils::str(node)
+stopifnot(isTRUE(attr(node[["host"]], "localhost")))
 parallel::stopCluster(cl)
 
 

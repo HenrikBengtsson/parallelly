@@ -264,6 +264,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       canReceive <- seq_along(pending)[a[-1]]
 
       if (canAccept) {
+        attr(localhostHostname, "localhost") <- TRUE
         con <- socketAccept(socket = socket, blocking = TRUE, open = "a+b", timeout = timeout)
         scon <- structure(list(con = con, host = localhostHostname, rank = ready), class = nodeClass)
         res <- tryCatch({
