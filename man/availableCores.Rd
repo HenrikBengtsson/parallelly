@@ -6,9 +6,9 @@
 \usage{
 availableCores(
   constraints = NULL,
-  methods = getOption2("parallelly.availableCores.methods", c("system",
-    "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel",
-    "_R_CHECK_LIMIT_CORES_", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")),
+  methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset",
+    "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_",
+    "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = c(current = 1L),
