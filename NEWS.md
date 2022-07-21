@@ -1,3 +1,13 @@
+# Version 1.32.1 [2022-07-21]
+
+## Bug Fixes
+
+ * The `host` element of the `SOCK0node` or `SOCKnode` objects created
+   by `makeClusterPSOCK()` lost attribute `localhost` for localhost
+   workers.  This made some error messages from the **future** package
+   less informative.
+ 
+
 # Version 1.32.0 [2022-06-07]
 
 ## Significant Changes

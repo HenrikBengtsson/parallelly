@@ -1,5 +1,5 @@
 Package: parallelly
-Version: 1.32.0
+Version: 1.32.1
 Title: Enhancing the 'parallel' Package
 Imports:
     parallel,
@@ -13,5 +13,5 @@ LazyLoad: TRUE
 ByteCompile: TRUE
 URL: https://parallelly.futureverse.org, https://github.com/HenrikBengtsson/parallelly
 BugReports: https://github.com/HenrikBengtsson/parallelly/issues
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)
