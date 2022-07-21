@@ -13,6 +13,8 @@ The package has been verified using `R CMD check --as-cran` on:
 
 | R version     | GitHub | R-hub    | mac/win-builder |
 | ------------- | ------ | -------- | --------------- |
+| 3.4.x         | L      |          |                 |
+| 3.6.x         | L      |          |                 |
 | 4.0.x         | L      |          |                 |
 | 4.1.x         | L M W  |          |                 |
 | 4.2.x         | L M W  | . M M1 . | M1 W            |
@@ -35,24 +37,21 @@ print(res)
 gives
 
 ```
-── R.filesets 2.15.0: WARNING
+── parallelly 1.32.1: OK
 
-  Build ID:   R.filesets_2.15.0.tar.gz-4e76df4479594a998454ff0ba6dabf44
+  Build ID:   parallelly_1.32.1.tar.gz-560f08a4c6294e4ba3e17b456612a3ba
   Platform:   macOS 10.13.6 High Sierra, R-release, CRAN's setup
-  Submitted:  2m 7.5s ago
-  Build time: 2m 4.6s
+  Submitted:  1m 32.9s ago
+  Build time: 1m 20.9s
 
-❯ checking whether package ‘R.filesets’ can be installed ... WARNING
-  See below...
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-0 errors ✔ | 1 warning ✖ | 0 notes ✔
+── parallelly 1.32.1: OK
 
-── R.filesets 2.15.0: OK
-
-  Build ID:   R.filesets_2.15.0.tar.gz-c2ae9544d9554eefa2514540f43dc1eb
+  Build ID:   parallelly_1.32.1.tar.gz-51f22800421847bba7acd8be5cb2b971
   Platform:   Apple Silicon (M1), macOS 11.6 Big Sur, R-release
-  Submitted:  2m 7.6s ago
-  Build time: 1m 2.7s
+  Submitted:  1m 33s ago
+  Build time: 46.6s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 ```

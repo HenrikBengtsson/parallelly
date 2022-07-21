@@ -60,6 +60,11 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: Install package itself (special case)
+        run: |
+          install.packages(".", repos = NULL, type = "source")  ## self vignette engine
+        shell: Rscript {0}
+
       - name: Session info
         run: |
           options(width = 100)
