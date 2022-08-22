@@ -160,12 +160,12 @@ the cluster is garbage collected.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Manually, start worker #1 on local machine ‘localhost’ with:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   '/home/hb/shared/software/CBI/R-4.2.1-gcc9/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11900 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   '/home/hb/shared/software/CBI/R-4.2.1-gcc9/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11421 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Manually, start worker #2 on local machine ‘localhost’ with:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   '/home/hb/shared/software/CBI/R-4.2.1-gcc9/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11900 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   '/home/hb/shared/software/CBI/R-4.2.1-gcc9/lib/R/bin/Rscript' --default-packages=datasets,utils,grDevices,graphics,stats,methods -e 'options(socketOptions = "no-delay")' -e 'workRSOCK &lt;- tryCatch(parallel:::.workRSOCK, error=function(e) parallel:::.slaveRSOCK); workRSOCK()' MASTER=localhost PORT=11421 OUT=/dev/null TIMEOUT=2592000 XDR=FALSE SETUPTIMEOUT=120 SETUPSTRATEGY=sequential</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">autoStopCluster</span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></span></span>
@@ -173,8 +173,8 @@ the cluster is garbage collected.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="st">"cl"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           used (Mb) gc trigger (Mb) max used (Mb)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells  817394 43.7    1458251 77.9  1458251 77.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 1508010 11.6    8388608 64.0  2269902 17.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ncells  817508 43.7    1458225 77.9  1458225 77.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Vcells 1508170 11.6    8388608 64.0  2269902 17.4</span>
 </code></pre></div>
     </div>
   </div>
