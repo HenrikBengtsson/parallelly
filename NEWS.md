@@ -67,7 +67,7 @@
 ## New Features
 
  * On Unix, `availableCores()` now queries also control groups (cgroups)
-   queries fields 'cpu.cfs_quota_us' and 'cpu.cfs_period_us', for a
+   queries fields `cpu.cfs_quota_us` and `cpu.cfs_period_us`, for a
    possible CPU quota allocation. If a CPU quota is set, then the
    number of CPUs is rounded to the nearest integer, unless its less
    that 0.5, in case it's rounded up to a single CPU. An example,
@@ -187,7 +187,7 @@
 
 # Version 1.28.1 [2021-09-09]
 
-CRAN POLICIES:
+## CRAN Policies
 
  * `example("isNodeAlive")` now uses `\donttest{}` to avoid long (> 10
    s) elapsed run times on MS Windows.
@@ -223,7 +223,7 @@ CRAN POLICIES:
    also respect `BBS_HOME` which is set on the Bioconductor check servers to
    limit the number of parallel workers while checking Bioconductor packages.
 
-WORKAROUND:
+## Workaround
 
  * `makeClusterPSOCK()` and `parallel::makeCluster()` failed with error "Cluster
    setup failed. <n> of <n> workers failed to connect." when using the new
@@ -254,7 +254,7 @@ WORKAROUND:
  * `print()` on RichSOCKcluster mentions when the cluster is registered to be
    automatically stopped by the garbage collector.
    
-WORKAROUND:
+## Workaround
 
  * Depending on R version used, the RStudio Console does not support the new
    `setup_strategy = "parallel"` when using `makeClusterPSOCK()` or
@@ -379,7 +379,7 @@ WORKAROUND:
    addition, environment variable `SLURM_CPUS_PER_TASK` (always a scalar),
    then that is also respected.
  
-MISCELLANEOUS:
+## Miscellaneous
 
  * All code is now using the `parallelly.` prefix for options and the
    `R_PARALLELLY_` prefix for environment variables.  Settings that use the
@@ -432,7 +432,7 @@ MISCELLANEOUS:
    can be controlled by the R option `parallelly.makeNodePSOCK.useXDR` or the
    corresponding environment variable `R_PARALLELLY_MAKENODEPSOCK_USEXDR`.
 
-BETA FEATURES:
+## Beta Features
 
  * Add `cpuLoad()` for querying the "average" system load on Unix-like systems.
 
@@ -510,7 +510,7 @@ BETA FEATURES:
  * `connectionId()` did not return `-1L` on Solaris for connections with internal
    'nil' pointers because they were reported as '0' - not 'nil' or '0x0'.
 
-HISTORY:
+## History
 
  * Below is an excerpt of the **future**'s NEWS entries that are related to the
    functions in this package.
@@ -543,7 +543,7 @@ HISTORY:
  * `makeClusterPSOCK()`, or actually `makeNodePSOCK()`, gained argument `quiet`,
    which can be used to silence output produced by `manual = TRUE`.
 
-PERFORMANCE:
+## Performance
 
  * Now `plan(multisession)`, `plan(cluster, workers = <number>)`, and
    `makeClusterPSOCK()` which they both use internally, sets up localhost
@@ -595,7 +595,7 @@ PERFORMANCE:
  * `makeClusterPSOCK()` gained argument `rscript_envs` for setting environment
    variables in workers on startup, e.g. `rscript_envs = c(FOO = "3.14", "BAR")`.
 
-MISCELLANEOUS:
+## Miscellaneous
 
  * Not all CRAN servers have `_R_CHECK_LIMIT_CORES_` set.  To better emulate
    CRAN submission checks, the **future** package will, when loaded, set this
@@ -696,7 +696,7 @@ MISCELLANEOUS:
    that was supported in the past. An advantage of using environment variables
    is that they will be inherited by child processes, also nested ones.
 
-SOFTWARE QUALITY:
+## Software Quality
 
  * TESTS: When the **future** package is loaded, it checks whether `R CMD check`
    is running or not.  If it is, then a few future-specific environment
