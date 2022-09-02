@@ -383,7 +383,7 @@
    argument `quiet`, which can be used to silence output produced by
    `manual = TRUE`.
 
- * `c()` for 'cluster' objects now warns about duplicated cluster
+ * `c()` for `cluster` objects now warns about duplicated cluster
    nodes.
 
  * Add `isForkedNode()` to test if a cluster node runs in a forked
