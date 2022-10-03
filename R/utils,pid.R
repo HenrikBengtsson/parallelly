@@ -23,8 +23,8 @@
 #'    IEEE Std 1003.1-2017 (Revision of IEEE Std 1003.1-2008)
 #'    \url{https://pubs.opengroup.org/onlinepubs/9699919799/functions/kill.html}
 #'
-#' 2. Microsoft, tasklist, 2018-08-30,
-#'    \url{https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/tasklist}
+#' 2. Microsoft, tasklist, 2021-03-03,
+#'    \url{https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tasklist}
 #'
 #' 3. R-devel thread 'Detecting whether a process exists or not by its PID?',
 #'    2018-08-30.

@@ -34,8 +34,8 @@ On Windows, various alternatives of \code{system2("tasklist", ...)} are used.
 \item The Open Group Base Specifications Issue 7, 2018 edition,
 IEEE Std 1003.1-2017 (Revision of IEEE Std 1003.1-2008)
 \url{https://pubs.opengroup.org/onlinepubs/9699919799/functions/kill.html}
-\item Microsoft, tasklist, 2018-08-30,
-\url{https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/tasklist}
+\item Microsoft, tasklist, 2021-03-03,
+\url{https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tasklist}
 \item R-devel thread 'Detecting whether a process exists or not by its PID?',
 2018-08-30.
 \url{https://stat.ethz.ch/pipermail/r-devel/2018-August/076702.html}

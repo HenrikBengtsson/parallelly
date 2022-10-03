@@ -465,10 +465,13 @@ order to not leave behind stray parallel \code{cluster} workers after our main R
 session terminates. On Linux and macOS, the operating system often takes
 care of terminating the worker processes if we forget, but on MS Windows
 such processes will keep running in the background until they time out
-themselves, which takes 30 days (sic!).  Moreover, \verb{R CMD check --as-cran}
-will indirectly detect these stray worker processes on MS Windows, because
-they result in placeholder \verb{Rscript<hexcode>} files being left behind in
-the temporary directory.  The check NOTE to look out for is:
+themselves, which takes 30 days (sic!).
+
+\verb{R CMD check --as-cran} will indirectly detect these stray worker processes
+on MS Windows when running R (>= 4.3.0). They are detected, because they
+result in placeholder \verb{Rscript<hexcode>} files being left behind in
+the temporary directory.  The check NOTE to look out for
+(only in R (>= 4.3.0)) is:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{* checking for detritus in the temp directory ... NOTE
 Found the following files/directories:

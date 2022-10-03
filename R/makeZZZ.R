@@ -7,10 +7,13 @@
 #' session terminates. On Linux and macOS, the operating system often takes
 #' care of terminating the worker processes if we forget, but on MS Windows
 #' such processes will keep running in the background until they time out
-#' themselves, which takes 30 days (sic!).  Moreover, `R CMD check --as-cran`
-#' will indirectly detect these stray worker processes on MS Windows, because
-#' they result in placeholder `Rscript<hexcode>` files being left behind in
-#' the temporary directory.  The check NOTE to look out for is:
+#' themselves, which takes 30 days (sic!).
+#' 
+#' `R CMD check --as-cran` will indirectly detect these stray worker processes
+#' on MS Windows when running R (>= 4.3.0). They are detected, because they
+#' result in placeholder `Rscript<hexcode>` files being left behind in
+#' the temporary directory.  The check NOTE to look out for
+#' (only in R (>= 4.3.0)) is:
 #'
 #' ```
 #' * checking for detritus in the temp directory ... NOTE
