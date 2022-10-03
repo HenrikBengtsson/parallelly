@@ -484,7 +484,7 @@ at the end.  To stop all \code{cluster} workers, use \code{\link[parallel:makeCl
 at the end of your examples(*), vignettes, and package tests for every
 \code{cluster} object that is created.
 
-(*) Currently, examples are excluded from the detritus-files checks.
+(*) Currently, examples are excluded from the detritus checks.
 This was the validated with R-devel revision 82991 (2022-10-02).
 }
 
