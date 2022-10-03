@@ -31,7 +31,7 @@ R workers, and how to connect to external machines."><meta property="og:image" c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9002</span>
       </span>
     </div>
 
@@ -124,7 +124,7 @@ R workers, and how to connect to external machines."><meta property="og:image" c
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a PSOCK Cluster of R Workers for Parallel Processing</h1>
-    <small class="dont-index">Source: <a href="https://github.com/HenrikBengtsson/parallelly/blob/HEAD/R/makeClusterPSOCK.R" class="external-link"><code>R/makeClusterPSOCK.R</code></a>, <a href="https://github.com/HenrikBengtsson/parallelly/blob/HEAD/R/makeNodePSOCK.R" class="external-link"><code>R/makeNodePSOCK.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/HenrikBengtsson/parallelly/blob/HEAD/R/makeClusterPSOCK.R" class="external-link"><code>R/makeClusterPSOCK.R</code></a>, <a href="https://github.com/HenrikBengtsson/parallelly/blob/HEAD/R/makeNodePSOCK.R" class="external-link"><code>R/makeNodePSOCK.R</code></a>, <a href="https://github.com/HenrikBengtsson/parallelly/blob/HEAD/R/makeZZZ.R" class="external-link"><code>R/makeZZZ.R</code></a></small>
     <div class="hidden name"><code>makeClusterPSOCK.Rd</code></div>
     </div>
 
@@ -643,6 +643,35 @@ This is because R (&gt;= 3.6.0) uses serialization format version 3 by default
 whereas R (&lt; 3.5.0) only supports version 2.  We can see the version of the
 <span style="R">R</span> workers by adding <code>rscript_args = c("-e", shQuote("getRversion()"))</code> when
 calling <code>makeClusterPSOCK()</code>.</p>
+    </div>
+    <div id="for-package-developers">
+    <h2>For package developers</h2>
+    
+
+<p>When creating a <code>cluster</code> object, for instance via <code><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::makeCluster()</a></code>
+or <code>parallelly::makeClusterPSOCK()</code>, in a package help example, in a package
+vignette, or in a package test, we must <em>remember to stop the cluster at
+the end of all examples(*), vignettes, and unit tests</em>. This is required in
+order to not leave behind stray parallel <code>cluster</code> workers after our main R
+session terminates. On Linux and macOS, the operating system often takes
+care of terminating the worker processes if we forget, but on MS Windows
+such processes will keep running in the background until they time out
+themselves, which takes 30 days (sic!).</p>
+<p><code>R CMD check --as-cran</code> will indirectly detect these stray worker processes
+on MS Windows when running R (&gt;= 4.3.0). They are detected, because they
+result in placeholder <code>Rscript&lt;hexcode&gt;</code> files being left behind in
+the temporary directory.  The check NOTE to look out for
+(only in R (&gt;= 4.3.0)) is:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">*</span> checking <span class="cf">for</span> detritus <span class="cf">in</span> the temp directory ... NOTE</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Found the following files<span class="sc">/</span>directories<span class="sc">:</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Rscript1058267d0c10'</span> <span class="st">'Rscriptbd4267d0c10'</span></span></code></pre><p></p></div>
+<p>Those <code>Rscript&lt;hexcode&gt;</code> files are from background R worker processes,
+which almost always are parallel <code>cluster</code>:s that we forgot to stop
+at the end.  To stop all <code>cluster</code> workers, use <code><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::stopCluster()</a></code>
+at the end of your examples(*), vignettes, and package tests for every
+<code>cluster</code> object that is created.</p>
+<p>(*) Currently, examples are excluded from the detritus-files checks.
+This was the validated with R-devel revision 82991 (2022-10-02).</p>
     </div>
 
     <div id="ref-examples">
