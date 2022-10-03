@@ -460,7 +460,7 @@ calling \code{makeClusterPSOCK()}.
 When creating a \code{cluster} object, for instance via \code{parallel::makeCluster()}
 or \code{parallelly::makeClusterPSOCK()}, in a package help example, in a package
 vignette, or in a package test, we must \emph{remember to stop the cluster at
-the end of all examples, vignettes, and unit tests}. This is required in
+the end of all examples(*), vignettes, and unit tests}. This is required in
 order to not leave behind stray parallel \code{cluster} workers after our main R
 session terminates. On Linux and macOS, the operating system often takes
 care of terminating the worker processes if we forget, but on MS Windows
@@ -481,8 +481,11 @@ Found the following files/directories:
 Those \verb{Rscript<hexcode>} files are from background R worker processes,
 which almost always are parallel \code{cluster}:s that we forgot to stop
 at the end.  To stop all \code{cluster} workers, use \code{\link[parallel:makeCluster]{parallel::stopCluster()}}
-at the end of your examples, vignettes, and package tests for every
+at the end of your examples(*), vignettes, and package tests for every
 \code{cluster} object that is created.
+
+(*) Currently, examples are excluded from the detritus-files checks.
+This was the validated with R-devel revision 82991 (2022-10-02).
 }
 
 \examples{

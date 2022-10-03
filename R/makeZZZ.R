@@ -2,7 +2,7 @@
 #' When creating a `cluster` object, for instance via `parallel::makeCluster()`
 #' or `parallelly::makeClusterPSOCK()`, in a package help example, in a package
 #' vignette, or in a package test, we must _remember to stop the cluster at
-#' the end of all examples, vignettes, and unit tests_. This is required in
+#' the end of all examples(*), vignettes, and unit tests_. This is required in
 #' order to not leave behind stray parallel `cluster` workers after our main R
 #' session terminates. On Linux and macOS, the operating system often takes
 #' care of terminating the worker processes if we forget, but on MS Windows
@@ -24,8 +24,11 @@
 #' Those `Rscript<hexcode>` files are from background R worker processes,
 #' which almost always are parallel `cluster`:s that we forgot to stop
 #' at the end.  To stop all `cluster` workers, use [parallel::stopCluster()]
-#' at the end of your examples, vignettes, and package tests for every
+#' at the end of your examples(*), vignettes, and package tests for every
 #' `cluster` object that is created.
+#'
+#' (*) Currently, examples are excluded from the detritus-files checks.
+#'     This was the validated with R-devel revision 82991 (2022-10-02).
 #'
 #' @rdname makeClusterPSOCK
 #' @name makeClusterPSOCK
