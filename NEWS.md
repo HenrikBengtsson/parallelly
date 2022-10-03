@@ -1,7 +1,11 @@
 # Version (development version)
 
- * ...
- 
+## Documentation
+
+ * Add section to `help("makeClusterPSOCK", package = "parallelly")`
+   explaining why `R CMD check` may produce "checking for detritus in
+   the temp directory ... NOTE" and how to avoid them.
+
 
 # Version 1.32.1 [2022-07-21]
 
