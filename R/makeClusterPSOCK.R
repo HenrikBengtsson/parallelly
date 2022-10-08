@@ -58,6 +58,9 @@
 #' @importFrom parallel stopCluster
 #' @export
 makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOption2("parallelly.makeNodePSOCK.tries", 3L), delay = getOption2("parallelly.makeNodePSOCK.tries.delay", 15.0), validate = getOption2("parallelly.makeNodePSOCK.validate", TRUE), verbose = getOption2("parallelly.debug", FALSE)) {
+  verbose_prefix <- "[local output] "
+  if (verbose) mdebugf("%smakeClusterPSOCK() ...", verbose_prefix)
+  
   localhostHostname <- getOption2("parallelly.localhost.hostname", "localhost")
 
   if (is.numeric(workers)) {
@@ -89,8 +92,6 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       stopf("Cannot create %d parallel PSOCK nodes. Each node needs one connection but there are only %d connections left out of the maximum %d available on this R installation", length(workers), free, availableConnections())
     }
   }
-
-  verbose_prefix <- "[local output] "
 
   if (verbose) {
     mdebugf("%sWorkers: [n = %d] %s", verbose_prefix,
@@ -246,7 +247,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
 
     t0 <- Sys.time()
     while (ready < length(cl)) {
-      if (verbose) mdebugf("%s%d workers out of %d ready", verbose_prefix, ready, length(cl))
+      if (verbose) mdebugf(" - %s%d workers out of %d ready", verbose_prefix, ready, length(cl))
 
       cons <- lapply(pending, FUN = function(x) x$con)
 
@@ -255,9 +256,9 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
           ## no point waiting for them much longer.
           failed <- length(cl) - ready
           stop(sprintf(ngettext(failed,
-               "Cluster setup failed. %d worker of %d failed to connect.",
-               "Cluster setup failed. %d of %d workers failed to connect."),
-               failed, length(cl)))
+               "Cluster setup failed (connectTimeout=%.1f seconds). %d worker of %d failed to connect.",
+               "Cluster setup failed (connectTimeout=%.1f seconds). %d of %d workers failed to connect."),
+               failed, connectTimeout + 5, length(cl)))
       }
       a <- socketSelect(append(list(socket), cons), write = FALSE, timeout = connectTimeout)
       canAccept <- a[1]
@@ -286,6 +287,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       }
       if (length(canReceive) > 0L) pending <- pending[-canReceive]
     } ## while()
+    if (verbose) mdebugf(" - %s%d workers out of %d ready", verbose_prefix, ready, length(cl))
   } else if (setup_strategy == "sequential") {
     retryPort <- getOption2("parallelly.makeNodePSOCK.tries.port", "same")
     for (ii in seq_along(cl)) {
@@ -343,6 +345,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     }
   }
 
+  if (verbose) mdebugf("%sLaunching of workers completed", verbose_prefix)
+
   ## Cleanup
   try(close(socket), silent = TRUE)
   socket <- NULL
@@ -352,17 +356,23 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     ## that we have a working cluster already here.  It will also collect
     ## useful information otherwise not available, e.g. the PID.
     if (verbose) {
-      mdebugf("%s- collecting session information", verbose_prefix)
+      mdebugf("%sCollecting session information from workers", verbose_prefix)
     }
     for (ii in seq_along(cl)) {
       cl[ii] <- add_cluster_session_info(cl[ii])
+      if (verbose) mdebugf("%s - Worker #%d of %d", verbose_prefix, ii, length(cl))
     }
-  }      
+  }
 
-  if (autoStop) cl <- autoStopCluster(cl)
+  if (autoStop) {
+    if (verbose) mdebugf("%sAdding automatic stop of cluster on garbage collection", verbose_prefix)
+    cl <- autoStopCluster(cl)
+  }
 
   ## Success, remove automatic cleanup of nodes
   on.exit()
+
+  if (verbose) mdebugf("%smakeClusterPSOCK() ... done", verbose_prefix)
 
   cl
 } ## makeClusterPSOCK()
