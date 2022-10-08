@@ -6,6 +6,10 @@
    explaining why `R CMD check` may produce "checking for detritus in
    the temp directory ... NOTE" and how to avoid them.
 
+ * Add section 'For package developers' to `help("makeClusterPSOCK",
+   package = "parallelly")` reminding us that we need to stop all
+   clusters we created in package examples, tests, and vignettes.
+
 
 # Version 1.32.1 [2022-07-21]
 
