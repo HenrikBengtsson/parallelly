@@ -92,7 +92,7 @@
 #'
 #'  \item `"SGE"` -
 #'    Query Sun Grid Engine/Oracle Grid Engine/Son of Grid Engine (SGE)
-#'    environment variable \env{NSLOTS}.
+#'    and Univa Grid Engine (UGE) environment variable \env{NSLOTS}.
 #'    An example of a job submission that results in this is
 #'    `qsub -pe smp 2` (or `qsub -pe by_node 2`), which
 #'    requests two cores on a single machine.
@@ -274,7 +274,7 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
         n <- getenv("NCPUS")
       }
     } else if (method == "SGE") {
-      ## Number of cores assigned by Sun/Oracle Grid Engine (SGE)
+      ## Number of cores assigned by Oracle/Son/Sun/Univa Grid Engine (SGE/UGE)
       n <- getenv("NSLOTS")
     } else if (method == "LSF") {
       ## Number of slots assigned by LSF

@@ -111,7 +111,7 @@ An example of a job submission that results in this is
 
 \item \code{"SGE"} -
 Query Sun Grid Engine/Oracle Grid Engine/Son of Grid Engine (SGE)
-environment variable \env{NSLOTS}.
+and Univa Grid Engine (UGE) environment variable \env{NSLOTS}.
 An example of a job submission that results in this is
 \verb{qsub -pe smp 2} (or \verb{qsub -pe by_node 2}), which
 requests two cores on a single machine.
