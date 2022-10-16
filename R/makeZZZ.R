@@ -28,7 +28,7 @@
 #' `cluster` object that is created.
 #'
 #' (*) Currently, examples are excluded from the detritus checks.
-#'     This was the validated with R-devel revision 82991 (2022-10-02).
+#'     This was validated with R-devel revision 82991 (2022-10-02).
 #'
 #' @rdname makeClusterPSOCK
 #' @name makeClusterPSOCK
