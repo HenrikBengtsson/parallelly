@@ -410,6 +410,34 @@ When this occurs, an informative error message with troubleshooting
 suggestions will be produced.
 The most common reason for such localhost failures is due to port
 clashes.  Retrying will often resolve the problem.
+
+If R stalls when setting up a cluster of local workers, then it might
+be that you have a virtual private network (VPN) enabled that is
+configured to prevent you from connecting to \code{localhost}.  To verify that
+this is the case, call the following from the terminal:
+
+\if{html}{\out{<div class="sourceCode sh">}}\preformatted{\{local\}$ ssh localhost "date"
+}\if{html}{\out{</div>}}
+
+This also freezed if the VPN intercepts connections to \code{localhost}.
+If this happens, try also:
+
+\if{html}{\out{<div class="sourceCode sh">}}\preformatted{\{local\}$ ssh 127.0.0.1 "date"
+}\if{html}{\out{</div>}}
+
+in rare cases, \verb{127.0.0.1} might work when \code{localhost} does not.
+If the latter works, setting R option:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{options(parallelly.localhost.hostname = "127.0.0.1")
+}\if{html}{\out{</div>}}
+
+should solve it (the default is \code{"localhost"}).  You can set this
+automatically when R starts by adding it to your \verb{~/.Rprofile} startup
+file. Alternatively, set environment variable
+\verb{R_PARALLELLY_LOCALHOST_HOSTNAME=127.0.0.1} in your \verb{~/.Renviron} file.
+
+If using \verb{127.0.0.1} did not work around the problem, check your VPN
+settings and make sure it allows connections to \code{localhost} or \verb{127.0.0.1}.
 }
 
 \section{Failing to set up remote workers}{
