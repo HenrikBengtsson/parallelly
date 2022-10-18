@@ -137,3 +137,14 @@ canPortBeUsed
 cfs
 cpu
 cpuset
+Apptainer
+cgroup
+freezed
+hardcoded
+hyperthreading
+Kubernetes
+memoized
+PJM
+UGE
+Univa
+VPN
