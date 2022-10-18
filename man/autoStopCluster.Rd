@@ -23,7 +23,7 @@ be stopped when garbage collected
 \details{
 The cluster is stopped using
 \code{\link[parallel:makeCluster]{stopCluster}(cl)}.
-An alternative to explicitly call this function on an exisiting
+An alternative to explicitly call this function on an existing
 \code{cluster} object, is to create the \code{cluster} object using
 \code{makeClusterPSOCK()} with argument \code{autoStop = TRUE}.
 }
