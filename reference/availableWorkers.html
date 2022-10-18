@@ -182,7 +182,7 @@ Query LSF/OpenLava environment variable <code class="env">LSB_HOSTS</code>.</p><
 Query Fujitsu Technical Computing Suite (that we choose to shorten
 as "PJM") the hostname file given by environment variable
 <code class="env">PJM_O_NODEINF</code>.
-The <code class="env">PJM_O_NODEINF</code> file lists the hostnames of the nodes alloted.
+The <code class="env">PJM_O_NODEINF</code> file lists the hostnames of the nodes allotted.
 This function returns those hostnames each repeated <code><a href="availableCores.html">availableCores()</a></code>
 times, where <code><a href="availableCores.html">availableCores()</a></code> reflects <code class="env">PJM_VNODE_CORE</code>.
 For example, for <code>pjsub -L vnode=2 -L vnode-core=8 hello.sh</code>, the
@@ -208,7 +208,7 @@ Query Slurm environment variable <code class="env">SLURM_JOB_NODELIST</code> (fa
 to legacy <code class="env">SLURM_NODELIST</code>) and parse set of nodes.
 Then query Slurm environment variable <code class="env">SLURM_JOB_CPUS_PER_NODE</code>
 (fallback <code class="env">SLURM_TASKS_PER_NODE</code>) to infer how many CPU cores
-Slurm have alloted to each of the nodes.  If <code class="env">SLURM_CPUS_PER_TASK</code>
+Slurm have allotted to each of the nodes.  If <code class="env">SLURM_CPUS_PER_TASK</code>
 is set, which is always a scalar, then that is respected too, i.e.
 if it is smaller, then that is used for all nodes.
 For example, if <code>SLURM_NODELIST="n1,n[03-05]"</code> (expands to

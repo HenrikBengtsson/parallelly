@@ -604,6 +604,23 @@ When this occurs, an informative error message with troubleshooting
 suggestions will be produced.
 The most common reason for such localhost failures is due to port
 clashes.  Retrying will often resolve the problem.</p>
+<p>If R stalls when setting up a cluster of local workers, then it might
+be that you have a virtual private network (VPN) enabled that is
+configured to prevent you from connecting to <code>localhost</code>.  To verify that
+this is the case, call the following from the terminal:</p>
+<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">{local}$</span> ssh localhost <span class="st">"date"</span></span></code></pre><p></p></div>
+<p>This also freezed if the VPN intercepts connections to <code>localhost</code>.
+If this happens, try also:</p>
+<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">{local}$</span> ssh 127.0.0.1 <span class="st">"date"</span></span></code></pre><p></p></div>
+<p>in rare cases, <code>127.0.0.1</code> might work when <code>localhost</code> does not.
+If the latter works, setting R option:</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>parallelly.localhost.hostname <span class="op">=</span> <span class="st">"127.0.0.1"</span><span class="op">)</span></span></code></pre><p></p></div>
+<p>should solve it (the default is <code>"localhost"</code>).  You can set this
+automatically when R starts by adding it to your <code>~/.Rprofile</code> startup
+file. Alternatively, set environment variable
+<code>R_PARALLELLY_LOCALHOST_HOSTNAME=127.0.0.1</code> in your <code>~/.Renviron</code> file.</p>
+<p>If using <code>127.0.0.1</code> did not work around the problem, check your VPN
+settings and make sure it allows connections to <code>localhost</code> or <code>127.0.0.1</code>.</p>
     </div>
     <div id="failing-to-set-up-remote-workers">
     <h2>Failing to set up remote workers</h2>
@@ -671,7 +688,7 @@ at the end.  To stop all <code>cluster</code> workers, use <code><a href="https:
 at the end of your examples(*), vignettes, and package tests for every
 <code>cluster</code> object that is created.</p>
 <p>(*) Currently, examples are excluded from the detritus checks.
-This was the validated with R-devel revision 82991 (2022-10-02).</p>
+This was validated with R-devel revision 82991 (2022-10-02).</p>
     </div>
 
     <div id="ref-examples">
