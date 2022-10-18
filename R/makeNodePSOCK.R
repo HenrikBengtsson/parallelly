@@ -298,7 +298,7 @@
 #' {local}$ ssh 127.0.0.1 "date"
 #' ```
 #'
-#' in rare cases, `127.0.0.1` might work when `localhost` does not.
+#' In rare cases, `127.0.0.1` might work when `localhost` does not.
 #' If the latter works, setting R option:
 #'
 #' ```r

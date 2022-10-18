@@ -425,7 +425,7 @@ If this happens, try also:
 \if{html}{\out{<div class="sourceCode sh">}}\preformatted{\{local\}$ ssh 127.0.0.1 "date"
 }\if{html}{\out{</div>}}
 
-in rare cases, \verb{127.0.0.1} might work when \code{localhost} does not.
+In rare cases, \verb{127.0.0.1} might work when \code{localhost} does not.
 If the latter works, setting R option:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{options(parallelly.localhost.hostname = "127.0.0.1")
