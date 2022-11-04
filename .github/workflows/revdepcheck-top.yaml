@@ -81,9 +81,17 @@ jobs:
 
       - name: Check reverse dependency package
         run: |
-          url=$(Rscript -e "cat(remotes:::download_version_url('${{ matrix.config.pkg }}', version=NULL, repos='https://cloud.r-project.org', type='source'))")
-          wget "$url"
-          R CMD check --no-manual --as-cran "$(basename "$url")"
+          pkgname <- "${{ matrix.config.pkg }}"
+          url <- remotes:::download_version_url(pkgname, version=NULL, repos="https://cloud.r-project.org", type="source")
+          tarball <- basename(url)
+          utils::download.file(url, destfile = tarball, mode = "wb")
+          rcmdcheck::rcmdcheck(
+            tarball,
+            args = c("--no-manual", "--as-cran"),
+            error_on = if (pkgname %in% c("mlr3")) "warning" else "note",
+            check_dir = "check"
+          )
+        shell: Rscript {0}
 
       - name: Upload check results
         if: failure()
