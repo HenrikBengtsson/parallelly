@@ -8,7 +8,7 @@ availableCores(
   constraints = NULL,
   methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset",
     "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_",
-    "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")),
+    "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = c(current = 1L),
@@ -84,11 +84,25 @@ instance \code{\link[=mclapply]{mclapply}()} of the \pkg{parallel}
 package.
 
 \item \code{"BiocParallel"} -
-Query environment variables \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
-which is defined and used by \strong{BiocParallel} (>= 1.27.2), and
-\env{IS_BIOC_BUILD_MACHINE} (logical) used by the Bioconductor Build
-System. If the former is set, this is the number of cores considered.
-If the latter is set, then a maximum of 4 cores is considered.
+Query environment variable \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
+which is defined and used by \strong{BiocParallel} (>= 1.27.2).
+If the former is set, this is the number of cores considered.
+
+\item \code{"_R_CHECK_LIMIT_CORES_"} -
+Query environment variable \env{_R_CHECK_LIMIT_CORES_} (logical or
+\code{"warn"}) used by \verb{R CMD check} and set to true by
+\verb{R CMD check --as-cran}. If set to a non-false value, then a maximum
+of 2 cores is considered.
+
+\item \code{"Bioconductor"} -
+Query environment variable \env{IS_BIOC_BUILD_MACHINE} (logical)
+used by the Bioconductor (>= 3.16) build and check system. If set to
+true, then a maximum of 4 cores is considered.
+
+\item \code{"Bioconductor"} -
+Query environment variable \env{IS_BIOC_BUILD_MACHINE} (logical)
+used by the Bioconductor (>= 3.16) build and check system. If set to
+true, then a maximum of 4 cores is considered.
 
 \item \code{"LSF"} -
 Query Platform Load Sharing Facility (LSF) environment variable

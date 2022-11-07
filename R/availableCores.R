@@ -65,11 +65,20 @@
 #'    package.
 #'
 #'  \item `"BiocParallel"` -
-#'    Query environment variables \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
-#'    which is defined and used by **BiocParallel** (>= 1.27.2), and
-#'    \env{IS_BIOC_BUILD_MACHINE} (logical) used by the Bioconductor Build
-#'    System. If the former is set, this is the number of cores considered.
-#'    If the latter is set, then a maximum of 4 cores is considered.
+#'    Query environment variable \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
+#'    which is defined and used by **BiocParallel** (>= 1.27.2).
+#'    If the former is set, this is the number of cores considered.
+#'
+#'  \item `"_R_CHECK_LIMIT_CORES_"` -
+#'    Query environment variable \env{_R_CHECK_LIMIT_CORES_} (logical or
+#'    `"warn"`) used by `R CMD check` and set to true by
+#'    `R CMD check --as-cran`. If set to a non-false value, then a maximum
+#'    of 2 cores is considered.
+#'
+#'  \item `"Bioconductor"` -
+#'    Query environment variable \env{IS_BIOC_BUILD_MACHINE} (logical)
+#'    used by the Bioconductor (>= 3.16) build and check system. If set to
+#'    true, then a maximum of 4 cores is considered.
 #'
 #'  \item `"LSF"` - 
 #'    Query Platform Load Sharing Facility (LSF) environment variable
@@ -187,7 +196,7 @@
 #'
 #' @importFrom parallel detectCores
 #' @export
-availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
+availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
   ## Local functions
   getenv <- function(name, mode = "integer") {
     value <- trim(getEnvVar2(name, default = NA_character_))
@@ -304,14 +313,6 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
       n <- getopt("mc.cores") + 1L
     } else if (method == "BiocParallel") {
       n <- getenv("BIOCPARALLEL_WORKER_NUMBER")
-      
-      if (nzchar(use <- Sys.getenv("IS_BIOC_BUILD_MACHINE", NA_character_))) {
-        ## Bioconductor (>= 3.16)
-        if (isTRUE(as.logical(use))) n <- min(n, 4L, na.rm = TRUE)
-      } else if (nzchar(Sys.getenv("BBS_HOME"))) {
-        ## Legacy: Bioconductor (<= 3.15)
-        n <- min(n, 4L, na.rm = TRUE)
-      }
     } else if (method == "_R_CHECK_LIMIT_CORES_") {
       ## A flag set by R CMD check for constraining number of
       ## cores allowed to be use in package tests.  Here we
@@ -322,6 +323,16 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
       chk <- tolower(Sys.getenv("_R_CHECK_LIMIT_CORES_", ""))
       chk <- (nzchar(chk) && (chk != "false"))
       n <- if (chk) 2L else NA_integer_
+    } else if (method == "Bioconductor") {
+      n <- NA_integer_
+      ## Bioconductor (>= 3.16)
+      use <- Sys.getenv("IS_BIOC_BUILD_MACHINE", NA_character_)
+      if (isTRUE(as.logical(use))) n <- min(n, 4L, na.rm = TRUE)
+      ## Legacy: Bioconductor (<= 3.15)
+      if (is.na(n)) {
+        use <- Sys.getenv("BBS_HOME", NA_character_)
+        if (isTRUE(as.logical(use))) n <- min(n, 4L, na.rm = TRUE)
+      }
     } else if (method == "system") {
       ## Number of cores available according to parallel::detectCores()
       n <- detectCores(logical = logical)
