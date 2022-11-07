@@ -31,7 +31,7 @@ R workers, and how to connect to external machines."><meta property="og:image" c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9005</span>
       </span>
     </div>
 
@@ -612,7 +612,7 @@ this is the case, call the following from the terminal:</p>
 <p>This also freezed if the VPN intercepts connections to <code>localhost</code>.
 If this happens, try also:</p>
 <p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">{local}$</span> ssh 127.0.0.1 <span class="st">"date"</span></span></code></pre><p></p></div>
-<p>in rare cases, <code>127.0.0.1</code> might work when <code>localhost</code> does not.
+<p>In rare cases, <code>127.0.0.1</code> might work when <code>localhost</code> does not.
 If the latter works, setting R option:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>parallelly.localhost.hostname <span class="op">=</span> <span class="st">"127.0.0.1"</span><span class="op">)</span></span></code></pre><p></p></div>
 <p>should solve it (the default is <code>"localhost"</code>).  You can set this
@@ -943,7 +943,7 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9005.</p>
 </div>
 
       </footer></div>

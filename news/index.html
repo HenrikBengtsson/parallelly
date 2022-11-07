@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9005</span>
       </span>
     </div>
 
@@ -121,6 +121,11 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<div class="section level3">
+<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li><p>Now <code><a href="../reference/availableCores.html">availableCores()</a></code> recognizes environment variable <code>IS_BIOC_BUILD_MACHINE</code>, which is set to true by the Bioconductor (&gt;= 3.16) check servers. If true, then a maximum of four (4) cores is returned. This new environment variable replaces legacy variable <code>BBS_HOME</code> used in Bioconductor (&lt;= 3.15).</p></li>
+<li><p><code><a href="../reference/availableCores.html">availableCores()</a></code> split up method <code>"BiocParallel"</code> into two; <code>"BiocParallel"</code> and <code>"Bioconductor"</code>. The former queries environment variable <code>BIOCPARALLEL_WORKER_NUMBER</code> and the latter <code>IS_BIOC_BUILD_MACHINE</code>. This means <code>availableCores(which =    "all")</code> now reports on both.</p></li>
+</ul></div>
 <div class="section level3">
 <h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
 <ul><li><p>Add section to <code><a href="../reference/makeClusterPSOCK.html">help("makeClusterPSOCK", package = "parallelly")</a></code> explaining why <code>R CMD check</code> may produce “checking for detritus in the temp directory … NOTE” and how to avoid them.</p></li>
@@ -679,7 +684,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9004.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9005.</p>
 </div>
 
       </footer></div>
