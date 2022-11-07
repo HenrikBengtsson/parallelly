@@ -8,7 +8,7 @@
    is returned.  This new environment variable replaces legacy
    variable `BBS_HOME` used in Bioconductor (<= 3.15).
    
- * `availableCores()` split up method `"BiocParallel"` into two;
+ * `availableCores()` splits up method `"BiocParallel"` into two;
    `"BiocParallel"` and `"Bioconductor"`.  The former queries
    environment variable `BIOCPARALLEL_WORKER_NUMBER` and the latter
    `IS_BIOC_BUILD_MACHINE`.  This means `availableCores(which =
