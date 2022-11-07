@@ -86,9 +86,9 @@ package.
 \item \code{"BiocParallel"} -
 Query environment variables \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
 which is defined and used by \strong{BiocParallel} (>= 1.27.2), and
-\env{BBS_HOME} (logical) used by the Bioconductor Build System. If the
-former is set, this is the number of cores considered.  If the latter
-is set, then a maximum of 4 cores is considered.
+\env{IS_BIOC_BUILD_MACHINE} (logical) used by the Bioconductor Build
+System. If the former is set, this is the number of cores considered.
+If the latter is set, then a maximum of 4 cores is considered.
 
 \item \code{"LSF"} -
 Query Platform Load Sharing Facility (LSF) environment variable

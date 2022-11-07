@@ -1,5 +1,14 @@
 # Version (development version)
 
+## New Features
+
+ * Now `availableCores()` recognizes environment variable
+   `IS_BIOC_BUILD_MACHINE`, which is set to true by the Bioconductor
+   (>= 3.16) check servers.  If true, then a maximum of four (4) cores
+   is returned, regardless of environment variable
+   `BIOCPARALLEL_WORKER_NUMBER`.  This new environment variable
+   replaces legacy variable `BBS_HOME` used in Bioconductor (<= 3.15).
+
 ## Documentation
 
  * Add section to `help("makeClusterPSOCK", package = "parallelly")`

@@ -67,9 +67,9 @@
 #'  \item `"BiocParallel"` -
 #'    Query environment variables \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
 #'    which is defined and used by **BiocParallel** (>= 1.27.2), and
-#'    \env{BBS_HOME} (logical) used by the Bioconductor Build System. If the
-#'    former is set, this is the number of cores considered.  If the latter
-#'    is set, then a maximum of 4 cores is considered.
+#'    \env{IS_BIOC_BUILD_MACHINE} (logical) used by the Bioconductor Build
+#'    System. If the former is set, this is the number of cores considered.
+#'    If the latter is set, then a maximum of 4 cores is considered.
 #'
 #'  \item `"LSF"` - 
 #'    Query Platform Load Sharing Facility (LSF) environment variable
@@ -304,7 +304,14 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
       n <- getopt("mc.cores") + 1L
     } else if (method == "BiocParallel") {
       n <- getenv("BIOCPARALLEL_WORKER_NUMBER")
-      if (nzchar(Sys.getenv("BBS_HOME"))) n <- min(n, 4L, na.rm = TRUE)
+      
+      if (nzchar(use <- Sys.getenv("IS_BIOC_BUILD_MACHINE", NA_character_))) {
+        ## Bioconductor (>= 3.16)
+        if (isTRUE(as.logical(use))) n <- min(n, 4L, na.rm = TRUE)
+      } else if (nzchar(Sys.getenv("BBS_HOME"))) {
+        ## Legacy: Bioconductor (<= 3.15)
+        n <- min(n, 4L, na.rm = TRUE)
+      }
     } else if (method == "_R_CHECK_LIMIT_CORES_") {
       ## A flag set by R CMD check for constraining number of
       ## cores allowed to be use in package tests.  Here we
