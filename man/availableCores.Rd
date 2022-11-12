@@ -99,11 +99,6 @@ Query environment variable \env{IS_BIOC_BUILD_MACHINE} (logical)
 used by the Bioconductor (>= 3.16) build and check system. If set to
 true, then a maximum of 4 cores is considered.
 
-\item \code{"Bioconductor"} -
-Query environment variable \env{IS_BIOC_BUILD_MACHINE} (logical)
-used by the Bioconductor (>= 3.16) build and check system. If set to
-true, then a maximum of 4 cores is considered.
-
 \item \code{"LSF"} -
 Query Platform Load Sharing Facility (LSF) environment variable
 \env{LSB_DJOB_NUMPROC}.
