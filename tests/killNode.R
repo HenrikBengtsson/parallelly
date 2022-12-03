@@ -67,10 +67,9 @@ repeat {
   print(alive)
   stopifnot(
     length(alive) == length(cl),
-    is.logical(alive),
-    !anyNA(alive)
+    is.logical(alive)
   )
-  if (!any(alive)) break
+  if (!any(alive, na.rm = TRUE)) break
   if (Sys.time() > timeout) {
     stop("One or more cluster nodes are still running after 5 seconds")
   }
