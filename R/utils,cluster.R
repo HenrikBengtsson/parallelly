@@ -296,6 +296,7 @@ useWorkerPID <- local({
     ## standard input. /HB 2019-02-14
     if (any(grepl("singularity", rscript, ignore.case = TRUE))) input <- ""
     
+    assert_system_is_supported()
     res <- system(test_cmd, intern = TRUE, input = input)
     status <- attr(res, "status")
     suppressWarnings(file.remove(result$pidfile))

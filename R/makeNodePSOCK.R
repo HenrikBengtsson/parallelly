@@ -941,6 +941,8 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
       mdebugf("%sStarting worker #%s on %s: %s", verbose_prefix, rank, sQuote(worker), local_cmd)
     }
     input <- if (.Platform$OS.type == "windows") "" else NULL
+
+    assert_system_is_supported()
     res <- system(local_cmd, wait = FALSE, input = input)
     if (verbose) {
       mdebugf("%s- Exit code of system() call: %s", verbose_prefix, res)

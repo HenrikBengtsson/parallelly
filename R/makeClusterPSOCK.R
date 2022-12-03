@@ -214,6 +214,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     socket <- serverSocket(port = port)
     on.exit(if (!is.null(socket)) close(socket), add = TRUE)
 
+    assert_system_is_supported()
+
     if (.Platform$OS.type == "windows") {
       for (ii in seq_along(cl)) {
         ## See parallel::newPSOCKnode() for the input = ""

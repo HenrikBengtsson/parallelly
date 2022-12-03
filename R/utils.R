@@ -195,3 +195,42 @@ importParallel <- local({
     res
   }
 })
+
+
+# Assert that 'Rscript --version' can be called and works
+#' @importFrom utils file_test osVersion
+assert_system_is_supported <- local({
+  results <- list()
+
+  function(method = "Rscript --version") {
+    method <- match.arg(method)
+    result <- results[[method]]
+    if (is.logical(result)) return(result)
+    
+    if (method == "Rscript --version") {
+      bin <- "Rscript"
+      if (.Platform[["OS.type"]] == "windows") bin <- sprintf("%s.exe", bin)
+      bin <- file.path(R.home("bin"), bin)
+      if (!file_test("-f", bin)) {
+        stop(sprintf("[INTERNAL ERROR]: %s:::assert_system_is_supported(method = \"%s\") failed, because file %s does not exists", .packageName, method, sQuote(bin)))
+      } else if (!file_test("-x", bin)) {
+        stop(sprintf("[INTERNAL ERROR]: %s:::assert_system_is_supported(method = \"%s\") failed, because %s is not an executable file", .packageName, method, sQuote(bin)))
+      }
+      
+      out <- system2(bin, args = "--version", stdout = TRUE, stderr = TRUE)
+      status <- attr(out, "status")
+      if (!is.null(status)) {
+        errmsg <- paste(c(attr(out, "errmsg"), ""), collapse = "")
+        stop(sprintf("The assertion test that system2(\"%s\", args = \"--version\", stdout = TRUE) works on your system (R %s on %s) failed with a non-zero exit code (%s). It might be that your account or operating system does not allow this. The captured output was %s and the reported error was %s", bin, getRversion(), osVersion, status, sQuote(out), sQuote(errmsg)))
+      }
+
+      if (!grepl(getRversion(), out, fixed = TRUE)) {
+        stop(sprintf("[INTERNAL ERROR]: %s:::assert_system_is_supported(method = \"%s\") failed, because the output of %s does not contain the expected R version (%s): %s", .packageName, sQuote(method), sQuote(method), getRversion(), sQuote(out)))
+      }
+    }
+    
+    results[[method]] <<- TRUE
+    
+    TRUE
+  }
+})

@@ -13,6 +13,11 @@
    environment variable `BIOCPARALLEL_WORKER_NUMBER` and the latter
    `IS_BIOC_BUILD_MACHINE`.  This means `availableCores(which =
    "all")` now reports on both.
+   
+ * `makeClusterPSOCK()` and likes now asserts the running R session
+   has enough permissions on the operating system to do system calls
+   such as `system2("Rscript --version")`.  If not, an informative
+   error message is produced.
 
 ## Documentation
 
