@@ -32,6 +32,10 @@
 #' print(isNodeAlive(cl))
 #' }
 #'
+#' @seealso
+#' Use [parallel::stopCluster()] to shut down cluster nodes.
+#' If that's not sufficient, [killNode()] may be attempted.
+#'
 #' @export
 isNodeAlive <- function(x, ...) UseMethod("isNodeAlive")
 

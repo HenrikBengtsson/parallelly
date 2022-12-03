@@ -1,0 +1,67 @@
+#' Terminate one or more cluster nodes using process signaling
+#'
+#' @param x cluster or cluster node to terminate.
+#'
+#' @param signal An integer that specifies the signal level to be sent
+#' to the parallel R process.
+#' It's only `tools::SIGINT` (2) and `tools::SIGTERM` (15) that are
+#' supported on Unix, macOS, and MS Windows.  All other signals are
+#' platform specific.
+#'
+#' @param \ldots Not used.
+#'
+#' @return
+#' TRUE if the signal was successfully applied, FALSE if not, and NA if
+#' signaling is not supported on the specific cluster or node.
+#'
+#' @details
+#' Note that the preferred way to terminate a cluster is via
+#' [parallel::stopCluster()], because it terminates the cluster nodes
+#' by kindly asking each of them to nicely shut themselves down.
+#' Using `killNode()` is a much more sever approach. It abruptly
+#' terminates the underlying R process, possibly without giving the
+#' parallel worker a chance to terminate gracefully.  For example,
+#' it might get terminated in the middle of writing to file.
+#' 
+#' [tools::pskill()] is used to send the signal to the R process hosting
+#' the parallel worker.
+#'
+#' @section Known limitations:
+#' Currently, it's only possible to send signals to parallel workers, that
+#' is, cluster nodes, that run on the local machine.
+#' If attempted to use `killNode()` on a remote parallel workers, `NA`
+#' is returned and an informative warning is produced.
+#'
+#' @seealso
+#' Use [isNodeAlive()] to check whether one or mode cluster nodes are alive.
+#'
+#' @export
+killNode <- function(x, signal = tools::SIGTERM, ...) {
+  stop_if_not(
+    length(signal) == 1L,
+    is.numeric(signal),
+    is.finite(signal),
+    signal >= 1L,
+    signal <= 64L
+  )
+  UseMethod("killNode")
+}
+
+#' @export
+killNode.default <- function(x, signal = tools::SIGTERM, ...) {
+  warning(sprintf("killNode() is not supported for %s objects. Signal %d was not sent", sQuote(class(x)[1]), signal))
+  NA
+}
+
+#' @importFrom tools pskill
+#' @export
+killNode.RichSOCKnode <- function(x, signal = tools::SIGTERM, ...) {
+  pid <- x$session_info$process$pid
+  if (!is.integer(pid)) return(NextMethod())
+  pskill(pid, signal = signal)
+}
+
+#' @export
+killNode.cluster <- function(x, signal = tools::SIGTERM, ...) {
+  vapply(x, FUN = killNode, FUN.VALUE = NA, signal = signal, ...)
+}

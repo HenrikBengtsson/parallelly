@@ -18,6 +18,10 @@
    has enough permissions on the operating system to do system calls
    such as `system2("Rscript --version")`.  If not, an informative
    error message is produced.
+   
+ * Add `killNode()` to terminate cluster nodes via process signaling.
+   Currently, this is only supported for parallel workers on the local
+   machine.
 
 ## Documentation
 
