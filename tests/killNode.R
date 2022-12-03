@@ -83,6 +83,12 @@ if (.Platform$OS.type == "windows") {
                     length(tmpfiles),
                     paste(sQuote(tmpfiles), collapse = ", ")))
     file.remove(tmpfiles)
+    tmpfiles <- tmpfiles[utils::file_test("-f", tmpfiles)]
+    if (length(tmpfiles) > 0L) {
+      stop(sprintf("Failed to remove some temporary left-over files: [n=%d] %s",
+                   length(tmpfiles),
+                   paste(sQuote(tmpfiles), collapse = ", ")))
+    }
   }
 }
 
