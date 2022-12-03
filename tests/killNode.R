@@ -63,10 +63,23 @@ message(sprintf("Files: [n=%d] %s", length(tmpfiles),
 
 tmpfiles_leftover <- setdiff(tmpfiles, tmpfiles_before)
 if (length(tmpfiles_leftover) > 0L) {
-  warning(sprintf("Detected temporary leftover files: [n=%d] %s",
+  warning(sprintf("Detected temporary left-over files: [n=%d] %s",
                   length(tmpfiles_leftover),
                   paste(sQuote(tmpfiles_leftover), collapse = ", ")))
-  file.remove(file.path(tempdir(), tmpfiles_leftover))
+
+  files <- file.path(tempdir(), tmpfiles_leftover)
+  res <- file.remove(files)
+  names(res) <- files
+  print(res)
+
+  tmpfiles <- dir(path = tmpdir, all.files = TRUE)
+  tmpfiles <- setdiff(tmpfiles, c(".", ".."))
+  tmpfiles_leftover <- setdiff(tmpfiles, tmpfiles_before)
+  if (length(tmpfiles_leftover) > 0L) {
+    stop(sprintf("Failed to remove temporary left-over files: [n=%d] %s",
+                  length(tmpfiles_leftover),
+                  paste(sQuote(tmpfiles_leftover), collapse = ", ")))
+  }
 }
 
 cl <- NULL
