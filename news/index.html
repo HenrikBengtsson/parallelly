@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9007</span>
       </span>
     </div>
 
@@ -125,6 +125,7 @@
 <h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
 <ul><li><p>Now <code><a href="../reference/availableCores.html">availableCores()</a></code> recognizes environment variable <code>IS_BIOC_BUILD_MACHINE</code>, which is set to true by the Bioconductor (&gt;= 3.16) check servers. If true, then a maximum of four (4) cores is returned. This new environment variable replaces legacy variable <code>BBS_HOME</code> used in Bioconductor (&lt;= 3.15).</p></li>
 <li><p><code><a href="../reference/availableCores.html">availableCores()</a></code> splits up method <code>"BiocParallel"</code> into two; <code>"BiocParallel"</code> and <code>"Bioconductor"</code>. The former queries environment variable <code>BIOCPARALLEL_WORKER_NUMBER</code> and the latter <code>IS_BIOC_BUILD_MACHINE</code>. This means <code>availableCores(which =    "all")</code> now reports on both.</p></li>
+<li><p><code><a href="../reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code> and likes now asserts the running R session has enough permissions on the operating system to do system calls such as <code>system2("Rscript --version")</code>. If not, an informative error message is produced.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
