@@ -34,7 +34,20 @@
 #' If attempted to use `killNode()` on a remote parallel workers, `NA`
 #' is returned and an informative warning is produced.
 #'
-#' @example incl/killNode.R
+#' @examples
+#' \dontshow{if (.Platform$OS.type == "windows" && !interactive()) killNode <- parallel::stopCluster}
+#' cl <- makeClusterPSOCK(2)
+#' print(isNodeAlive(cl))  ## [1] TRUE TRUE
+#' 
+#' res <- killNode(cl)
+#' print(res)
+#' 
+#' ## It might take a moment before the background
+#' ## workers are shutdown after having been signaled
+#' Sys.sleep(1.0)
+#' 
+#' print(isNodeAlive(cl))  ## [1] FALSE FALSE
+#' \dontshow{if (.Platform$OS.type == "windows" && !interactive()) rm(list = "killNode")}
 #'
 #' @seealso
 #' Use [isNodeAlive()] to check whether one or mode cluster nodes are alive.
