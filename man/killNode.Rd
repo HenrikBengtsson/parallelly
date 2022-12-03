@@ -40,6 +40,10 @@ the parallel worker.
 }
 \section{Known limitations}{
 
+This function works only with cluster nodes of class \code{RichSOCKnode},
+which were created by \code{\link[=makeClusterPSOCK]{makeClusterPSOCK()}}.  It does not work when
+using \code{\link[parallel:makeCluster]{parallel::makeCluster()}} and friends.
+
 Currently, it's only possible to send signals to parallel workers, that
 is, cluster nodes, that run on the local machine.
 If attempted to use \code{killNode()} on a remote parallel workers, \code{NA}

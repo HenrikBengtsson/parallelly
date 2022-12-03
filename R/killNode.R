@@ -29,6 +29,10 @@
 #' the parallel worker.
 #'
 #' @section Known limitations:
+#' This function works only with cluster nodes of class `RichSOCKnode`,
+#' which were created by [makeClusterPSOCK()].  It does not work when
+#' using [parallel::makeCluster()] and friends.
+#'
 #' Currently, it's only possible to send signals to parallel workers, that
 #' is, cluster nodes, that run on the local machine.
 #' If attempted to use `killNode()` on a remote parallel workers, `NA`

@@ -21,7 +21,7 @@
    
  * Add `killNode()` to terminate cluster nodes via process signaling.
    Currently, this is only supported for parallel workers on the local
-   machine.
+   machine, and only those created by `makeClusterPSOCK()`.
 
 ## Documentation
 
