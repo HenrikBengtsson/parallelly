@@ -13,7 +13,8 @@ print(alive)
 stopifnot(
   length(alive) == length(cl),
   is.logical(alive),
-  isTRUE(alive[1]), isTRUE(alive[2]),
+  !anyNA(alive),
+  isTRUE(alive[[1]]), isTRUE(alive[[2]]),
   all(alive)
 )
 
@@ -23,7 +24,7 @@ print(signaled)
 stopifnot(
   length(signaled) == length(cl),
   is.logical(signaled),
-  isTRUE(signaled[1]), isTRUE(signaled[2]),
+  isTRUE(signaled[[1]]), isTRUE(signaled[[2]]),
   all(signaled)
 )
 
@@ -34,6 +35,11 @@ timeout <- Sys.time() + 5.0
 repeat {
   alive <- isNodeAlive(cl)
   print(alive)
+  stopifnot(
+    length(alive) == length(cl),
+    is.logical(alive),
+    !anyNA(alive)
+  )
   if (!any(alive)) break
   if (Sys.time() > timeout) {
     stop("One or more cluster nodes are still running after 5 seconds")
