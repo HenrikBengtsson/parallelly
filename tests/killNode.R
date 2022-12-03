@@ -8,15 +8,23 @@ cl <- makeClusterPSOCK(2L, autoStop = FALSE)
 names(cl) <- sprintf("Node %d", seq_along(cl))
 print(cl)
 
-message("Temporary worker files before:")
-tmpfiles <- parallel::clusterEvalQ(cl, {
-  path <-tempdir()
-  files <- setdiff(dir(path = path, all.files = TRUE), c(".", ".."))
-  file.path(tempdir(), files)
-})
-tmpfiles <- unlist(tmpfiles)
-message(sprintf("- files: [n=%d] %s", length(tmpfiles),
-                  paste(sQuote(tmpfiles), collapse = ", ")))
+## WORKAROUND: On MS Windows, each R process creates a temporary Rscript<hexcode>
+## file. In this test we terminate the workers such that these temporary files
+## are not cleaned up, which will trigger a NOTE by 'R CMD check'. Because of
+## this, we have to make sure to remove such files manually in this test.
+if (.Platform$OS.type == "windows") {
+  files <- setdiff(dir(path = tempdir(), all.files = TRUE), c(".", ".."))
+  files <- file.path(tempdir(), files)
+  tmpfiles <- files
+  files <- parallel::clusterEvalQ(cl, {
+    files <- setdiff(dir(path = tempdir(), all.files = TRUE), c(".", ".."))
+    file.path(tempdir(), files)
+  })
+  files <- unlist(files)
+  tmpfiles <- unique(c(tmpfiles, files))
+  message(sprintf("- files: [n=%d] %s", length(tmpfiles),
+                    paste(sQuote(tmpfiles), collapse = ", ")))
+}
 
 alive <- isNodeAlive(cl)
 print(alive)
@@ -61,28 +69,16 @@ repeat {
   }
 }
 
-message("Temporary worker files still remaining:")
-tmpfiles <- tmpfiles[utils::file_test("-f", tmpfiles)]
-message(sprintf("- files: [n=%d] %s", length(tmpfiles),
-                  paste(sQuote(tmpfiles), collapse = ", ")))
-if (length(tmpfiles) > 0L) {
-  warning(sprintf("Detected temporary left-over files: [n=%d] %s",
-                  length(tmpfiles),
-                  paste(sQuote(tmpfiles), collapse = ", ")))
-
-  files <- file.path(tmpfiles)
-  res <- file.remove(files)
-  names(res) <- files
-  print(res)
-
+## Remove any stray Rscript<hexcode> files
+if (.Platform$OS.type == "windows") {
   tmpfiles <- tmpfiles[utils::file_test("-f", tmpfiles)]
   if (length(tmpfiles) > 0L) {
-    stop(sprintf("Failed to remove temporary left-over files: [n=%d] %s",
-                  length(tmpfiles),
-                  paste(sQuote(tmpfiles), collapse = ", ")))
+    warning(sprintf("Cleaning up temporary left-over files: [n=%d] %s",
+                    length(tmpfiles),
+                    paste(sQuote(tmpfiles), collapse = ", ")))
+    file.remove(tmpfiles)
   }
 }
-
 
 cl <- NULL
 
