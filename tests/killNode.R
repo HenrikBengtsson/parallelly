@@ -4,6 +4,14 @@ options(parallelly.debug = FALSE)
 
 message("*** killNode() and isNodeAlive() ...")
 
+message("Temporary files before:")
+tmpdir <- tempdir()
+tmpfiles <- dir(path = tmpdir, all.files = TRUE)
+tmpfiles <- setdiff(tmpfiles, c(".", ".."))
+message(sprintf("Files: [n=%d] %s", length(tmpfiles),
+                  paste(sQuote(tmpfiles), collapse = ", ")))
+tmpfiles_before <- tmpfiles
+
 cl <- makeClusterPSOCK(2L, autoStop = FALSE)
 names(cl) <- sprintf("Node %d", seq_along(cl))
 print(cl)
@@ -44,6 +52,21 @@ repeat {
   if (Sys.time() > timeout) {
     stop("One or more cluster nodes are still running after 5 seconds")
   }
+}
+
+message("Temporary files afterward:")
+tmpdir <- tempdir()
+tmpfiles <- dir(path = tmpdir, all.files = TRUE)
+tmpfiles <- setdiff(tmpfiles, c(".", ".."))
+message(sprintf("Files: [n=%d] %s", length(tmpfiles),
+                  paste(sQuote(tmpfiles), collapse = ", ")))
+
+tmpfiles_leftover <- setdiff(tmpfiles, tmpfiles_before)
+if (length(tmpfiles_leftover) > 0L) {
+  warning(sprintf("Detected temporary leftover files: [n=%d] %s",
+                  length(tmpfiles_leftover),
+                  paste(sQuote(tmpfiles_leftover), collapse = ", ")))
+  file.remove(file.path(tempdir(), tmpfiles_leftover))
 }
 
 cl <- NULL
