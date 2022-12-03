@@ -32,6 +32,8 @@
 #' If attempted to use `killNode()` on a remote parallel workers, `NA`
 #' is returned and an informative warning is produced.
 #'
+#' @example incl/killNode.R
+#'
 #' @seealso
 #' Use [isNodeAlive()] to check whether one or mode cluster nodes are alive.
 #'
