@@ -20,6 +20,8 @@ platform specific.}
 \value{
 TRUE if the signal was successfully applied, FALSE if not, and NA if
 signaling is not supported on the specific cluster or node.
+\emph{Warning}: With R (< 3.5.0), NA is always returned. This is due to a
+bug in R (< 3.5.0), where the signaling result cannot be trusted.
 }
 \description{
 Terminate one or more cluster nodes using process signaling

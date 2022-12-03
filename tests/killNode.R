@@ -33,10 +33,15 @@ signaled <- killNode(cl)
 print(signaled)
 stopifnot(
   length(signaled) == length(cl),
-  is.logical(signaled),
-  isTRUE(signaled[[1]]), isTRUE(signaled[[2]]),
-  all(signaled)
+  is.logical(signaled)
 )
+## The value of tools::pskill() is incorrect in R (< 3.5.0)
+if (getRversion() >= "3.5.0") {
+  stopifnot(
+    isTRUE(signaled[[1]]), isTRUE(signaled[[2]]),
+    all(signaled)
+  )
+}
 
 message("- Waiting for cluster nodes to terminate")
 ## It might take a moment before the background

@@ -13,6 +13,8 @@
 #' @return
 #' TRUE if the signal was successfully applied, FALSE if not, and NA if
 #' signaling is not supported on the specific cluster or node.
+#' _Warning_: With R (< 3.5.0), NA is always returned. This is due to a
+#' bug in R (< 3.5.0), where the signaling result cannot be trusted.
 #'
 #' @details
 #' Note that the preferred way to terminate a cluster is via
@@ -60,7 +62,9 @@ killNode.default <- function(x, signal = tools::SIGTERM, ...) {
 killNode.RichSOCKnode <- function(x, signal = tools::SIGTERM, ...) {
   pid <- x$session_info$process$pid
   if (!is.integer(pid)) return(NextMethod())
-  pskill(pid, signal = signal)
+  res <- pskill(pid, signal = signal)
+  if (getRversion() < "3.5.0") res <- NA
+  res
 }
 
 #' @export
