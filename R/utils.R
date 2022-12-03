@@ -198,10 +198,21 @@ importParallel <- local({
 
 
 # Assert that 'Rscript --version' can be called and works
-#' @importFrom utils file_test osVersion
+#' @importFrom utils file_test
 assert_system_is_supported <- local({
   results <- list()
 
+  ## utils::osVersion is only available in R (>= 3.5.0)
+  osVersion <- function() {
+    ns <- getNamespace("utils")
+    if (!exists("osVersion", envir = ns, inherits = TRUE)) {
+      osVersion <- get("osVersion", envir = ns, inherits = TRUE)
+      osVersion
+    } else {
+      "<unknown operating system>"
+    }
+  }
+  
   function(method = "Rscript --version") {
     method <- match.arg(method)
     result <- results[[method]]
@@ -221,7 +232,7 @@ assert_system_is_supported <- local({
       status <- attr(out, "status")
       if (!is.null(status)) {
         errmsg <- paste(c(attr(out, "errmsg"), ""), collapse = "")
-        stop(sprintf("The assertion test that system2(\"%s\", args = \"--version\", stdout = TRUE) works on your system (R %s on %s) failed with a non-zero exit code (%s). It might be that your account or operating system does not allow this. The captured output was %s and the reported error was %s", bin, getRversion(), osVersion, status, sQuote(out), sQuote(errmsg)))
+        stop(sprintf("The assertion test that system2(\"%s\", args = \"--version\", stdout = TRUE) works on your system (R %s on platform %s and %s) failed with a non-zero exit code (%s). It might be that your account or operating system does not allow this. The captured output was %s and the reported error was %s", bin, getRversion(), R.version$platform, osVersion(), status, sQuote(out), sQuote(errmsg)))
       }
 
       if (!grepl(getRversion(), out, fixed = TRUE)) {
