@@ -4,17 +4,19 @@ options(parallelly.debug = FALSE)
 
 message("*** killNode() and isNodeAlive() ...")
 
-message("Temporary files before:")
-tmpdir <- tempdir()
-tmpfiles <- dir(path = tmpdir, all.files = TRUE)
-tmpfiles <- setdiff(tmpfiles, c(".", ".."))
-message(sprintf("Files: [n=%d] %s", length(tmpfiles),
-                  paste(sQuote(tmpfiles), collapse = ", ")))
-tmpfiles_before <- tmpfiles
-
 cl <- makeClusterPSOCK(2L, autoStop = FALSE)
 names(cl) <- sprintf("Node %d", seq_along(cl))
 print(cl)
+
+message("Temporary worker files before:")
+tmpfiles <- parallel::clusterEvalQ(cl, {
+  path <-tempdir()
+  files <- setdiff(dir(path = path, all.files = TRUE), c(".", ".."))
+  file.path(tempdir(), files)
+})
+tmpfiles <- unlist(tmpfiles)
+message(sprintf("- files: [n=%d] %s", length(tmpfiles),
+                  paste(sQuote(tmpfiles), collapse = ", ")))
 
 alive <- isNodeAlive(cl)
 print(alive)
@@ -54,33 +56,28 @@ repeat {
   }
 }
 
-message("Temporary files afterward:")
-tmpdir <- tempdir()
-tmpfiles <- dir(path = tmpdir, all.files = TRUE)
-tmpfiles <- setdiff(tmpfiles, c(".", ".."))
-message(sprintf("Files: [n=%d] %s", length(tmpfiles),
+message("Temporary worker files still remaining:")
+tmpfiles <- tmpfiles[utils::file_test("-f", tmpfiles)]
+message(sprintf("- files: [n=%d] %s", length(tmpfiles),
+                  paste(sQuote(tmpfiles), collapse = ", ")))
+if (length(tmpfiles) > 0L) {
+  warning(sprintf("Detected temporary left-over files: [n=%d] %s",
+                  length(tmpfiles),
                   paste(sQuote(tmpfiles), collapse = ", ")))
 
-tmpfiles_leftover <- setdiff(tmpfiles, tmpfiles_before)
-if (length(tmpfiles_leftover) > 0L) {
-  warning(sprintf("Detected temporary left-over files: [n=%d] %s",
-                  length(tmpfiles_leftover),
-                  paste(sQuote(tmpfiles_leftover), collapse = ", ")))
-
-  files <- file.path(tempdir(), tmpfiles_leftover)
+  files <- file.path(tmpfiles)
   res <- file.remove(files)
   names(res) <- files
   print(res)
 
-  tmpfiles <- dir(path = tmpdir, all.files = TRUE)
-  tmpfiles <- setdiff(tmpfiles, c(".", ".."))
-  tmpfiles_leftover <- setdiff(tmpfiles, tmpfiles_before)
-  if (length(tmpfiles_leftover) > 0L) {
+  tmpfiles <- tmpfiles[utils::file_test("-f", tmpfiles)]
+  if (length(tmpfiles) > 0L) {
     stop(sprintf("Failed to remove temporary left-over files: [n=%d] %s",
-                  length(tmpfiles_leftover),
-                  paste(sQuote(tmpfiles_leftover), collapse = ", ")))
+                  length(tmpfiles),
+                  paste(sQuote(tmpfiles), collapse = ", ")))
   }
 }
+
 
 cl <- NULL
 
