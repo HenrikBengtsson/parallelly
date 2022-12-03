@@ -1,5 +1,12 @@
 source("incl/start.R")
 
+if (.Platform$OS.type == "windows") {
+  killNode <- function(cl) {
+    parallel::stopCluster(cl)
+    rep(TRUE, times = length(cl))
+  }
+}
+
 options(parallelly.debug = FALSE)
 
 message("*** killNode() and isNodeAlive() ...")

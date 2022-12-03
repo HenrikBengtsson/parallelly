@@ -47,7 +47,7 @@ is returned and an informative warning is produced.
 }
 
 \examples{
-\dontshow{if (.Platform$OS.type == "windows" && !interactive()) killNode <- parallel::stopCluster}
+\dontshow{if (.Platform$OS.type != "windows" || interactive()) \{}
 cl <- makeClusterPSOCK(2)
 print(isNodeAlive(cl))  ## [1] TRUE TRUE
 
@@ -59,7 +59,7 @@ print(res)
 Sys.sleep(1.0)
 
 print(isNodeAlive(cl))  ## [1] FALSE FALSE
-\dontshow{if (.Platform$OS.type == "windows" && !interactive()) rm(list = "killNode")}
+\dontshow{\}}
 
 }
 \seealso{
