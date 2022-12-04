@@ -2,6 +2,10 @@
 
 ## New Features
 
+ * Add `killNode()` to terminate cluster nodes via process signaling.
+   Currently, this is only supported for parallel workers on the local
+   machine, and only those created by `makeClusterPSOCK()`.
+
  * Now `availableCores()` recognizes environment variable
    `IS_BIOC_BUILD_MACHINE`, which is set to true by the Bioconductor
    (>= 3.16) check servers.  If true, then a maximum of four (4) cores
@@ -14,15 +18,11 @@
    `IS_BIOC_BUILD_MACHINE`.  This means `availableCores(which =
    "all")` now reports on both.
    
- * `makeClusterPSOCK()` and likes now asserts the running R session
+ * `makeClusterPSOCK()` and likes now assert the running R session
    has enough permissions on the operating system to do system calls
    such as `system2("Rscript --version")`.  If not, an informative
    error message is produced.
    
- * Add `killNode()` to terminate cluster nodes via process signaling.
-   Currently, this is only supported for parallel workers on the local
-   machine, and only those created by `makeClusterPSOCK()`.
-
 ## Documentation
 
  * Add section to `help("makeClusterPSOCK", package = "parallelly")`
