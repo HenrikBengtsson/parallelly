@@ -44,6 +44,7 @@ value <- parallelly:::getCGroupsCpuSet()
 cat(sprintf("CPU set: [n=%d] %s\n", length(value), paste(sQuote(value), collapse = ", ")))
 stopifnot(length(value) >= 0L, is.integer(value), !any(is.na(value)))
 
+
 message("- getCGroupsCpuQuotaMicroseconds()")
 value <- parallelly:::getCGroupsCpuQuotaMicroseconds()
 cat(sprintf("CPU quota (ms): %d\n", value))
@@ -64,6 +65,16 @@ stopifnot(
 
 message("- getCGroupsCpuQuota()")
 value <- parallelly:::getCGroupsCpuQuota()
+cat(sprintf("CPU quota (ratio): %g\n", value))
+stopifnot(
+  length(value) == 1L,
+  is.numeric(value),
+  !is.infinite(value),
+  is.na(value) || value > 0
+)
+
+message("- getCGroups2CpuMax()")
+value <- parallelly:::getCGroups2CpuMax()
 cat(sprintf("CPU quota (ratio): %g\n", value))
 stopifnot(
   length(value) == 1L,
