@@ -23,6 +23,14 @@
    such as `system2("Rscript --version")`.  If not, an informative
    error message is produced.
    
+ * On Unix, `availableCores()` queries also control groups (cgroups2)
+   field `cpu.max` for a possible CPU quota allocation. If a CPU quota
+   is set, then the number of CPUs is rounded to the nearest integer,
+   unless its less that 0.5, in case it's rounded up to a single
+   CPU. An example, where cgroups CPU quotas can be set to limit the
+   total CPU load, is with Linux containers, e.g. `docker run
+   --cpus=3.5 ...`.
+   
 ## Documentation
 
  * Add section to `help("makeClusterPSOCK", package = "parallelly")`
@@ -99,13 +107,12 @@
 ## New Features
 
  * On Unix, `availableCores()` now queries also control groups
-   (cgroups) queries fields `cpu.cfs_quota_us` and
-   `cpu.cfs_period_us`, for a possible CPU quota allocation. If a CPU
-   quota is set, then the number of CPUs is rounded to the nearest
-   integer, unless its less that 0.5, in case it's rounded up to a
-   single CPU. An example, where cgroups CPU quotas can be set to
-   limit the total CPU load, is with Linux containers, e.g. `docker
-   run --cpus=3.5 ...`
+   (cgroups) fields `cpu.cfs_quota_us` and `cpu.cfs_period_us`, for a
+   possible CPU quota allocation. If a CPU quota is set, then the
+   number of CPUs is rounded to the nearest integer, unless its less
+   that 0.5, in case it's rounded up to a single CPU. An example,
+   where cgroups CPU quotas can be set to limit the total CPU load, is
+   with Linux containers, e.g. `docker run --cpus=3.5 ...`.
 
  * In addition to cgroups CPU quotas, `availableCores()` also queries
    cgroups for a possible CPU affinity, which is available in field
@@ -114,7 +121,7 @@
    `nproc` tool installed, in which case this new approach should
    work. Some high-performance compute (HPC) environments set the CPU
    affinity so that jobs do not overuse the CPUs. It may also be set
-   by Linux containers, e.g. `docker run --cpuset-cpus=0-2,8 ...`
+   by Linux containers, e.g. `docker run --cpuset-cpus=0-2,8 ...`.
 
  * The minimum value returned by `availableCores()` is one (1). This
    can be overridden by new option `parallelly.availableCores.min`.
