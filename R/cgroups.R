@@ -19,7 +19,7 @@ getCGroups <- local({
 
       ## Parse cgroups
       bfr <- readLines(file, warn = FALSE)
-      pattern <- "^([[:digit:]]+):([^:]+):(.*)"
+      pattern <- "^([[:digit:]]+):([^:]*):(.*)"
       bfr <- grep(pattern, bfr, value = TRUE)
 
       idxs <- as.integer(sub(pattern, "\\1", bfr))
@@ -82,14 +82,14 @@ hasCGroups2 <- local({
   function() {
     if (!is.null(res)) return(res)
 
-    path <- getCGroupsRoot()
-    if (is.na(path)) {
+    root <- getCGroupsRoot()
+    if (is.na(root)) {
       res <<- NA
       return(res)
     }
 
     ## e.g. /sys/fs/cgroup/cgroup.controllers
-    pathname <- file.path(path, "cgroup.controllers")
+    pathname <- file.path(root, "cgroup.controllers")
     res <<- file_test("-f", pathname)
 
     res
@@ -185,6 +185,38 @@ getCGroupsValue <- local({
     value <- readLines(file, warn = FALSE)
     if (length(value) == 0L) value <- NA_character_
     .cache[[name]][[field]] <<- value
+    
+    value
+  }
+})
+
+
+#  @param field A cgroups v2 field.
+# 
+#  @return An character string. If the requested cgroups v2 field could not be
+#  queried, NA_character_ is returned.
+#
+#' @importFrom utils file_test
+getCGroups2Value <- local({
+  .cache <- list()
+  
+  function(field) {
+    if (field %in% names(.cache)) return(.cache[[field]])
+    
+    root <- getCGroupsRoot()
+    if (is.na(root)) {
+      .cache[[field]] <<- NA_character_
+      return(NA_character_)
+    }
+    file <- file.path(root, field)
+    if (!file_test("-f", file)) {
+      .cache[[field]] <<- NA_character_
+      return(NA_character_)
+    }
+    
+    value <- readLines(file, warn = FALSE)
+    if (length(value) == 0L) value <- NA_character_
+    .cache[[field]] <<- value
     
     value
   }
@@ -379,13 +411,13 @@ getCGroups2CpuMax <- local({
   function() {
     ## TEMPORARY: In case the cgroups options causes problems, make
     ## it possible to override their values via hidden opitions
-    quota <<- get_package_option("cgroups.cpu.max", quota)
+    quota <<- get_package_option("cgroups2.cpu.max", quota)
     
     if (!is.null(quota)) return(quota)
 
     raw <- suppressWarnings({
       ## e.g. /sys/fs/cgroup/cpu.max
-      getCGroupsValue(".", "cpu.max")
+      getCGroups2Value("cpu.max")
     })
 
     if (is.na(raw)) {
