@@ -372,7 +372,7 @@ getCGroupsCpuQuota <- local({
 #  [1] https://docs.kernel.org/admin-guide/cgroup-v2.html
 #
 #' @importFrom utils file_test
-getCGroupsCpuMax <- local({
+getCGroups2CpuMax <- local({
   max_cores <- NULL
   quota <- NULL
   

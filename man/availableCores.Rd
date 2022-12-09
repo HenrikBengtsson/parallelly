@@ -7,8 +7,9 @@
 availableCores(
   constraints = NULL,
   methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset",
-    "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_",
-    "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")),
+    "cgroups.cpuquota", "cgroups2.cpu.max", "nproc", "mc.cores", "BiocParallel",
+    "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm",
+    "fallback", "custom")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = c(current = 1L),
@@ -65,6 +66,9 @@ On Unix, query control group (cgroup) value \code{cpuset.set}.
 \item \code{"cgroups.cpuquota"} -
 On Unix, query control group (cgroup) value
 \code{cpu.cfs_quota_us} / \code{cpu.cfs_period_us}.
+
+\item \code{"cgroups2.cpu.max"} -
+On Unix, query control group (cgroup v2) values \code{cpu.max}.
 
 \item \code{"nproc"} -
 On Unix, query system command \code{nproc}.

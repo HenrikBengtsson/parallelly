@@ -23,13 +23,13 @@
    such as `system2("Rscript --version")`.  If not, an informative
    error message is produced.
    
- * On Unix, `availableCores()` queries also control groups (cgroups2)
-   field `cpu.max` for a possible CPU quota allocation. If a CPU quota
-   is set, then the number of CPUs is rounded to the nearest integer,
-   unless its less that 0.5, in case it's rounded up to a single
-   CPU. An example, where cgroups CPU quotas can be set to limit the
-   total CPU load, is with Linux containers, e.g. `docker run
-   --cpus=3.5 ...`.
+ * On Unix, `availableCores()` queries also control groups v2
+   (cgroups2) field `cpu.max` for a possible CPU quota allocation. If
+   a CPU quota is set, then the number of CPUs is rounded to the
+   nearest integer, unless its less that 0.5, in case it's rounded up
+   to a single CPU. An example, where cgroups CPU quotas can be set to
+   limit the total CPU load, is with Linux containers, e.g. `docker
+   run --cpus=3.5 ...`.
    
 ## Documentation
 

@@ -47,6 +47,9 @@
 #'    On Unix, query control group (cgroup) value
 #'    \code{cpu.cfs_quota_us} / \code{cpu.cfs_period_us}.
 #'
+#'  \item `"cgroups2.cpu.max"` -
+#'    On Unix, query control group (cgroup v2) values \code{cpu.max}.
+#'
 #'  \item `"nproc"` -
 #'    On Unix, query system command \code{nproc}.
 #'
@@ -196,7 +199,7 @@
 #'
 #' @importFrom parallel detectCores
 #' @export
-availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
+availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset", "cgroups.cpuquota", "cgroups2.cpu.max", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
   ## Local functions
   getenv <- function(name, mode = "integer") {
     value <- trim(getEnvVar2(name, default = NA_character_))
@@ -346,6 +349,13 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
       if (!is.na(n)) {
         n <- as.integer(floor(n + 0.5))
 	if (n == 0L) n <- 1L  ## If CPU quota < 0.5, round up to one CPU
+      }
+    } else if (method == "cgroups2.cpu.max") {
+      ## Number of cores according to Unix Cgroups v2 CPU max quota
+      n <- getCGroups2CpuMax()
+      if (!is.na(n)) {
+        n <- as.integer(floor(n + 0.5))
+	if (n == 0L) n <- 1L  ## If CPU max quota < 0.5, round up to one CPU
       }
     } else if (method == "nproc") {
       ## Number of cores according to Unix 'nproc'
