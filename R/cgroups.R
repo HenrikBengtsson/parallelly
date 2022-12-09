@@ -439,12 +439,11 @@ getCGroups2CpuMax <- local({
     
     max <- values[1]
     if (max == "max") {
-      if (is.null(max_cores)) max_cores <<- parallel::detectCores(logical = TRUE)
-      max <- max_cores * period
-    } else {
-      max <- as.integer(max)
+      quota <<- NA_real_
+      return(quota)
     }
     
+    max <- as.integer(max)
     value <- max / period
     if (!is.na(value)) {
       if (is.null(max_cores)) max_cores <<- parallel::detectCores(logical = TRUE)
