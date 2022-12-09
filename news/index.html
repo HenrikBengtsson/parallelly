@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9008</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9010</span>
       </span>
     </div>
 
@@ -123,10 +123,11 @@
 <h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
 <div class="section level3">
 <h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li><p>Now <code><a href="../reference/availableCores.html">availableCores()</a></code> recognizes environment variable <code>IS_BIOC_BUILD_MACHINE</code>, which is set to true by the Bioconductor (&gt;= 3.16) check servers. If true, then a maximum of four (4) cores is returned. This new environment variable replaces legacy variable <code>BBS_HOME</code> used in Bioconductor (&lt;= 3.15).</p></li>
+<ul><li><p>Add <code><a href="../reference/killNode.html">killNode()</a></code> to terminate cluster nodes via process signaling. Currently, this is only supported for parallel workers on the local machine, and only those created by <code><a href="../reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code>.</p></li>
+<li><p>Now <code><a href="../reference/availableCores.html">availableCores()</a></code> recognizes environment variable <code>IS_BIOC_BUILD_MACHINE</code>, which is set to true by the Bioconductor (&gt;= 3.16) check servers. If true, then a maximum of four (4) cores is returned. This new environment variable replaces legacy variable <code>BBS_HOME</code> used in Bioconductor (&lt;= 3.15).</p></li>
 <li><p><code><a href="../reference/availableCores.html">availableCores()</a></code> splits up method <code>"BiocParallel"</code> into two; <code>"BiocParallel"</code> and <code>"Bioconductor"</code>. The former queries environment variable <code>BIOCPARALLEL_WORKER_NUMBER</code> and the latter <code>IS_BIOC_BUILD_MACHINE</code>. This means <code>availableCores(which =    "all")</code> now reports on both.</p></li>
-<li><p><code><a href="../reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code> and likes now asserts the running R session has enough permissions on the operating system to do system calls such as <code>system2("Rscript --version")</code>. If not, an informative error message is produced.</p></li>
-<li><p>Add <code><a href="../reference/killNode.html">killNode()</a></code> to terminate cluster nodes via process signaling. Currently, this is only supported for parallel workers on the local machine, and only those created by <code><a href="../reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code>.</p></li>
+<li><p><code><a href="../reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code> and likes now assert the running R session has enough permissions on the operating system to do system calls such as <code>system2("Rscript --version")</code>. If not, an informative error message is produced.</p></li>
+<li><p>On Unix, <code><a href="../reference/availableCores.html">availableCores()</a></code> queries also control groups v2 (cgroups2) field <code>cpu.max</code> for a possible CPU quota allocation. If a CPU quota is set, then the number of CPUs is rounded to the nearest integer, unless its less that 0.5, in case it’s rounded up to a single CPU. An example, where cgroups CPU quotas can be set to limit the total CPU load, is with Linux containers, e.g. <code>docker    run --cpus=3.5 ...</code>.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
@@ -174,8 +175,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-1-31-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-31-0"></a></h3>
-<ul><li><p>On Unix, <code><a href="../reference/availableCores.html">availableCores()</a></code> now queries also control groups (cgroups) queries fields <code>cpu.cfs_quota_us</code> and <code>cpu.cfs_period_us</code>, for a possible CPU quota allocation. If a CPU quota is set, then the number of CPUs is rounded to the nearest integer, unless its less that 0.5, in case it’s rounded up to a single CPU. An example, where cgroups CPU quotas can be set to limit the total CPU load, is with Linux containers, e.g. <code>docker    run --cpus=3.5 ...</code></p></li>
-<li><p>In addition to cgroups CPU quotas, <code><a href="../reference/availableCores.html">availableCores()</a></code> also queries cgroups for a possible CPU affinity, which is available in field <code>cpuset.set</code>. This should give the same result as what the already existing ‘nproc’ method gives. However, not all systems have the <code>nproc</code> tool installed, in which case this new approach should work. Some high-performance compute (HPC) environments set the CPU affinity so that jobs do not overuse the CPUs. It may also be set by Linux containers, e.g. <code>docker run --cpuset-cpus=0-2,8 ...</code></p></li>
+<ul><li><p>On Unix, <code><a href="../reference/availableCores.html">availableCores()</a></code> now queries also control groups (cgroups) fields <code>cpu.cfs_quota_us</code> and <code>cpu.cfs_period_us</code>, for a possible CPU quota allocation. If a CPU quota is set, then the number of CPUs is rounded to the nearest integer, unless its less that 0.5, in case it’s rounded up to a single CPU. An example, where cgroups CPU quotas can be set to limit the total CPU load, is with Linux containers, e.g. <code>docker run --cpus=3.5 ...</code>.</p></li>
+<li><p>In addition to cgroups CPU quotas, <code><a href="../reference/availableCores.html">availableCores()</a></code> also queries cgroups for a possible CPU affinity, which is available in field <code>cpuset.set</code>. This should give the same result as what the already existing ‘nproc’ method gives. However, not all systems have the <code>nproc</code> tool installed, in which case this new approach should work. Some high-performance compute (HPC) environments set the CPU affinity so that jobs do not overuse the CPUs. It may also be set by Linux containers, e.g. <code>docker run --cpuset-cpus=0-2,8 ...</code>.</p></li>
 <li><p>The minimum value returned by <code><a href="../reference/availableCores.html">availableCores()</a></code> is one (1). This can be overridden by new option <code>parallelly.availableCores.min</code>. This can be used to test parallelization methods on single-core machines, e.g. <code>options(parallelly.availableCores.min = 2L)</code>.</p></li>
 </ul></div>
 <div class="section level3">
