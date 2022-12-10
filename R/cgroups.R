@@ -239,7 +239,7 @@ getCGroupsCpuSet <- local({
   
   function() {
     ## TEMPORARY: In case the cgroups options causes problems, make
-    ## it possible to override their values via hidden opitions
+    ## it possible to override their values via hidden options
     cpuset <<- get_package_option("cgroups.cpuset", cpuset)
 
     if (!is.null(cpuset)) return(cpuset)
@@ -356,7 +356,7 @@ getCGroupsCpuQuota <- local({
   
   function() {
     ## TEMPORARY: In case the cgroups options causes problems, make
-    ## it possible to override their values via hidden opitions
+    ## it possible to override their values via hidden options
     quota <<- get_package_option("cgroups.cpuquota", quota)
     
     if (!is.null(quota)) return(quota)
@@ -410,7 +410,7 @@ getCGroups2CpuMax <- local({
   
   function() {
     ## TEMPORARY: In case the cgroups options causes problems, make
-    ## it possible to override their values via hidden opitions
+    ## it possible to override their values via hidden options
     quota <<- get_package_option("cgroups2.cpu.max", quota)
     
     if (!is.null(quota)) return(quota)
@@ -439,11 +439,11 @@ getCGroups2CpuMax <- local({
     
     max <- values[1]
     if (max == "max") {
-      max <- period
-    } else {
-      max <- as.integer(max)
+      quota <<- NA_real_
+      return(quota)
     }
     
+    max <- as.integer(max)
     value <- max / period
     if (!is.na(value)) {
       if (is.null(max_cores)) max_cores <<- parallel::detectCores(logical = TRUE)
