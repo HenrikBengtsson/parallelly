@@ -15,8 +15,10 @@
 #' @param na.rm If TRUE, only non-missing settings are considered/returned.
 #'
 #' @param logical Passed to
-#' \code{\link[parallel]{detectCores}(logical = logical)}, which, if supported,
-#' returns the number of logical CPUs (TRUE) or physical CPUs/cores (FALSE).
+#' \code{\link[parallel]{detectCores}(logical = logical)}, which,
+#' _if supported_, returns the number of logical CPUs (TRUE) or physical
+#' CPUs/cores (FALSE).
+#' At least as of R 4.2.2, `detectCores()` this argument on Linux.
 #' This argument is only if argument `methods` includes `"system"`.
 #'
 #' @param default The default number of cores to return if no non-missing
