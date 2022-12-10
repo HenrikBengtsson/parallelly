@@ -24,7 +24,7 @@ number of cores available is always at least one."><meta property="og:image" con
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9010</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9011</span>
       </span>
     </div>
 
@@ -162,8 +162,10 @@ of available cores.</p></dd>
 
 <dt>logical</dt>
 <dd><p>Passed to
-<code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a>(logical = logical)</code>, which, if supported,
-returns the number of logical CPUs (TRUE) or physical CPUs/cores (FALSE).
+<code><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a>(logical = logical)</code>, which,
+<em>if supported</em>, returns the number of logical CPUs (TRUE) or physical
+CPUs/cores (FALSE).
+At least as of R 4.2.2, <code>detectCores()</code> this argument on Linux.
 This argument is only if argument <code>methods</code> includes <code>"system"</code>.</p></dd>
 
 
