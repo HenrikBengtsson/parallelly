@@ -21,8 +21,10 @@ availableCores(
 \item{constraints}{An optional character specifying under what
 constraints ("purposes") we are requesting the values.
 For instance, on systems where multicore processing is not supported
-(i.e. Windows), using \code{constrains = "multicore"} will force a
-single core to be reported.}
+(i.e. Windows), using \code{constraints = "multicore"} will force a
+single core to be reported.
+Using \code{constraints = "connections"}, will append \code{"connections"} to
+the \code{methods} argument.}
 
 \item{methods}{A character vector specifying how to infer the number
 of available cores.}
@@ -88,6 +90,15 @@ The \code{mc.cores} option defaults to environment variable
 package is loaded).  The \code{mc.cores} option is used by for
 instance \code{\link[=mclapply]{mclapply}()} of the \pkg{parallel}
 package.
+
+\item \code{"connections"} -
+Query the current number of available R connections per
+\code{\link[=freeConnections]{freeConnections()}}.  This is the maximum number of socket-based
+\strong{parallel} cluster nodes that are possible launch, because each
+one needs its own R connection.
+The exception is when \code{freeConnections()} is zero, then \code{1L} is
+still returned, because \code{availableCores()} should always return a
+positive integer.
 
 \item \code{"BiocParallel"} -
 Query environment variable \env{BIOCPARALLEL_WORKER_NUMBER} (integer),

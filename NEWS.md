@@ -30,7 +30,14 @@
    to a single CPU. An example, where cgroups CPU quotas can be set to
    limit the total CPU load, is with Linux containers, e.g. `docker
    run --cpus=3.5 ...`.
-   
+
+ * Add support for `availableCores(method = "connections")`, which
+   returns the current number of free R connections per
+   `freeConnections()`.  This is the maximum number of PSOCK, SOCK,
+   and MPI **parallel** cluster nodes we can open without running out
+   of available R connections.  A convenient way to use this and other
+   methods is to use `availableCores(constraints = "connections")`.
+
 ## Documentation
 
  * Add section to `help("makeClusterPSOCK", package = "parallelly")`

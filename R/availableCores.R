@@ -6,8 +6,10 @@
 #' @param constraints An optional character specifying under what
 #' constraints ("purposes") we are requesting the values.
 #' For instance, on systems where multicore processing is not supported
-#' (i.e. Windows), using `constrains = "multicore"` will force a
+#' (i.e. Windows), using `constraints = "multicore"` will force a
 #' single core to be reported.
+#' Using `constraints = "connections"`, will append `"connections"` to
+#' the `methods` argument.
 #'
 #' @param methods A character vector specifying how to infer the number
 #' of available cores.
@@ -68,6 +70,15 @@
 #'    package is loaded).  The `mc.cores` option is used by for
 #'    instance \code{\link[=mclapply]{mclapply}()} of the \pkg{parallel}
 #'    package.
+#'
+#'  \item `"connections"` -
+#'    Query the current number of available R connections per
+#'    [freeConnections()].  This is the maximum number of socket-based
+#'    **parallel** cluster nodes that are possible launch, because each
+#'    one needs its own R connection.
+#'    The exception is when `freeConnections()` is zero, then `1L` is
+#'    still returned, because `availableCores()` should always return a
+#'    positive integer.
 #'
 #'  \item `"BiocParallel"` -
 #'    Query environment variable \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
@@ -215,6 +226,16 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     value
   } # getopt()
 
+  stop_if_not(
+    is.null(constraints) || is.character(constraints),
+    !any(is.na(constraints))
+  )
+
+
+  if ("connections" %in% constraints) {
+    methods <- unique(c(methods, "connections"))
+  }
+
   which <- match.arg(which, choices = c("min", "max", "all"))
   stop_if_not(length(default) == 1, is.finite(default), default >= 1L)
 
@@ -316,6 +337,9 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     } else if (method == "mc.cores+1") {
       ## Number of cores by option defined by 'parallel' package
       n <- getopt("mc.cores") + 1L
+    } else if (method == "connections") {
+      ## Number of available connections, which are needed by PSOCK clusters
+      n <- freeConnections()
     } else if (method == "BiocParallel") {
       n <- getenv("BIOCPARALLEL_WORKER_NUMBER")
     } else if (method == "_R_CHECK_LIMIT_CORES_") {
@@ -440,8 +464,8 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     }
   }
 
-  if (!is.null(constraints)) {
-    if (constraints == "multicore") {
+  if (length(constraints) > 0L) {
+    if ("multicore" %in% constraints) {
       ## SPECIAL: On some OSes such as Windows, multicore processing
       ## is not supported.  If so, we should override all values to
       ## to reflect that only a single core is available
