@@ -10,6 +10,8 @@
 #' single core to be reported.
 #' Using `constraints = "connections"`, will append `"connections"` to
 #' the `methods` argument.
+#' It is possible to specify multiple constraints, e.g.
+#' `constraints = c("connections", "multicore")`.
 #'
 #' @param methods A character vector specifying how to infer the number
 #' of available cores.

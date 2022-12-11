@@ -24,7 +24,9 @@ For instance, on systems where multicore processing is not supported
 (i.e. Windows), using \code{constraints = "multicore"} will force a
 single core to be reported.
 Using \code{constraints = "connections"}, will append \code{"connections"} to
-the \code{methods} argument.}
+the \code{methods} argument.
+It is possible to specify multiple constraints, e.g.
+\code{constraints = c("connections", "multicore")}.}
 
 \item{methods}{A character vector specifying how to infer the number
 of available cores.}
