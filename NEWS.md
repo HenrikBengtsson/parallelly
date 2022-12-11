@@ -6,18 +6,6 @@
    Currently, this is only supported for parallel workers on the local
    machine, and only those created by `makeClusterPSOCK()`.
 
- * Now `availableCores()` recognizes environment variable
-   `IS_BIOC_BUILD_MACHINE`, which is set to true by the Bioconductor
-   (>= 3.16) check servers.  If true, then a maximum of four (4) cores
-   is returned.  This new environment variable replaces legacy
-   variable `BBS_HOME` used in Bioconductor (<= 3.15).
-   
- * `availableCores()` splits up method `"BiocParallel"` into two;
-   `"BiocParallel"` and `"Bioconductor"`.  The former queries
-   environment variable `BIOCPARALLEL_WORKER_NUMBER` and the latter
-   `IS_BIOC_BUILD_MACHINE`.  This means `availableCores(which =
-   "all")` now reports on both.
-   
  * `makeClusterPSOCK()` and likes now assert the running R session
    has enough permissions on the operating system to do system calls
    such as `system2("Rscript --version")`.  If not, an informative
@@ -38,6 +26,18 @@
    of available R connections.  A convenient way to use this and all
    other methods is `availableCores(constraints = "connections")`.
 
+ * Now `availableCores()` recognizes environment variable
+   `IS_BIOC_BUILD_MACHINE`, which is set to true by the Bioconductor
+   (>= 3.16) check servers.  If true, then a maximum of four (4) cores
+   is returned.  This new environment variable replaces legacy
+   variable `BBS_HOME` used in Bioconductor (<= 3.15).
+   
+ * `availableCores()` splits up method `"BiocParallel"` into two;
+   `"BiocParallel"` and `"Bioconductor"`.  The former queries
+   environment variable `BIOCPARALLEL_WORKER_NUMBER` and the latter
+   `IS_BIOC_BUILD_MACHINE`.  This means `availableCores(which =
+   "all")` now reports on both.
+   
 ## Documentation
 
  * Add section to `help("makeClusterPSOCK", package = "parallelly")`
