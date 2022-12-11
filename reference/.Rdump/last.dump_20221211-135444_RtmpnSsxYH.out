@@ -8,10 +8,10 @@ List of 12
  $ login         : chr "hb"
  $ user          : chr "hb"
  $ effective_user: chr "hb"
- $ pid           : int 874646
- $ call          : chr [1:17] "/home/hb/shared/software/CBI/R-4.2.2-gcc9/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/hb/RtmpmdwWS8/worker.rank=1.parallelly.parent=874201.d56d9374"| __truncated__ "-e" "options(socketOptions~+~=~+~\"no-delay\")" "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11415" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
- $ pwd           : chr "/tmp/hb/RtmpmDFkiz/parallelly/docs/reference"
- $ time          : POSIXct[1:1], format: "2022-12-11 13:07:30"
+ $ pid           : int 929699
+ $ call          : chr [1:17] "/home/hb/shared/software/CBI/R-4.2.2-gcc9/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/hb/Rtmp0k5335/worker.rank=1.parallelly.parent=929123.e2d63473"| __truncated__ "-e" "options(socketOptions~+~=~+~\"no-delay\")" "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11083" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
+ $ pwd           : chr "/tmp/hb/Rtmp1HxN9H/parallelly/docs/reference"
+ $ time          : POSIXct[1:1], format: "2022-12-11 13:54:47"
 
 ** Error:
 Error in unserialize(node$con) : error reading from connection
@@ -60,37 +60,37 @@ Calls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize
 
 ** Dumped frames:
 $`workRSOCK()`
-<environment: 0x55e596308c40>
+<environment: 0x559c82c84d58>
 
 $`workLoop(makeSOCKmaster(master, port, setup_timeout, timeout, useXDR, setup`
-<environment: 0x55e5962e60b8>
+<environment: 0x559c82c62240>
 
 $`workCommand(master)`
-<environment: 0x55e596296348>
+<environment: 0x559c82c12460>
 
 $`tryCatch({\n    msg <- recvData(master)\n    if (msg$type == "DONE") {\n        c`
-<environment: 0x55e596296540>
+<environment: 0x559c82c12658>
 
 $`tryCatchList(expr, classes, parentenv, handlers)`
-<environment: 0x55e596296c78>
+<environment: 0x559c82c12d90>
 
 $`tryCatchOne(expr, names, parentenv, handlers[[1]])`
-<environment: 0x55e596296fc0>
+<environment: 0x559c82c13110>
 
 $`doTryCatch(return(expr), name, parentenv, handler)`
-<environment: 0x55e596297490>
+<environment: 0x559c82c135e0>
 
 $`recvData(master)`
-<environment: 0x55e596293a50>
+<environment: 0x559c82c0fb68>
 
 $`recvData.SOCK0node(master)`
-<environment: 0x55e596293cf0>
+<environment: 0x559c82c0fe08>
 
 $`unserialize(node$con)`
-<environment: 0x55e596293e08>
+<environment: 0x559c82c0ff20>
 
 $`(function () \n{\n    tb <- .traceback(NULL)\n    if (is.null(tb)) \n        tb <- `
-<environment: 0x55e5962942d8>
+<environment: 0x559c82c103f0>
 
 attr(,"error.message")
 [1] "Error in unserialize(node$con) : error reading from connection\nCalls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize\n"
