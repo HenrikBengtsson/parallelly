@@ -24,7 +24,7 @@ number of cores available is always at least one."><meta property="og:image" con
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9011</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9012</span>
       </span>
     </div>
 
@@ -147,8 +147,10 @@ number of cores available is always at least one.</p>
 <dd><p>An optional character specifying under what
 constraints ("purposes") we are requesting the values.
 For instance, on systems where multicore processing is not supported
-(i.e. Windows), using <code>constrains = "multicore"</code> will force a
-single core to be reported.</p></dd>
+(i.e. Windows), using <code>constraints = "multicore"</code> will force a
+single core to be reported.
+Using <code>constraints = "connections"</code>, will append <code>"connections"</code> to
+the <code>methods</code> argument.</p></dd>
 
 
 <dt>methods</dt>
@@ -220,6 +222,14 @@ The <code>mc.cores</code> option defaults to environment variable
 package is loaded).  The <code>mc.cores</code> option is used by for
 instance <code>mclapply()</code> of the <span class="pkg">parallel</span>
 package.</p></li>
+<li><p><code>"connections"</code> -
+Query the current number of available R connections per
+<code><a href="availableConnections.html">freeConnections()</a></code>.  This is the maximum number of socket-based
+<strong>parallel</strong> cluster nodes that are possible launch, because each
+one needs its own R connection.
+The exception is when <code><a href="availableConnections.html">freeConnections()</a></code> is zero, then <code>1L</code> is
+still returned, because <code>availableCores()</code> should always return a
+positive integer.</p></li>
 <li><p><code>"BiocParallel"</code> -
 Query environment variable <code class="env">BIOCPARALLEL_WORKER_NUMBER</code> (integer),
 which is defined and used by <strong>BiocParallel</strong> (&gt;= 1.27.2).
