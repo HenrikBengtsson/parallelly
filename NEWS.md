@@ -35,8 +35,8 @@
    returns the current number of free R connections per
    `freeConnections()`.  This is the maximum number of PSOCK, SOCK,
    and MPI **parallel** cluster nodes we can open without running out
-   of available R connections.  A convenient way to use this and other
-   methods is to use `availableCores(constraints = "connections")`.
+   of available R connections.  A convenient way to use this and all
+   other methods is `availableCores(constraints = "connections")`.
 
 ## Documentation
 
