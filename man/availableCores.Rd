@@ -153,6 +153,8 @@ e.g. \verb{sbatch --cpus-per-task=2 hello.sh} or by adding
 If \env{SLURM_CPUS_PER_TASK} is not set, then it will fall back to
 use \env{SLURM_CPUS_ON_NODE} if the job is a single-node job
 (\env{SLURM_JOB_NUM_NODES} is 1), e.g. \verb{sbatch --ntasks=2 hello.sh}.
+To make sure all tasks are assign to a single node, specify
+\code{--nodes=1}, e.g. \verb{sbatch --nodes=1 --ntasks=16 hello.sh}.
 
 \item \code{"custom"} -
 If option
