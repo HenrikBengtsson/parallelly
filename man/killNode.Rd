@@ -12,8 +12,8 @@ killNode(x, signal = tools::SIGTERM, ...)
 \item{signal}{An integer that specifies the signal level to be sent
 to the parallel R process.
 It's only \code{tools::SIGINT} (2) and \code{tools::SIGTERM} (15) that are
-supported on Unix, macOS, and MS Windows.  All other signals are
-platform specific.}
+supported on all operating systems (i.e. Unix, macOS, and MS Windows).
+All other signals are platform specific, cf. \code{\link[tools:pskill]{tools::pskill()}}.}
 
 \item{\ldots}{Not used.}
 }
