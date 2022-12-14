@@ -38,6 +38,10 @@
    `IS_BIOC_BUILD_MACHINE`.  This means `availableCores(which =
    "all")` now reports on both.
    
+ * `isNodeAlive()` will now produce a once-per-session informative
+   warning when it detects that it is not possible to check whether
+   another process is alive on the current machine.
+   
 ## Documentation
 
  * Add section to `help("makeClusterPSOCK", package = "parallelly")`
