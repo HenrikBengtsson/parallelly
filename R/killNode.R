@@ -5,8 +5,8 @@
 #' @param signal An integer that specifies the signal level to be sent
 #' to the parallel R process.
 #' It's only `tools::SIGINT` (2) and `tools::SIGTERM` (15) that are
-#' supported on Unix, macOS, and MS Windows.  All other signals are
-#' platform specific.
+#' supported on all operating systems (i.e. Unix, macOS, and MS Windows).
+#' All other signals are platform specific, cf. [tools::pskill()].
 #'
 #' @param \ldots Not used.
 #'
