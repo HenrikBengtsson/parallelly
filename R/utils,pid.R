@@ -16,7 +16,9 @@
 #' regardless of PID tested.
 #' On Unix, including macOS, alternatives `tools::pskill(pid, signal = 0L)`
 #' and `system2("ps", args = pid)` are used.
-#' On Windows, various alternatives of `system2("tasklist", ...)` are used.
+#' On MS Windows, various alternatives of `system2("tasklist", ...)` are used.
+#' Note, some MS Windows machines are configures to not allow using
+#' `tasklist` on other process IDs than the current one.
 #'
 #' @references
 #' 1. The Open Group Base Specifications Issue 7, 2018 edition,
@@ -217,7 +219,7 @@ pid_exists <- local({
     }
 
     ## Record
-    cache$pid_check <- pid_check
+    cache <<- list(pid_check = pid_check)
 
     if (debug) mdebug("Attempting to find a working pid_exists_*() function ... done")
 
