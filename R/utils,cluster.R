@@ -294,8 +294,23 @@ useWorkerPID <- local({
     ## AD HOC: 'singularity exec ... Rscript' requires input="".  If not,
     ## they will be terminated because they try to read from non-existing
     ## standard input. /HB 2019-02-14
+    ##
+    ## I cannot reproduce this with Singularity 3.7.1 or Apptainer 1.1.3-1.
+    ## Note sure when it was fixed and for what version the issue was
+    ## confirmed; Singularity 3.0.3 was released on 2019-01-21, and
+    ## Singularity 3.0.2 on 2019-01-04, and Singularity 2.6.1 on 2018-12-08,
+    ## so probably somewhere around those versions.
+    ##
+    ## It's not related to the "closed stdin" bug in R (<= 4.2.1), cf.
+    ## https://github.com/HenrikBengtsson/Wishlist-for-R/issues/140.
+    ## The problem does not appear with Singularity 3.7.1, host R 4.2.1,
+    ## and R 3.6.1 in the container.
+    ##
+    ## Thus, I'll assume this is not a problem for Apptainer, so I will
+    ## not check for 'apptainer' here. /HB 2022-12-03
     if (any(grepl("singularity", rscript, ignore.case = TRUE))) input <- ""
     
+    assert_system_is_supported()
     res <- system(test_cmd, intern = TRUE, input = input)
     status <- attr(res, "status")
     suppressWarnings(file.remove(result$pidfile))

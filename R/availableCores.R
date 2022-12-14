@@ -6,8 +6,12 @@
 #' @param constraints An optional character specifying under what
 #' constraints ("purposes") we are requesting the values.
 #' For instance, on systems where multicore processing is not supported
-#' (i.e. Windows), using `constrains = "multicore"` will force a
+#' (i.e. Windows), using `constraints = "multicore"` will force a
 #' single core to be reported.
+#' Using `constraints = "connections"`, will append `"connections"` to
+#' the `methods` argument.
+#' It is possible to specify multiple constraints, e.g.
+#' `constraints = c("connections", "multicore")`.
 #'
 #' @param methods A character vector specifying how to infer the number
 #' of available cores.
@@ -15,8 +19,10 @@
 #' @param na.rm If TRUE, only non-missing settings are considered/returned.
 #'
 #' @param logical Passed to
-#' \code{\link[parallel]{detectCores}(logical = logical)}, which, if supported,
-#' returns the number of logical CPUs (TRUE) or physical CPUs/cores (FALSE).
+#' \code{\link[parallel]{detectCores}(logical = logical)}, which,
+#' _if supported_, returns the number of logical CPUs (TRUE) or physical
+#' CPUs/cores (FALSE).
+#' At least as of R 4.2.2, `detectCores()` this argument on Linux.
 #' This argument is only if argument `methods` includes `"system"`.
 #'
 #' @param default The default number of cores to return if no non-missing
@@ -47,6 +53,9 @@
 #'    On Unix, query control group (cgroup) value
 #'    \code{cpu.cfs_quota_us} / \code{cpu.cfs_period_us}.
 #'
+#'  \item `"cgroups2.cpu.max"` -
+#'    On Unix, query control group (cgroup v2) values \code{cpu.max}.
+#'
 #'  \item `"nproc"` -
 #'    On Unix, query system command \code{nproc}.
 #'
@@ -64,12 +73,30 @@
 #'    instance \code{\link[=mclapply]{mclapply}()} of the \pkg{parallel}
 #'    package.
 #'
+#'  \item `"connections"` -
+#'    Query the current number of available R connections per
+#'    [freeConnections()].  This is the maximum number of socket-based
+#'    **parallel** cluster nodes that are possible launch, because each
+#'    one needs its own R connection.
+#'    The exception is when `freeConnections()` is zero, then `1L` is
+#'    still returned, because `availableCores()` should always return a
+#'    positive integer.
+#'
 #'  \item `"BiocParallel"` -
-#'    Query environment variables \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
-#'    which is defined and used by **BiocParallel** (>= 1.27.2), and
-#'    \env{BBS_HOME} (logical) used by the Bioconductor Build System. If the
-#'    former is set, this is the number of cores considered.  If the latter
-#'    is set, then a maximum of 4 cores is considered.
+#'    Query environment variable \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
+#'    which is defined and used by **BiocParallel** (>= 1.27.2).
+#'    If the former is set, this is the number of cores considered.
+#'
+#'  \item `"_R_CHECK_LIMIT_CORES_"` -
+#'    Query environment variable \env{_R_CHECK_LIMIT_CORES_} (logical or
+#'    `"warn"`) used by `R CMD check` and set to true by
+#'    `R CMD check --as-cran`. If set to a non-false value, then a maximum
+#'    of 2 cores is considered.
+#'
+#'  \item `"Bioconductor"` -
+#'    Query environment variable \env{IS_BIOC_BUILD_MACHINE} (logical)
+#'    used by the Bioconductor (>= 3.16) build and check system. If set to
+#'    true, then a maximum of 4 cores is considered.
 #'
 #'  \item `"LSF"` - 
 #'    Query Platform Load Sharing Facility (LSF) environment variable
@@ -92,7 +119,7 @@
 #'
 #'  \item `"SGE"` -
 #'    Query Sun Grid Engine/Oracle Grid Engine/Son of Grid Engine (SGE)
-#'    environment variable \env{NSLOTS}.
+#'    and Univa Grid Engine (UGE) environment variable \env{NSLOTS}.
 #'    An example of a job submission that results in this is
 #'    `qsub -pe smp 2` (or `qsub -pe by_node 2`), which
 #'    requests two cores on a single machine.
@@ -106,6 +133,8 @@
 #'    If \env{SLURM_CPUS_PER_TASK} is not set, then it will fall back to
 #'    use \env{SLURM_CPUS_ON_NODE} if the job is a single-node job
 #'    (\env{SLURM_JOB_NUM_NODES} is 1), e.g. `sbatch --ntasks=2 hello.sh`.
+#'    To make sure all tasks are assign to a single node, specify
+#'    `--nodes=1`, e.g. `sbatch --nodes=1 --ntasks=16 hello.sh`.
 #'
 #'  \item `"custom"` -
 #'    If option
@@ -187,7 +216,7 @@
 #'
 #' @importFrom parallel detectCores
 #' @export
-availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset", "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
+availableCores <- function(constraints = NULL, methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset", "cgroups.cpuquota", "cgroups2.cpu.max", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = c(current = 1L), which = c("min", "max", "all"), omit = getOption2("parallelly.availableCores.omit", 0L)) {
   ## Local functions
   getenv <- function(name, mode = "integer") {
     value <- trim(getEnvVar2(name, default = NA_character_))
@@ -200,6 +229,16 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     storage.mode(value) <- mode
     value
   } # getopt()
+
+  stop_if_not(
+    is.null(constraints) || is.character(constraints),
+    !any(is.na(constraints))
+  )
+
+
+  if ("connections" %in% constraints) {
+    methods <- unique(c(methods, "connections"))
+  }
 
   which <- match.arg(which, choices = c("min", "max", "all"))
   stop_if_not(length(default) == 1, is.finite(default), default >= 1L)
@@ -274,7 +313,7 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
         n <- getenv("NCPUS")
       }
     } else if (method == "SGE") {
-      ## Number of cores assigned by Sun/Oracle Grid Engine (SGE)
+      ## Number of cores assigned by Oracle/Son/Sun/Univa Grid Engine (SGE/UGE)
       n <- getenv("NSLOTS")
     } else if (method == "LSF") {
       ## Number of slots assigned by LSF
@@ -302,9 +341,11 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     } else if (method == "mc.cores+1") {
       ## Number of cores by option defined by 'parallel' package
       n <- getopt("mc.cores") + 1L
+    } else if (method == "connections") {
+      ## Number of available connections, which are needed by PSOCK clusters
+      n <- freeConnections()
     } else if (method == "BiocParallel") {
       n <- getenv("BIOCPARALLEL_WORKER_NUMBER")
-      if (nzchar(Sys.getenv("BBS_HOME"))) n <- min(n, 4L, na.rm = TRUE)
     } else if (method == "_R_CHECK_LIMIT_CORES_") {
       ## A flag set by R CMD check for constraining number of
       ## cores allowed to be use in package tests.  Here we
@@ -315,6 +356,16 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
       chk <- tolower(Sys.getenv("_R_CHECK_LIMIT_CORES_", ""))
       chk <- (nzchar(chk) && (chk != "false"))
       n <- if (chk) 2L else NA_integer_
+    } else if (method == "Bioconductor") {
+      n <- NA_integer_
+      ## Bioconductor (>= 3.16)
+      use <- Sys.getenv("IS_BIOC_BUILD_MACHINE", NA_character_)
+      if (isTRUE(as.logical(use))) n <- min(n, 4L, na.rm = TRUE)
+      ## Legacy: Bioconductor (<= 3.15)
+      if (is.na(n)) {
+        use <- Sys.getenv("BBS_HOME", NA_character_)
+        if (isTRUE(as.logical(use))) n <- min(n, 4L, na.rm = TRUE)
+      }
     } else if (method == "system") {
       ## Number of cores available according to parallel::detectCores()
       n <- detectCores(logical = logical)
@@ -328,6 +379,13 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
       if (!is.na(n)) {
         n <- as.integer(floor(n + 0.5))
 	if (n == 0L) n <- 1L  ## If CPU quota < 0.5, round up to one CPU
+      }
+    } else if (method == "cgroups2.cpu.max") {
+      ## Number of cores according to Unix Cgroups v2 CPU max quota
+      n <- getCGroups2CpuMax()
+      if (!is.na(n)) {
+        n <- as.integer(floor(n + 0.5))
+	if (n == 0L) n <- 1L  ## If CPU max quota < 0.5, round up to one CPU
       }
     } else if (method == "nproc") {
       ## Number of cores according to Unix 'nproc'
@@ -410,8 +468,8 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
     }
   }
 
-  if (!is.null(constraints)) {
-    if (constraints == "multicore") {
+  if (length(constraints) > 0L) {
+    if ("multicore" %in% constraints) {
       ## SPECIAL: On some OSes such as Windows, multicore processing
       ## is not supported.  If so, we should override all values to
       ## to reflect that only a single core is available

@@ -20,14 +20,17 @@ The cluster object with attribute \code{gcMe} set.
 Registers a finalizer to a cluster such that the cluster will
 be stopped when garbage collected
 }
+\details{
+The cluster is stopped using
+\code{\link[parallel:makeCluster]{stopCluster}(cl)}.
+An alternative to explicitly call this function on an existing
+\code{cluster} object, is to create the \code{cluster} object using
+\code{makeClusterPSOCK()} with argument \code{autoStop = TRUE}.
+}
 \examples{
 cl <- makeClusterPSOCK(2, dryrun = TRUE)
 cl <- autoStopCluster(cl)
 print(cl)
 rm(list = "cl")
 gc()
-}
-\seealso{
-The cluster is stopped using
-\code{\link[parallel:makeCluster]{stopCluster}(cl)}.
 }

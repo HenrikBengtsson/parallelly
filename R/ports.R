@@ -17,8 +17,8 @@
 #' @return
 #' Returns an integer representing the first port among `ports` that
 #' can be opened.  If none can be opened, then `default` is returned.
-#' If port querying is not supported, as in R (< 4.0.0), then `default`
-#' is returned.
+#' If port querying is not supported, as in R (< 4.0.0), then
+#' `default` is returned.
 #'
 #' @export
 freePort <- function(ports = 1024:65535, default = "random", randomize = TRUE) {

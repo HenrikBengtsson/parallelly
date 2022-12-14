@@ -52,7 +52,7 @@ Query LSF/OpenLava environment variable \env{LSB_HOSTS}.
 Query Fujitsu Technical Computing Suite (that we choose to shorten
 as "PJM") the hostname file given by environment variable
 \env{PJM_O_NODEINF}.
-The \env{PJM_O_NODEINF} file lists the hostnames of the nodes alloted.
+The \env{PJM_O_NODEINF} file lists the hostnames of the nodes allotted.
 This function returns those hostnames each repeated \code{availableCores()}
 times, where \code{availableCores()} reflects \env{PJM_VNODE_CORE}.
 For example, for \verb{pjsub -L vnode=2 -L vnode-core=8 hello.sh}, the
@@ -71,7 +71,7 @@ with two cores.
 
 \item \code{"SGE"} -
 Query Sun Grid Engine/Oracle Grid Engine/Son of Grid Engine (SGE)
-\env{PE_HOSTFILE}.
+and Univa Grid Engine (UGE) environment variable \env{PE_HOSTFILE}.
 An example of a job submission that results in this is
 \verb{qsub -pe mpi 8} (or \verb{qsub -pe ompi 8}), which
 requests eight cores on a any number of machines.
@@ -81,7 +81,7 @@ Query Slurm environment variable \env{SLURM_JOB_NODELIST} (fallback
 to legacy \env{SLURM_NODELIST}) and parse set of nodes.
 Then query Slurm environment variable \env{SLURM_JOB_CPUS_PER_NODE}
 (fallback \env{SLURM_TASKS_PER_NODE}) to infer how many CPU cores
-Slurm have alloted to each of the nodes.  If \env{SLURM_CPUS_PER_TASK}
+Slurm have allotted to each of the nodes.  If \env{SLURM_CPUS_PER_TASK}
 is set, which is always a scalar, then that is respected too, i.e.
 if it is smaller, then that is used for all nodes.
 For example, if \code{SLURM_NODELIST="n1,n[03-05]"} (expands to

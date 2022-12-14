@@ -7,8 +7,9 @@
 availableCores(
   constraints = NULL,
   methods = getOption2("parallelly.availableCores.methods", c("system", "cgroups.cpuset",
-    "cgroups.cpuquota", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_",
-    "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")),
+    "cgroups.cpuquota", "cgroups2.cpu.max", "nproc", "mc.cores", "BiocParallel",
+    "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm",
+    "fallback", "custom")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = c(current = 1L),
@@ -20,8 +21,12 @@ availableCores(
 \item{constraints}{An optional character specifying under what
 constraints ("purposes") we are requesting the values.
 For instance, on systems where multicore processing is not supported
-(i.e. Windows), using \code{constrains = "multicore"} will force a
-single core to be reported.}
+(i.e. Windows), using \code{constraints = "multicore"} will force a
+single core to be reported.
+Using \code{constraints = "connections"}, will append \code{"connections"} to
+the \code{methods} argument.
+It is possible to specify multiple constraints, e.g.
+\code{constraints = c("connections", "multicore")}.}
 
 \item{methods}{A character vector specifying how to infer the number
 of available cores.}
@@ -29,8 +34,10 @@ of available cores.}
 \item{na.rm}{If TRUE, only non-missing settings are considered/returned.}
 
 \item{logical}{Passed to
-\code{\link[parallel]{detectCores}(logical = logical)}, which, if supported,
-returns the number of logical CPUs (TRUE) or physical CPUs/cores (FALSE).
+\code{\link[parallel]{detectCores}(logical = logical)}, which,
+\emph{if supported}, returns the number of logical CPUs (TRUE) or physical
+CPUs/cores (FALSE).
+At least as of R 4.2.2, \code{detectCores()} this argument on Linux.
 This argument is only if argument \code{methods} includes \code{"system"}.}
 
 \item{default}{The default number of cores to return if no non-missing
@@ -66,6 +73,9 @@ On Unix, query control group (cgroup) value \code{cpuset.set}.
 On Unix, query control group (cgroup) value
 \code{cpu.cfs_quota_us} / \code{cpu.cfs_period_us}.
 
+\item \code{"cgroups2.cpu.max"} -
+On Unix, query control group (cgroup v2) values \code{cpu.max}.
+
 \item \code{"nproc"} -
 On Unix, query system command \code{nproc}.
 
@@ -83,12 +93,30 @@ package is loaded).  The \code{mc.cores} option is used by for
 instance \code{\link[=mclapply]{mclapply}()} of the \pkg{parallel}
 package.
 
+\item \code{"connections"} -
+Query the current number of available R connections per
+\code{\link[=freeConnections]{freeConnections()}}.  This is the maximum number of socket-based
+\strong{parallel} cluster nodes that are possible launch, because each
+one needs its own R connection.
+The exception is when \code{freeConnections()} is zero, then \code{1L} is
+still returned, because \code{availableCores()} should always return a
+positive integer.
+
 \item \code{"BiocParallel"} -
-Query environment variables \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
-which is defined and used by \strong{BiocParallel} (>= 1.27.2), and
-\env{BBS_HOME} (logical) used by the Bioconductor Build System. If the
-former is set, this is the number of cores considered.  If the latter
-is set, then a maximum of 4 cores is considered.
+Query environment variable \env{BIOCPARALLEL_WORKER_NUMBER} (integer),
+which is defined and used by \strong{BiocParallel} (>= 1.27.2).
+If the former is set, this is the number of cores considered.
+
+\item \code{"_R_CHECK_LIMIT_CORES_"} -
+Query environment variable \env{_R_CHECK_LIMIT_CORES_} (logical or
+\code{"warn"}) used by \verb{R CMD check} and set to true by
+\verb{R CMD check --as-cran}. If set to a non-false value, then a maximum
+of 2 cores is considered.
+
+\item \code{"Bioconductor"} -
+Query environment variable \env{IS_BIOC_BUILD_MACHINE} (logical)
+used by the Bioconductor (>= 3.16) build and check system. If set to
+true, then a maximum of 4 cores is considered.
 
 \item \code{"LSF"} -
 Query Platform Load Sharing Facility (LSF) environment variable
@@ -111,7 +139,7 @@ An example of a job submission that results in this is
 
 \item \code{"SGE"} -
 Query Sun Grid Engine/Oracle Grid Engine/Son of Grid Engine (SGE)
-environment variable \env{NSLOTS}.
+and Univa Grid Engine (UGE) environment variable \env{NSLOTS}.
 An example of a job submission that results in this is
 \verb{qsub -pe smp 2} (or \verb{qsub -pe by_node 2}), which
 requests two cores on a single machine.
@@ -125,6 +153,8 @@ e.g. \verb{sbatch --cpus-per-task=2 hello.sh} or by adding
 If \env{SLURM_CPUS_PER_TASK} is not set, then it will fall back to
 use \env{SLURM_CPUS_ON_NODE} if the job is a single-node job
 (\env{SLURM_JOB_NUM_NODES} is 1), e.g. \verb{sbatch --ntasks=2 hello.sh}.
+To make sure all tasks are assign to a single node, specify
+\code{--nodes=1}, e.g. \verb{sbatch --nodes=1 --ntasks=16 hello.sh}.
 
 \item \code{"custom"} -
 If option

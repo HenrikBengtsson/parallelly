@@ -10,7 +10,7 @@
 #'
 #' @return
 #' A non-negative integer, or `+Inf` if the available number of connections
-#' is greated than 16384, which is a limit be set via option
+#' is greater than 16384, which is a limit be set via option
 #' \code{\link[=parallelly.options]{parallelly.availableConnections.tries}}.
 #'
 #' @section How to increase the limit:

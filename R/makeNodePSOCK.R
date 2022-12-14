@@ -282,6 +282,38 @@
 #' The most common reason for such localhost failures is due to port
 #' clashes.  Retrying will often resolve the problem.
 #'
+#' If R stalls when setting up a cluster of local workers, then it might
+#' be that you have a virtual private network (VPN) enabled that is
+#' configured to prevent you from connecting to `localhost`.  To verify that
+#' this is the case, call the following from the terminal:
+#'
+#' ```sh
+#' {local}$ ssh localhost "date"
+#' ```
+#'
+#' This also freezed if the VPN intercepts connections to `localhost`.
+#' If this happens, try also:
+#'
+#' ```sh
+#' {local}$ ssh 127.0.0.1 "date"
+#' ```
+#'
+#' In rare cases, `127.0.0.1` might work when `localhost` does not.
+#' If the latter works, setting R option:
+#'
+#' ```r
+#' options(parallelly.localhost.hostname = "127.0.0.1")
+#' ```
+#'
+#' should solve it (the default is `"localhost"`).  You can set this
+#' automatically when R starts by adding it to your `~/.Rprofile` startup
+#' file. Alternatively, set environment variable
+#' `R_PARALLELLY_LOCALHOST_HOSTNAME=127.0.0.1` in your `~/.Renviron` file.
+#'
+#' If using `127.0.0.1` did not work around the problem, check your VPN
+#' settings and make sure it allows connections to `localhost` or `127.0.0.1`.
+#'
+#'
 #' @section Failing to set up remote workers:
 #' A cluster of remote workers runs \R processes on external machines. These
 #' external \R processes are launched over, typically, SSH to the remote
@@ -909,6 +941,8 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
       mdebugf("%sStarting worker #%s on %s: %s", verbose_prefix, rank, sQuote(worker), local_cmd)
     }
     input <- if (.Platform$OS.type == "windows") "" else NULL
+
+    assert_system_is_supported()
     res <- system(local_cmd, wait = FALSE, input = input)
     if (verbose) {
       mdebugf("%s- Exit code of system() call: %s", verbose_prefix, res)

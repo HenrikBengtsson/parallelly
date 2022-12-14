@@ -19,7 +19,7 @@ getCGroups <- local({
 
       ## Parse cgroups
       bfr <- readLines(file, warn = FALSE)
-      pattern <- "^([[:digit:]]+):([^:]+):(.*)"
+      pattern <- "^([[:digit:]]+):([^:]*):(.*)"
       bfr <- grep(pattern, bfr, value = TRUE)
 
       idxs <- as.integer(sub(pattern, "\\1", bfr))
@@ -71,6 +71,32 @@ getCGroupsRoot <- local({
 })
 
 
+# Check whether system has CGroups v2
+#
+# [1] https://unix.stackexchange.com/a/668244
+#
+#' @importFrom utils file_test
+hasCGroups2 <- local({
+  res <- NULL
+  
+  function() {
+    if (!is.null(res)) return(res)
+
+    root <- getCGroupsRoot()
+    if (is.na(root)) {
+      res <<- NA
+      return(res)
+    }
+
+    ## e.g. /sys/fs/cgroup/cgroup.controllers
+    pathname <- file.path(root, "cgroup.controllers")
+    res <<- file_test("-f", pathname)
+
+    res
+  }
+})
+
+
 #  @param name A cgroups set.
 # 
 #  @return An character string to an existing cgroup folder. If no folder
@@ -90,7 +116,7 @@ getCGroupsPath <- local({
       .cache[[name]] <- path
       return(path)
     }
-    
+
     root <- file.path(root, name)
     if (!file_test("-d", root)) {
       path <- NA_character_
@@ -165,8 +191,46 @@ getCGroupsValue <- local({
 })
 
 
+#  @param field A cgroups v2 field.
+# 
+#  @return An character string. If the requested cgroups v2 field could not be
+#  queried, NA_character_ is returned.
+#
+#' @importFrom utils file_test
+getCGroups2Value <- local({
+  .cache <- list()
+  
+  function(field) {
+    if (field %in% names(.cache)) return(.cache[[field]])
+    
+    root <- getCGroupsRoot()
+    if (is.na(root)) {
+      .cache[[field]] <<- NA_character_
+      return(NA_character_)
+    }
+    file <- file.path(root, field)
+    if (!file_test("-f", file)) {
+      .cache[[field]] <<- NA_character_
+      return(NA_character_)
+    }
+    
+    value <- readLines(file, warn = FALSE)
+    if (length(value) == 0L) value <- NA_character_
+    .cache[[field]] <<- value
+    
+    value
+  }
+})
+
+
 #  @return An integer vector of CPU indices. If cgroups field `cpuset.cpus`
 #  could not be queried, integer(0) is returned.
+#
+#  From 'CPUSETS' [1]:
+#
+#  cpuset.cpus: list of CPUs in that cpuset
+#
+#  [1] https://www.kernel.org/doc/Documentation/cgroup-v1/cpusets.txt
 #
 #' @importFrom utils file_test
 getCGroupsCpuSet <- local({
@@ -175,11 +239,12 @@ getCGroupsCpuSet <- local({
   
   function() {
     ## TEMPORARY: In case the cgroups options causes problems, make
-    ## it possible to override their values via hidden opitions
+    ## it possible to override their values via hidden options
     cpuset <<- get_package_option("cgroups.cpuset", cpuset)
 
     if (!is.null(cpuset)) return(cpuset)
 
+    ## e.g. /sys/fs/cgroup/cpuset/cpuset.cpus
     value0 <- getCGroupsValue("cpuset", "cpuset.cpus")
     if (is.na(value0)) {
       cpuset <<- integer(0L)
@@ -225,6 +290,28 @@ getCGroupsCpuSet <- local({
 })
 
 
+#
+#  From 'CPUSETS' [1]:
+# 
+# * `cpu.cfs_period_us`: The duration in microseconds of each scheduler
+#     period, for bandwidth decisions. This defaults to 100000us or
+#     100ms. Larger periods will improve throughput at the expense of
+#     latency, since the scheduler will be able to sustain a cpu-bound
+#     workload for longer. The opposite of true for smaller
+#     periods. Note that this only affects non-RT tasks that are
+#     scheduled by the CFS scheduler.
+# 
+# * `cpu.cfs_quota_us`: The maximum time in microseconds during each
+#     `cfs_period_us` in for the current group will be allowed to
+#     run. For instance, if it is set to half of `cpu_period_us`, the
+#     cgroup will only be able to peak run for 50% of the time. One
+#     should note that this represents aggregate time over all CPUs in
+#     the system. Therefore, in order to allow full usage of two CPUs,
+#     for instance, one should set this value to twice the value of
+#     `cfs_period_us`.
+#
+#  [1] https://www.kernel.org/doc/Documentation/cgroup-v1/cpusets.txt
+#
 #' @importFrom utils file_test
 getCGroupsCpuQuotaMicroseconds <- local({
   value <- NULL
@@ -233,6 +320,7 @@ getCGroupsCpuQuotaMicroseconds <- local({
     if (!is.null(value)) return(value)
     
     value <<- suppressWarnings({
+      ## e.g. /sys/fs/cgroup/cpu/cpu.cfs_quota_us
       as.integer(getCGroupsValue("cpu", "cpu.cfs_quota_us"))
     })
 
@@ -249,6 +337,7 @@ getCGroupsCpuPeriodMicroseconds <- local({
     if (!is.null(value)) return(value)
     
     value <<- suppressWarnings({
+      ## e.g. /sys/fs/cgroup/cpu/cpu.cfs_quota_us
       as.integer(getCGroupsValue("cpu", "cpu.cfs_period_us"))
     })
 
@@ -267,7 +356,7 @@ getCGroupsCpuQuota <- local({
   
   function() {
     ## TEMPORARY: In case the cgroups options causes problems, make
-    ## it possible to override their values via hidden opitions
+    ## it possible to override their values via hidden options
     quota <<- get_package_option("cgroups.cpuquota", quota)
     
     if (!is.null(quota)) return(quota)
@@ -280,6 +369,82 @@ getCGroupsCpuQuota <- local({
     
     value <- ms / total
 
+    if (!is.na(value)) {
+      if (is.null(max_cores)) max_cores <<- parallel::detectCores(logical = TRUE)
+      if (!is.finite(value) || value <= 0.0 || value > max_cores) {
+        warning(sprintf("[INTERNAL]: Will ignore the cgroups CPU quota, because it is out of range [1,%d]: %s", max_cores, value))
+        value <- NA_real_
+      }
+    }
+
+    quota <<- value
+    
+    quota
+  }
+})
+
+
+#  @return A non-negative numeric.
+#  If cgroups is not in use, or could not be queried, NA_real_ is returned.
+#
+#  From 'Control Group v2' documentation [1]:
+#
+#  `cpu.max`:
+#   A read-write two value file which exists on non-root cgroups.
+#   The default is "max 100000".
+#
+#   The maximum bandwidth limit.  It's in the following format::
+#
+#     $MAX $PERIOD
+#
+#   which indicates that the group may consume upto $MAX in each
+#   $PERIOD duration.  `"max"` for $MAX indicates no limit.  If only
+#   one number is written, $MAX is updated.
+#
+#  [1] https://docs.kernel.org/admin-guide/cgroup-v2.html
+#
+#' @importFrom utils file_test
+getCGroups2CpuMax <- local({
+  max_cores <- NULL
+  quota <- NULL
+  
+  function() {
+    ## TEMPORARY: In case the cgroups options causes problems, make
+    ## it possible to override their values via hidden options
+    quota <<- get_package_option("cgroups2.cpu.max", quota)
+    
+    if (!is.null(quota)) return(quota)
+
+    raw <- suppressWarnings({
+      ## e.g. /sys/fs/cgroup/cpu.max
+      getCGroups2Value("cpu.max")
+    })
+
+    if (is.na(raw)) {
+      quota <<- NA_real_
+      return(quota)
+    }
+    
+    values <- strsplit(raw, split = "[[:space:]]+")[[1]]
+    if (length(values) != 2L) {
+      quota <<- NA_real_
+      return(quota)
+    }
+
+    period <- as.integer(values[2])
+    if (is.na(period) && period <= 0L) {
+      quota <<- NA_real_
+      return(quota)
+    }
+    
+    max <- values[1]
+    if (max == "max") {
+      quota <<- NA_real_
+      return(quota)
+    }
+    
+    max <- as.integer(max)
+    value <- max / period
     if (!is.na(value)) {
       if (is.null(max_cores)) max_cores <<- parallel::detectCores(logical = TRUE)
       if (!is.finite(value) || value <= 0.0 || value > max_cores) {
