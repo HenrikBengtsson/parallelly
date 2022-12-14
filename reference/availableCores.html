@@ -24,7 +24,7 @@ number of cores available is always at least one."><meta property="og:image" con
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.33.0-9000</span>
       </span>
     </div>
 
@@ -150,7 +150,9 @@ For instance, on systems where multicore processing is not supported
 (i.e. Windows), using <code>constraints = "multicore"</code> will force a
 single core to be reported.
 Using <code>constraints = "connections"</code>, will append <code>"connections"</code> to
-the <code>methods</code> argument.</p></dd>
+the <code>methods</code> argument.
+It is possible to specify multiple constraints, e.g.
+<code>constraints = c("connections", "multicore")</code>.</p></dd>
 
 
 <dt>methods</dt>
@@ -273,7 +275,9 @@ e.g. <code>sbatch --cpus-per-task=2 hello.sh</code> or by adding
 <code>#SBATCH --cpus-per-task=2</code> to the <code class="file">hello.sh</code> script.
 If <code class="env">SLURM_CPUS_PER_TASK</code> is not set, then it will fall back to
 use <code class="env">SLURM_CPUS_ON_NODE</code> if the job is a single-node job
-(<code class="env">SLURM_JOB_NUM_NODES</code> is 1), e.g. <code>sbatch --ntasks=2 hello.sh</code>.</p></li>
+(<code class="env">SLURM_JOB_NUM_NODES</code> is 1), e.g. <code>sbatch --ntasks=2 hello.sh</code>.
+To make sure all tasks are assign to a single node, specify
+<code>--nodes=1</code>, e.g. <code>sbatch --nodes=1 --ntasks=16 hello.sh</code>.</p></li>
 <li><p><code>"custom"</code> -
 If option
 <code><a href="parallelly.options.html">parallelly.availableCores.custom</a></code>
@@ -367,7 +371,7 @@ see <code><a href="availableWorkers.html">availableWorkers()</a></code>.</p></di
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9005.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9005.</p>
 </div>
 
       </footer></div>

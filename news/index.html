@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.32.1-9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.33.0-9000</span>
       </span>
     </div>
 
@@ -121,19 +121,29 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<ul><li>…</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.33.0" id="version-1330">Version 1.33.0<a class="anchor" aria-label="anchor" href="#version-1330"></a></h2>
 <div class="section level3">
-<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-1-33-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-33-0"></a></h3>
 <ul><li><p>Add <code><a href="../reference/killNode.html">killNode()</a></code> to terminate cluster nodes via process signaling. Currently, this is only supported for parallel workers on the local machine, and only those created by <code><a href="../reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code>.</p></li>
 <li><p><code><a href="../reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code> and likes now assert the running R session has enough permissions on the operating system to do system calls such as <code>system2("Rscript --version")</code>. If not, an informative error message is produced.</p></li>
 <li><p>On Unix, <code><a href="../reference/availableCores.html">availableCores()</a></code> queries also control groups v2 (cgroups2) field <code>cpu.max</code> for a possible CPU quota allocation. If a CPU quota is set, then the number of CPUs is rounded to the nearest integer, unless its less that 0.5, in case it’s rounded up to a single CPU. An example, where cgroups CPU quotas can be set to limit the total CPU load, is with Linux containers, e.g. <code>docker    run --cpus=3.5 ...</code>.</p></li>
 <li><p>Add support for <code>availableCores(methods = "connections")</code>, which returns the current number of free R connections per <code><a href="../reference/availableConnections.html">freeConnections()</a></code>. This is the maximum number of PSOCK, SOCK, and MPI <strong>parallel</strong> cluster nodes we can open without running out of available R connections. A convenient way to use this and all other methods is <code>availableCores(constraints = "connections")</code>.</p></li>
 <li><p>Now <code><a href="../reference/availableCores.html">availableCores()</a></code> recognizes environment variable <code>IS_BIOC_BUILD_MACHINE</code>, which is set to true by the Bioconductor (&gt;= 3.16) check servers. If true, then a maximum of four (4) cores is returned. This new environment variable replaces legacy variable <code>BBS_HOME</code> used in Bioconductor (&lt;= 3.15).</p></li>
 <li><p><code><a href="../reference/availableCores.html">availableCores()</a></code> splits up method <code>"BiocParallel"</code> into two; <code>"BiocParallel"</code> and <code>"Bioconductor"</code>. The former queries environment variable <code>BIOCPARALLEL_WORKER_NUMBER</code> and the latter <code>IS_BIOC_BUILD_MACHINE</code>. This means <code>availableCores(which =    "all")</code> now reports on both.</p></li>
+<li><p><code><a href="../reference/isNodeAlive.html">isNodeAlive()</a></code> will now produce a once-per-session informative warning when it detects that it is not possible to check whether another process is alive on the current machine.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<h3 id="documentation-1-33-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-33-0"></a></h3>
 <ul><li><p>Add section to <code><a href="../reference/makeClusterPSOCK.html">help("makeClusterPSOCK", package = "parallelly")</a></code> explaining why <code>R CMD check</code> may produce “checking for detritus in the temp directory … NOTE” and how to avoid them.</p></li>
 <li><p>Add section ‘For package developers’ to <code><a href="../reference/makeClusterPSOCK.html">help("makeClusterPSOCK",    package = "parallelly")</a></code> reminding us that we need to stop all clusters we created in package examples, tests, and vignettes.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-33-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-33-0"></a></h3>
+<ul><li>
+<code><a href="../reference/isNodeAlive.html">isNodeAlive()</a></code> failed to record which method works for testing if a process exists or not, which meant it would keep trying all methods each time. Similarly, if none works, it would still keep trying each time instead of return NA immediately. On some systems, failing to check whether a process exists could result in one or more warnings, in which case those warnings would be produced for each call to <code><a href="../reference/isNodeAlive.html">isNodeAlive()</a></code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -688,7 +698,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9005.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7</p> and <a href="https://github.com/HenrikBengtsson/pkgdown.extras/">pkgdown.extras</a> 0.0.0.9005.</p>
 </div>
 
       </footer></div>
