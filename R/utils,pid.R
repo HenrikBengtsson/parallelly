@@ -225,7 +225,7 @@ pid_exists <- local({
       if (debug) mdebug("- failed; pid_check() will always return NA")
       warnf("The %s package is not capable of checking whether a process is alive based on its process ID, on this machine (%s, platform %s)", sQuote(.packageName), getRversion(), R.Version()$platform)
       ## Default to NA
-      pid_check <- function(pid) NA
+      pid_check <- function(pid, ...) NA
     } else {
       ## Sanity check
       stop_if_not(isTRUE(pid_check(Sys.getpid(), debug = debug)))
