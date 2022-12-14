@@ -10,18 +10,18 @@
 |collate  |en_US.UTF-8                                                 |
 |ctype    |en_US.UTF-8                                                 |
 |tz       |America/Los_Angeles                                         |
-|date     |2022-12-09                                                  |
+|date     |2022-12-13                                                  |
 |pandoc   |2.19.2 @ /software/c4/cbi/software/pandoc-2.19.2/bin/pandoc |
 
 # Dependencies
 
 |package    |old    |new         |Δ  |
 |:----------|:------|:-----------|:--|
-|parallelly |1.32.1 |1.32.1-9010 |*  |
+|parallelly |1.32.1 |1.32.1-9012 |*  |
 
 # Revdeps
 
-## All (472)
+## All (473)
 
 |package                  |version   |error |warning |note |
 |:------------------------|:---------|:-----|:-------|:----|
@@ -32,7 +32,7 @@
 |airGR                    |1.7.0     |      |        |     |
 |alookr                   |0.3.7     |      |        |     |
 |alphaci                  |1.0.0     |      |        |     |
-|[AlpsNMR](problems.md#alpsnmr)|4.0.2     |1     |        |     |
+|AlpsNMR                  |4.0.2     |      |        |     |
 |arkdb                    |0.0.16    |      |        |     |
 |aroma.affymetrix         |3.2.1     |      |        |     |
 |aroma.cn                 |1.7.0     |      |        |     |
@@ -130,7 +130,7 @@
 |[envi](problems.md#envi) |0.1.15    |      |1       |     |
 |[epitweetr](problems.md#epitweetr)|2.2.13    |      |        |2    |
 |epwshiftr                |0.1.3     |      |        |     |
-|[EstimationTools](problems.md#estimationtools)|2.1.0     |      |        |1    |
+|EstimationTools          |4.0.0     |      |        |     |
 |ezcox                    |1.0.2     |      |        |     |
 |[fabletools](problems.md#fabletools)|0.3.2     |1     |        |     |
 |FAMoS                    |0.3.0     |      |        |     |
@@ -284,7 +284,7 @@
 |[missSBM](problems.md#misssbm)|1.0.3     |      |        |1    |
 |mistyR                   |1.6.0     |      |        |     |
 |mitml                    |0.4-3     |      |        |     |
-|miWQS                    |0.4.4     |      |        |     |
+|[miWQS](problems.md#miwqs)|0.4.4     |      |1       |     |
 |mixgb                    |0.1.0     |      |        |     |
 |MixtureMissing           |1.0.2     |      |        |     |
 |MKinfer                  |0.9       |      |        |     |
@@ -299,7 +299,7 @@
 |mlr3hyperband            |0.4.4     |      |        |     |
 |mlr3learners             |0.5.5     |      |        |     |
 |mlr3mbo                  |0.1.1     |      |        |     |
-|mlr3oml                  |0.6.0     |      |        |     |
+|mlr3oml                  |0.7.0     |      |        |     |
 |mlr3pipelines            |0.4.2     |      |        |     |
 |[mlr3shiny](problems.md#mlr3shiny)|0.2.0     |      |        |1    |
 |mlr3spatial              |0.3.0     |      |        |     |
@@ -333,6 +333,7 @@
 |nflseedR                 |1.1.0     |      |        |     |
 |[NIMAA](problems.md#nimaa)|0.2.1     |      |        |2    |
 |nncc                     |1.0.0     |      |        |     |
+|[oncomsm](problems.md#oncomsm)|0.1.2     |      |        |2    |
 |onemapsgapi              |1.1.0     |      |        |     |
 |[OOS](problems.md#oos)   |1.0.0     |      |        |1    |
 |openEBGM                 |0.8.3     |      |        |     |
@@ -443,7 +444,7 @@
 |sociome                  |2.1.0     |      |        |     |
 |[solitude](problems.md#solitude)|1.1.3     |      |        |1    |
 |sovereign                |1.2.1     |      |        |     |
-|[spaMM](problems.md#spamm)|4.1.0     |      |        |2    |
+|[spaMM](problems.md#spamm)|4.1.20    |      |        |2    |
 |[sparrpowR](problems.md#sparrpowr)|0.2.6     |      |1       |     |
 |[SPARSEMODr](problems.md#sparsemodr)|1.2.0     |      |        |1    |
 |[spatialTIME](problems.md#spatialtime)|1.2.2     |      |        |1    |
@@ -485,7 +486,7 @@
 |tsfeatures               |1.1       |      |        |     |
 |[TSstudio](problems.md#tsstudio)|0.1.6     |      |        |1    |
 |[txshift](problems.md#txshift)|0.3.8     |      |        |1    |
-|[UCSCXenaShiny](problems.md#ucscxenashiny)|1.1.8     |      |        |1    |
+|[UCSCXenaShiny](problems.md#ucscxenashiny)|1.1.9     |      |        |1    |
 |[updog](problems.md#updog)|2.1.3     |      |        |1    |
 |vetiver                  |0.1.8     |      |        |     |
 |[vip](problems.md#vip)   |0.3.2     |      |        |1    |
