@@ -105,7 +105,7 @@ pid_exists <- local({
     for (kk in 1:5) {
       res <- tryCatch({
         args = c("/FI", shQuote(sprintf("PID eq %.0f", pid)), "/NH")
-        out <- system2("tasklist", args = args, stdout = TRUE)
+        out <- system2("tasklist", args = args, stdout = TRUE, stderr = "")
         if (debug) {
           cat(sprintf("Call: tasklist %s\n", paste(args, collapse = " ")))
           print(out)
@@ -134,7 +134,7 @@ pid_exists <- local({
     ## Example: tasklist [2]
     for (kk in 1:5) {
       res <- tryCatch({
-        out <- system2("tasklist", stdout = TRUE)
+        out <- system2("tasklist", stdout = TRUE, stderr = "")
         if (debug) {
           cat("Call: tasklist\n")
           print(out)
@@ -223,7 +223,7 @@ pid_exists <- local({
 
     if (is.null(pid_check)) {
       if (debug) mdebug("- failed; pid_check() will always return NA")
-      warnf("The %s package is not capable of checking whether a process is alive based on its process ID, on this machine (%s, platform %s)", getRversion(), R.Version()$platform, sQuote(.packageName))
+      warnf("The %s package is not capable of checking whether a process is alive based on its process ID, on this machine (%s, platform %s)", sQuote(.packageName), getRversion(), R.Version()$platform)
       ## Default to NA
       pid_check <- function(pid) NA
     } else {
