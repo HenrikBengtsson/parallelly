@@ -223,7 +223,17 @@ pid_exists <- local({
 
     if (is.null(pid_check)) {
       if (debug) mdebug("- failed; pid_check() will always return NA")
-      warnf("The %s package is not capable of checking whether a process is alive based on its process ID, on this machine (%s, platform %s)", sQuote(.packageName), R.Version()$version.string, R.Version()$platform)
+      si <- Sys.info()
+      warnf("The %s package is not capable of checking whether a process is alive based on its process ID, on this machine [%s, platform %s, %s %s (%s), %s@%s]",
+        sQuote(.packageName),
+        R.Version()$version.string,
+        R.Version()$platform,
+        si[["sysname"]],
+        si[["release"]],
+        si[["version"]],
+        si[["user"]],
+        si[["nodename"]]
+      )
       ## Default to NA
       pid_check <- function(pid, ...) NA
     } else {

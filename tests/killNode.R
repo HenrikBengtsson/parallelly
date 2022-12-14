@@ -76,7 +76,6 @@ repeat {
     length(alive) == length(cl),
     is.logical(alive)
   )
-  if (!isNodeAliveSupported) break
   if (!any(alive, na.rm = TRUE)) break
   if (Sys.time() > timeout) {
     stop("One or more cluster nodes are still running after 5 seconds")
@@ -85,7 +84,7 @@ repeat {
 
 ## Remove any stray Rscript<hexcode> files
 if (.Platform$OS.type == "windows") {
-  Sys.sleep(5.0)
+  if (!isNodeAliveSupported) Sys.sleep(5.0)
   tmpfiles <- tmpfiles[utils::file_test("-f", tmpfiles)]
   if (length(tmpfiles) > 0L) {
     warning(sprintf("Cleaning up temporary left-over files: [n=%d] %s",
