@@ -191,25 +191,39 @@ pid_exists <- local({
     if (!is.null(pid_check)) return(pid_check(pid, debug = debug))
 
     if (debug) mdebug("Attempting to find a working pid_exists_*() function ...")
-    
-    ## Try to find a working pid_check() function, i.e. one where
-    ## pid_check(Sys.getpid()) == TRUE
-    if (os == "unix") {  ## Unix, Linux, and macOS
-      if (isTRUE(pid_exists_by_pskill(Sys.getpid(), debug = debug))) {
-        pid_check <- pid_exists_by_pskill
-      } else if (isTRUE(pid_exists_by_ps(Sys.getpid(), debug = debug))) {
-        pid_check <- pid_exists_by_ps
+
+    ## Muffle warnings, but record them all in case of no success
+    warnings <- list()
+    withCallingHandlers({
+      ## Try to find a working pid_check() function, i.e. one where
+      ## pid_check(Sys.getpid()) == TRUE
+      if (os == "unix") {  ## Unix, Linux, and macOS
+        if (isTRUE(pid_exists_by_pskill(Sys.getpid(), debug = debug))) {
+          pid_check <- pid_exists_by_pskill
+        } else if (isTRUE(pid_exists_by_ps(Sys.getpid(), debug = debug))) {
+          pid_check <- pid_exists_by_ps
+        }
+      } else if (os == "windows") {  ## Microsoft Windows
+        if (isTRUE(pid_exists_by_tasklist(Sys.getpid(), debug = debug))) {
+          pid_check <- pid_exists_by_tasklist
+        } else if (isTRUE(pid_exists_by_tasklist_filter(Sys.getpid(), debug = debug))) {
+          pid_check <- pid_exists_by_tasklist_filter
+        }
       }
-    } else if (os == "windows") {  ## Microsoft Windows
-      if (isTRUE(pid_exists_by_tasklist(Sys.getpid(), debug = debug))) {
-        pid_check <- pid_exists_by_tasklist
-      } else if (isTRUE(pid_exists_by_tasklist_filter(Sys.getpid(), debug = debug))) {
-        pid_check <- pid_exists_by_tasklist_filter
-      }
+    }, warning = function(w) {
+      warnings <<- c(warnings, list(w))
+      invokeRestart("muffleWarning")
+    })
+
+    ## Signal any collected warnings, but only the unique ones
+    if (length(warnings) > 0) {
+      warnings <- unique(warnings)
+      lapply(warnings, FUN = warning)
     }
 
     if (is.null(pid_check)) {
       if (debug) mdebug("- failed; pid_check() will always return NA")
+      warnf("The %s package is not capable of checking whether a process is alive based on its process ID, on this machine (%s, platform %s)", getRversion(), R.Version()$platform, sQuote(.packageName))
       ## Default to NA
       pid_check <- function(pid) NA
     } else {
