@@ -16,7 +16,9 @@
 #' regardless of PID tested.
 #' On Unix, including macOS, alternatives `tools::pskill(pid, signal = 0L)`
 #' and `system2("ps", args = pid)` are used.
-#' On Windows, various alternatives of `system2("tasklist", ...)` are used.
+#' On MS Windows, various alternatives of `system2("tasklist", ...)` are used.
+#' Note, some MS Windows machines are configures to not allow using
+#' `tasklist` on other process IDs than the current one.
 #'
 #' @references
 #' 1. The Open Group Base Specifications Issue 7, 2018 edition,
@@ -103,7 +105,7 @@ pid_exists <- local({
     for (kk in 1:5) {
       res <- tryCatch({
         args = c("/FI", shQuote(sprintf("PID eq %.0f", pid)), "/NH")
-        out <- system2("tasklist", args = args, stdout = TRUE)
+        out <- system2("tasklist", args = args, stdout = TRUE, stderr = "")
         if (debug) {
           cat(sprintf("Call: tasklist %s\n", paste(args, collapse = " ")))
           print(out)
@@ -132,7 +134,7 @@ pid_exists <- local({
     ## Example: tasklist [2]
     for (kk in 1:5) {
       res <- tryCatch({
-        out <- system2("tasklist", stdout = TRUE)
+        out <- system2("tasklist", stdout = TRUE, stderr = "")
         if (debug) {
           cat("Call: tasklist\n")
           print(out)
@@ -189,27 +191,51 @@ pid_exists <- local({
     if (!is.null(pid_check)) return(pid_check(pid, debug = debug))
 
     if (debug) mdebug("Attempting to find a working pid_exists_*() function ...")
-    
-    ## Try to find a working pid_check() function, i.e. one where
-    ## pid_check(Sys.getpid()) == TRUE
-    if (os == "unix") {  ## Unix, Linux, and macOS
-      if (isTRUE(pid_exists_by_pskill(Sys.getpid(), debug = debug))) {
-        pid_check <- pid_exists_by_pskill
-      } else if (isTRUE(pid_exists_by_ps(Sys.getpid(), debug = debug))) {
-        pid_check <- pid_exists_by_ps
+
+    ## Muffle warnings, but record them all in case of no success
+    warnings <- list()
+    withCallingHandlers({
+      ## Try to find a working pid_check() function, i.e. one where
+      ## pid_check(Sys.getpid()) == TRUE
+      if (os == "unix") {  ## Unix, Linux, and macOS
+        if (isTRUE(pid_exists_by_pskill(Sys.getpid(), debug = debug))) {
+          pid_check <- pid_exists_by_pskill
+        } else if (isTRUE(pid_exists_by_ps(Sys.getpid(), debug = debug))) {
+          pid_check <- pid_exists_by_ps
+        }
+      } else if (os == "windows") {  ## Microsoft Windows
+        if (isTRUE(pid_exists_by_tasklist(Sys.getpid(), debug = debug))) {
+          pid_check <- pid_exists_by_tasklist
+        } else if (isTRUE(pid_exists_by_tasklist_filter(Sys.getpid(), debug = debug))) {
+          pid_check <- pid_exists_by_tasklist_filter
+        }
       }
-    } else if (os == "windows") {  ## Microsoft Windows
-      if (isTRUE(pid_exists_by_tasklist(Sys.getpid(), debug = debug))) {
-        pid_check <- pid_exists_by_tasklist
-      } else if (isTRUE(pid_exists_by_tasklist_filter(Sys.getpid(), debug = debug))) {
-        pid_check <- pid_exists_by_tasklist_filter
-      }
+    }, warning = function(w) {
+      warnings <<- c(warnings, list(w))
+      invokeRestart("muffleWarning")
+    })
+
+    ## Signal any collected warnings, but only the unique ones
+    if (length(warnings) > 0) {
+      warnings <- unique(warnings)
+      lapply(warnings, FUN = warning)
     }
 
     if (is.null(pid_check)) {
       if (debug) mdebug("- failed; pid_check() will always return NA")
+      si <- Sys.info()
+      warnf("The %s package is not capable of checking whether a process is alive based on its process ID, on this machine [%s, platform %s, %s %s (%s), %s@%s]",
+        sQuote(.packageName),
+        R.Version()$version.string,
+        R.Version()$platform,
+        si[["sysname"]],
+        si[["release"]],
+        si[["version"]],
+        si[["user"]],
+        si[["nodename"]]
+      )
       ## Default to NA
-      pid_check <- function(pid) NA
+      pid_check <- function(pid, ...) NA
     } else {
       ## Sanity check
       stop_if_not(isTRUE(pid_check(Sys.getpid(), debug = debug)))
@@ -217,7 +243,7 @@ pid_exists <- local({
     }
 
     ## Record
-    cache$pid_check <- pid_check
+    cache <<- list(pid_check = pid_check)
 
     if (debug) mdebug("Attempting to find a working pid_exists_*() function ... done")
 

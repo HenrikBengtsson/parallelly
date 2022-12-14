@@ -27,7 +27,9 @@ approach is found, \code{pid_exists()} will always return \code{NA}
 regardless of PID tested.
 On Unix, including macOS, alternatives \code{tools::pskill(pid, signal = 0L)}
 and \code{system2("ps", args = pid)} are used.
-On Windows, various alternatives of \code{system2("tasklist", ...)} are used.
+On MS Windows, various alternatives of \code{system2("tasklist", ...)} are used.
+Note, some MS Windows machines are configures to not allow using
+\code{tasklist} on other process IDs than the current one.
 }
 \references{
 \enumerate{

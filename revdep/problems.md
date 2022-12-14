@@ -97,47 +97,6 @@ Run `revdep_details(, "AIPW")` for more info
       All declared Imports should be used.
     ```
 
-# AlpsNMR
-
-<details>
-
-* Version: 4.0.2
-* GitHub: https://github.com/sipss/AlpsNMR
-* Source code: https://github.com/cran/AlpsNMR
-* Date/Publication: 2022-11-10
-* Number of recursive dependencies: 169
-
-Run `revdep_details(, "AlpsNMR")` for more info
-
-</details>
-
-## In both
-
-*   checking re-building of vignette outputs ... ERROR
-    ```
-    Error(s) in re-building vignettes:
-    --- re-building ‘Vig01-introduction-to-alpsnmr.Rmd’ using rmarkdown
-    /bin/bash: line 1: /tmp/pdfcrop_0101//c4/home/henrik/repositories/parallelly/revdep/checks/AlpsNMR/new/AlpsNMR.Rcheck/vign_test/AlpsNMR/vignettes/Vig01-introduction-to-alpsnmr_files/figure-latex/unnamed-chunk-9-1.pdf.gs.out: No such file or directory
-    could not overwrite /tmp/pdfcrop_0101//c4/home/henrik/repositories/parallelly/revdep/checks/AlpsNMR/new/AlpsNMR.Rcheck/vign_test/AlpsNMR/vignettes/Vig01-introduction-to-alpsnmr_files/figure-latex/unnamed-chunk-9-1.pdf.fix.qs at /software/c4/cbi/software/pdfcrop-0.4b/pdfcrop line 74.
-    /bin/bash: line 1: /tmp/pdfcrop_0093//c4/home/henrik/repositories/parallelly/revdep/checks/AlpsNMR/new/AlpsNMR.Rcheck/vign_test/AlpsNMR/vignettes/Vig01-introduction-to-alpsnmr_files/figure-latex/unnamed-chunk-10-1.pdf.gs.out: No such file or directory
-    could not overwrite /tmp/pdfcrop_0093//c4/home/henrik/repositories/parallelly/revdep/checks/AlpsNMR/new/AlpsNMR.Rcheck/vign_test/AlpsNMR/vignettes/Vig01-introduction-to-alpsnmr_files/figure-latex/unnamed-chunk-10-1.pdf.fix.qs at /software/c4/cbi/software/pdfcrop-0.4b/pdfcrop line 74.
-    /bin/bash: line 1: /tmp/pdfcrop_0303//c4/home/henrik/repositories/parallelly/revdep/checks/AlpsNMR/new/AlpsNMR.Rcheck/vign_test/AlpsNMR/vignettes/Vig01-introduction-to-alpsnmr_files/figure-latex/unnamed-chunk-12-1.pdf.gs.out: No such file or directory
-    could not overwrite /tmp/pdfcrop_0303//c4/home/henrik/repositories/parallelly/revdep/checks/AlpsNMR/new/AlpsNMR.Rcheck/vign_test/AlpsNMR/vignettes/Vig01-introduction-to-alpsnmr_files/figure-latex/unnamed-chunk-12-1.pdf.fix.qs at /software/c4/cbi/software/pdfcrop-0.4b/pdfcrop line 74.
-    /bin/bash: line 1: /tmp/pdfcrop_0055//c4/home/henrik/repositories/parallelly/revdep/checks/AlpsNMR/new/AlpsNMR.Rcheck/vign_test/AlpsNMR/vignettes/Vig01-introduction-to-alpsnmr_files/figure-latex/unnamed-chunk-13-1.pdf.gs.out: No such file or directory
-    could not overwrite /tmp/pdfcrop_0055//c4/home/henrik/repositories/parallelly/revdep/checks/AlpsNMR/new/AlpsNMR.Rcheck/vign_test/AlpsNMR/vignettes/Vig01-introduction-to-alpsnmr_files/figure-latex/unnamed-chunk-13-1.pdf.fix.qs at /software/c4/cbi/software/pdfcrop-0.4b/pdfcrop line 74.
-    ...
-    LaTeX failed to compile /c4/home/henrik/repositories/parallelly/revdep/checks/AlpsNMR/new/AlpsNMR.Rcheck/vign_test/AlpsNMR/vignettes/Vig02-handling-metadata-and-annotations.tex. See https://yihui.org/tinytex/r/#debugging for debugging tips.
-    --- failed re-building ‘Vig02-handling-metadata-and-annotations.Rmd’
-    
-    SUMMARY: processing the following files failed:
-      ‘Vig01-introduction-to-alpsnmr.Rmd’
-      ‘Vig01b-introduction-to-alpsnmr-old-api.Rmd’
-      ‘Vig02-handling-metadata-and-annotations.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
-    ```
-
 # aroma.core
 
 <details>
@@ -1363,28 +1322,6 @@ Run `revdep_details(, "epitweetr")` for more info
       All declared Imports should be used.
     ```
 
-# EstimationTools
-
-<details>
-
-* Version: 2.1.0
-* GitHub: https://github.com/Jaimemosg/EstimationTools
-* Source code: https://github.com/cran/EstimationTools
-* Date/Publication: 2021-03-10 18:40:05 UTC
-* Number of recursive dependencies: 112
-
-Run `revdep_details(, "EstimationTools")` for more info
-
-</details>
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘matrixStats’
-      All declared Imports should be used.
-    ```
-
 # fabletools
 
 <details>
@@ -2412,7 +2349,7 @@ Run `revdep_details(, "lidR")` for more info
 
 *   checking tests ...
     ```
-      Running ‘testthat.R’/software/c4/cbi/software/R-4.2.2-gcc10/lib64/R/bin/BATCH: line 60: 25163 Aborted                 (core dumped) ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
+      Running ‘testthat.R’/software/c4/cbi/software/R-4.2.2-gcc10/lib64/R/bin/BATCH: line 60: 71430 Aborted                 ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
     
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
@@ -3068,6 +3005,47 @@ Run `revdep_details(, "missSBM")` for more info
         libs   7.8Mb
     ```
 
+# miWQS
+
+<details>
+
+* Version: 0.4.4
+* GitHub: https://github.com/phargarten2/miWQS
+* Source code: https://github.com/cran/miWQS
+* Date/Publication: 2021-04-02 21:50:02 UTC
+* Number of recursive dependencies: 129
+
+Run `revdep_details(, "miWQS")` for more info
+
+</details>
+
+## In both
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error(s) in re-building vignettes:
+      ...
+    --- re-building ‘README.Rmd’ using rmarkdown
+    cannot setup TLPDB in /c4/home/henrik/.TinyTeX at /c4/home/henrik/.TinyTeX/bin/x86_64-linux/tlmgr line 6889.
+    Warning in system2("tlmgr", args, ...) :
+      running command ''tlmgr' search --file --global '/biblatex.sty'' had status 255
+    ! LaTeX Error: File `biblatex.sty' not found.
+    
+    ! Emergency stop.
+    <read *> 
+    ...
+    
+    Error: processing vignette 'README.Rmd' failed with diagnostics:
+    LaTeX failed to compile /c4/home/henrik/repositories/parallelly/revdep/checks/miWQS/new/miWQS.Rcheck/vign_test/miWQS/vignettes/README.tex. See https://yihui.org/tinytex/r/#debugging for debugging tips. See README.log for more info.
+    --- failed re-building ‘README.Rmd’
+    
+    SUMMARY: processing the following file failed:
+      ‘README.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
 # mlr3shiny
 
 <details>
@@ -3370,6 +3348,35 @@ Run `revdep_details(, "NIMAA")` for more info
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 24 marked UTF-8 strings
+    ```
+
+# oncomsm
+
+<details>
+
+* Version: 0.1.2
+* GitHub: https://github.com/Boehringer-Ingelheim/oncomsm
+* Source code: https://github.com/cran/oncomsm
+* Date/Publication: 2022-12-09 14:40:09 UTC
+* Number of recursive dependencies: 121
+
+Run `revdep_details(, "oncomsm")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 55.3Mb
+      sub-directories of 1Mb or more:
+        doc    1.3Mb
+        libs  53.0Mb
+    ```
+
+*   checking for GNU extensions in Makefiles ... NOTE
+    ```
+    GNU make is a SystemRequirements.
     ```
 
 # OOS
@@ -4795,10 +4802,10 @@ Run `revdep_details(, "solitude")` for more info
 
 <details>
 
-* Version: 4.1.0
+* Version: 4.1.20
 * GitHub: NA
 * Source code: https://github.com/cran/spaMM
-* Date/Publication: 2022-11-18 14:40:05 UTC
+* Date/Publication: 2022-12-12 12:50:03 UTC
 * Number of recursive dependencies: 122
 
 Run `revdep_details(, "spaMM")` for more info
@@ -5413,10 +5420,10 @@ Run `revdep_details(, "txshift")` for more info
 
 <details>
 
-* Version: 1.1.8
+* Version: 1.1.9
 * GitHub: https://github.com/openbiox/UCSCXenaShiny
 * Source code: https://github.com/cran/UCSCXenaShiny
-* Date/Publication: 2022-06-07 08:10:16 UTC
+* Date/Publication: 2022-12-12 09:00:03 UTC
 * Number of recursive dependencies: 181
 
 Run `revdep_details(, "UCSCXenaShiny")` for more info

@@ -38,6 +38,10 @@
    `IS_BIOC_BUILD_MACHINE`.  This means `availableCores(which =
    "all")` now reports on both.
    
+ * `isNodeAlive()` will now produce a once-per-session informative
+   warning when it detects that it is not possible to check whether
+   another process is alive on the current machine.
+   
 ## Documentation
 
  * Add section to `help("makeClusterPSOCK", package = "parallelly")`
@@ -48,6 +52,16 @@
    package = "parallelly")` reminding us that we need to stop all
    clusters we created in package examples, tests, and vignettes.
 
+## Bug Fixes
+
+* `isNodeAlive()` failed to record which method works for testing if
+   a process exists or not, which meant it would keep trying all
+   methods each time.  Similarly, if none works, it would still keep
+   trying each time instead of return NA immediately.  On some
+   systems, failing to check whether a process exists could result in
+   one or more warnings, in which case those warnings would be
+   produced for each call to `isNodeAlive()`.
+
 
 # Version 1.32.1 [2022-07-21]
 
@@ -57,7 +71,7 @@
    by `makeClusterPSOCK()` lost attribute `localhost` for localhost
    workers.  This made some error messages from the **future** package
    less informative.
- 
+
 
 # Version 1.32.0 [2022-06-07]
 
