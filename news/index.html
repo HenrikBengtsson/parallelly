@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.33.0-9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.33.0-9001</span>
       </span>
     </div>
 
@@ -121,10 +121,14 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
-<ul><li>…</li>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li>
+<code><a href="../reference/availableCores.html">availableCores()</a></code> would produce a warning <code>In is.na(constraints) :    is.na() applied to non-(list or vector) of type 'NULL'</code> when running with R (&lt; 4.0.0).</li>
 </ul></div>
+</div>
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.33.0" id="version-1330">Version 1.33.0<a class="anchor" aria-label="anchor" href="#version-1330"></a></h2>
+<h2 class="page-header" data-toc-text="1.33.0" id="version-1330">Version 1.33.0<small>2022-12-14</small><a class="anchor" aria-label="anchor" href="#version-1330"></a></h2>
 <div class="section level3">
 <h3 id="new-features-1-33-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-33-0"></a></h3>
 <ul><li><p>Add <code><a href="../reference/killNode.html">killNode()</a></code> to terminate cluster nodes via process signaling. Currently, this is only supported for parallel workers on the local machine, and only those created by <code><a href="../reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code>.</p></li>
