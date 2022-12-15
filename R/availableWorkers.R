@@ -229,7 +229,7 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
       } else {
         ## Parse counts
 	c <- slurm_expand_nodecounts(nodecounts)
-        if (any(is.na(c))) {
+        if (anyNA(c)) {
           warnf("Failed to parse 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE': %s", sQuote(nodecounts))
           next
         }
@@ -615,7 +615,7 @@ slurm_expand_nodecounts <- function(nodecounts) {
   })
   counts <- unlist(counts, use.names = TRUE)
   
-  if (any(is.na(counts))) {
+  if (anyNA(counts)) {
     warnf("Failed to parse Slurm node counts specification: %s", nodecounts)
   }
   
