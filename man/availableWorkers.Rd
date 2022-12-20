@@ -6,8 +6,8 @@
 \usage{
 availableWorkers(
   methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores",
-    "BiocParallel", "_R_CHECK_LIMIT_CORES_", "LSF", "PJM", "PBS", "SGE", "Slurm",
-    "custom", "system", "fallback")),
+    "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE",
+    "Slurm", "custom", "system", "fallback")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = getOption2("parallelly.localhost.hostname", "localhost"),

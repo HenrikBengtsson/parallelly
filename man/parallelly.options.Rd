@@ -88,7 +88,7 @@ The below \R options and environment variables control the default results of \c
 \describe{
 \item{\code{parallelly.availableCores.logical}:}{(logical) The default value of argument \code{logical} as used by \code{availableCores()}, \code{availableWorkers()}, and \code{availableCores()} for querying \code{parallel::detectCores(logical = logical)}.  The default is \code{TRUE} just like it is for \code{\link[parallel:detectCores]{parallel::detectCores()}}.}
 
-\item{\code{parallelly.availableCores.methods}:}{(character vector) Default lookup methods for \code{\link[=availableCores]{availableCores()}}. (Default: \code{c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")})}
+\item{\code{parallelly.availableCores.methods}:}{(character vector) Default lookup methods for \code{\link[=availableCores]{availableCores()}}. (Default: \code{c("system", "cgroups.cpuset", "cgroups.cpuquota", "cgroups2.cpu.max", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")})}
 
 \item{\code{parallelly.availableCores.custom}:}{(function) If set and a function, then this function will be called (without arguments) by \code{\link[=availableCores]{availableCores()}} where its value, coerced to an integer, is interpreted as a number of cores.}
 
@@ -100,7 +100,7 @@ The below \R options and environment variables control the default results of \c
 
 \item{\code{parallelly.availableCores.omit}:}{(integer) Number of cores to set aside, i.e. not to include.}
 
-\item{\code{parallelly.availableWorkers.methods}:}{(character vector) Default lookup methods for \code{\link[=availableWorkers]{availableWorkers()}}. (Default: \code{c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")})}
+\item{\code{parallelly.availableWorkers.methods}:}{(character vector) Default lookup methods for \code{\link[=availableWorkers]{availableWorkers()}}. (Default: \code{c("mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "custom", "system", "fallback")})}
 
 \item{\code{parallelly.availableWorkers.custom}:}{(function) If set and a function, then this function will be called (without arguments) by \code{\link[=availableWorkers]{availableWorkers()}} where its value, coerced to a character vector, is interpreted as hostnames of available workers.}
 }

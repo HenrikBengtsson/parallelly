@@ -5,6 +5,9 @@
  * `availableCores()` would produce a warning `In is.na(constraints) :
    is.na() applied to non-(list or vector) of type 'NULL'` when
    running with R (< 4.0.0).
+
+ * `availableWorkers()` did not acknowledge the `"Bioconductor"`
+   method added in **parallelly** 1.33.0.
  
 
 # Version 1.33.0 [2022-12-13]

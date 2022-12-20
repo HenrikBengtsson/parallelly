@@ -132,7 +132,7 @@
 #'
 #' @importFrom utils file_test
 #' @export
-availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "LSF", "PJM", "PBS", "SGE", "Slurm", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = getOption2("parallelly.localhost.hostname", "localhost"), which = c("auto", "min", "max", "all")) {
+availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = getOption2("parallelly.localhost.hostname", "localhost"), which = c("auto", "min", "max", "all")) {
   ## Local functions
   getenv <- function(name) {
     as.character(trim(getEnvVar2(name, default = NA_character_)))
@@ -163,7 +163,7 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
   })
   
   ## Acknowledge known HPC settings (skip others)
-  methods_localhost <- c("BiocParallel", "_R_CHECK_LIMIT_CORES_", "mc.cores", "mc.cores+1", "system")
+  methods_localhost <- c("BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "mc.cores", "mc.cores+1", "system")
   methodsT <- setdiff(methods, methods_localhost)
   for (method in methodsT) {
     if (method == "PBS") {
