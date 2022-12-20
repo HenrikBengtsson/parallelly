@@ -6,9 +6,13 @@
    is.na() applied to non-(list or vector) of type 'NULL'` when
    running with R (< 4.0.0).
 
- * `availableWorkers()` did not acknowledge the `"Bioconductor"`
-   method added in **parallelly** 1.33.0.
- 
+ * `availableWorkers()` did not acknowledge the `"cgroups2.cpu.max"`
+   and `"Bioconductor"` methods added to `availableCores()` in
+   **parallelly** 1.33.0 (2022-12-13).  It also did not acknowledge
+   methods `"cgroups.cpuset"` and `"cgroups.cpuquota"` adding in
+   **parallelly** 1.31.0 (2022-04-07), and `"nproc"` added in
+   **parallelly** 1.26.1 (2021-06-29).
+
 
 # Version 1.33.0 [2022-12-13]
 
