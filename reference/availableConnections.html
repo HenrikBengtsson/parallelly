@@ -4,8 +4,9 @@ typically 128, where the first three are occupied by the always open
 stdin(), stdout(), and stderr() connections, which leaves 125 slots
 available for other types of connections.  Connections are used in many
 places, e.g. reading and writing to file, downloading URLs, communicating
-with parallel R processes over a socket connections, and capturing standard
-output via text connections."><meta property="og:image" content="https://parallelly.futureverse.org/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+with parallel R processes over a socket connections (e.g.
+parallel::makeCluster() and makeClusterPSOCK()), and capturing
+standard output via text connections (e.g. utils::capture.output())."><meta property="og:image" content="https://parallelly.futureverse.org/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-SB3EQSD9FR"></script><script>
@@ -29,7 +30,7 @@ output via text connections."><meta property="og:image" content="https://paralle
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.33.0-9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.33.0-9005</span>
       </span>
     </div>
 
@@ -132,8 +133,9 @@ output via text connections."><meta property="og:image" content="https://paralle
 <code><a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stdin()</a></code>, <code><a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stdout()</a></code>, and <code><a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stderr()</a></code> connections, which leaves 125 slots
 available for other types of connections.  Connections are used in many
 places, e.g. reading and writing to file, downloading URLs, communicating
-with parallel <span style="R">R</span> processes over a socket connections, and capturing standard
-output via text connections.</p>
+with parallel <span style="R">R</span> processes over a socket connections (e.g.
+<code><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::makeCluster()</a></code> and <code><a href="makeClusterPSOCK.html">makeClusterPSOCK()</a></code>), and capturing
+standard output via text connections (e.g. <code><a href="https://rdrr.io/r/utils/capture.output.html" class="external-link">utils::capture.output()</a></code>).</p>
     </div>
 
     <div id="ref-usage">
