@@ -28,7 +28,7 @@ further notice."><meta property="og:image" content="https://parallelly.futurever
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.33.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.33.0-9003</span>
       </span>
     </div>
 
@@ -165,7 +165,7 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
 
 
 <dt><code>parallelly.availableCores.methods</code>:</dt>
-<dd><p>(character vector) Default lookup methods for <code><a href="availableCores.html">availableCores()</a></code>. (Default: <code>c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")</code>)</p></dd>
+<dd><p>(character vector) Default lookup methods for <code><a href="availableCores.html">availableCores()</a></code>. (Default: <code>c("system", "cgroups.cpuset", "cgroups.cpuquota", "cgroups2.cpu.max", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")</code>)</p></dd>
 
 
 <dt><code>parallelly.availableCores.custom</code>:</dt>
@@ -189,7 +189,7 @@ variable <code class="env">R_FUTURE_AVAILABLECORES_FALLBACK=1</code> is the same
 
 
 <dt><code>parallelly.availableWorkers.methods</code>:</dt>
-<dd><p>(character vector) Default lookup methods for <code><a href="availableWorkers.html">availableWorkers()</a></code>. (Default: <code>c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")</code>)</p></dd>
+<dd><p>(character vector) Default lookup methods for <code><a href="availableWorkers.html">availableWorkers()</a></code>. (Default: <code>c("mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "custom", "cgroups.cpuset", "cgroups.cpuquota", "cgroups2.cpu.max", "nproc", "system", "fallback")</code>)</p></dd>
 
 
 <dt><code>parallelly.availableWorkers.custom</code>:</dt>
