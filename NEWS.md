@@ -18,7 +18,7 @@
  * `availableWorkers()` did not acknowledge the `"cgroups2.cpu.max"`
    and `"Bioconductor"` methods added to `availableCores()` in
    **parallelly** 1.33.0 (2022-12-13).  It also did not acknowledge
-   methods `"cgroups.cpuset"` and `"cgroups.cpuquota"` adding in
+   methods `"cgroups.cpuset"` and `"cgroups.cpuquota"` added in
    **parallelly** 1.31.0 (2022-04-07), and `"nproc"` added in
    **parallelly** 1.26.1 (2021-06-29).
 
