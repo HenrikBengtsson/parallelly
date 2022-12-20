@@ -1,5 +1,14 @@
 # Version (development version)
 
+## New Features
+
+ * Add support for `availableWorkers(constraints = "connections")`,
+   which limits the number of workers that can be be used to the
+   current number of free R connections according to
+   `freeConnections()`.  This is the maximum number of PSOCK, SOCK,
+   and MPI **parallel** cluster nodes we can open without running out
+   of available R connections.
+
 ## Bug Fixes
 
  * `availableCores()` would produce a warning `In is.na(constraints) :
