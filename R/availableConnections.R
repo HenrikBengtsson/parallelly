@@ -5,8 +5,9 @@
 #' [stdin()], [stdout()], and [stderr()] connections, which leaves 125 slots
 #' available for other types of connections.  Connections are used in many
 #' places, e.g. reading and writing to file, downloading URLs, communicating
-#' with parallel \R processes over a socket connections, and capturing standard
-#' output via text connections.
+#' with parallel \R processes over a socket connections (e.g.
+#' [parallel::makeCluster()] and [makeClusterPSOCK()]), and capturing
+#' standard output via text connections (e.g. [utils::capture.output()]).
 #'
 #' @return
 #' A non-negative integer, or `+Inf` if the available number of connections
