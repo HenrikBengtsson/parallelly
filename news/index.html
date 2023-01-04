@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.33.0-9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.33.0-9007</span>
       </span>
     </div>
 
@@ -128,7 +128,8 @@
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
 <ul><li><p><code><a href="../reference/availableCores.html">availableCores()</a></code> would produce a warning <code>In is.na(constraints) :    is.na() applied to non-(list or vector) of type 'NULL'</code> when running with R (&lt; 4.0.0).</p></li>
-<li><p><code><a href="../reference/availableWorkers.html">availableWorkers()</a></code> did not acknowledge the <code>"cgroups2.cpu.max"</code> and <code>"Bioconductor"</code> methods added to <code><a href="../reference/availableCores.html">availableCores()</a></code> in <strong>parallelly</strong> 1.33.0 (2022-12-13). It also did not acknowledge methods <code>"cgroups.cpuset"</code> and <code>"cgroups.cpuquota"</code> adding in <strong>parallelly</strong> 1.31.0 (2022-04-07), and <code>"nproc"</code> added in <strong>parallelly</strong> 1.26.1 (2021-06-29).</p></li>
+<li><p><code><a href="../reference/availableWorkers.html">availableWorkers()</a></code> did not acknowledge the <code>"cgroups2.cpu.max"</code> and <code>"Bioconductor"</code> methods added to <code><a href="../reference/availableCores.html">availableCores()</a></code> in <strong>parallelly</strong> 1.33.0 (2022-12-13). It also did not acknowledge methods <code>"cgroups.cpuset"</code> and <code>"cgroups.cpuquota"</code> added in <strong>parallelly</strong> 1.31.0 (2022-04-07), and <code>"nproc"</code> added in <strong>parallelly</strong> 1.26.1 (2021-06-29).</p></li>
+<li><p>When <code><a href="../reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code> failed to connect to all parallel workers within the <code>connectTimeout</code> time limit, could either produce <code>Error    in sprintf(ngettext(failed, "Cluster setup failed    (connectTimeout=%.1f seconds). %d worker of %d failed to    connect.", : invalid format '%d'; use format %f, %e, %g or %a for    numeric objects</code> instead of an informative error message, or an error message with the incorrect information.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
