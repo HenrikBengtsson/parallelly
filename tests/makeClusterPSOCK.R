@@ -281,6 +281,17 @@ if (fullTest || covr_testing) {
 }
 
 
+## https://github.com/HenrikBengtsson/parallelly/issues/95
+res <- tryCatch({
+  parallelly::makeClusterPSOCK(1L, connectTimeout = 0.1,
+                               rscript_startup = quote(Sys.sleep(6.0)))
+}, error = identity)
+print(res)
+stopifnot(
+  inherits(res, "error"),
+  grepl("^Cluster setup failed", conditionMessage(res))
+)
+
 message("*** makeClusterPSOCK() ... DONE")
 
 source("incl/end.R")

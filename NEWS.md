@@ -22,6 +22,14 @@
    **parallelly** 1.31.0 (2022-04-07), and `"nproc"` added in
    **parallelly** 1.26.1 (2021-06-29).
 
+ * When `makeClusterPSOCK()` failed to connect to all parallel workers
+   within the `connectTimeout` time limit, could either produce `Error
+   in sprintf(ngettext(failed, "Cluster setup failed
+   (connectTimeout=%.1f seconds). %d worker of %d failed to
+   connect.", : invalid format '%d'; use format %f, %e, %g or %a for
+   numeric objects` instead of an informative error message, or an
+   error message with the incorrect information.
+  
 
 # Version 1.33.0 [2022-12-13]
 
