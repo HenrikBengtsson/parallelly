@@ -282,15 +282,21 @@ if (fullTest || covr_testing) {
 
 
 ## https://github.com/HenrikBengtsson/parallelly/issues/95
-res <- tryCatch({
-  parallelly::makeClusterPSOCK(1L, connectTimeout = 0.1,
-                               rscript_startup = quote(Sys.sleep(6.0)))
-}, error = identity)
-print(res)
-stopifnot(
-  inherits(res, "error"),
-  grepl("^Cluster setup failed", conditionMessage(res))
-)
+if (getRversion() >= "4.0.0") {
+  res <- tryCatch({
+    parallelly::makeClusterPSOCK(1L, rscript_startup = quote(Sys.sleep(6.0)),
+                                 connectTimeout = 0.1, timeout = 7.0)
+  }, error = identity)
+  print(res)
+  stopifnot(
+    inherits(res, "error"),
+    grepl("^Cluster setup failed", conditionMessage(res))
+  )
+
+  ## Make sure to wait for background process to timeout before continuing,
+  ## when on MS Windows
+  if (.Platform$OS.type == "windows") Sys.sleep(2.0)
+}
 
 message("*** makeClusterPSOCK() ... DONE")
 
