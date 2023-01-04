@@ -295,8 +295,7 @@ if (getRversion() >= "4.0.0") {
 
   ## Make sure to wait for background process to timeout before continuing,
   ## when on MS Windows
-#  if (.Platform$OS.type == "windows") Sys.sleep(10.0)
-  Sys.sleep(10.0)  
+  if (.Platform$OS.type == "windows") Sys.sleep(5.0)
 }
 
 message("*** makeClusterPSOCK() ... DONE")
