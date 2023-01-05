@@ -87,13 +87,13 @@
 
 ## Bug Fixes
 
-* `isNodeAlive()` failed to record which method works for testing if
-   a process exists or not, which meant it would keep trying all
-   methods each time.  Similarly, if none works, it would still keep
-   trying each time instead of return NA immediately.  On some
-   systems, failing to check whether a process exists could result in
-   one or more warnings, in which case those warnings would be
-   produced for each call to `isNodeAlive()`.
+* `isNodeAlive()` failed to record which method works for testing if a
+   process exists or not, which meant it would keep trying all methods
+   each time.  Similarly, if none works, it would still keep trying
+   each time instead of returning NA immediately.  On some systems,
+   failing to check whether a process exists could result in one or
+   more warnings, in which case those warnings would be produced for
+   each call to `isNodeAlive()`.
 
 
 # Version 1.32.1 [2022-07-21]
