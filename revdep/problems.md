@@ -6,7 +6,7 @@
 * GitHub: https://github.com/tgac-vumc/ACE
 * Source code: https://github.com/cran/ACE
 * Date/Publication: 2022-11-01
-* Number of recursive dependencies: 94
+* Number of recursive dependencies: 95
 
 Run `revdep_details(, "ACE")` for more info
 
@@ -105,7 +105,7 @@ Run `revdep_details(, "AIPW")` for more info
 * GitHub: https://github.com/HenrikBengtsson/aroma.core
 * Source code: https://github.com/cran/aroma.core
 * Date/Publication: 2022-11-15 18:30:13 UTC
-* Number of recursive dependencies: 49
+* Number of recursive dependencies: 71
 
 Run `revdep_details(, "aroma.core")` for more info
 
@@ -150,7 +150,7 @@ Run `revdep_details(, "BAMBI")` for more info
 * GitHub: https://github.com/mllg/batchtools
 * Source code: https://github.com/cran/batchtools
 * Date/Publication: 2021-01-11 12:40:03 UTC
-* Number of recursive dependencies: 81
+* Number of recursive dependencies: 82
 
 Run `revdep_details(, "batchtools")` for more info
 
@@ -193,10 +193,10 @@ Run `revdep_details(, "BBEST")` for more info
 
 <details>
 
-* Version: 1.4.0
+* Version: 1.4.1
 * GitHub: NA
 * Source code: https://github.com/cran/BEKKs
-* Date/Publication: 2022-11-08 20:40:02 UTC
+* Date/Publication: 2022-12-18 16:40:14 UTC
 * Number of recursive dependencies: 99
 
 Run `revdep_details(, "BEKKs")` for more info
@@ -245,13 +245,13 @@ Run `revdep_details(, "BENMMI")` for more info
     ```
     Error(s) in re-building vignettes:
     --- re-building ‘BENMMI_User_Manual.Rnw’ using knitr
+    Error: processing vignette 'BENMMI_User_Manual.Rnw' failed with diagnostics:
+    Running 'texi2dvi' on 'BENMMI_User_Manual.tex' failed.
+    LaTeX errors:
+    ! LaTeX Error: File `sectsty.sty' not found.
     
-    BENMMI version: 4.3.7
-    Copyright 2015-2022 by Rijkswaterstaat, the Netherlands (RWS).
-    Type  citation("BENMMI")  on how to cite BENMMI in publications.
-    For the tutorial, type: vignette("BENMMI_User_Manual")
-    For Frequently Asked Questions, type: vignette("FAQ")
-    Loading required package: parallel
+    Type X to quit or <RETURN> to proceed,
+    or enter new name. (Default extension: sty)
     
     ...
     l.62 \usepackage
@@ -274,7 +274,7 @@ Run `revdep_details(, "BENMMI")` for more info
 * GitHub: https://github.com/donaldRwilliams/BGGM
 * Source code: https://github.com/cran/BGGM
 * Date/Publication: 2021-08-20 15:50:06 UTC
-* Number of recursive dependencies: 165
+* Number of recursive dependencies: 166
 
 Run `revdep_details(, "BGGM")` for more info
 
@@ -325,7 +325,7 @@ Run `revdep_details(, "bigDM")` for more info
 * GitHub: https://github.com/privefl/bigsnpr
 * Source code: https://github.com/cran/bigsnpr
 * Date/Publication: 2022-11-07 11:40:11 UTC
-* Number of recursive dependencies: 148
+* Number of recursive dependencies: 154
 
 Run `revdep_details(, "bigsnpr")` for more info
 
@@ -348,7 +348,7 @@ Run `revdep_details(, "bigsnpr")` for more info
 * GitHub: https://github.com/privefl/bigstatsr
 * Source code: https://github.com/cran/bigstatsr
 * Date/Publication: 2022-10-14 08:32:38 UTC
-* Number of recursive dependencies: 109
+* Number of recursive dependencies: 117
 
 Run `revdep_details(, "bigstatsr")` for more info
 
@@ -378,7 +378,7 @@ Run `revdep_details(, "bigstatsr")` for more info
 * GitHub: https://github.com/mcubillos3/biokNN
 * Source code: https://github.com/cran/biokNN
 * Date/Publication: 2021-04-22 07:20:15 UTC
-* Number of recursive dependencies: 97
+* Number of recursive dependencies: 98
 
 Run `revdep_details(, "biokNN")` for more info
 
@@ -438,7 +438,7 @@ Run `revdep_details(, "biscuiteer")` for more info
 * GitHub: https://github.com/alexander-pastukhov/bistablehistory
 * Source code: https://github.com/cran/bistablehistory
 * Date/Publication: 2022-03-22 13:40:02 UTC
-* Number of recursive dependencies: 90
+* Number of recursive dependencies: 91
 
 Run `revdep_details(, "bistablehistory")` for more info
 
@@ -534,7 +534,7 @@ Run `revdep_details(, "blockCV")` for more info
 * GitHub: https://github.com/smeekes/bootUR
 * Source code: https://github.com/cran/bootUR
 * Date/Publication: 2022-07-11 15:30:05 UTC
-* Number of recursive dependencies: 69
+* Number of recursive dependencies: 70
 
 Run `revdep_details(, "bootUR")` for more info
 
@@ -591,7 +591,7 @@ Run `revdep_details(, "brms")` for more info
 * GitHub: https://github.com/growthcharts/brokenstick
 * Source code: https://github.com/cran/brokenstick
 * Date/Publication: 2022-10-30 16:20:15 UTC
-* Number of recursive dependencies: 92
+* Number of recursive dependencies: 93
 
 Run `revdep_details(, "brokenstick")` for more info
 
@@ -602,15 +602,15 @@ Run `revdep_details(, "brokenstick")` for more info
 *   checking re-building of vignette outputs ... ERROR
     ```
     Error(s) in re-building vignettes:
+      ...
     --- re-building ‘brokenstick.Rmd’ using rmarkdown
     --- finished re-building ‘brokenstick.Rmd’
     
     --- re-building ‘mainfunctions.Rmd’ using rmarkdown
-    Loading required package: brokenstick
-    Loading required package: dplyr
-    
-    Attaching package: 'dplyr'
-    
+    Quitting from lines 108-110 (mainfunctions.Rmd) 
+    Error: processing vignette 'mainfunctions.Rmd' failed with diagnostics:
+    there is no package called 'codetools'
+    --- failed re-building ‘mainfunctions.Rmd’
     ...
     --- finished re-building ‘oldfriends.Rmd’
     
@@ -632,7 +632,7 @@ Run `revdep_details(, "brokenstick")` for more info
 * GitHub: https://github.com/atahk/bucky
 * Source code: https://github.com/cran/bucky
 * Date/Publication: 2022-03-25 23:10:02 UTC
-* Number of recursive dependencies: 47
+* Number of recursive dependencies: 34
 
 Run `revdep_details(, "bucky")` for more info
 
@@ -659,7 +659,7 @@ Run `revdep_details(, "bucky")` for more info
 * GitHub: https://github.com/retogerber/censcyt
 * Source code: https://github.com/cran/censcyt
 * Date/Publication: 2022-11-01
-* Number of recursive dependencies: 172
+* Number of recursive dependencies: 173
 
 Run `revdep_details(, "censcyt")` for more info
 
@@ -698,19 +698,19 @@ Run `revdep_details(, "censcyt")` for more info
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 50 lines of output:
-      Error in `stringr::str_replace(formula, "Surv\\([[:alnum:] ,._]*\\)", extracted_vars$censored_variable)`: `string` must be a vector, not a <formula> object.
-      Backtrace:
-           ▆
-        1. ├─testthat::expect_true(...) at test-simulate_data.R:154:3
-        2. │ └─testthat::quasi_label(enquo(object), label, arg = "object")
-        3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
+        6. │ └─censcyt::simulate_singlecluster(...) at test-simulate_data.R:109:3
+        7. │   └─censcyt:::create_glmm_formula(formula)
+        8. │     └─stringr::str_replace(formula, "Surv\\([[:alnum:] ,._]*\\)", extracted_vars$censored_variable)
+        9. │       └─stringr:::check_lengths(string, pattern, replacement)
+       10. │         └─vctrs::vec_size_common(...)
+       11. └─vctrs:::stop_scalar_type(...)
     ...
-       4. │     └─stringr::str_replace(formula, "Surv\\([[:alnum:] ,._]*\\)", extracted_vars$censored_variable)
-       5. │       └─stringr:::check_lengths(string, pattern, replacement)
-       6. │         └─vctrs::vec_size_common(...)
-       7. └─vctrs:::stop_scalar_type(`<fn>`(y ~ Surv(x, i)), "string", `<env>`)
-       8.   └─vctrs:::stop_vctrs(...)
-       9.     └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = vctrs_error_call(call))
+       12.   └─vctrs:::stop_vctrs(...)
+       13.     └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = vctrs_error_call(call))
+      ── Error ('test-testDA_censoredGLMM_helpers.R:34'): (code run outside of `test_that()`) ──
+      Error in `purrr::map(test_formulas, ~create_glmm_formula(.x))`: ℹ In index: 1.
+      Caused by error in `stringr::str_replace()`:
+      ! `string` must be a vector, not a <formula> object.
       
       [ FAIL 16 | WARN 0 | SKIP 0 | PASS 174 ]
       Error: Test failures
@@ -876,7 +876,7 @@ Run `revdep_details(, "codebook")` for more info
 * GitHub: https://github.com/rossellhayes/crossmap
 * Source code: https://github.com/cran/crossmap
 * Date/Publication: 2022-08-12 17:30:05 UTC
-* Number of recursive dependencies: 76
+* Number of recursive dependencies: 63
 
 Run `revdep_details(, "crossmap")` for more info
 
@@ -998,7 +998,7 @@ Run `revdep_details(, "ctsem")` for more info
 * GitHub: https://github.com/DeclareDesign/DeclareDesign
 * Source code: https://github.com/cran/DeclareDesign
 * Date/Publication: 2022-06-20 18:30:07 UTC
-* Number of recursive dependencies: 133
+* Number of recursive dependencies: 134
 
 Run `revdep_details(, "DeclareDesign")` for more info
 
@@ -1156,7 +1156,7 @@ Run `revdep_details(, "DstarM")` for more info
 * GitHub: https://github.com/mhunter1/dynr
 * Source code: https://github.com/cran/dynr
 * Date/Publication: 2022-10-17 07:02:35 UTC
-* Number of recursive dependencies: 120
+* Number of recursive dependencies: 121
 
 Run `revdep_details(, "dynr")` for more info
 
@@ -1223,11 +1223,11 @@ Run `revdep_details(, "eatRep")` for more info
 
 <details>
 
-* Version: 0.4.3
+* Version: 0.4.4
 * GitHub: https://github.com/mdsteiner/EFAtools
 * Source code: https://github.com/cran/EFAtools
-* Date/Publication: 2022-10-02 15:40:05 UTC
-* Number of recursive dependencies: 90
+* Date/Publication: 2023-01-06 14:50:40 UTC
+* Number of recursive dependencies: 91
 
 Run `revdep_details(, "EFAtools")` for more info
 
@@ -1302,7 +1302,7 @@ Run `revdep_details(, "envi")` for more info
 * GitHub: https://github.com/EU-ECDC/epitweetr
 * Source code: https://github.com/cran/epitweetr
 * Date/Publication: 2022-12-01 00:40:03 UTC
-* Number of recursive dependencies: 146
+* Number of recursive dependencies: 145
 
 Run `revdep_details(, "epitweetr")` for more info
 
@@ -1422,7 +1422,7 @@ Run `revdep_details(, "finalfit")` for more info
 * GitHub: https://github.com/aya49/flowGraph
 * Source code: https://github.com/cran/flowGraph
 * Date/Publication: 2022-11-01
-* Number of recursive dependencies: 91
+* Number of recursive dependencies: 92
 
 Run `revdep_details(, "flowGraph")` for more info
 
@@ -1452,7 +1452,7 @@ Run `revdep_details(, "flowGraph")` for more info
 * GitHub: https://github.com/ianjonsen/foieGras
 * Source code: https://github.com/cran/foieGras
 * Date/Publication: 2021-04-26 22:10:07 UTC
-* Number of recursive dependencies: 141
+* Number of recursive dependencies: 140
 
 Run `revdep_details(, "foieGras")` for more info
 
@@ -1601,7 +1601,7 @@ Run `revdep_details(, "googleTagManageR")` for more info
 * GitHub: https://github.com/comeetie/greed
 * Source code: https://github.com/cran/greed
 * Date/Publication: 2022-10-03 22:00:05 UTC
-* Number of recursive dependencies: 95
+* Number of recursive dependencies: 96
 
 Run `revdep_details(, "greed")` for more info
 
@@ -1753,7 +1753,7 @@ Run `revdep_details(, "hackeRnews")` for more info
 * GitHub: https://github.com/tlverse/hal9001
 * Source code: https://github.com/cran/hal9001
 * Date/Publication: 2022-02-09 22:50:02 UTC
-* Number of recursive dependencies: 97
+* Number of recursive dependencies: 98
 
 Run `revdep_details(, "hal9001")` for more info
 
@@ -1799,7 +1799,7 @@ Run `revdep_details(, "healthyR.ts")` for more info
 * GitHub: https://github.com/dozmorovlab/HiCcompare
 * Source code: https://github.com/cran/HiCcompare
 * Date/Publication: 2022-11-01
-* Number of recursive dependencies: 126
+* Number of recursive dependencies: 127
 
 Run `revdep_details(, "HiCcompare")` for more info
 
@@ -1879,7 +1879,7 @@ Run `revdep_details(, "holodeck")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/HSAUR3
 * Date/Publication: 2022-04-26 04:52:12 UTC
-* Number of recursive dependencies: 105
+* Number of recursive dependencies: 97
 
 Run `revdep_details(, "HSAUR3")` for more info
 
@@ -1948,7 +1948,7 @@ Run `revdep_details(, "hwep")` for more info
 * GitHub: https://github.com/andrewzm/IDE
 * Source code: https://github.com/cran/IDE
 * Date/Publication: 2022-05-30 12:10:14 UTC
-* Number of recursive dependencies: 118
+* Number of recursive dependencies: 127
 
 Run `revdep_details(, "IDE")` for more info
 
@@ -2018,7 +2018,7 @@ Run `revdep_details(, "idem")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/ImputeRobust
 * Date/Publication: 2018-11-30 12:10:03 UTC
-* Number of recursive dependencies: 52
+* Number of recursive dependencies: 41
 
 Run `revdep_details(, "ImputeRobust")` for more info
 
@@ -2203,7 +2203,7 @@ Run `revdep_details(, "ISAnalytics")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/ivmte
 * Date/Publication: 2021-09-17 12:20:07 UTC
-* Number of recursive dependencies: 109
+* Number of recursive dependencies: 110
 
 Run `revdep_details(, "ivmte")` for more info
 
@@ -2224,7 +2224,7 @@ Run `revdep_details(, "ivmte")` for more info
 * GitHub: https://github.com/rauschenberger/joinet
 * Source code: https://github.com/cran/joinet
 * Date/Publication: 2021-08-09 07:40:02 UTC
-* Number of recursive dependencies: 61
+* Number of recursive dependencies: 62
 
 Run `revdep_details(, "joinet")` for more info
 
@@ -2310,11 +2310,11 @@ Run `revdep_details(, "lava")` for more info
 
 <details>
 
-* Version: 4.0.1
+* Version: 4.0.2
 * GitHub: https://github.com/r-lidar/lidR
 * Source code: https://github.com/cran/lidR
-* Date/Publication: 2022-05-04 08:30:02 UTC
-* Number of recursive dependencies: 158
+* Date/Publication: 2022-12-15 15:10:02 UTC
+* Number of recursive dependencies: 157
 
 Run `revdep_details(, "lidR")` for more info
 
@@ -2327,20 +2327,20 @@ Run `revdep_details(, "lidR")` for more info
     Running examples in ‘lidR-Ex.R’ failed
     The error most likely occurred in:
     
-    > ### Name: its_dalponte2016
+    > ### Name: its_silva2016
     > ### Title: Individual Tree Segmentation Algorithm
-    > ### Aliases: its_dalponte2016 dalponte2016
+    > ### Aliases: its_silva2016 silva2016
     > 
     > ### ** Examples
     > 
     > LASfile <- system.file("extdata", "MixedConifer.laz", package="lidR")
     ...
-    > chm <- rasterize_canopy(las, 0.5, p2r(0.3), pkg = "raster")
+    > chm <- rasterize_canopy(las, res = 0.5, p2r(0.3), pkg = "raster")
     > ker <- matrix(1,3,3)
     > chm <- raster::focal(chm, w = ker, fun = mean, na.rm = TRUE)
     > 
     > ttops <- locate_trees(chm, lmf(4, 2))
-    > las   <- segment_trees(las, dalponte2016(chm, ttops))
+    > las   <- segment_trees(las, silva2016(chm, ttops))
     Error in geos_op2_geom("intersection", x, y, ...) : 
       st_crs(x) == st_crs(y) is not TRUE
     Calls: segment_trees ... st_intersection.sf -> geos_op2_df -> geos_op2_geom -> stopifnot
@@ -2349,25 +2349,21 @@ Run `revdep_details(, "lidR")` for more info
 
 *   checking tests ...
     ```
-      Running ‘testthat.R’/software/c4/cbi/software/R-4.2.2-gcc10/lib64/R/bin/BATCH: line 60: 71430 Aborted                 ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
+      Running ‘testthat.R’/software/c4/cbi/software/R-4.2.2-gcc10/lib64/R/bin/BATCH: line 60: 57771 Aborted                 (core dumped) ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
     
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
-    Last 50 lines of output:
-      Error in x$.self$finalize() : attempt to apply non-function
-      Error in x$.self$finalize() : attempt to apply non-function
-      Error in x$.self$finalize() : attempt to apply non-function
-      Error in x$.self$finalize() : attempt to apply non-function
-      Error in x$.self$finalize() : attempt to apply non-function
-    ...
-      Error in x$.self$finalize() : attempt to apply non-function
-      Error in x$.self$finalize() : attempt to apply non-function
-      Error in x$.self$finalize() : attempt to apply non-function
-      Error in x$.self$finalize() : attempt to apply non-function
-      Error in x$.self$finalize() : attempt to apply non-function
-      Error in x$.self$finalize() : attempt to apply non-function
-      Error in x$.self$finalize() : attempt to apply non-function
-      Error in x$.self$finalize() : attempt to apply non-function
+    Complete output:
+      > Sys.setenv("R_TESTS" = "")
+      > 
+      > library(testthat)
+      > library(lidR)
+      > test_check("lidR")
+      Tests using raster: terra 
+      Tests using future: TRUE 
+      Tests using OpenMP thread: 32 
+      OGR: Unsupported geometry type
+      OGR: Unsupported geometry type
       terminate called after throwing an instance of 'std::length_error'
         what():  basic_string::_S_create
     ```
@@ -2377,7 +2373,6 @@ Run `revdep_details(, "lidR")` for more info
       installed size is 19.8Mb
       sub-directories of 1Mb or more:
         R         1.2Mb
-        doc       1.0Mb
         extdata   1.1Mb
         libs     16.0Mb
     ```
@@ -2390,7 +2385,7 @@ Run `revdep_details(, "lidR")` for more info
 * GitHub: https://github.com/ropensci/lightr
 * Source code: https://github.com/cran/lightr
 * Date/Publication: 2022-05-14 13:50:02 UTC
-* Number of recursive dependencies: 76
+* Number of recursive dependencies: 77
 
 Run `revdep_details(, "lightr")` for more info
 
@@ -2416,7 +2411,7 @@ Run `revdep_details(, "lightr")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/LSAmitR
 * Date/Publication: 2022-06-01 07:50:02 UTC
-* Number of recursive dependencies: 157
+* Number of recursive dependencies: 166
 
 Run `revdep_details(, "LSAmitR")` for more info
 
@@ -2562,7 +2557,7 @@ Run `revdep_details(, "mdapack")` for more info
 * GitHub: https://github.com/alexanderrobitzsch/mdmb
 * Source code: https://github.com/cran/mdmb
 * Date/Publication: 2022-05-17 14:00:05 UTC
-* Number of recursive dependencies: 53
+* Number of recursive dependencies: 41
 
 Run `revdep_details(, "mdmb")` for more info
 
@@ -2584,7 +2579,7 @@ Run `revdep_details(, "mdmb")` for more info
 * GitHub: https://github.com/jmpsteen/medflex
 * Source code: https://github.com/cran/medflex
 * Date/Publication: 2020-08-03 09:00:24 UTC
-* Number of recursive dependencies: 104
+* Number of recursive dependencies: 101
 
 Run `revdep_details(, "medflex")` for more info
 
@@ -2646,7 +2641,7 @@ Run `revdep_details(, "metabolomicsR")` for more info
 * GitHub: https://github.com/wviechtb/metafor
 * Source code: https://github.com/cran/metafor
 * Date/Publication: 2022-08-26 17:20:02 UTC
-* Number of recursive dependencies: 107
+* Number of recursive dependencies: 108
 
 Run `revdep_details(, "metafor")` for more info
 
@@ -2688,7 +2683,7 @@ Run `revdep_details(, "mi4p")` for more info
 * GitHub: https://github.com/amices/mice
 * Source code: https://github.com/cran/mice
 * Date/Publication: 2022-11-19 13:00:02 UTC
-* Number of recursive dependencies: 132
+* Number of recursive dependencies: 133
 
 Run `revdep_details(, "mice")` for more info
 
@@ -2748,7 +2743,7 @@ Run `revdep_details(, "miceadds")` for more info
 * GitHub: https://github.com/Polkas/miceFast
 * Source code: https://github.com/cran/miceFast
 * Date/Publication: 2022-11-17 21:10:02 UTC
-* Number of recursive dependencies: 80
+* Number of recursive dependencies: 81
 
 Run `revdep_details(, "miceFast")` for more info
 
@@ -2812,7 +2807,7 @@ Run `revdep_details(, "microservices")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/midastouch
 * Date/Publication: 2016-02-07 09:35:46
-* Number of recursive dependencies: 41
+* Number of recursive dependencies: 27
 
 Run `revdep_details(, "midastouch")` for more info
 
@@ -2854,7 +2849,7 @@ Run `revdep_details(, "mifa")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/MineICA
 * Date/Publication: 2022-11-01
-* Number of recursive dependencies: 211
+* Number of recursive dependencies: 217
 
 Run `revdep_details(, "MineICA")` for more info
 
@@ -3013,7 +3008,7 @@ Run `revdep_details(, "missSBM")` for more info
 * GitHub: https://github.com/phargarten2/miWQS
 * Source code: https://github.com/cran/miWQS
 * Date/Publication: 2021-04-02 21:50:02 UTC
-* Number of recursive dependencies: 129
+* Number of recursive dependencies: 130
 
 Run `revdep_details(, "miWQS")` for more info
 
@@ -3120,7 +3115,7 @@ Run `revdep_details(, "mlr3spatiotempcv")` for more info
 * GitHub: https://github.com/mb706/mlrintermbo
 * Source code: https://github.com/cran/mlrintermbo
 * Date/Publication: 2021-03-01 09:00:06 UTC
-* Number of recursive dependencies: 115
+* Number of recursive dependencies: 127
 
 Run `revdep_details(, "mlrintermbo")` for more info
 
@@ -3131,6 +3126,30 @@ Run `revdep_details(, "mlrintermbo")` for more info
 *   checking LazyData ... NOTE
     ```
       'LazyData' is specified without a 'data' directory
+    ```
+
+# mmrm
+
+<details>
+
+* Version: 0.2.2
+* GitHub: https://github.com/openpharma/mmrm
+* Source code: https://github.com/cran/mmrm
+* Date/Publication: 2022-12-20 09:50:02 UTC
+* Number of recursive dependencies: 65
+
+Run `revdep_details(, "mmrm")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 106.8Mb
+      sub-directories of 1Mb or more:
+        doc     5.8Mb
+        libs  100.5Mb
     ```
 
 # modeltime.ensemble
@@ -3232,7 +3251,7 @@ Run `revdep_details(, "momentuHMM")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/MSCMT
 * Date/Publication: 2019-11-14 11:00:05 UTC
-* Number of recursive dependencies: 145
+* Number of recursive dependencies: 146
 
 Run `revdep_details(, "MSCMT")` for more info
 
@@ -3330,7 +3349,7 @@ Run `revdep_details(, "NADIA")` for more info
 * GitHub: https://github.com/jafarilab/NIMAA
 * Source code: https://github.com/cran/NIMAA
 * Date/Publication: 2022-04-11 14:12:45 UTC
-* Number of recursive dependencies: 154
+* Number of recursive dependencies: 153
 
 Run `revdep_details(, "NIMAA")` for more info
 
@@ -3358,7 +3377,7 @@ Run `revdep_details(, "NIMAA")` for more info
 * GitHub: https://github.com/Boehringer-Ingelheim/oncomsm
 * Source code: https://github.com/cran/oncomsm
 * Date/Publication: 2022-12-09 14:40:09 UTC
-* Number of recursive dependencies: 121
+* Number of recursive dependencies: 122
 
 Run `revdep_details(, "oncomsm")` for more info
 
@@ -3556,11 +3575,11 @@ Run `revdep_details(, "phylolm")` for more info
 
 <details>
 
-* Version: 0.11.7
+* Version: 1.0.0
 * GitHub: https://github.com/pln-team/PLNmodels
 * Source code: https://github.com/cran/PLNmodels
-* Date/Publication: 2022-08-25 10:32:38 UTC
-* Number of recursive dependencies: 174
+* Date/Publication: 2023-01-06 13:20:06 UTC
+* Number of recursive dependencies: 146
 
 Run `revdep_details(, "PLNmodels")` for more info
 
@@ -3570,10 +3589,10 @@ Run `revdep_details(, "PLNmodels")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 21.0Mb
+      installed size is 21.9Mb
       sub-directories of 1Mb or more:
-        doc    2.0Mb
-        libs  17.9Mb
+        doc    2.1Mb
+        libs  18.5Mb
     ```
 
 # PortfolioAnalytics
@@ -3601,10 +3620,10 @@ Run `revdep_details(, "PortfolioAnalytics")` for more info
 
 <details>
 
-* Version: 1.0.1
+* Version: 1.0.2
 * GitHub: https://github.com/EmanuelSommer/portvine
 * Source code: https://github.com/cran/portvine
-* Date/Publication: 2022-05-31 11:00:02 UTC
+* Date/Publication: 2023-01-06 09:40:04 UTC
 * Number of recursive dependencies: 129
 
 Run `revdep_details(, "portvine")` for more info
@@ -3682,7 +3701,7 @@ Run `revdep_details(, "ppcseq")` for more info
 * GitHub: https://github.com/Snitkin-Lab-Umich/prewas
 * Source code: https://github.com/cran/prewas
 * Date/Publication: 2021-04-02 12:20:05 UTC
-* Number of recursive dependencies: 75
+* Number of recursive dependencies: 76
 
 Run `revdep_details(, "prewas")` for more info
 
@@ -3746,7 +3765,7 @@ Run `revdep_details(, "promises")` for more info
 * GitHub: https://github.com/ccagc/QDNAseq
 * Source code: https://github.com/cran/QDNAseq
 * Date/Publication: 2022-11-01
-* Number of recursive dependencies: 87
+* Number of recursive dependencies: 88
 
 Run `revdep_details(, "QDNAseq")` for more info
 
@@ -3884,7 +3903,7 @@ Run `revdep_details(, "RAINBOWR")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/rattle
 * Date/Publication: 2022-03-21 13:10:02 UTC
-* Number of recursive dependencies: 206
+* Number of recursive dependencies: 213
 
 Run `revdep_details(, "rattle")` for more info
 
@@ -3931,6 +3950,34 @@ Run `revdep_details(, "rattle")` for more info
         po     1.2Mb
     ```
 
+# rbmi
+
+<details>
+
+* Version: 1.2.3
+* GitHub: https://github.com/insightsengineering/rbmi
+* Source code: https://github.com/cran/rbmi
+* Date/Publication: 2022-11-14 09:20:02 UTC
+* Number of recursive dependencies: 102
+
+Run `revdep_details(, "rbmi")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 53.3Mb
+      sub-directories of 1Mb or more:
+        libs  52.1Mb
+    ```
+
+*   checking for GNU extensions in Makefiles ... NOTE
+    ```
+    GNU make is a SystemRequirements.
+    ```
+
 # RBtest
 
 <details>
@@ -3939,7 +3986,7 @@ Run `revdep_details(, "rattle")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/RBtest
 * Date/Publication: 2020-03-03 15:00:03 UTC
-* Number of recursive dependencies: 44
+* Number of recursive dependencies: 31
 
 Run `revdep_details(, "RBtest")` for more info
 
@@ -3950,47 +3997,6 @@ Run `revdep_details(, "RBtest")` for more info
 *   checking LazyData ... NOTE
     ```
       'LazyData' is specified without a 'data' directory
-    ```
-
-# receptiviti
-
-<details>
-
-* Version: 0.1.2
-* GitHub: https://github.com/Receptiviti/receptiviti-r
-* Source code: https://github.com/cran/receptiviti
-* Date/Publication: 2022-10-06 22:40:02 UTC
-* Number of recursive dependencies: 65
-
-Run `revdep_details(, "receptiviti")` for more info
-
-</details>
-
-## In both
-
-*   checking tests ...
-    ```
-      Running ‘testthat.R’
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Complete output:
-      > library(testthat)
-      > library(receptiviti)
-      > 
-      > test_check("receptiviti")
-      [ FAIL 1 | WARN 0 | SKIP 2 | PASS 13 ]
-      
-    ...
-      ── Failure ('test-receptiviti_status.R:8'): failures works ─────────────────────
-      capture.output(receptiviti_status(key = 123, secret = 123), type = "message")[2] (`actual`) not identical to "Message: 401 (1411): Unrecognized API key pair." (`expected`).
-      
-      actual vs expected
-      - "Message: 401 (1411): Unrecognized API key pair. This call will not count towards your plan."
-      + "Message: 401 (1411): Unrecognized API key pair."
-      
-      [ FAIL 1 | WARN 0 | SKIP 2 | PASS 13 ]
-      Error: Test failures
-      Execution halted
     ```
 
 # regmedint
@@ -4036,6 +4042,47 @@ Run `revdep_details(, "Replication")` for more info
       'LazyData' is specified without a 'data' directory
     ```
 
+# reproducible
+
+<details>
+
+* Version: 1.2.16
+* GitHub: https://github.com/PredictiveEcology/reproducible
+* Source code: https://github.com/cran/reproducible
+* Date/Publication: 2022-12-22 09:50:02 UTC
+* Number of recursive dependencies: 104
+
+Run `revdep_details(, "reproducible")` for more info
+
+</details>
+
+## In both
+
+*   checking tests ...
+    ```
+      Running ‘test-all.R’/software/c4/cbi/software/R-4.2.2-gcc10/lib64/R/bin/BATCH: line 60: 125688 Segmentation fault      (core dumped) ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
+    
+     ERROR
+    Running the tests in ‘tests/test-all.R’ failed.
+    Last 50 lines of output:
+        adding: scratch/henrik/1093886/RtmpBBq2m1/reproducible/4sZYfp_038/1Gis54o.tif (stored 0%)
+        adding: scratch/henrik/1093886/RtmpBBq2m1/reproducible/4sZYfp_038/EiHkghZ.grd (stored 0%)
+      
+       *** caught segfault ***
+      address 0x40, cause 'memory not mapped'
+    ...
+      36: doTryCatch(return(expr), name, parentenv, handler)
+      37: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+      38: tryCatchList(expr, classes, parentenv, handlers)
+      39: tryCatch(code, testthat_abort_reporter = function(cnd) {    cat(conditionMessage(cnd), "\n")    NULL})
+      40: with_reporter(reporters$multi, lapply(test_paths, test_one_file,     env = env, wrap = wrap))
+      41: test_files_serial(test_dir = test_dir, test_package = test_package,     test_paths = test_paths, load_helpers = load_helpers, reporter = reporter,     env = env, stop_on_failure = stop_on_failure, stop_on_warning = stop_on_warning,     wrap = wrap, load_package = load_package)
+      42: test_files(test_dir = path, test_paths = test_paths, test_package = package,     reporter = reporter, load_helpers = load_helpers, env = env,     stop_on_failure = stop_on_failure, stop_on_warning = stop_on_warning,     wrap = wrap, load_package = load_package, parallel = parallel)
+      43: test_dir("testthat", package = package, reporter = reporter,     ..., load_package = "installed")
+      44: test_check("reproducible")
+      An irrecoverable exception occurred. R is aborting now ...
+    ```
+
 # rexposome
 
 <details>
@@ -4044,7 +4091,7 @@ Run `revdep_details(, "Replication")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/rexposome
 * Date/Publication: 2022-11-01
-* Number of recursive dependencies: 156
+* Number of recursive dependencies: 157
 
 Run `revdep_details(, "rexposome")` for more info
 
@@ -4083,8 +4130,8 @@ Run `revdep_details(, "rexposome")` for more info
     Error : The formatR package is required by the chunk option tidy = TRUE but not installed; tidy = TRUE will be ignored.
     
     ...
-    Warning in stats::chisq.test(...) :
-      Chi-squared approximation may be incorrect
+    The magick package is required to crop "/c4/home/henrik/repositories/parallelly/revdep/checks/rexposome/new/rexposome.Rcheck/vign_test/rexposome/vignettes/mutiple_imputation_data_analysis_files/figure-html/plot_family_continuous-1.png" but not available.
+    The magick package is required to crop "/c4/home/henrik/repositories/parallelly/revdep/checks/rexposome/new/rexposome.Rcheck/vign_test/rexposome/vignettes/mutiple_imputation_data_analysis_files/figure-html/plot_family_categorical-1.png" but not available.
     The magick package is required to crop "/c4/home/henrik/repositories/parallelly/revdep/checks/rexposome/new/rexposome.Rcheck/vign_test/rexposome/vignettes/mutiple_imputation_data_analysis_files/figure-html/plot_exwas-1.png" but not available.
     --- finished re-building ‘mutiple_imputation_data_analysis.Rmd’
     
@@ -4240,7 +4287,7 @@ Run `revdep_details(, "Riemann")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/rmsb
 * Date/Publication: 2022-04-12 16:00:02 UTC
-* Number of recursive dependencies: 98
+* Number of recursive dependencies: 108
 
 Run `revdep_details(, "rmsb")` for more info
 
@@ -4307,7 +4354,7 @@ Run `revdep_details(, "robotstxt")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/rrscale
 * Date/Publication: 2020-05-26 11:30:02 UTC
-* Number of recursive dependencies: 69
+* Number of recursive dependencies: 70
 
 Run `revdep_details(, "rrscale")` for more info
 
@@ -4334,7 +4381,7 @@ Run `revdep_details(, "rrscale")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/SACOBRA
 * Date/Publication: 2020-03-26 16:10:02 UTC
-* Number of recursive dependencies: 67
+* Number of recursive dependencies: 75
 
 Run `revdep_details(, "SACOBRA")` for more info
 
@@ -4357,7 +4404,7 @@ Run `revdep_details(, "SACOBRA")` for more info
 * GitHub: https://github.com/sapfluxnet/sapfluxnetr
 * Source code: https://github.com/cran/sapfluxnetr
 * Date/Publication: 2021-11-19 15:10:02 UTC
-* Number of recursive dependencies: 80
+* Number of recursive dependencies: 81
 
 Run `revdep_details(, "sapfluxnetr")` for more info
 
@@ -4478,7 +4525,7 @@ Run `revdep_details(, "sentopics")` for more info
 * GitHub: https://github.com/satijalab/seurat
 * Source code: https://github.com/cran/Seurat
 * Date/Publication: 2022-11-18 23:30:08 UTC
-* Number of recursive dependencies: 254
+* Number of recursive dependencies: 259
 
 Run `revdep_details(, "Seurat")` for more info
 
@@ -4528,7 +4575,7 @@ Run `revdep_details(, "SeuratObject")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/shapeNA
 * Date/Publication: 2021-03-15 09:10:02 UTC
-* Number of recursive dependencies: 61
+* Number of recursive dependencies: 48
 
 Run `revdep_details(, "shapeNA")` for more info
 
@@ -4551,10 +4598,10 @@ Run `revdep_details(, "shapeNA")` for more info
 
 <details>
 
-* Version: 1.7.3
+* Version: 1.7.4
 * GitHub: https://github.com/rstudio/shiny
 * Source code: https://github.com/cran/shiny
-* Date/Publication: 2022-10-25 20:50:02 UTC
+* Date/Publication: 2022-12-15 13:10:02 UTC
 * Number of recursive dependencies: 91
 
 Run `revdep_details(, "shiny")` for more info
@@ -4565,10 +4612,10 @@ Run `revdep_details(, "shiny")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  9.3Mb
+      installed size is  9.6Mb
       sub-directories of 1Mb or more:
         R     1.6Mb
-        www   6.6Mb
+        www   6.9Mb
     ```
 
 # shiny.worker
@@ -4641,10 +4688,10 @@ Run `revdep_details(, "SIAMCAT")` for more info
 
 <details>
 
-* Version: 2.0.0
+* Version: 2.0.1
 * GitHub: https://github.com/rvalieris/signeR
 * Source code: https://github.com/cran/signeR
-* Date/Publication: 2022-11-01
+* Date/Publication: 2022-12-14
 * Number of recursive dependencies: 242
 
 Run `revdep_details(, "signeR")` for more info
@@ -4655,10 +4702,10 @@ Run `revdep_details(, "signeR")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.6Mb
+      installed size is  6.7Mb
       sub-directories of 1Mb or more:
         R     1.1Mb
-        doc   4.6Mb
+        doc   4.7Mb
     ```
 
 *   checking R code for possible problems ... NOTE
@@ -4709,7 +4756,7 @@ Run `revdep_details(, "signeR")` for more info
 * GitHub: https://github.com/strengejacke/sjmisc
 * Source code: https://github.com/cran/sjmisc
 * Date/Publication: 2021-12-03 10:40:02 UTC
-* Number of recursive dependencies: 106
+* Number of recursive dependencies: 107
 
 Run `revdep_details(, "sjmisc")` for more info
 
@@ -4796,6 +4843,27 @@ Run `revdep_details(, "solitude")` for more info
     Namespaces in Imports field not imported from:
       ‘R6’ ‘lgr’
       All declared Imports should be used.
+    ```
+
+# SpaDES.tools
+
+<details>
+
+* Version: 1.0.1
+* GitHub: https://github.com/PredictiveEcology/SpaDES.tools
+* Source code: https://github.com/cran/SpaDES.tools
+* Date/Publication: 2023-01-05 15:20:19 UTC
+* Number of recursive dependencies: 117
+
+Run `revdep_details(, "SpaDES.tools")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘NLMR’
     ```
 
 # spaMM
@@ -4885,7 +4953,7 @@ Run `revdep_details(, "SPARSEMODr")` for more info
 * GitHub: https://github.com/FridleyLab/spatialTIME
 * Source code: https://github.com/cran/spatialTIME
 * Date/Publication: 2022-11-22 17:30:02 UTC
-* Number of recursive dependencies: 90
+* Number of recursive dependencies: 91
 
 Run `revdep_details(, "spatialTIME")` for more info
 
@@ -4984,6 +5052,30 @@ Run `revdep_details(, "spNetwork")` for more info
         libs     20.4Mb
     ```
 
+# squat
+
+<details>
+
+* Version: 0.1.0
+* GitHub: NA
+* Source code: https://github.com/cran/squat
+* Date/Publication: 2022-12-22 11:20:02 UTC
+* Number of recursive dependencies: 123
+
+Run `revdep_details(, "squat")` for more info
+
+</details>
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 18.7Mb
+      sub-directories of 1Mb or more:
+        data   1.1Mb
+        libs  16.7Mb
+    ```
+
 # ssdtools
 
 <details>
@@ -5016,7 +5108,7 @@ Run `revdep_details(, "ssdtools")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/StackImpute
 * Date/Publication: 2021-09-10 11:10:02 UTC
-* Number of recursive dependencies: 63
+* Number of recursive dependencies: 51
 
 Run `revdep_details(, "StackImpute")` for more info
 
@@ -5068,7 +5160,7 @@ Run `revdep_details(, "stars")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/superMICE
 * Date/Publication: 2022-05-04 20:00:02 UTC
-* Number of recursive dependencies: 135
+* Number of recursive dependencies: 124
 
 Run `revdep_details(, "superMICE")` for more info
 
@@ -5089,7 +5181,7 @@ Run `revdep_details(, "superMICE")` for more info
 * GitHub: https://github.com/dleutnant/swmmr
 * Source code: https://github.com/cran/swmmr
 * Date/Publication: 2020-03-02 14:10:03 UTC
-* Number of recursive dependencies: 92
+* Number of recursive dependencies: 93
 
 Run `revdep_details(, "swmmr")` for more info
 
@@ -5110,7 +5202,7 @@ Run `revdep_details(, "swmmr")` for more info
 * GitHub: https://github.com/umich-biostatistics/SynDI
 * Source code: https://github.com/cran/SynDI
 * Date/Publication: 2022-05-25 07:50:05 UTC
-* Number of recursive dependencies: 78
+* Number of recursive dependencies: 67
 
 Run `revdep_details(, "SynDI")` for more info
 
@@ -5130,10 +5222,10 @@ Run `revdep_details(, "SynDI")` for more info
 
 <details>
 
-* Version: 3.6.0
+* Version: 3.6.2
 * GitHub: NA
 * Source code: https://github.com/cran/synergyfinder
-* Date/Publication: 2022-11-01
+* Date/Publication: 2022-12-22
 * Number of recursive dependencies: 191
 
 Run `revdep_details(, "synergyfinder")` for more info
@@ -5148,31 +5240,6 @@ Run `revdep_details(, "synergyfinder")` for more info
     Namespaces in Imports field not imported from:
       ‘future’ ‘gstat’ ‘nleqslv’ ‘sp’ ‘tidyverse’
       All declared Imports should be used.
-    ```
-
-*   checking for code/documentation mismatches ... WARNING
-    ```
-    Codoc mismatches from documentation object 'PlotDoseResponse':
-    PlotDoseResponse
-      Code: function(data, block_ids = c(1), drugs = c(1, 2), adjusted =
-                     TRUE, statistic = NULL, summary_statistic = "mean",
-                     high_value_color = "#FF0000", low_value_color =
-                     "#00FF00", point_color = "#C24B40", curve_color =
-                     "black", curve_ylim = NULL, curve_grid = TRUE,
-                     text_size_scale = 1, heatmap_text_label_size_scale =
-                     1, heatmap_text_label_color = "#000000",
-                     heatmap_color_range = NULL, curve_plot_title = NULL,
-    ...
-                     high_value_color = "#A90217", low_value_color =
-                     "#2166AC", text_size_scale = 1,
-                     heatmap_text_label_size_scale = 1,
-                     heatmap_text_label_color = "#000000", grid = TRUE,
-                     dynamic = FALSE, display = TRUE, save_file = FALSE,
-                     file_type = "pdf", file_name = NULL, file_path = NULL,
-                     height = 6, width = 6, units = "in")
-      Mismatches in argument default values:
-        Name: 'high_value_color' Code: "#FF0000" Docs: "#A90217"
-        Name: 'low_value_color' Code: "#00FF00" Docs: "#2166AC"
     ```
 
 *   checking installed package size ... NOTE
@@ -5236,7 +5303,7 @@ Run `revdep_details(, "tableschema.r")` for more info
 * GitHub: https://github.com/kkholst/targeted
 * Source code: https://github.com/cran/targeted
 * Date/Publication: 2022-10-25 20:30:02 UTC
-* Number of recursive dependencies: 93
+* Number of recursive dependencies: 94
 
 Run `revdep_details(, "targeted")` for more info
 
@@ -5301,7 +5368,7 @@ Run `revdep_details(, "timetk")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/trawl
 * Date/Publication: 2021-02-22 17:30:02 UTC
-* Number of recursive dependencies: 110
+* Number of recursive dependencies: 111
 
 Run `revdep_details(, "trawl")` for more info
 
@@ -5346,7 +5413,7 @@ Run `revdep_details(, "TreeSearch")` for more info
 * GitHub: https://github.com/alexander-pastukhov/tridim-regression
 * Source code: https://github.com/cran/TriDimRegression
 * Date/Publication: 2021-10-05 08:30:08 UTC
-* Number of recursive dependencies: 99
+* Number of recursive dependencies: 100
 
 Run `revdep_details(, "TriDimRegression")` for more info
 
@@ -5543,7 +5610,7 @@ Run `revdep_details(, "vmeasur")` for more info
 * GitHub: NA
 * Source code: https://github.com/cran/weights
 * Date/Publication: 2021-06-10 21:50:02 UTC
-* Number of recursive dependencies: 91
+* Number of recursive dependencies: 100
 
 Run `revdep_details(, "weights")` for more info
 
