@@ -1,3 +1,36 @@
+# Version 1.34.0 [2023-01-13]
+
+## New Features
+
+ * Add support for `availableWorkers(constraints = "connections")`,
+   which limits the number of workers that can be be used to the
+   current number of free R connections according to
+   `freeConnections()`.  This is the maximum number of PSOCK, SOCK,
+   and MPI **parallel** cluster nodes we can open without running out
+   of available R connections.
+
+## Bug Fixes
+
+ * `availableCores()` would produce a warning `In is.na(constraints) :
+   is.na() applied to non-(list or vector) of type 'NULL'` when
+   running with R (< 4.0.0).
+
+ * `availableWorkers()` did not acknowledge the `"cgroups2.cpu.max"`
+   and `"Bioconductor"` methods added to `availableCores()` in
+   **parallelly** 1.33.0 (2022-12-13).  It also did not acknowledge
+   methods `"cgroups.cpuset"` and `"cgroups.cpuquota"` added in
+   **parallelly** 1.31.0 (2022-04-07), and `"nproc"` added in
+   **parallelly** 1.26.1 (2021-06-29).
+
+ * When `makeClusterPSOCK()` failed to connect to all parallel workers
+   within the `connectTimeout` time limit, could either produce `Error
+   in sprintf(ngettext(failed, "Cluster setup failed
+   (connectTimeout=%.1f seconds). %d worker of %d failed to
+   connect.", : invalid format '%d'; use format %f, %e, %g or %a for
+   numeric objects` instead of an informative error message, or an
+   error message with the incorrect information.
+  
+
 # Version 1.33.0 [2022-12-13]
 
 ## New Features
@@ -54,13 +87,13 @@
 
 ## Bug Fixes
 
-* `isNodeAlive()` failed to record which method works for testing if
-   a process exists or not, which meant it would keep trying all
-   methods each time.  Similarly, if none works, it would still keep
-   trying each time instead of return NA immediately.  On some
-   systems, failing to check whether a process exists could result in
-   one or more warnings, in which case those warnings would be
-   produced for each call to `isNodeAlive()`.
+* `isNodeAlive()` failed to record which method works for testing if a
+   process exists or not, which meant it would keep trying all methods
+   each time.  Similarly, if none works, it would still keep trying
+   each time instead of returning NA immediately.  On some systems,
+   failing to check whether a process exists could result in one or
+   more warnings, in which case those warnings would be produced for
+   each call to `isNodeAlive()`.
 
 
 # Version 1.32.1 [2022-07-21]

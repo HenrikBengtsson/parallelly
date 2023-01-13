@@ -1,5 +1,10 @@
 #' Get Set of Available Workers
 #'
+#' @param constraints An optional character specifying under what
+#' constraints ("purposes") we are requesting the values.
+#' Using `constraints = "connections"`, will append `"connections"` to
+#' the `methods` argument.
+#'
 #' @param methods A character vector specifying how to infer the number
 #' of available cores.
 #'
@@ -132,7 +137,7 @@
 #'
 #' @importFrom utils file_test
 #' @export
-availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "LSF", "PJM", "PBS", "SGE", "Slurm", "custom", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = getOption2("parallelly.localhost.hostname", "localhost"), which = c("auto", "min", "max", "all")) {
+availableWorkers <- function(constraints = NULL, methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "custom", "cgroups.cpuset", "cgroups.cpuquota", "cgroups2.cpu.max", "nproc", "system", "fallback")), na.rm = TRUE, logical = getOption2("parallelly.availableCores.logical", TRUE), default = getOption2("parallelly.localhost.hostname", "localhost"), which = c("auto", "min", "max", "all")) {
   ## Local functions
   getenv <- function(name) {
     as.character(trim(getEnvVar2(name, default = NA_character_)))
@@ -149,12 +154,23 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
     x
   }
 
+  stop_if_not(
+    is.null(constraints) || is.character(constraints), !anyNA(constraints)
+  )
+
   which <- match.arg(which, choices = c("auto", "min", "max", "all"))
   stop_if_not(is.character(default), length(default) >= 1, !anyNA(default))
 
+  methods_localhost <- c("BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "mc.cores", "mc.cores+1", "cgroups.cpuset", "cgroups.cpuquota", "cgroups2.cpu.max", "nproc", "system")
+
+  if ("connections" %in% constraints) {
+    methods <- unique(c(methods, "connections"))
+    methods_localhost <- unique(c(methods_localhost, "connections"))
+    constraints <- setdiff(constraints, "connections")
+  }
 
   ## Default is to use the current machine
-  ncores <- availableCores(methods = methods, na.rm = FALSE, logical = logical, which = "all")
+  ncores <- availableCores(constraints = constraints, methods = methods, na.rm = FALSE, logical = logical, which = "all")
 
   localhost_hostname <- getOption2("parallelly.localhost.hostname", "localhost")
   workers <- lapply(ncores, FUN = function(n) {
@@ -163,7 +179,6 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
   })
   
   ## Acknowledge known HPC settings (skip others)
-  methods_localhost <- c("BiocParallel", "_R_CHECK_LIMIT_CORES_", "mc.cores", "mc.cores+1", "system")
   methodsT <- setdiff(methods, methods_localhost)
   for (method in methodsT) {
     if (method == "PBS") {
@@ -229,7 +244,7 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
       } else {
         ## Parse counts
 	c <- slurm_expand_nodecounts(nodecounts)
-        if (any(is.na(c))) {
+        if (anyNA(c)) {
           warnf("Failed to parse 'SLURM_JOB_CPUS_PER_NODE' or 'SLURM_TASKS_PER_NODE': %s", sQuote(nodecounts))
           next
         }
@@ -315,7 +330,7 @@ availableWorkers <- function(methods = getOption2("parallelly.availableWorkers.m
 
   
   nnodes <- unlist(lapply(workers, FUN = length), use.names = TRUE)
-
+  
   if (which == "auto") {
     ## For default localhost sets, use the minimum allowed number of
     ## workers **according to availableCores()**.
@@ -615,7 +630,7 @@ slurm_expand_nodecounts <- function(nodecounts) {
   })
   counts <- unlist(counts, use.names = TRUE)
   
-  if (any(is.na(counts))) {
+  if (anyNA(counts)) {
     warnf("Failed to parse Slurm node counts specification: %s", nodecounts)
   }
   

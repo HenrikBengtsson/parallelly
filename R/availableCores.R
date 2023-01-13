@@ -231,8 +231,7 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
   } # getopt()
 
   stop_if_not(
-    is.null(constraints) || is.character(constraints),
-    !any(is.na(constraints))
+    is.null(constraints) || is.character(constraints), !anyNA(constraints)
   )
 
 
@@ -285,7 +284,7 @@ availableCores <- function(constraints = NULL, methods = getOption2("parallelly.
             ## SLURM_TASKS_PER_NODE=5,2
             ## SLURM_TASKS_PER_NODE=2(x2),1(x3)  # Source: 'man sbatch'
             n <- slurm_expand_nodecounts(nodecounts)
-            if (any(is.na(n))) next
+            if (anyNA(n)) next
 
             ## ASSUMPTION: We assume that it is the first component on the list that
             ## corresponds to the current machine. /HB 2021-03-05

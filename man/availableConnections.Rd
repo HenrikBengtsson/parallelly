@@ -20,8 +20,9 @@ The number of \link{connections} that can be open at the same time in \R is
 \code{\link[=stdin]{stdin()}}, \code{\link[=stdout]{stdout()}}, and \code{\link[=stderr]{stderr()}} connections, which leaves 125 slots
 available for other types of connections.  Connections are used in many
 places, e.g. reading and writing to file, downloading URLs, communicating
-with parallel \R processes over a socket connections, and capturing standard
-output via text connections.
+with parallel \R processes over a socket connections (e.g.
+\code{\link[parallel:makeCluster]{parallel::makeCluster()}} and \code{\link[=makeClusterPSOCK]{makeClusterPSOCK()}}), and capturing
+standard output via text connections (e.g. \code{\link[utils:capture.output]{utils::capture.output()}}).
 }
 \section{How to increase the limit}{
 

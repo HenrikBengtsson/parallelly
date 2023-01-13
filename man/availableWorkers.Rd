@@ -5,9 +5,11 @@
 \title{Get Set of Available Workers}
 \usage{
 availableWorkers(
+  constraints = NULL,
   methods = getOption2("parallelly.availableWorkers.methods", c("mc.cores",
-    "BiocParallel", "_R_CHECK_LIMIT_CORES_", "LSF", "PJM", "PBS", "SGE", "Slurm",
-    "custom", "system", "fallback")),
+    "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE",
+    "Slurm", "custom", "cgroups.cpuset", "cgroups.cpuquota", "cgroups2.cpu.max", "nproc",
+    "system", "fallback")),
   na.rm = TRUE,
   logical = getOption2("parallelly.availableCores.logical", TRUE),
   default = getOption2("parallelly.localhost.hostname", "localhost"),
@@ -15,6 +17,11 @@ availableWorkers(
 )
 }
 \arguments{
+\item{constraints}{An optional character specifying under what
+constraints ("purposes") we are requesting the values.
+Using \code{constraints = "connections"}, will append \code{"connections"} to
+the \code{methods} argument.}
+
 \item{methods}{A character vector specifying how to infer the number
 of available cores.}
 

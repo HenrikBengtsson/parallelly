@@ -33,7 +33,7 @@
 #' \describe{
 #'  \item{`parallelly.availableCores.logical`:}{(logical) The default value of argument `logical` as used by `availableCores()`, `availableWorkers()`, and `availableCores()` for querying `parallel::detectCores(logical = logical)`.  The default is `TRUE` just like it is for [parallel::detectCores()].}
 #'
-#'  \item{`parallelly.availableCores.methods`:}{(character vector) Default lookup methods for [availableCores()]. (Default: `c("system", "nproc", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "fallback", "custom")`)}
+#'  \item{`parallelly.availableCores.methods`:}{(character vector) Default lookup methods for [availableCores()]. (Default: `c("system", "cgroups.cpuset", "cgroups.cpuquota", "cgroups2.cpu.max", "nproc", "mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "fallback", "custom")`)}
 #'
 #'  \item{`parallelly.availableCores.custom`:}{(function) If set and a function, then this function will be called (without arguments) by [availableCores()] where its value, coerced to an integer, is interpreted as a number of cores.}
 #'
@@ -45,7 +45,7 @@
 #'
 #'  \item{`parallelly.availableCores.omit`:}{(integer) Number of cores to set aside, i.e. not to include.}
 #'
-#'  \item{`parallelly.availableWorkers.methods`:}{(character vector) Default lookup methods for [availableWorkers()]. (Default: `c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")`)}
+#'  \item{`parallelly.availableWorkers.methods`:}{(character vector) Default lookup methods for [availableWorkers()]. (Default: `c("mc.cores", "BiocParallel", "_R_CHECK_LIMIT_CORES_", "Bioconductor", "LSF", "PJM", "PBS", "SGE", "Slurm", "custom", "cgroups.cpuset", "cgroups.cpuquota", "cgroups2.cpu.max", "nproc", "system", "fallback")`)}
 #'
 #'  \item{`parallelly.availableWorkers.custom`:}{(function) If set and a function, then this function will be called (without arguments) by [availableWorkers()] where its value, coerced to a character vector, is interpreted as hostnames of available workers.}
 #' }
@@ -254,7 +254,7 @@ update_package_option <- function(name, mode = "character", default = NULL, pack
 
   if (length(disallow) > 0) {
     if ("NA" %in% disallow) {
-      if (any(is.na(value))) {
+      if (anyNA(value)) {
         stopf("Coercing environment variable %s=%s to %s would result in missing values for option %s: %s", sQuote(env), sQuote(env_value), sQuote(mode), sQuote(name), commaq(value))
       }
     }
