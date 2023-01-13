@@ -698,16 +698,16 @@ Run `revdep_details(, "censcyt")` for more info
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 50 lines of output:
-        6. │ └─censcyt::simulate_singlecluster(...) at test-simulate_data.R:109:3
         7. │   └─censcyt:::create_glmm_formula(formula)
         8. │     └─stringr::str_replace(formula, "Surv\\([[:alnum:] ,._]*\\)", extracted_vars$censored_variable)
         9. │       └─stringr:::check_lengths(string, pattern, replacement)
        10. │         └─vctrs::vec_size_common(...)
        11. └─vctrs:::stop_scalar_type(...)
-    ...
        12.   └─vctrs:::stop_vctrs(...)
+    ...
        13.     └─rlang::abort(message, class = c(class, "vctrs_error"), ..., call = vctrs_error_call(call))
       ── Error ('test-testDA_censoredGLMM_helpers.R:34'): (code run outside of `test_that()`) ──
+      <purrr_error_indexed/rlang_error/error/condition>
       Error in `purrr::map(test_formulas, ~create_glmm_formula(.x))`: ℹ In index: 1.
       Caused by error in `stringr::str_replace()`:
       ! `string` must be a vector, not a <formula> object.
@@ -868,28 +868,6 @@ Run `revdep_details(, "codebook")` for more info
       Note: found 65 marked UTF-8 strings
     ```
 
-# crossmap
-
-<details>
-
-* Version: 0.3.3
-* GitHub: https://github.com/rossellhayes/crossmap
-* Source code: https://github.com/cran/crossmap
-* Date/Publication: 2022-08-12 17:30:05 UTC
-* Number of recursive dependencies: 63
-
-Run `revdep_details(, "crossmap")` for more info
-
-</details>
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘utils’
-      All declared Imports should be used.
-    ```
-
 # cSEM
 
 <details>
@@ -994,10 +972,10 @@ Run `revdep_details(, "ctsem")` for more info
 
 <details>
 
-* Version: 1.0.0
+* Version: 1.0.2
 * GitHub: https://github.com/DeclareDesign/DeclareDesign
 * Source code: https://github.com/cran/DeclareDesign
-* Date/Publication: 2022-06-20 18:30:07 UTC
+* Date/Publication: 2023-01-10 07:13:10 UTC
 * Number of recursive dependencies: 134
 
 Run `revdep_details(, "DeclareDesign")` for more info
@@ -1302,7 +1280,7 @@ Run `revdep_details(, "envi")` for more info
 * GitHub: https://github.com/EU-ECDC/epitweetr
 * Source code: https://github.com/cran/epitweetr
 * Date/Publication: 2022-12-01 00:40:03 UTC
-* Number of recursive dependencies: 145
+* Number of recursive dependencies: 146
 
 Run `revdep_details(, "epitweetr")` for more info
 
@@ -1320,47 +1298,6 @@ Run `revdep_details(, "epitweetr")` for more info
     Namespaces in Imports field not imported from:
       ‘httpuv’ ‘knitr’ ‘plyr’ ‘rgdal’ ‘tidyverse’ ‘tokenizers’ ‘xml2’
       All declared Imports should be used.
-    ```
-
-# fabletools
-
-<details>
-
-* Version: 0.3.2
-* GitHub: https://github.com/tidyverts/fabletools
-* Source code: https://github.com/cran/fabletools
-* Date/Publication: 2021-11-29 05:50:02 UTC
-* Number of recursive dependencies: 102
-
-Run `revdep_details(, "fabletools")` for more info
-
-</details>
-
-## In both
-
-*   checking tests ...
-    ```
-      Running ‘testthat.R’
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Complete output:
-      > library(testthat)
-      > library(dplyr)
-      
-      Attaching package: 'dplyr'
-      
-      The following object is masked from 'package:testthat':
-    ...
-      ── Failure ('test-generate.R:12'): generate ────────────────────────────────────
-      gen_multi$index not equal to yearmonth("1979 Jan") + rep(0:23, 2).
-      'is.NA' value mismatch: 20 in current 0 in target
-      ── Failure ('test-generate.R:17'): generate ────────────────────────────────────
-      gen_complex$index not equal to yearmonth("1979 Jan") + rep(0:23, 2 * 2 * 3).
-      'is.NA' value mismatch: 120 in current 0 in target
-      
-      [ FAIL 3 | WARN 5 | SKIP 1 | PASS 292 ]
-      Error: Test failures
-      Execution halted
     ```
 
 # fect
@@ -1527,11 +1464,11 @@ Run `revdep_details(, "GeneBreak")` for more info
 
 <details>
 
-* Version: 0.3.1
+* Version: 0.3.2
 * GitHub: https://github.com/JeremyGelb/geocmeans
 * Source code: https://github.com/cran/geocmeans
-* Date/Publication: 2022-10-16 00:23:35 UTC
-* Number of recursive dependencies: 198
+* Date/Publication: 2023-01-08 21:40:02 UTC
+* Number of recursive dependencies: 197
 
 Run `revdep_details(, "geocmeans")` for more info
 
@@ -1541,12 +1478,11 @@ Run `revdep_details(, "geocmeans")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 13.2Mb
+      installed size is 14.4Mb
       sub-directories of 1Mb or more:
-        data      2.3Mb
         doc       1.7Mb
-        extdata   1.1Mb
-        libs      7.4Mb
+        extdata   3.0Mb
+        libs      8.1Mb
     ```
 
 # googleComputeEngineR
@@ -1772,10 +1708,10 @@ Run `revdep_details(, "hal9001")` for more info
 
 <details>
 
-* Version: 0.2.5
+* Version: 0.2.6
 * GitHub: https://github.com/spsanderson/healthyR.ts
 * Source code: https://github.com/cran/healthyR.ts
-* Date/Publication: 2022-11-16 22:00:02 UTC
+* Date/Publication: 2023-01-06 22:40:02 UTC
 * Number of recursive dependencies: 191
 
 Run `revdep_details(, "healthyR.ts")` for more info
@@ -1788,7 +1724,7 @@ Run `revdep_details(, "healthyR.ts")` for more info
     ```
       installed size is  5.9Mb
       sub-directories of 1Mb or more:
-        doc   5.2Mb
+        doc   5.1Mb
     ```
 
 # HiCcompare
@@ -2243,10 +2179,10 @@ Run `revdep_details(, "joinet")` for more info
 
 <details>
 
-* Version: 0.4.1
+* Version: 0.4.2
 * GitHub: https://github.com/keyATM/keyATM
 * Source code: https://github.com/cran/keyATM
-* Date/Publication: 2022-06-11 15:40:05 UTC
+* Date/Publication: 2023-01-06 18:50:52 UTC
 * Number of recursive dependencies: 107
 
 Run `revdep_details(, "keyATM")` for more info
@@ -2257,9 +2193,9 @@ Run `revdep_details(, "keyATM")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 24.1Mb
+      installed size is 24.2Mb
       sub-directories of 1Mb or more:
-        libs  23.7Mb
+        libs  23.8Mb
     ```
 
 # konfound
@@ -2283,27 +2219,6 @@ Run `revdep_details(, "konfound")` for more info
     Namespaces in Imports field not imported from:
       ‘mice’ ‘tibble’
       All declared Imports should be used.
-    ```
-
-# lava
-
-<details>
-
-* Version: 1.7.0
-* GitHub: https://github.com/kkholst/lava
-* Source code: https://github.com/cran/lava
-* Date/Publication: 2022-10-25 05:52:57 UTC
-* Number of recursive dependencies: 138
-
-Run `revdep_details(, "lava")` for more info
-
-</details>
-
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Packages suggested but not available for checking: 'gof', 'lava.tobit'
     ```
 
 # lidR
@@ -2349,7 +2264,7 @@ Run `revdep_details(, "lidR")` for more info
 
 *   checking tests ...
     ```
-      Running ‘testthat.R’/software/c4/cbi/software/R-4.2.2-gcc10/lib64/R/bin/BATCH: line 60: 57771 Aborted                 (core dumped) ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
+      Running ‘testthat.R’/software/c4/cbi/software/R-4.2.2-gcc10/lib64/R/bin/BATCH: line 60: 133575 Aborted                 (core dumped) ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
     
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
@@ -2703,10 +2618,10 @@ Run `revdep_details(, "mice")` for more info
 
 <details>
 
-* Version: 3.15-21
+* Version: 3.16-18
 * GitHub: https://github.com/alexanderrobitzsch/miceadds
 * Source code: https://github.com/cran/miceadds
-* Date/Publication: 2022-09-22 08:40:06 UTC
+* Date/Publication: 2023-01-06 22:30:27 UTC
 * Number of recursive dependencies: 150
 
 Run `revdep_details(, "miceadds")` for more info
@@ -2998,47 +2913,6 @@ Run `revdep_details(, "missSBM")` for more info
       installed size is  9.8Mb
       sub-directories of 1Mb or more:
         libs   7.8Mb
-    ```
-
-# miWQS
-
-<details>
-
-* Version: 0.4.4
-* GitHub: https://github.com/phargarten2/miWQS
-* Source code: https://github.com/cran/miWQS
-* Date/Publication: 2021-04-02 21:50:02 UTC
-* Number of recursive dependencies: 130
-
-Run `revdep_details(, "miWQS")` for more info
-
-</details>
-
-## In both
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error(s) in re-building vignettes:
-      ...
-    --- re-building ‘README.Rmd’ using rmarkdown
-    cannot setup TLPDB in /c4/home/henrik/.TinyTeX at /c4/home/henrik/.TinyTeX/bin/x86_64-linux/tlmgr line 6889.
-    Warning in system2("tlmgr", args, ...) :
-      running command ''tlmgr' search --file --global '/biblatex.sty'' had status 255
-    ! LaTeX Error: File `biblatex.sty' not found.
-    
-    ! Emergency stop.
-    <read *> 
-    ...
-    
-    Error: processing vignette 'README.Rmd' failed with diagnostics:
-    LaTeX failed to compile /c4/home/henrik/repositories/parallelly/revdep/checks/miWQS/new/miWQS.Rcheck/vign_test/miWQS/vignettes/README.tex. See https://yihui.org/tinytex/r/#debugging for debugging tips. See README.log for more info.
-    --- failed re-building ‘README.Rmd’
-    
-    SUMMARY: processing the following file failed:
-      ‘README.Rmd’
-    
-    Error: Vignette re-building failed.
-    Execution halted
     ```
 
 # mlr3shiny
@@ -3719,10 +3593,10 @@ Run `revdep_details(, "prewas")` for more info
 
 <details>
 
-* Version: 2.2.2
+* Version: 2.3.0
 * GitHub: https://github.com/stan-dev/projpred
 * Source code: https://github.com/cran/projpred
-* Date/Publication: 2022-11-09 11:10:02 UTC
+* Date/Publication: 2023-01-10 15:00:03 UTC
 * Number of recursive dependencies: 143
 
 Run `revdep_details(, "projpred")` for more info
@@ -4060,16 +3934,16 @@ Run `revdep_details(, "reproducible")` for more info
 
 *   checking tests ...
     ```
-      Running ‘test-all.R’/software/c4/cbi/software/R-4.2.2-gcc10/lib64/R/bin/BATCH: line 60: 125688 Segmentation fault      (core dumped) ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
+      Running ‘test-all.R’/software/c4/cbi/software/R-4.2.2-gcc10/lib64/R/bin/BATCH: line 60: 156033 Segmentation fault      (core dumped) ${R_HOME}/bin/R -f ${in} ${opts} ${R_BATCH_OPTIONS} > ${out} 2>&1
     
      ERROR
     Running the tests in ‘tests/test-all.R’ failed.
     Last 50 lines of output:
-        adding: scratch/henrik/1093886/RtmpBBq2m1/reproducible/4sZYfp_038/1Gis54o.tif (stored 0%)
-        adding: scratch/henrik/1093886/RtmpBBq2m1/reproducible/4sZYfp_038/EiHkghZ.grd (stored 0%)
+        adding: scratch/henrik/1098460/RtmpvI9tY1/reproducible/4sZYfp_038/1Gis54o.tif (stored 0%)
+        adding: scratch/henrik/1098460/RtmpvI9tY1/reproducible/4sZYfp_038/EiHkghZ.grd (stored 0%)
       
        *** caught segfault ***
-      address 0x40, cause 'memory not mapped'
+      address 0x8, cause 'memory not mapped'
     ...
       36: doTryCatch(return(expr), name, parentenv, handler)
       37: tryCatchOne(expr, names, parentenv, handlers[[1L]])
@@ -4481,6 +4355,45 @@ Run `revdep_details(, "sdmApp")` for more info
     ```
     Namespace in Imports field not imported from: ‘sp’
       All declared Imports should be used.
+    ```
+
+# sdmTMB
+
+<details>
+
+* Version: 0.2.1
+* GitHub: https://github.com/pbs-assess/sdmTMB
+* Source code: https://github.com/cran/sdmTMB
+* Date/Publication: 2023-01-10 18:50:02 UTC
+* Number of recursive dependencies: 167
+
+Run `revdep_details(, "sdmTMB")` for more info
+
+</details>
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘INLA’
+    ```
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 79.3Mb
+      sub-directories of 1Mb or more:
+        data   1.7Mb
+        libs  75.9Mb
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘INLA’
+    ```
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 2 marked Latin-1 strings
     ```
 
 # sentopics
@@ -5035,7 +4948,7 @@ Run `revdep_details(, "sphunif")` for more info
 * GitHub: https://github.com/JeremyGelb/spNetwork
 * Source code: https://github.com/cran/spNetwork
 * Date/Publication: 2022-11-11 08:10:02 UTC
-* Number of recursive dependencies: 150
+* Number of recursive dependencies: 149
 
 Run `revdep_details(, "spNetwork")` for more info
 
