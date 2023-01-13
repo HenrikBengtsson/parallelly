@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.33.0-9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.34.0-9000</span>
       </span>
     </div>
 
@@ -121,12 +121,16 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<ul><li>…</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.34.0" id="version-1340">Version 1.34.0<a class="anchor" aria-label="anchor" href="#version-1340"></a></h2>
 <div class="section level3">
-<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-1-34-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-34-0"></a></h3>
 <ul><li>Add support for <code>availableWorkers(constraints = "connections")</code>, which limits the number of workers that can be be used to the current number of free R connections according to <code><a href="../reference/availableConnections.html">freeConnections()</a></code>. This is the maximum number of PSOCK, SOCK, and MPI <strong>parallel</strong> cluster nodes we can open without running out of available R connections.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-1-34-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-34-0"></a></h3>
 <ul><li><p><code><a href="../reference/availableCores.html">availableCores()</a></code> would produce a warning <code>In is.na(constraints) :    is.na() applied to non-(list or vector) of type 'NULL'</code> when running with R (&lt; 4.0.0).</p></li>
 <li><p><code><a href="../reference/availableWorkers.html">availableWorkers()</a></code> did not acknowledge the <code>"cgroups2.cpu.max"</code> and <code>"Bioconductor"</code> methods added to <code><a href="../reference/availableCores.html">availableCores()</a></code> in <strong>parallelly</strong> 1.33.0 (2022-12-13). It also did not acknowledge methods <code>"cgroups.cpuset"</code> and <code>"cgroups.cpuquota"</code> added in <strong>parallelly</strong> 1.31.0 (2022-04-07), and <code>"nproc"</code> added in <strong>parallelly</strong> 1.26.1 (2021-06-29).</p></li>
 <li><p>When <code><a href="../reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code> failed to connect to all parallel workers within the <code>connectTimeout</code> time limit, could either produce <code>Error    in sprintf(ngettext(failed, "Cluster setup failed    (connectTimeout=%.1f seconds). %d worker of %d failed to    connect.", : invalid format '%d'; use format %f, %e, %g or %a for    numeric objects</code> instead of an informative error message, or an error message with the incorrect information.</p></li>
@@ -152,7 +156,7 @@
 <div class="section level3">
 <h3 id="bug-fixes-1-33-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-33-0"></a></h3>
 <ul><li>
-<code><a href="../reference/isNodeAlive.html">isNodeAlive()</a></code> failed to record which method works for testing if a process exists or not, which meant it would keep trying all methods each time. Similarly, if none works, it would still keep trying each time instead of return NA immediately. On some systems, failing to check whether a process exists could result in one or more warnings, in which case those warnings would be produced for each call to <code><a href="../reference/isNodeAlive.html">isNodeAlive()</a></code>.</li>
+<code><a href="../reference/isNodeAlive.html">isNodeAlive()</a></code> failed to record which method works for testing if a process exists or not, which meant it would keep trying all methods each time. Similarly, if none works, it would still keep trying each time instead of returning NA immediately. On some systems, failing to check whether a process exists could result in one or more warnings, in which case those warnings would be produced for each call to <code><a href="../reference/isNodeAlive.html">isNodeAlive()</a></code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
