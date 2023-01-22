@@ -238,4 +238,4 @@ cl <- makeClusterPSOCK(
 ## remote workers are MS Windows machines, we need to use
 ## rscript_sh = "cmd".
 workers <- c("mswin1.remote.org", "mswin2.remote.org")
-cl <- makeClusterPSOCK(workers, rscript_sh = "cmd", dryrun = TRUE)
+cl <- makeClusterPSOCK(workers, rscript_sh = "cmd", dryrun = TRUE, quiet = TRUE)
