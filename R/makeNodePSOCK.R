@@ -54,9 +54,10 @@
 #' options are quoted, via
 #' \code{\link[base:shQuote]{shQuote(..., type = rscript_sh)}}.
 #' If `"auto"` (default), and the cluster node is launched locally, then it
-#' is set to `"sh"` or `"cmd"` according to the current platform.  If launched
-#' remotely, then it is set to `"sh"` based on the assumption remote machines
-#' typically launch commands via SSH in a POSIX shell.
+#' is set to `"sh"` or `"cmd"` according to the current platform.
+#' _If launched remotely_, then it is set to `"sh"` based on the assumption
+#' remote machines typically launch commands via SSH in a POSIX shell.
+#' If the remote machines run MS Windows, use `rscript_sh = "cmd"`.
 #'
 #' @param default_packages A character vector or NULL that controls which R
 #' packages are attached on each cluster node during startup.  An asterisk

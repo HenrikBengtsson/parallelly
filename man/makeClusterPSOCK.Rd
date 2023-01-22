@@ -148,9 +148,10 @@ launched via an MS Windows shell.  This controls how shell command-line
 options are quoted, via
 \code{\link[base:shQuote]{shQuote(..., type = rscript_sh)}}.
 If \code{"auto"} (default), and the cluster node is launched locally, then it
-is set to \code{"sh"} or \code{"cmd"} according to the current platform.  If launched
-remotely, then it is set to \code{"sh"} based on the assumption remote machines
-typically launch commands via SSH in a POSIX shell.}
+is set to \code{"sh"} or \code{"cmd"} according to the current platform.
+\emph{If launched remotely}, then it is set to \code{"sh"} based on the assumption
+remote machines typically launch commands via SSH in a POSIX shell.
+If the remote machines run MS Windows, use \code{rscript_sh = "cmd"}.}
 
 \item{default_packages}{A character vector or NULL that controls which R
 packages are attached on each cluster node during startup.  An asterisk
