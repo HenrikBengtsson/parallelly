@@ -1,5 +1,10 @@
 # Version (development version)
 
+## Documentation
+
+ * Mention in `help("makeClusterPSOCK")` that `rscript_sh = "cmd"` is
+   needed if the remote machines run MS Windows.
+
 ## Bug Fixes
 
  * `makeClusterPSOCK(..., verbose = TRUE)` would not show verbose

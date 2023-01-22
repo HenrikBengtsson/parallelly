@@ -53,11 +53,11 @@ cl <- makeClusterPSOCK(
     "Rscript"
   ),
   ## IMPORTANT: Because Docker runs inside a virtual machine (VM) on macOS
-  ## and Windows (not Linux), when the R worker tries to connect back to
+  ## and MS Windows (not Linux), when the R worker tries to connect back to
   ## the default 'localhost' it will fail, because the main R session is
   ## not running in the VM, but outside on the host.  To reach the host on
-  ## macOS and Windows, make sure to use master = "host.docker.internal"
-  # master = "host.docker.internal",  # <= macOS & Windows
+  ## macOS and MS Windows, make sure to use master = "host.docker.internal"
+  # master = "host.docker.internal",  # <= macOS & MS Windows
   dryrun = TRUE, quiet = TRUE
 )
 
@@ -190,9 +190,9 @@ cl <- makeClusterPSOCK(
 )
 
 
-## EXAMPLE: Remote worker running on Linux from Windows machine
+## EXAMPLE: Remote worker running on Linux from MS Windows machine
 ## Connect to remote Unix machine 'remote.server.org' on port 2200
-## as user 'bob' from a Windows machine with PuTTY installed.
+## as user 'bob' from a MS Windows machine with PuTTY installed.
 ## Using the explicit special rshcmd = "<putty-plink>", will force
 ## makeClusterPSOCK() to search for and use the PuTTY plink software,
 ## preventing it from using other SSH clients on the system search PATH.
@@ -204,9 +204,9 @@ cl <- makeClusterPSOCK(
 )
 
 
-## EXAMPLE: Remote worker running on Linux from RStudio on Windows
+## EXAMPLE: Remote worker running on Linux from RStudio on MS Windows
 ## Connect to remote Unix machine 'remote.server.org' on port 2200
-## as user 'bob' from a Windows machine via RStudio's SSH client.
+## as user 'bob' from a MS Windows machine via RStudio's SSH client.
 ## Using the explicit special rshcmd = "<rstudio-ssh>", will force
 ## makeClusterPSOCK() to use the SSH client that comes with RStudio,
 ## preventing it from using other SSH clients on the system search PATH.
@@ -232,3 +232,10 @@ cl <- makeClusterPSOCK(
   rshcmd = "pjrsh",
   dryrun = TRUE, quiet = TRUE
 )
+
+
+## EXAMPLE: Two remote workers running on MS Windows.  Because the
+## remote workers are MS Windows machines, we need to use
+## rscript_sh = "cmd".
+workers <- c("mswin1.remote.org", "mswin2.remote.org")
+cl <- makeClusterPSOCK(workers, rscript_sh = "cmd", dryrun = TRUE)

@@ -345,6 +345,11 @@
 #' The latter will assert that you have proper startup configuration also for
 #' _non-interactive_ shell sessions on the remote machine.
 #'
+#' If the remote machines are running on MS Windows, make sure to add argument
+#' `rscript_sh = "cmd"` when calling `makeClusterPSOCK()`, because the default
+#' is `rscript_sh = "sh"`, which assumes that that the remote machines are
+#' Unix-like machines.
+#' 
 #' Another reason for failing to setup remote workers could be that they are
 #' running an \R version that is not compatible with the version that your main
 #' \R session is running.  For instance, if we run R (>= 3.6.0) locally and the
