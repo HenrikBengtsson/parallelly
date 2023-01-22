@@ -320,9 +320,10 @@ launched via an MS Windows shell.  This controls how shell command-line
 options are quoted, via
 <code><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote(..., type = rscript_sh)</a></code>.
 If <code>"auto"</code> (default), and the cluster node is launched locally, then it
-is set to <code>"sh"</code> or <code>"cmd"</code> according to the current platform.  If launched
-remotely, then it is set to <code>"sh"</code> based on the assumption remote machines
-typically launch commands via SSH in a POSIX shell.</p></dd>
+is set to <code>"sh"</code> or <code>"cmd"</code> according to the current platform.
+<em>If launched remotely</em>, then it is set to <code>"sh"</code> based on the assumption
+remote machines typically launch commands via SSH in a POSIX shell.
+If the remote machines run MS Windows, use <code>rscript_sh = "cmd"</code>.</p></dd>
 
 
 <dt>default_packages</dt>
