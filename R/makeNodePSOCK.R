@@ -331,7 +331,7 @@
 #' \preformatted{
 #' {local}$ ssh -l alice remote.server.org
 #' {remote}$ Rscript --version
-#' R scripting front-end version 3.6.1 (2019-07-05)
+#' R scripting front-end version 4.2.2 (2022-10-31)
 #' {remote}$ logout
 #' {local}$
 #' }
@@ -339,7 +339,7 @@
 #' the same in a single command-line call;
 #' \preformatted{
 #' {local}$ ssh -l alice remote.server.org Rscript --version
-#' R scripting front-end version 3.6.1 (2019-07-05)
+#' R scripting front-end version 4.2.2 (2022-10-31)
 #' {local}$
 #' }
 #' The latter will assert that you have proper startup configuration also for
