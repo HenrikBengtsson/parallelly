@@ -1,6 +1,9 @@
 # Version (development version)
 
- * ...
+## Bug Fixes
+
+ * `makeClusterPSOCK(..., verbose = TRUE)` would not show verbose
+   output. One still had to set option `parallelly.debug` to TRUE.
 
 
 # Version 1.34.0 [2023-01-13]

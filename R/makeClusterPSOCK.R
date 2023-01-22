@@ -59,7 +59,11 @@
 #' @export
 makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOption2("parallelly.makeNodePSOCK.tries", 3L), delay = getOption2("parallelly.makeNodePSOCK.tries.delay", 15.0), validate = getOption2("parallelly.makeNodePSOCK.validate", TRUE), verbose = getOption2("parallelly.debug", FALSE)) {
   verbose_prefix <- "[local output] "
-  if (verbose) mdebugf("%smakeClusterPSOCK() ...", verbose_prefix)
+  if (verbose) {
+    oopts <- options(parallelly.debug = verbose)
+    on.exit(options(oopts))
+    mdebugf("%smakeClusterPSOCK() ...", verbose_prefix)
+  }
   
   localhostHostname <- getOption2("parallelly.localhost.hostname", "localhost")
 
@@ -177,7 +181,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
                         FUN.VALUE = FALSE)
     stopCluster(cl[nodes])
     cl <- NULL
-  })
+  }, add = TRUE)
 
   if (setup_strategy == "parallel") {
     ## To please R CMD check on R (< 4.0.0)
@@ -371,10 +375,13 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     cl <- autoStopCluster(cl)
   }
 
+  if (verbose) {
+    options(oopts)
+    mdebugf("%smakeClusterPSOCK() ... done", verbose_prefix)
+  }
+
   ## Success, remove automatic cleanup of nodes
   on.exit()
-
-  if (verbose) mdebugf("%smakeClusterPSOCK() ... done", verbose_prefix)
 
   cl
 } ## makeClusterPSOCK()
