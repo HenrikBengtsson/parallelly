@@ -564,6 +564,7 @@ cl <- makeClusterPSOCK(
   master = "gateway", port = 11942,
   ## Run Rscript nicely and skip any startup scripts
   rscript = c("nice", "/path/to/Rscript"),
+  rscript_args = c("--no-init-file"),
   dryrun = TRUE, quiet = TRUE
 )
 
@@ -581,7 +582,7 @@ cl <- makeClusterPSOCK(
   ## the default 'localhost' it will fail, because the main R session is
   ## not running in the VM, but outside on the host.  To reach the host on
   ## macOS and MS Windows, make sure to use master = "host.docker.internal"
-  # master = "host.docker.internal",  # <= macOS & MS Windows
+  master = if (.Platform$OS.type == "unix") NULL else "host.docker.internal",
   dryrun = TRUE, quiet = TRUE
 )
 
