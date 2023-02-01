@@ -10,6 +10,10 @@
  * `makeClusterPSOCK(..., verbose = TRUE)` would not show verbose
    output. One still had to set option `parallelly.debug` to TRUE.
 
+ * `availableWorkers()` could produce false sanity-check warnings on
+   mismatching 'PE_HOSTFILE' content and 'NSLOTS' for certain SGE-cluster
+   configurations.
+   
 
 # Version 1.34.0 [2023-01-13]
 
