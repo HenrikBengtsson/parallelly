@@ -31,7 +31,7 @@ R workers, and how to connect to external machines."><meta property="og:image" c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.34.0-9003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.34.0-9004</span>
       </span>
     </div>
 
@@ -609,10 +609,10 @@ clashes.  Retrying will often resolve the problem.</p>
 be that you have a virtual private network (VPN) enabled that is
 configured to prevent you from connecting to <code>localhost</code>.  To verify that
 this is the case, call the following from the terminal:</p>
-<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">{local}$</span> ssh localhost <span class="st">"date"</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">{local}$</span> ssh localhost <span class="st">"date"</span></span></code></pre><p></p></div>
 <p>This also freezed if the VPN intercepts connections to <code>localhost</code>.
 If this happens, try also:</p>
-<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">{local}$</span> ssh 127.0.0.1 <span class="st">"date"</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">{local}$</span> ssh 127.0.0.1 <span class="st">"date"</span></span></code></pre><p></p></div>
 <p>In rare cases, <code>127.0.0.1</code> might work when <code>localhost</code> does not.
 If the latter works, setting R option:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>parallelly.localhost.hostname <span class="op">=</span> <span class="st">"127.0.0.1"</span><span class="op">)</span></span></code></pre><p></p></div>
@@ -684,9 +684,9 @@ on MS Windows when running R (&gt;= 4.3.0). They are detected, because they
 result in placeholder <code>Rscript&lt;hexcode&gt;</code> files being left behind in
 the temporary directory.  The check NOTE to look out for
 (only in R (&gt;= 4.3.0)) is:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">*</span> checking <span class="cf">for</span> detritus <span class="cf">in</span> the temp directory ... NOTE</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Found the following files<span class="sc">/</span>directories<span class="sc">:</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Rscript1058267d0c10'</span> <span class="st">'Rscriptbd4267d0c10'</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="sc">*</span> checking <span class="cf">for</span> detritus <span class="cf">in</span> the temp directory ... NOTE</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>Found the following files<span class="sc">/</span>directories<span class="sc">:</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="st">'Rscript1058267d0c10'</span> <span class="st">'Rscriptbd4267d0c10'</span></span></code></pre><p></p></div>
 <p>Those <code>Rscript&lt;hexcode&gt;</code> files are from background R worker processes,
 which almost always are parallel <code>cluster</code>:s that we forgot to stop
 at the end.  To stop all <code>cluster</code> workers, use <code><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::stopCluster()</a></code>
@@ -810,6 +810,37 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Failed to locate a default SSH client (checked: ‘rstudio-ssh’). Please specify one via argument 'rshcmd'. Will still try with ‘ssh’.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## ---------------------------------------------------------------</span></span></span>
+<span class="r-in"><span><span class="co">## Section 3. Setting up parallel workers on HPC cluster</span></span></span>
+<span class="r-in"><span><span class="co">## ---------------------------------------------------------------</span></span></span>
+<span class="r-in"><span><span class="co">## EXAMPLE: 'Grid Engine' is a high-performance compute (HPC) job</span></span></span>
+<span class="r-in"><span><span class="co">## scheduler where one can request compute resources on multiple nodes,</span></span></span>
+<span class="r-in"><span><span class="co">## each running multiple cores. Examples of Grid Engine schedulers are</span></span></span>
+<span class="r-in"><span><span class="co">## Oracle Grid Engine (formerly Sun Grid Engine), Univa Grid Engine,</span></span></span>
+<span class="r-in"><span><span class="co">## and Son of Grid Engine - all commonly referred to as SGE schedulers.</span></span></span>
+<span class="r-in"><span><span class="co">## Each SGE cluster may have its own configuration with their own way</span></span></span>
+<span class="r-in"><span><span class="co">## of requesting parallel slots. Here are a few examples:</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">##   ## Request 18 slots on a single host</span></span></span>
+<span class="r-in"><span><span class="co">##   qsub -pe smp 18 script.sh</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">##   ## Request 18 slots on one or more hosts</span></span></span>
+<span class="r-in"><span><span class="co">##   qsub -pe mpi 18 script.sh</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## This will launch the job script 'script.sh' on one host, while have</span></span></span>
+<span class="r-in"><span><span class="co">## reserved in total 18 slots (CPU cores) on this host and possible</span></span></span>
+<span class="r-in"><span><span class="co">## other hosts.</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## This example shows how to use the SGE command 'qrsh' to launch</span></span></span>
+<span class="r-in"><span><span class="co">## 18 parallel workers from R, which is assumed to have been launched</span></span></span>
+<span class="r-in"><span><span class="co">## by 'script.sh'.</span></span></span>
+<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="availableWorkers.html">availableWorkers</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  rshcmd <span class="op">=</span> <span class="st">"qrsh"</span>, rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-inherit"</span>, <span class="st">"-nostdin"</span>, <span class="st">"-V"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## EXAMPLE: The 'Fujitsu Technical Computing Suite' is a high-performance</span></span></span>
 <span class="r-in"><span><span class="co">## compute (HPC) job scheduler where one can request compute resources on</span></span></span>
 <span class="r-in"><span><span class="co">## multiple nodes, each running multiple cores.  For example,</span></span></span>
@@ -830,7 +861,7 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ---------------------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Section 3. Setting up remote parallel workers in the cloud</span></span></span>
+<span class="r-in"><span><span class="co">## Section 4. Setting up remote parallel workers in the cloud</span></span></span>
 <span class="r-in"><span><span class="co">## ---------------------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## EXAMPLE: Remote worker running on AWS</span></span></span>
 <span class="r-in"><span><span class="co">## Launching worker on Amazon AWS EC2 running one of the</span></span></span>
@@ -889,7 +920,7 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ---------------------------------------------------------------</span></span></span>
-<span class="r-in"><span><span class="co">## Section 4. Parallel workers running locally inside virtual</span></span></span>
+<span class="r-in"><span><span class="co">## Section 5. Parallel workers running locally inside virtual</span></span></span>
 <span class="r-in"><span><span class="co">## machines, Linux containers, etc.</span></span></span>
 <span class="r-in"><span><span class="co">## ---------------------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## EXAMPLE: Two workers running in Docker on the local machine</span></span></span>
