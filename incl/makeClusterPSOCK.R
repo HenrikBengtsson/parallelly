@@ -108,6 +108,37 @@ cl <- makeClusterPSOCK(
 )
 
 
+## ---------------------------------------------------------------
+## Section 3. Setting up parallel workers on HPC cluster
+## ---------------------------------------------------------------
+## EXAMPLE: 'Grid Engine' is a high-performance compute (HPC) job
+## scheduler where one can request compute resources on multiple nodes,
+## each running multiple cores. Examples of Grid Engine schedulers are
+## Oracle Grid Engine (formerly Sun Grid Engine), Univa Grid Engine,
+## and Son of Grid Engine - all commonly referred to as SGE schedulers.
+## Each SGE cluster may have its own configuration with their own way
+## of requesting parallel slots. Here are a few examples:
+##
+##   ## Request 18 slots on a single host
+##   qsub -pe smp 18 script.sh
+##
+##   ## Request 18 slots on one or more hosts
+##   qsub -pe mpi 18 script.sh
+##
+## This will launch the job script 'script.sh' on one host, while have
+## reserved in total 18 slots (CPU cores) on this host and possible
+## other hosts.
+##
+## This example shows how to use the SGE command 'qrsh' to launch
+## 18 parallel workers from R, which is assumed to have been launched
+## by 'script.sh'.
+cl <- makeClusterPSOCK(
+  availableWorkers(),
+  rshcmd = "qrsh", rshopts = c("-inherit", "-nostdin", "-V"),
+  dryrun = TRUE, quiet = TRUE
+)
+
+
 ## EXAMPLE: The 'Fujitsu Technical Computing Suite' is a high-performance
 ## compute (HPC) job scheduler where one can request compute resources on
 ## multiple nodes, each running multiple cores.  For example,
@@ -128,7 +159,7 @@ cl <- makeClusterPSOCK(
 
 
 ## ---------------------------------------------------------------
-## Section 3. Setting up remote parallel workers in the cloud
+## Section 4. Setting up remote parallel workers in the cloud
 ## ---------------------------------------------------------------
 ## EXAMPLE: Remote worker running on AWS
 ## Launching worker on Amazon AWS EC2 running one of the
@@ -187,7 +218,7 @@ cl <- makeClusterPSOCK(
 
 
 ## ---------------------------------------------------------------
-## Section 4. Parallel workers running locally inside virtual
+## Section 5. Parallel workers running locally inside virtual
 ## machines, Linux containers, etc.
 ## ---------------------------------------------------------------
 ## EXAMPLE: Two workers running in Docker on the local machine
