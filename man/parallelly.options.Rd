@@ -114,7 +114,7 @@ The below \R options and environment variables control the default result of \co
 \describe{
 \item{\code{parallelly.fork.enable}:}{(logical) Enable or disable \emph{forked} processing.  If \code{FALSE}, multicore futures becomes sequential futures.  If \code{NA}, or not set (the default), the a set of best-practices rules decide whether should be supported or not.}
 
-\item{\code{parallelly.supportsMulticore.unstable}:}{(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If \code{"warn"} (default), then an informative warning is produces the first time 'multicore' or 'multiprocess' futures are used.  If \code{"quiet"}, no warning is produced.}
+\item{\code{parallelly.supportsMulticore.unstable}:}{(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If \code{"warn"} (default), then an informative warning is produces the first time 'multicore' futures are used.  If \code{"quiet"}, no warning is produced.}
 }
 }
 
