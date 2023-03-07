@@ -383,7 +383,7 @@ one or more periods
 In all other cases, \code{homogeneous} defaults to FALSE.
 }
 
-\section{Connection time out}{
+\section{Connection timeout}{
 
 Argument \code{connectTimeout} does \emph{not} work properly on Unix and
 macOS due to limitation in \R itself.  For more details on this, please see
@@ -394,12 +394,14 @@ When used, the timeout will eventually trigger an error, but it won't happen
 until the socket connection timeout \code{timeout} itself happens.
 }
 
-\section{Communication time out}{
+\section{Communication timeout}{
 
 If there is no communication between the master and a worker within the
 \code{timeout} limit, then the corresponding socket connection will be
 closed automatically.  This will eventually result in an error in code
 trying to access the connection.
+This timeout is also what terminates a stray-running parallel cluster-node
+process.
 }
 
 \section{Failing to set up local workers}{

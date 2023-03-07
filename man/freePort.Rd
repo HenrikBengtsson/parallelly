@@ -4,7 +4,11 @@
 \alias{freePort}
 \title{Find a TCP port that can be opened}
 \usage{
-freePort(ports = 1024:65535, default = "random", randomize = TRUE)
+freePort(
+  ports = 1024:65535,
+  default = if (getRversion() >= "4.0.0") NA_integer_ else "random",
+  randomize = TRUE
+)
 }
 \arguments{
 \item{ports}{(integer vector, or character string)

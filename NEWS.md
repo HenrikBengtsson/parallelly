@@ -1,5 +1,12 @@
 # Version (development version)
 
+## New Features
+
+ * Now `freePort()` defaults to `default = NA_integer_`, so that
+   `NA_integer_` is returned when no free port could be found.
+   However, in R (< 4.0.0), which does not support port querying, we
+   use `default = "random"`.
+
 ## Documentation
 
  * Mention in `help("makeClusterPSOCK")` that `rscript_sh = "cmd"` is

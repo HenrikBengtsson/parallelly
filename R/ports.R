@@ -21,7 +21,7 @@
 #' `default` is returned.
 #'
 #' @export
-freePort <- function(ports = 1024:65535, default = "random", randomize = TRUE) {
+freePort <- function(ports = 1024:65535, default = if (getRversion() >= "4.0.0") NA_integer_ else "random", randomize = TRUE) {
   if (is.character(default)) {
     default <- match.arg(default, choices = c("first", "random"))
   } else {
