@@ -1,17 +1,17 @@
 ** System information:
 List of 12
  $ sysname       : chr "Linux"
- $ release       : chr "5.4.0-137-generic"
- $ version       : chr "#154-Ubuntu SMP Thu Jan 5 17:03:22 UTC 2023"
- $ nodename      : chr "hb-x1"
+ $ release       : chr "5.19.0-32-generic"
+ $ version       : chr "#33~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Jan 30 17:03:34 UTC 2"
+ $ nodename      : chr "hb-x1-2023"
  $ machine       : chr "x86_64"
- $ login         : chr "hb"
- $ user          : chr "hb"
- $ effective_user: chr "hb"
- $ pid           : int 573275
- $ call          : chr [1:17] "/home/hb/shared/software/CBI/R-4.2.2-gcc9/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/hb/RtmplPIcpN/worker.rank=1.parallelly.parent=572868.8bdc486b"| __truncated__ "-e" "options(socketOptions~+~=~+~\"no-delay\")" "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11925" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
- $ pwd           : chr "/tmp/hb/RtmpoSdeJo/parallelly/docs/reference"
- $ time          : POSIXct[1:1], format: "2023-02-01 13:48:09"
+ $ login         : chr "henrik"
+ $ user          : chr "henrik"
+ $ effective_user: chr "henrik"
+ $ pid           : int 1450481
+ $ call          : chr [1:17] "/home/henrik/software/cbi/software/R-4.2.2-gcc11/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/Rtmp7VXp72/worker.rank=1.parallelly.parent=1450118.162086780c"| __truncated__ "-e" "options(socketOptions~+~=~+~\"no-delay\")" "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11607" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
+ $ pwd           : chr "/tmp/Rtmpcn6fEj/parallelly/docs/reference"
+ $ time          : POSIXct[1:1], format: "2023-03-07 11:53:51"
 
 ** Error:
 Error in unserialize(node$con) : error reading from connection
@@ -60,37 +60,37 @@ Calls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize
 
 ** Dumped frames:
 $`workRSOCK()`
-<environment: 0x55c06c811fe0>
+<environment: 0x55a258f32930>
 
 $`workLoop(makeSOCKmaster(master, port, setup_timeout, timeout, useXDR, setup`
-<environment: 0x55c06c7f9fe0>
+<environment: 0x55a258d437c8>
 
 $`workCommand(master)`
-<environment: 0x55c06c7da478>
+<environment: 0x55a258cecea0>
 
 $`tryCatch({\n    msg <- recvData(master)\n    if (msg$type == "DONE") {\n        c`
-<environment: 0x55c06c7da670>
+<environment: 0x55a258ced098>
 
 $`tryCatchList(expr, classes, parentenv, handlers)`
-<environment: 0x55c06c7dad38>
+<environment: 0x55a258ced808>
 
 $`tryCatchOne(expr, names, parentenv, handlers[[1]])`
-<environment: 0x55c06c7db160>
+<environment: 0x55a258ce9ba0>
 
 $`doTryCatch(return(expr), name, parentenv, handler)`
-<environment: 0x55c06c7db7f0>
+<environment: 0x55a258ce9ee8>
 
 $`recvData(master)`
-<environment: 0x55c06c7dbb70>
+<environment: 0x55a258cea230>
 
 $`recvData.SOCK0node(master)`
-<environment: 0x55c06c7dbe80>
+<environment: 0x55a258cea4d0>
 
 $`unserialize(node$con)`
-<environment: 0x55c06c7dbf98>
+<environment: 0x55a258cea620>
 
 $`(function () \n{\n    tb <- .traceback(NULL)\n    if (is.null(tb)) \n        tb <- `
-<environment: 0x55c06c7d8638>
+<environment: 0x55a258ceab98>
 
 attr(,"error.message")
 [1] "Error in unserialize(node$con) : error reading from connection\nCalls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize\n"
@@ -100,11 +100,11 @@ attr(,"class")
 ** Session information:
 R version 4.2.2 (2022-10-31)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 20.04.5 LTS
+Running under: Ubuntu 22.04.2 LTS
 
 Matrix products: default
-BLAS:   /home/hb/shared/software/CBI/R-4.2.2-gcc9/lib/R/lib/libRblas.so
-LAPACK: /home/hb/shared/software/CBI/R-4.2.2-gcc9/lib/R/lib/libRlapack.so
+BLAS:   /home/henrik/software/cbi/software/R-4.2.2-gcc11/lib/R/lib/libRblas.so
+LAPACK: /home/henrik/software/cbi/software/R-4.2.2-gcc11/lib/R/lib/libRlapack.so
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              

@@ -31,7 +31,7 @@ R workers, and how to connect to external machines."><meta property="og:image" c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.34.0-9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.34.0-9006</span>
       </span>
     </div>
 
@@ -573,8 +573,8 @@ name (FQDN).  A hostname is considered to be a FQDN if it contains
 one or more periods</p></li>
 </ul><p>In all other cases, <code>homogeneous</code> defaults to FALSE.</p>
     </div>
-    <div id="connection-time-out">
-    <h2>Connection time out</h2>
+    <div id="connection-timeout">
+    <h2>Connection timeout</h2>
     
 
 <p>Argument <code>connectTimeout</code> does <em>not</em> work properly on Unix and
@@ -585,14 +585,16 @@ error when it occurs (works on Windows)' on 2016-10-26
 When used, the timeout will eventually trigger an error, but it won't happen
 until the socket connection timeout <code>timeout</code> itself happens.</p>
     </div>
-    <div id="communication-time-out">
-    <h2>Communication time out</h2>
+    <div id="communication-timeout">
+    <h2>Communication timeout</h2>
     
 
 <p>If there is no communication between the master and a worker within the
 <code>timeout</code> limit, then the corresponding socket connection will be
 closed automatically.  This will eventually result in an error in code
-trying to access the connection.</p>
+trying to access the connection.
+This timeout is also what terminates a stray-running parallel cluster-node
+process.</p>
     </div>
     <div id="failing-to-set-up-local-workers">
     <h2>Failing to set up local workers</h2>
@@ -609,10 +611,10 @@ clashes.  Retrying will often resolve the problem.</p>
 be that you have a virtual private network (VPN) enabled that is
 configured to prevent you from connecting to <code>localhost</code>.  To verify that
 this is the case, call the following from the terminal:</p>
-<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">{local}$</span> ssh localhost <span class="st">"date"</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dt">{local}</span>$ <span class="fu">ssh</span> localhost <span class="st">"date"</span></span></code></pre><p></p></div>
 <p>This also freezed if the VPN intercepts connections to <code>localhost</code>.
 If this happens, try also:</p>
-<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">{local}$</span> ssh 127.0.0.1 <span class="st">"date"</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dt">{local}</span>$ <span class="fu">ssh</span> 127.0.0.1 <span class="st">"date"</span></span></code></pre><p></p></div>
 <p>In rare cases, <code>127.0.0.1</code> might work when <code>localhost</code> does not.
 If the latter works, setting R option:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>parallelly.localhost.hostname <span class="op">=</span> <span class="st">"127.0.0.1"</span><span class="op">)</span></span></code></pre><p></p></div>
@@ -684,9 +686,9 @@ on MS Windows when running R (&gt;= 4.3.0). They are detected, because they
 result in placeholder <code>Rscript&lt;hexcode&gt;</code> files being left behind in
 the temporary directory.  The check NOTE to look out for
 (only in R (&gt;= 4.3.0)) is:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="sc">*</span> checking <span class="cf">for</span> detritus <span class="cf">in</span> the temp directory ... NOTE</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>Found the following files<span class="sc">/</span>directories<span class="sc">:</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="st">'Rscript1058267d0c10'</span> <span class="st">'Rscriptbd4267d0c10'</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="op">*</span><span class="st"> </span>checking <span class="cf">for</span> detritus <span class="cf">in</span> the temp directory ... NOTE</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>Found the following files<span class="op">/</span>directories<span class="op">:</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="st">  'Rscript1058267d0c10'</span> <span class="st">'Rscriptbd4267d0c10'</span></span></code></pre><p></p></div>
 <p>Those <code>Rscript&lt;hexcode&gt;</code> files are from background R worker processes,
 which almost always are parallel <code>cluster</code>:s that we forgot to stop
 at the end.  To stop all <code>cluster</code> workers, use <code><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::stopCluster()</a></code>
@@ -779,6 +781,7 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span>  rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-P"</span>, <span class="fl">2200</span>, <span class="st">"-i"</span>, <span class="st">"C:/Users/bobby/.ssh/putty.ppk"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Failed to locate a default SSH client (checked: ‘putty-plink’). Please specify one via argument 'rshcmd'. Will still try with ‘ssh’.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## EXAMPLE: Remote workers with specific setup</span></span></span>
