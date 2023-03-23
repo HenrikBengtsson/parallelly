@@ -1,8 +1,8 @@
-# CRAN submission parallelly 1.34.0
+# CRAN submission parallelly 1.35.0
 
-on 2023-01-13
+on 2023-03-22
 
-I've verified this submission has no negative impact on any of the 485 first- and second-generation reverse package dependencies available on CRAN (n = 457) and Bioconductor (n = 28).
+I've verified this submission has no negative impact on any of the 514 first- and second-generation reverse package dependencies available on CRAN (n = 486) and Bioconductor (n = 28).
 
 Thank you
 
@@ -41,48 +41,46 @@ print(res)
 gives
 
 ```
-── parallelly 1.34.0: OK
+── parallelly 1.35.0: OK
 
-  Build ID:   parallelly_1.34.0.tar.gz-f50692fb1b404badb4422da81758828b
+  Build ID:   parallelly_1.35.0.tar.gz-ea4ebd7ba93740c4aee3c184ae4c64a6
   Platform:   Debian Linux, R-devel, clang, ISO-8859-15 locale
-  Submitted:  1h 44m 8.2s ago
-  Build time: 10m 14.6s
+  Submitted:  45m 49.1s ago
+  Build time: 10m 9.8s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-── parallelly 1.34.0: OK
+── parallelly 1.35.0: OK
 
-  Build ID:   parallelly_1.34.0.tar.gz-c59247c5dae24662957409461eef9b7c
+  Build ID:   parallelly_1.35.0.tar.gz-048b6fd01ed74f4a8359d2cc55118535
   Platform:   Fedora Linux, R-devel, GCC
-  Submitted:  1h 44m 8.2s ago
-  Build time: 6m 19.4s
+  Submitted:  45m 49.1s ago
+  Build time: 6m 47.4s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-── parallelly 1.34.0: OK
+── parallelly 1.35.0: OK
 
-  Build ID:   parallelly_1.34.0.tar.gz-71caa574199c44ed8fe6c944cbf519d9
+  Build ID:   parallelly_1.35.0.tar.gz-23ced0697b98488bbc59c82934e63957
   Platform:   Debian Linux, R-patched, GCC
-  Submitted:  1h 44m 8.2s ago
-  Build time: 9m 41.2s
+  Submitted:  45m 49.1s ago
+  Build time: 6m 54.8s
 
-0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+── parallelly 1.35.0: OK
 
-── parallelly 1.34.0: OK
-
-  Build ID:   parallelly_1.34.0.tar.gz-acb6c0654d7e4e8d9f22d7afd197f7cb
+  Build ID:   parallelly_1.35.0.tar.gz-63ef51117c21479d8ea402c1ea69de88
   Platform:   macOS 10.13.6 High Sierra, R-release, CRAN's setup
-  Submitted:  1h 44m 8.2s ago
-  Build time: 2m 12.8s
+  Submitted:  45m 49.1s ago
+  Build time: 2m 38s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-── parallelly 1.34.0: OK
+── parallelly 1.35.0: OK
 
-  Build ID:   parallelly_1.34.0.tar.gz-5bf1af971e49417fb52907137ee5d96f
+  Build ID:   parallelly_1.35.0.tar.gz-1d7c86258de64d359ed42cd1ce4b89e8
   Platform:   Windows Server 2022, R-release, 32/64 bit
-  Submitted:  1h 44m 8.2s ago
-  Build time: 2m 45s
+  Submitted:  45m 49.1s ago
+  Build time: 2m 35.9s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 ```
