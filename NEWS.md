@@ -1,3 +1,27 @@
+# Version 1.35.0 [2023-03-22]
+
+## New Features
+
+ * Now `freePort()` defaults to `default = NA_integer_`, so that
+   `NA_integer_` is returned when no free port could be found.
+   However, in R (< 4.0.0), which does not support port querying, we
+   use `default = "random"`.
+
+## Documentation
+
+ * Mention in `help("makeClusterPSOCK")` that `rscript_sh = "cmd"` is
+   needed if the remote machines run MS Windows.
+
+## Bug Fixes
+
+ * `makeClusterPSOCK(..., verbose = TRUE)` would not show verbose
+   output. One still had to set option `parallelly.debug` to TRUE.
+
+ * `availableWorkers()` could produce false sanity-check warnings on
+   mismatching 'PE_HOSTFILE' content and 'NSLOTS' for certain SGE-cluster
+   configurations.
+   
+
 # Version 1.34.0 [2023-01-13]
 
 ## New Features

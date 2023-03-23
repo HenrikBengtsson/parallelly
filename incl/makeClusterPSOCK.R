@@ -1,118 +1,12 @@
 ## NOTE: Drop 'dryrun = TRUE' below in order to actually connect.  Add
 ## 'verbose = TRUE' if you run into problems and need to troubleshoot.
 
+## ---------------------------------------------------------------
+## Section 1. Setting up parallel workers on the local machine
+## ---------------------------------------------------------------
 ## EXAMPLE: Two workers on the local machine
 workers <- c("localhost", "localhost")
 cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
-
-## EXAMPLE: Three remote workers
-## Setup of three R workers on two remote machines are set up
-workers <- c("n1.remote.org", "n2.remote.org", "n1.remote.org")
-cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
-
-## EXAMPLE: Local and remote workers
-## Same setup when the two machines are on the local network and
-## have identical software setups
-cl <- makeClusterPSOCK(
-  workers,
-  revtunnel = FALSE, homogeneous = TRUE,
-  dryrun = TRUE, quiet = TRUE
-)
-
-## EXAMPLE: Three remote workers 'n1', 'n2', and 'n3' that can only be
-## accessed via jumphost 'login.remote.org'
-workers <- c("n1", "n2", "n1")
-cl <- makeClusterPSOCK(
-  workers,
-  rshopts = c("-J", "login.remote.org"),
-  homogeneous = FALSE,
-  dryrun = TRUE, quiet = TRUE
-)
-
-## EXAMPLE: Remote workers with specific setup
-## Setup of remote worker with more detailed control on
-## authentication and reverse SSH tunneling
-cl <- makeClusterPSOCK(
-  "remote.server.org", user = "johnny",
-  ## Manual configuration of reverse SSH tunneling
-  revtunnel = FALSE,
-  rshopts = c("-v", "-R 11000:gateway:11942"),
-  master = "gateway", port = 11942,
-  ## Run Rscript nicely and skip any startup scripts
-  rscript = c("nice", "/path/to/Rscript"),
-  dryrun = TRUE, quiet = TRUE
-)
-
-## EXAMPLE: Two workers running in Docker on the local machine
-## Setup of 2 Docker workers running rocker/r-parallel
-cl <- makeClusterPSOCK(
-  rep("localhost", times = 2L),
-  ## Launch Rscript inside Docker container
-  rscript = c(
-    "docker", "run", "--net=host", "rocker/r-parallel",
-    "Rscript"
-  ),
-  ## IMPORTANT: Because Docker runs inside a virtual machine (VM) on macOS
-  ## and Windows (not Linux), when the R worker tries to connect back to
-  ## the default 'localhost' it will fail, because the main R session is
-  ## not running in the VM, but outside on the host.  To reach the host on
-  ## macOS and Windows, make sure to use master = "host.docker.internal"
-  # master = "host.docker.internal",  # <= macOS & Windows
-  dryrun = TRUE, quiet = TRUE
-)
-
-
-## EXAMPLE: Two workers running in Singularity on the local machine
-## Setup of 2 Singularity workers running rocker/r-parallel
-cl <- makeClusterPSOCK(
-  rep("localhost", times = 2L),
-  ## Launch Rscript inside Linux container
-  rscript = c(
-    "singularity", "exec", "docker://rocker/r-parallel",
-    "Rscript"
-  ),
-  dryrun = TRUE, quiet = TRUE
-)
-
-
-## EXAMPLE: One worker running in udocker on the local machine
-## Setup of a single udocker.py worker running rocker/r-parallel
-cl <- makeClusterPSOCK(
-  "localhost",
-  ## Launch Rscript inside Docker container (using udocker)
-  rscript = c(
-    "udocker.py", "run", "rocker/r-parallel",
-    "Rscript"
-  ), 
-  ## Manually launch parallel workers
-  ## (need double shQuote():s because udocker.py drops one level)
-  rscript_args = c(
-    "-e", shQuote(shQuote("parallel:::.workRSOCK()"))
-  ),
-  dryrun = TRUE, quiet = TRUE
-)
-
-
-## EXAMPLE: One worker running in Wine for Linux on the local machine
-## To install R for MS Windows in Wine, do something like:
-##   winecfg  # In GUI, set 'Windows version' to 'Windows 10'
-##   wget https://cran.r-project.org/bin/windows/base/R-4.1.2-win.exe
-##   wine R-4.1.2-win.exe /SILENT
-## Prevent packages from being installed to R's system library:
-##   chmod ugo-w "$HOME/.wine/drive_c/Program Files/R/R-4.1.2/library/"
-## Verify it works:
-##   wine "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe" --version
-cl <- makeClusterPSOCK(1L,
-  rscript = c(
-    ## Silence Wine warnings
-    "WINEDEBUG=fixme-all",
-    ## Don't pass LC_*** environments from Linux to Wine
-    sprintf("%s=", grep("LC_", names(Sys.getenv()), value = TRUE)),
-    "wine",
-    "C:/Program Files/R/R-4.1.2/bin/x64/Rscript.exe"
-  ),
-  dryrun = TRUE, quiet = TRUE
-)
 
 
 ## EXAMPLE: Launch 124 workers on MS Windows 10, where half are
@@ -135,6 +29,138 @@ cl <- lapply(cpu_groups, FUN = function(cpu_group) {
 cl <- do.call(c, cl)
 
 
+## ---------------------------------------------------------------
+## Section 2. Setting up parallel workers on remote machines
+## ---------------------------------------------------------------
+## EXAMPLE: Three remote workers
+## Setup of three R workers on two remote machines are set up
+workers <- c("n1.remote.org", "n2.remote.org", "n1.remote.org")
+cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
+
+
+## EXAMPLE: Two remote workers running on MS Windows.  Because the
+## remote workers are MS Windows machines, we need to use
+## rscript_sh = "cmd".
+workers <- c("mswin1.remote.org", "mswin2.remote.org")
+cl <- makeClusterPSOCK(workers, rscript_sh = "cmd", dryrun = TRUE, quiet = TRUE)
+
+
+## EXAMPLE: Local and remote workers
+## Same setup when the two machines are on the local network and
+## have identical software setups
+cl <- makeClusterPSOCK(
+  workers,
+  revtunnel = FALSE, homogeneous = TRUE,
+  dryrun = TRUE, quiet = TRUE
+)
+
+
+## EXAMPLE: Three remote workers 'n1', 'n2', and 'n3' that can only be
+## accessed via jumphost 'login.remote.org'
+workers <- c("n1", "n2", "n1")
+cl <- makeClusterPSOCK(
+  workers,
+  rshopts = c("-J", "login.remote.org"),
+  homogeneous = FALSE,
+  dryrun = TRUE, quiet = TRUE
+)
+
+
+## EXAMPLE: Remote worker running on Linux from MS Windows machine
+## Connect to remote Unix machine 'remote.server.org' on port 2200
+## as user 'bob' from a MS Windows machine with PuTTY installed.
+## Using the explicit special rshcmd = "<putty-plink>", will force
+## makeClusterPSOCK() to search for and use the PuTTY plink software,
+## preventing it from using other SSH clients on the system search PATH.
+cl <- makeClusterPSOCK(
+  "remote.server.org", user = "bob",
+  rshcmd = "<putty-plink>",
+  rshopts = c("-P", 2200, "-i", "C:/Users/bobby/.ssh/putty.ppk"),
+  dryrun = TRUE, quiet = TRUE
+)
+
+
+## EXAMPLE: Remote workers with specific setup
+## Setup of remote worker with more detailed control on
+## authentication and reverse SSH tunneling
+cl <- makeClusterPSOCK(
+  "remote.server.org", user = "johnny",
+  ## Manual configuration of reverse SSH tunneling
+  revtunnel = FALSE,
+  rshopts = c("-v", "-R 11000:gateway:11942"),
+  master = "gateway", port = 11942,
+  ## Run Rscript nicely and skip any startup scripts
+  rscript = c("nice", "/path/to/Rscript"),
+  rscript_args = c("--no-init-file"),
+  dryrun = TRUE, quiet = TRUE
+)
+
+
+## EXAMPLE: Remote worker running on Linux from RStudio on MS Windows
+## Connect to remote Unix machine 'remote.server.org' on port 2200
+## as user 'bob' from a MS Windows machine via RStudio's SSH client.
+## Using the explicit special rshcmd = "<rstudio-ssh>", will force
+## makeClusterPSOCK() to use the SSH client that comes with RStudio,
+## preventing it from using other SSH clients on the system search PATH.
+cl <- makeClusterPSOCK(
+  "remote.server.org:2200", user = "bob", rshcmd = "<rstudio-ssh>",
+  dryrun = TRUE, quiet = TRUE
+)
+
+
+## ---------------------------------------------------------------
+## Section 3. Setting up parallel workers on HPC cluster
+## ---------------------------------------------------------------
+## EXAMPLE: 'Grid Engine' is a high-performance compute (HPC) job
+## scheduler where one can request compute resources on multiple nodes,
+## each running multiple cores. Examples of Grid Engine schedulers are
+## Oracle Grid Engine (formerly Sun Grid Engine), Univa Grid Engine,
+## and Son of Grid Engine - all commonly referred to as SGE schedulers.
+## Each SGE cluster may have its own configuration with their own way
+## of requesting parallel slots. Here are a few examples:
+##
+##   ## Request 18 slots on a single host
+##   qsub -pe smp 18 script.sh
+##
+##   ## Request 18 slots on one or more hosts
+##   qsub -pe mpi 18 script.sh
+##
+## This will launch the job script 'script.sh' on one host, while have
+## reserved in total 18 slots (CPU cores) on this host and possible
+## other hosts.
+##
+## This example shows how to use the SGE command 'qrsh' to launch
+## 18 parallel workers from R, which is assumed to have been launched
+## by 'script.sh'.
+cl <- makeClusterPSOCK(
+  availableWorkers(),
+  rshcmd = "qrsh", rshopts = c("-inherit", "-nostdin", "-V"),
+  dryrun = TRUE, quiet = TRUE
+)
+
+
+## EXAMPLE: The 'Fujitsu Technical Computing Suite' is a high-performance
+## compute (HPC) job scheduler where one can request compute resources on
+## multiple nodes, each running multiple cores.  For example,
+##
+##   pjsub -L vnode=3 -L vnode-core=18 script.sh
+##
+## reserves 18 cores on three nodes. The job script runs on the first
+## with enviroment variables set to infer the other nodes, resulting in
+## availableWorkers() to return 3 * 18 workers. When the HPC environment
+## does not support SSH between compute nodes, one can use the 'pjrsh'
+## command to launch the parallel workers.
+cl <- makeClusterPSOCK(
+  availableWorkers(),
+  rshcmd = "pjrsh",
+  dryrun = TRUE, quiet = TRUE
+)
+
+
+
+## ---------------------------------------------------------------
+## Section 4. Setting up remote parallel workers in the cloud
+## ---------------------------------------------------------------
 ## EXAMPLE: Remote worker running on AWS
 ## Launching worker on Amazon AWS EC2 running one of the
 ## Amazon Machine Images (AMI) provided by RStudio
@@ -190,45 +216,78 @@ cl <- makeClusterPSOCK(
 )
 
 
-## EXAMPLE: Remote worker running on Linux from Windows machine
-## Connect to remote Unix machine 'remote.server.org' on port 2200
-## as user 'bob' from a Windows machine with PuTTY installed.
-## Using the explicit special rshcmd = "<putty-plink>", will force
-## makeClusterPSOCK() to search for and use the PuTTY plink software,
-## preventing it from using other SSH clients on the system search PATH.
+
+## ---------------------------------------------------------------
+## Section 5. Parallel workers running locally inside virtual
+## machines, Linux containers, etc.
+## ---------------------------------------------------------------
+## EXAMPLE: Two workers running in Docker on the local machine
+## Setup of 2 Docker workers running rocker/r-parallel
 cl <- makeClusterPSOCK(
-  "remote.server.org", user = "bob",
-  rshcmd = "<putty-plink>",
-  rshopts = c("-P", 2200, "-i", "C:/Users/bobby/.ssh/putty.ppk"),
+  rep("localhost", times = 2L),
+  ## Launch Rscript inside Docker container
+  rscript = c(
+    "docker", "run", "--net=host", "rocker/r-parallel",
+    "Rscript"
+  ),
+  ## IMPORTANT: Because Docker runs inside a virtual machine (VM) on macOS
+  ## and MS Windows (not Linux), when the R worker tries to connect back to
+  ## the default 'localhost' it will fail, because the main R session is
+  ## not running in the VM, but outside on the host.  To reach the host on
+  ## macOS and MS Windows, make sure to use master = "host.docker.internal"
+  master = if (.Platform$OS.type == "unix") NULL else "host.docker.internal",
   dryrun = TRUE, quiet = TRUE
 )
 
 
-## EXAMPLE: Remote worker running on Linux from RStudio on Windows
-## Connect to remote Unix machine 'remote.server.org' on port 2200
-## as user 'bob' from a Windows machine via RStudio's SSH client.
-## Using the explicit special rshcmd = "<rstudio-ssh>", will force
-## makeClusterPSOCK() to use the SSH client that comes with RStudio,
-## preventing it from using other SSH clients on the system search PATH.
+## EXAMPLE: Two workers running in Singularity on the local machine
+## Setup of 2 Singularity workers running rocker/r-parallel
 cl <- makeClusterPSOCK(
-  "remote.server.org", user = "bob", rshcmd = "<rstudio-ssh>",
+  rep("localhost", times = 2L),
+  ## Launch Rscript inside Linux container
+  rscript = c(
+    "singularity", "exec", "docker://rocker/r-parallel",
+    "Rscript"
+  ),
   dryrun = TRUE, quiet = TRUE
 )
 
 
-## EXAMPLE: The 'Fujitsu Technical Computing Suite' is a high-performance
-## compute (HPC) job scheduler where one can request compute resources on
-## multiple nodes, each running multiple cores.  For example,
-##
-##   pjsub -L vnode=3 -L vnode-core=18 script.sh
-##
-## reserves 18 cores on three nodes. The job script runs on the first
-## with enviroment variables set to infer the other nodes, resulting in
-## availableWorkers() to return 3 * 18 workers. When the HPC environment
-## does not support SSH between compute nodes, one can use the 'pjrsh'
-## command to launch the parallel workers.
+## EXAMPLE: One worker running in udocker on the local machine
+## Setup of a single udocker.py worker running rocker/r-parallel
 cl <- makeClusterPSOCK(
-  availableWorkers(),
-  rshcmd = "pjrsh",
+  "localhost",
+  ## Launch Rscript inside Docker container (using udocker)
+  rscript = c(
+    "udocker.py", "run", "rocker/r-parallel",
+    "Rscript"
+  ), 
+  ## Manually launch parallel workers
+  ## (need double shQuote():s because udocker.py drops one level)
+  rscript_args = c(
+    "-e", shQuote(shQuote("parallel:::.workRSOCK()"))
+  ),
+  dryrun = TRUE, quiet = TRUE
+)
+
+
+## EXAMPLE: One worker running in Wine for Linux on the local machine
+## To install R for MS Windows in Wine, do something like:
+##   winecfg  # In GUI, set 'Windows version' to 'Windows 10'
+##   wget https://cran.r-project.org/bin/windows/base/R-4.2.2-win.exe
+##   wine R-4.2.2-win.exe /SILENT
+## Prevent packages from being installed to R's system library:
+##   chmod ugo-w "$HOME/.wine/drive_c/Program Files/R/R-4.2.2/library/"
+## Verify it works:
+##   wine "C:/Program Files/R/R-4.2.2/bin/x64/Rscript.exe" --version
+cl <- makeClusterPSOCK(1L,
+  rscript = c(
+    ## Silence Wine warnings
+    "WINEDEBUG=fixme-all",
+    ## Don't pass LC_*** environments from Linux to Wine
+    sprintf("%s=", grep("LC_", names(Sys.getenv()), value = TRUE)),
+    "wine",
+    "C:/Program Files/R/R-4.2.2/bin/x64/Rscript.exe"
+  ),
   dryrun = TRUE, quiet = TRUE
 )

@@ -54,9 +54,10 @@
 #' options are quoted, via
 #' \code{\link[base:shQuote]{shQuote(..., type = rscript_sh)}}.
 #' If `"auto"` (default), and the cluster node is launched locally, then it
-#' is set to `"sh"` or `"cmd"` according to the current platform.  If launched
-#' remotely, then it is set to `"sh"` based on the assumption remote machines
-#' typically launch commands via SSH in a POSIX shell.
+#' is set to `"sh"` or `"cmd"` according to the current platform.
+#' _If launched remotely_, then it is set to `"sh"` based on the assumption
+#' remote machines typically launch commands via SSH in a POSIX shell.
+#' If the remote machines run MS Windows, use `rscript_sh = "cmd"`.
 #'
 #' @param default_packages A character vector or NULL that controls which R
 #' packages are attached on each cluster node during startup.  An asterisk
@@ -258,7 +259,7 @@
 #' }
 #' In all other cases, `homogeneous` defaults to FALSE.
 #' 
-#' @section Connection time out:
+#' @section Connection timeout:
 #' Argument `connectTimeout` does _not_ work properly on Unix and
 #' macOS due to limitation in \R itself.  For more details on this, please see
 #' R-devel thread 'BUG?: On Linux setTimeLimit() fails to propagate timeout
@@ -267,11 +268,13 @@
 #' When used, the timeout will eventually trigger an error, but it won't happen
 #' until the socket connection timeout `timeout` itself happens.
 #'
-#' @section Communication time out:
+#' @section Communication timeout:
 #' If there is no communication between the master and a worker within the
 #' `timeout` limit, then the corresponding socket connection will be
 #' closed automatically.  This will eventually result in an error in code
 #' trying to access the connection.
+#' This timeout is also what terminates a stray-running parallel cluster-node
+#' process.
 #'
 #' @section Failing to set up local workers:
 #' When setting up a cluster of localhost workers, that is, workers running
@@ -331,7 +334,7 @@
 #' \preformatted{
 #' {local}$ ssh -l alice remote.server.org
 #' {remote}$ Rscript --version
-#' R scripting front-end version 3.6.1 (2019-07-05)
+#' R scripting front-end version 4.2.2 (2022-10-31)
 #' {remote}$ logout
 #' {local}$
 #' }
@@ -339,12 +342,17 @@
 #' the same in a single command-line call;
 #' \preformatted{
 #' {local}$ ssh -l alice remote.server.org Rscript --version
-#' R scripting front-end version 3.6.1 (2019-07-05)
+#' R scripting front-end version 4.2.2 (2022-10-31)
 #' {local}$
 #' }
 #' The latter will assert that you have proper startup configuration also for
 #' _non-interactive_ shell sessions on the remote machine.
 #'
+#' If the remote machines are running on MS Windows, make sure to add argument
+#' `rscript_sh = "cmd"` when calling `makeClusterPSOCK()`, because the default
+#' is `rscript_sh = "sh"`, which assumes that that the remote machines are
+#' Unix-like machines.
+#' 
 #' Another reason for failing to setup remote workers could be that they are
 #' running an \R version that is not compatible with the version that your main
 #' \R session is running.  For instance, if we run R (>= 3.6.0) locally and the
