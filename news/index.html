@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.34.0-9006</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.35.0</span>
       </span>
     </div>
 
@@ -120,15 +120,15 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<h2 class="page-header" data-toc-text="1.35.0" id="version-1350">Version 1.35.0<a class="anchor" aria-label="anchor" href="#version-1350"></a></h2>
 <div class="section level3">
-<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-1-35-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-35-0"></a></h3>
 <ul><li>Now <code><a href="../reference/freePort.html">freePort()</a></code> defaults to <code>default = NA_integer_</code>, so that <code>NA_integer_</code> is returned when no free port could be found. However, in R (&lt; 4.0.0), which does not support port querying, we use <code>default = "random"</code>.</li></ul></div>
 <div class="section level3">
-<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<h3 id="documentation-1-35-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-35-0"></a></h3>
 <ul><li>Mention in <code><a href="../reference/makeClusterPSOCK.html">help("makeClusterPSOCK")</a></code> that <code>rscript_sh = "cmd"</code> is needed if the remote machines run MS Windows.</li></ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-1-35-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-35-0"></a></h3>
 <ul><li><p><code>makeClusterPSOCK(..., verbose = TRUE)</code> would not show verbose output. One still had to set option <code>parallelly.debug</code> to TRUE.</p></li>
 <li><p><code><a href="../reference/availableWorkers.html">availableWorkers()</a></code> could produce false sanity-check warnings on mismatching ‘PE_HOSTFILE’ content and ‘NSLOTS’ for certain SGE-cluster configurations.</p></li>
 </ul></div>
