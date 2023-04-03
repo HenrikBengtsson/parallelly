@@ -811,10 +811,8 @@ cl <- makeClusterPSOCK(1L,
   rscript = c(
     ## Silence Wine warnings
     "WINEDEBUG=fixme-all",
-    ## Don't pass down R package libraries from host to Wine
-    "R_LIBS=", "R_SITE_USER=", "R_LIBS_USER=",
-    ## Don't pass LC_*** environments from Linux to Wine
-    sprintf("\%s=", grep("LC_", names(Sys.getenv()), value = TRUE)),
+    ## Don't pass LC_*** environments from host to Wine
+    sprintf("\%s=", grep("^(LC_|R_LIBS)", names(Sys.getenv()), value = TRUE)),
     "wine",
     "C:/Program Files/R/R-4.2.3/bin/x64/Rscript.exe"
   ),
