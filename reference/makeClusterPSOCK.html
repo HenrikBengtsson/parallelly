@@ -31,7 +31,7 @@ R workers, and how to connect to external machines."><meta property="og:image" c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.35.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.35.0-9001</span>
       </span>
     </div>
 
@@ -611,10 +611,10 @@ clashes.  Retrying will often resolve the problem.</p>
 be that you have a virtual private network (VPN) enabled that is
 configured to prevent you from connecting to <code>localhost</code>.  To verify that
 this is the case, call the following from the terminal:</p>
-<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dt">{local}</span>$ <span class="fu">ssh</span> localhost <span class="st">"date"</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">{local}$</span> ssh localhost <span class="st">"date"</span></span></code></pre><p></p></div>
 <p>This also freezed if the VPN intercepts connections to <code>localhost</code>.
 If this happens, try also:</p>
-<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dt">{local}</span>$ <span class="fu">ssh</span> 127.0.0.1 <span class="st">"date"</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode sh"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">{local}$</span> ssh 127.0.0.1 <span class="st">"date"</span></span></code></pre><p></p></div>
 <p>In rare cases, <code>127.0.0.1</code> might work when <code>localhost</code> does not.
 If the latter works, setting R option:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>parallelly.localhost.hostname <span class="op">=</span> <span class="st">"127.0.0.1"</span><span class="op">)</span></span></code></pre><p></p></div>
@@ -686,9 +686,9 @@ on MS Windows when running R (&gt;= 4.3.0). They are detected, because they
 result in placeholder <code>Rscript&lt;hexcode&gt;</code> files being left behind in
 the temporary directory.  The check NOTE to look out for
 (only in R (&gt;= 4.3.0)) is:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="op">*</span><span class="st"> </span>checking <span class="cf">for</span> detritus <span class="cf">in</span> the temp directory ... NOTE</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>Found the following files<span class="op">/</span>directories<span class="op">:</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="st">  'Rscript1058267d0c10'</span> <span class="st">'Rscriptbd4267d0c10'</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="sc">*</span> checking <span class="cf">for</span> detritus <span class="cf">in</span> the temp directory ... NOTE</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>Found the following files<span class="sc">/</span>directories<span class="sc">:</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="st">'Rscript1058267d0c10'</span> <span class="st">'Rscriptbd4267d0c10'</span></span></code></pre><p></p></div>
 <p>Those <code>Rscript&lt;hexcode&gt;</code> files are from background R worker processes,
 which almost always are parallel <code>cluster</code>:s that we forgot to stop
 at the end.  To stop all <code>cluster</code> workers, use <code><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">parallel::stopCluster()</a></code>
@@ -979,20 +979,22 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span><span class="co">## EXAMPLE: One worker running in Wine for Linux on the local machine</span></span></span>
 <span class="r-in"><span><span class="co">## To install R for MS Windows in Wine, do something like:</span></span></span>
 <span class="r-in"><span><span class="co">##   winecfg  # In GUI, set 'Windows version' to 'Windows 10'</span></span></span>
-<span class="r-in"><span><span class="co">##   wget https://cran.r-project.org/bin/windows/base/R-4.2.2-win.exe</span></span></span>
-<span class="r-in"><span><span class="co">##   wine R-4.2.2-win.exe /SILENT</span></span></span>
+<span class="r-in"><span><span class="co">##   wget https://cran.r-project.org/bin/windows/base/R-4.2.3-win.exe</span></span></span>
+<span class="r-in"><span><span class="co">##   wine R-4.2.3-win.exe /SILENT</span></span></span>
 <span class="r-in"><span><span class="co">## Prevent packages from being installed to R's system library:</span></span></span>
-<span class="r-in"><span><span class="co">##   chmod ugo-w "$HOME/.wine/drive_c/Program Files/R/R-4.2.2/library/"</span></span></span>
+<span class="r-in"><span><span class="co">##   chmod ugo-w "$HOME/.wine/drive_c/Program Files/R/R-4.2.3/library/"</span></span></span>
 <span class="r-in"><span><span class="co">## Verify it works:</span></span></span>
-<span class="r-in"><span><span class="co">##   wine "C:/Program Files/R/R-4.2.2/bin/x64/Rscript.exe" --version</span></span></span>
+<span class="r-in"><span><span class="co">##   wine "C:/Program Files/R/R-4.2.3/bin/x64/Rscript.exe" --version</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span><span class="fl">1L</span>,</span></span>
 <span class="r-in"><span>  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="co">## Silence Wine warnings</span></span></span>
 <span class="r-in"><span>    <span class="st">"WINEDEBUG=fixme-all"</span>,</span></span>
+<span class="r-in"><span>    <span class="co">## Don't pass down R package libraries from host to Wine</span></span></span>
+<span class="r-in"><span>    <span class="st">"R_LIBS="</span>, <span class="st">"R_SITE_USER="</span>, <span class="st">"R_LIBS_USER="</span>,</span></span>
 <span class="r-in"><span>    <span class="co">## Don't pass LC_*** environments from Linux to Wine</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"%s="</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"LC_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="st">"wine"</span>,</span></span>
-<span class="r-in"><span>    <span class="st">"C:/Program Files/R/R-4.2.2/bin/x64/Rscript.exe"</span></span></span>
+<span class="r-in"><span>    <span class="st">"C:/Program Files/R/R-4.2.3/bin/x64/Rscript.exe"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>

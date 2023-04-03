@@ -8,10 +8,10 @@ List of 12
  $ login         : chr "henrik"
  $ user          : chr "henrik"
  $ effective_user: chr "henrik"
- $ pid           : int 386457
- $ call          : chr [1:17] "/home/henrik/software/cbi/software/R-4.2.2-gcc11/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/henrik/Rtmp0H78BI/worker.rank=1.parallelly.parent=386084.5e42"| __truncated__ "-e" "options(socketOptions~+~=~+~\"no-delay\")" "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11315" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
- $ pwd           : chr "/tmp/henrik/Rtmpaf6Zkf/parallelly/docs/reference"
- $ time          : POSIXct[1:1], format: "2023-03-22 17:05:16"
+ $ pid           : int 2674252
+ $ call          : chr [1:17] "/home/henrik/shared/software/CBI/R-4.2.3-gcc11/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/henrik/Rtmps22ie9/worker.rank=1.parallelly.parent=2673880.28c"| __truncated__ "-e" "options(socketOptions~+~=~+~\"no-delay\")" "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11889" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
+ $ pwd           : chr "/tmp/henrik/Rtmp5ZiVN2/parallelly/docs/reference"
+ $ time          : POSIXct[1:1], format: "2023-04-02 21:23:15"
 
 ** Error:
 Error in unserialize(node$con) : error reading from connection
@@ -60,37 +60,37 @@ Calls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize
 
 ** Dumped frames:
 $`workRSOCK()`
-<environment: 0x558271c132e8>
+<environment: 0x55a5ea03e060>
 
 $`workLoop(makeSOCKmaster(master, port, setup_timeout, timeout, useXDR, setup`
-<environment: 0x558271a6d5a8>
+<environment: 0x55a5e9eecb30>
 
 $`workCommand(master)`
-<environment: 0x558271a1db60>
+<environment: 0x55a5e9e9fc10>
 
 $`tryCatch({\n    msg <- recvData(master)\n    if (msg$type == "DONE") {\n        c`
-<environment: 0x558271a1dd58>
+<environment: 0x55a5e9e9a838>
 
 $`tryCatchList(expr, classes, parentenv, handlers)`
-<environment: 0x558271a1e420>
+<environment: 0x55a5e9e9af00>
 
 $`tryCatchOne(expr, names, parentenv, handlers[[1]])`
-<environment: 0x558271a1e768>
+<environment: 0x55a5e9e9b248>
 
 $`doTryCatch(return(expr), name, parentenv, handler)`
-<environment: 0x558271a1ad28>
+<environment: 0x55a5e9e9b590>
 
 $`recvData(master)`
-<environment: 0x558271a1b070>
+<environment: 0x55a5e9e9b8d8>
 
 $`recvData.SOCK0node(master)`
-<environment: 0x558271a1b310>
+<environment: 0x55a5e9e9bb78>
 
 $`unserialize(node$con)`
-<environment: 0x558271a1b428>
+<environment: 0x55a5e9e9bc90>
 
 $`(function () \n{\n    tb <- .traceback(NULL)\n    if (is.null(tb)) \n        tb <- `
-<environment: 0x558271a1b8f8>
+<environment: 0x55a5e9e9c160>
 
 attr(,"error.message")
 [1] "Error in unserialize(node$con) : error reading from connection\nCalls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize\n"
@@ -98,13 +98,13 @@ attr(,"class")
 [1] "dump.frames"
 
 ** Session information:
-R version 4.2.2 (2022-10-31)
+R version 4.2.3 (2023-03-15)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Ubuntu 22.04.2 LTS
 
 Matrix products: default
-BLAS:   /home/henrik/software/cbi/software/R-4.2.2-gcc11/lib/R/lib/libRblas.so
-LAPACK: /home/henrik/software/cbi/software/R-4.2.2-gcc11/lib/R/lib/libRlapack.so
+BLAS:   /home/henrik/shared/software/CBI/R-4.2.3-gcc11/lib/R/lib/libRblas.so
+LAPACK: /home/henrik/shared/software/CBI/R-4.2.3-gcc11/lib/R/lib/libRlapack.so
 
 locale:
  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
@@ -118,5 +118,5 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 loaded via a namespace (and not attached):
-[1] compiler_4.2.2      parallel_4.2.2      tools_4.2.2        
+[1] compiler_4.2.3      parallel_4.2.3      tools_4.2.3        
 [4] trackers_0.0.1-9001 rappdirs_0.3.3      digest_0.6.31      
