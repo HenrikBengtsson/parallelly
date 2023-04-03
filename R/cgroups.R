@@ -337,7 +337,7 @@ getCGroupsCpuPeriodMicroseconds <- local({
     if (!is.null(value)) return(value)
     
     value <<- suppressWarnings({
-      ## e.g. /sys/fs/cgroup/cpu/cpu.cfs_quota_us
+      ## e.g. /sys/fs/cgroup/cpu/cpu.cfs_period_us
       as.integer(getCGroupsValue("cpu", "cpu.cfs_period_us"))
     })
 
