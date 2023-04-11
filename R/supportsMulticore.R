@@ -78,22 +78,37 @@ supportsMulticore <- local({
 
 supportsMulticoreAndRStudio <- local({
   alreadyWarned <- FALSE
-  
+
   function(warn = FALSE) {
-   ## Forked processing should be avoided within RStudio
-   ## [https://github.com/rstudio/rstudio/issues/2597#issuecomment-482187011]
-   is_rstudio <- (Sys.getenv("RSTUDIO") == "1")
-   if (!is_rstudio) return(TRUE)
-  
-   if (!warn || alreadyWarned) return(FALSE)
-   
-   action <- getOption2("parallelly.supportsMulticore.unstable", "warn")
-   if (action == "warn") {
-     warning("[ONE-TIME WARNING] Forked processing ('multicore') is not supported when running R from RStudio because it is considered unstable. For more details, how to control forked processing or not, and how to silence this warning in future R sessions, see ?parallelly::supportsMulticore")
-   }
+    disableOn <- getOption2("parallelly.supportsMulticore.disableOn", c("rstudio_console", "rstudio_terminal"))
 
-   alreadyWarned <<- TRUE
+    disable <- FALSE
+    
+    ## Check RStudio?
+    ## Forked processing should be avoided within RStudio
+    ## [https://github.com/rstudio/rstudio/issues/2597#issuecomment-482187011]
+    is_rstudio <- (Sys.getenv("RSTUDIO") == "1")
+    if (is_rstudio) {
+      if (nzchar(Sys.getenv("RSTUDIO_TERM", ""))) {
+        ## Running R via the RStudio Terminal
+        disable <- ("rstudio_term" %in% disableOn)
+      } else {
+        ## Running R via the RStudio Console
+        disable <- ("rstudio_console" %in% disableOn)
+      }
+    }
 
-   FALSE
+    if (!disable) return(TRUE)
+    
+    if (!warn || alreadyWarned) return(FALSE)
+    
+    action <- getOption2("parallelly.supportsMulticore.unstable", "warn")
+    if (action == "warn") {
+      warning("[ONE-TIME WARNING] Forked processing ('multicore') is not supported when running R from RStudio because it is considered unstable. For more details, how to control forked processing or not, and how to silence this warning in future R sessions, see ?parallelly::supportsMulticore")
+    }
+ 
+    alreadyWarned <<- TRUE
+ 
+    FALSE
   }
 })

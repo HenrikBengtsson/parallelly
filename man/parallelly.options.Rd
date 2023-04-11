@@ -12,12 +12,14 @@
 \alias{parallelly.availableWorkers.methods}
 \alias{parallelly.availableWorkers.custom}
 \alias{parallelly.fork.enable}
+\alias{parallelly.supportsMulticore.disableOn}
 \alias{parallelly.supportsMulticore.unstable}
 \alias{R_PARALLELLY_AVAILABLECORES_FALLBACK}
 \alias{R_PARALLELLY_AVAILABLECORES_OMIT}
 \alias{R_PARALLELLY_AVAILABLECORES_SYSTEM}
 \alias{R_PARALLELLY_AVAILABLECORES_MIN}
 \alias{R_PARALLELLY_FORK_ENABLE}
+\alias{R_PARALLELLY_SUPPORTSMULTICORE_DISABLEON}
 \alias{R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE}
 \alias{future.availableCores.custom}
 \alias{future.availableCores.methods}
@@ -114,7 +116,17 @@ The below \R options and environment variables control the default result of \co
 \describe{
 \item{\code{parallelly.fork.enable}:}{(logical) Enable or disable \emph{forked} processing.  If \code{FALSE}, multicore futures becomes sequential futures.  If \code{NA}, or not set (the default), the a set of best-practices rules decide whether should be supported or not.}
 
-\item{\code{parallelly.supportsMulticore.unstable}:}{(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If \code{"warn"} (default), then an informative warning is produces the first time 'multicore' futures are used.  If \code{"quiet"}, no warning is produced.}
+\item{\code{parallelly.supportsMulticore.disableOn}:}{(character vector)
+because the environment in which R runs is considered unstable for
+forked processing.
+If this vector contains \code{"rstudio_console"}, it is disabled when
+running R in the RStudio Console.
+If this vector contains \code{"rstudio_terminal"}, it is disabled when
+running R in the RStudio Terminal.
+(Default: \code{c("rstudio_console", "rstudio_terminal")})
+}
+
+\item{\code{parallelly.supportsMulticore.unstable}:}{(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled per settings in option \code{parallelly.supportsMulticore.disableOn}.  If \code{"warn"} (default), then an informative warning is produces the first time 'multicore' futures are used.  If \code{"quiet"}, no warning is produced.}
 }
 }
 

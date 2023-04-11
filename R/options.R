@@ -58,7 +58,18 @@
 #' \describe{
 #'  \item{`parallelly.fork.enable`:}{(logical) Enable or disable _forked_ processing.  If `FALSE`, multicore futures becomes sequential futures.  If `NA`, or not set (the default), the a set of best-practices rules decide whether should be supported or not.}
 #'
-#'  \item{`parallelly.supportsMulticore.unstable`:}{(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If `"warn"` (default), then an informative warning is produces the first time 'multicore' futures are used.  If `"quiet"`, no warning is produced.}
+#'  \item{`parallelly.supportsMulticore.disableOn`:}{(character vector)
+#"    Controls in what environments multicore processing should be disabled,
+#'    because the environment in which R runs is considered unstable for
+#'    forked processing.
+#'    If this vector contains `"rstudio_console"`, it is disabled when
+#'    running R in the RStudio Console.
+#'    If this vector contains `"rstudio_terminal"`, it is disabled when
+#'    running R in the RStudio Terminal.
+#'    (Default: `c("rstudio_console", "rstudio_terminal")`)
+#'  }
+#'
+#'  \item{`parallelly.supportsMulticore.unstable`:}{(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled per settings in option `parallelly.supportsMulticore.disableOn`.  If `"warn"` (default), then an informative warning is produces the first time 'multicore' futures are used.  If `"quiet"`, no warning is produced.}
 #' }
 #'
 #'
@@ -127,12 +138,14 @@
 #' parallelly.availableWorkers.methods
 #' parallelly.availableWorkers.custom
 #' parallelly.fork.enable
+#' parallelly.supportsMulticore.disableOn
 #' parallelly.supportsMulticore.unstable
 #' R_PARALLELLY_AVAILABLECORES_FALLBACK
 #' R_PARALLELLY_AVAILABLECORES_OMIT
 #' R_PARALLELLY_AVAILABLECORES_SYSTEM
 #' R_PARALLELLY_AVAILABLECORES_MIN
 #' R_PARALLELLY_FORK_ENABLE
+#' R_PARALLELLY_SUPPORTSMULTICORE_DISABLEON
 #' R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE
 #'
 #' future.availableCores.custom
@@ -297,6 +310,7 @@ update_package_options <- function(debug = FALSE) {
 
   update_package_option("fork.enable", mode = "logical", debug = debug)
 
+  update_package_option("supportsMulticore.disallowOn", mode = "character", split = ",", debug = debug)
   update_package_option("supportsMulticore.unstable", mode = "character", debug = debug)
 
   update_package_option("makeNodePSOCK.setup_strategy", mode = "character", debug = debug)

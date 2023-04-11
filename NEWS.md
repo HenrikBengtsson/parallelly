@@ -1,6 +1,9 @@
 # Version (development version)
 
- * ...
+## New Features
+
+ * Introduce R option `parallelly.supportsMulticore.disableOn` to
+   control where multicore processing is disabled by default.
 
 
 # Version 1.35.0 [2023-03-22]
