@@ -77,10 +77,23 @@ killNode.default <- function(x, signal = tools::SIGTERM, ...) {
 #' @importFrom tools pskill
 #' @export
 killNode.RichSOCKnode <- function(x, signal = tools::SIGTERM, ...) {
-  pid <- x$session_info$process$pid
+  si <- x$session_info
+
+  ## Is PID available?
+  pid <- si$process$pid
   if (!is.integer(pid)) return(NextMethod())
+
+  ## Is hostname available?
+  hostname <- si$system$nodename
+  if (!is.character(hostname)) return(NextMethod())
+
+  ## Are we running on that host?
+  if (!identical(hostname, Sys.info()[["nodename"]])) return(NextMethod())
+
+  ## Try to signal the process
   res <- pskill(pid, signal = signal)
   if (getRversion() < "3.5.0") res <- NA
+  
   res
 }
 

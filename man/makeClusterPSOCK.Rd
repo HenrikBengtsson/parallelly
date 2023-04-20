@@ -767,13 +767,13 @@ cl <- makeClusterPSOCK(
 )
 
 
-## EXAMPLE: Two workers running in Singularity on the local machine
-## Setup of 2 Singularity workers running rocker/r-parallel
+## EXAMPLE: Two workers running via Linux container 'rocker/r-parallel' from
+## DockerHub on the local machine using Apptainer (formerly Singularity)
 cl <- makeClusterPSOCK(
   rep("localhost", times = 2L),
   ## Launch Rscript inside Linux container
   rscript = c(
-    "singularity", "exec", "docker://rocker/r-parallel",
+    "apptainer", "exec", "docker://rocker/r-parallel",
     "Rscript"
   ),
   dryrun = TRUE, quiet = TRUE

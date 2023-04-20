@@ -5,6 +5,13 @@
  * Introduce R option `parallelly.supportsMulticore.disableOn` to
    control where multicore processing is disabled by default.
 
+## Bug Fixes
+
+ * Calling `killNode()` on `RichSOCKnode` node could theoretically
+   kill a process on the current machine with the same process ID
+   (PID), although the parallel worker (node) is running on another
+   machine.
+
 
 # Version 1.35.0 [2023-03-22]
 
