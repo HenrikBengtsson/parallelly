@@ -12,6 +12,11 @@
    (PID), although the parallel worker (node) is running on another
    machine.
 
+ * `isNodeAlive()` on `RichSOCKnode` node could theoretically
+   return TRUE because there was a process with the same process ID
+   (PID) on the current machine, although the parallel worker (node)
+   is running on another machine.
+
 
 # Version 1.35.0 [2023-03-22]
 

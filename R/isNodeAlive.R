@@ -44,8 +44,19 @@ isNodeAlive.default <- function(x, ...) NA
 
 #' @export
 isNodeAlive.RichSOCKnode <- function(x, ...) {
-  pid <- x$session_info$process$pid
+  si <- x$session_info
+
+  ## Is PID available?
+  pid <- si$process$pid
   if (!is.integer(pid)) return(NextMethod())
+
+  ## Is hostname available?
+  hostname <- si$system$nodename
+  if (!is.character(hostname)) return(NextMethod())
+
+  ## Are we running on that host?
+  if (!identical(hostname, Sys.info()[["nodename"]])) return(NextMethod())
+  
   pid_exists(pid)
 }
 
