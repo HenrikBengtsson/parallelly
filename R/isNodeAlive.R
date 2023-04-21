@@ -55,10 +55,24 @@ isNodeAlive.RichSOCKnode <- function(x, ...) {
   if (!is.character(hostname)) return(NextMethod())
 
   ## Are we running on that host?
-  if (!identical(hostname, Sys.info()[["nodename"]])) return(NextMethod())
-  
-  pid_exists(pid)
+  if (identical(hostname, Sys.info()[["nodename"]])) return(pid_exists(pid))
+
+  ## Can we connect to the host?
+  options <- attr(x, "options")
+  rshcmd <- options$rshcmd
+  if (!is.character(rshcmd)) return(NextMethod())
+  rsh_call <- options$rsh_call
+  if (!is.character(rsh_call)) return(NextMethod())
+
+  code <- sprintf("cat(%s:::pid_exists(%d))", .packageName, pid)
+  cmd <- c("Rscript", "--vanilla", "-e", shQuote(shQuote(code)))
+  local_cmd <- c(rsh_call, cmd)
+  local_cmd <- paste(local_cmd, collapse = " ")
+  res <- system(local_cmd, intern = TRUE, ignore.stderr = TRUE)
+  res <- as.logical(res)
+  return(res)
 }
+
 
 #' @export
 isNodeAlive.cluster <- function(x, ...) {
