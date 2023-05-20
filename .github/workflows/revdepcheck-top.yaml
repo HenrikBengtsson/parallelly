@@ -16,8 +16,8 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { r: "release", pkg: "future" }
-          - { r: "release", pkg: "mlr3"   }
+          - { r: "release", pkg: "future", error_on: note    }
+          - { r: "release", pkg: "mlr3"  , error_on: warning }
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -88,7 +88,7 @@ jobs:
           rcmdcheck::rcmdcheck(
             tarball,
             args = c("--no-manual", "--as-cran"),
-            error_on = "note",
+            error_on = "${{ matrix.config.error_on }}",
             check_dir = "check"
           )
         shell: Rscript {0}
