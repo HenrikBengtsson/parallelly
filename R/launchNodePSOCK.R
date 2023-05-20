@@ -218,7 +218,6 @@ launchNodePSOCK <- function(options, verbose = FALSE) {
     mdebugf("%sConnection with worker #%s on %s established", verbose_prefix, rank, sQuote(worker))
   }
 
-str(options)
   structure(
     list(con = con, host = worker, rank = rank, rshlogfile = rshlogfile),
     options = options,
