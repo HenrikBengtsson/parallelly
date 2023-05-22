@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.35.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.35.0-9007</span>
       </span>
     </div>
 
@@ -121,8 +121,17 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
-<ul><li>…</li>
+<div class="section level3">
+<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li><p>Introduce R option <code>parallelly.supportsMulticore.disableOn</code> to control where multicore processing is disabled by default.</p></li>
+<li><p>isNodeAlive() can now query worker processes running on remote machines. It does this by connecting to the remote machine machine using the same method as was used to launch the worker, which is typically SSH, and check if the process ID of the worker still exists.</p></li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li><p>Calling <code><a href="../reference/killNode.html">killNode()</a></code> on <code>RichSOCKnode</code> node could theoretically kill a process on the current machine with the same process ID (PID), although the parallel worker (node) is running on another machine.</p></li>
+<li><p><code><a href="../reference/isNodeAlive.html">isNodeAlive()</a></code> on <code>RichSOCKnode</code> node could theoretically return TRUE because there was a process with the same process ID (PID) on the current machine, although the parallel worker (node) is running on another machine.</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.35.0" id="version-1350">Version 1.35.0<small>2023-03-22</small><a class="anchor" aria-label="anchor" href="#version-1350"></a></h2>
 <div class="section level3">
