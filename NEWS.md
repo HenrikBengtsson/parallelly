@@ -5,7 +5,7 @@
  * Introduce R option `parallelly.supportsMulticore.disableOn` to
    control where multicore processing is disabled by default.
 
- * isNodeAlive() can now query worker processes running on remote
+ * `isNodeAlive()` can now query worker processes running on remote
    machines. It does this by connecting to the remote machine machine
    using the same method as was used to launch the worker, which is
    typically SSH, and check if the process ID of the worker still
