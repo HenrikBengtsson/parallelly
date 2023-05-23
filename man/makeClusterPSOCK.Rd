@@ -93,7 +93,9 @@ which is saved in attribute \code{session_info} of each node.}
 \item{verbose}{If TRUE, informative messages are outputted.}
 
 \item{worker}{The hostname or IP number of the machine where the worker
-should run.}
+should run.
+Attribute \code{localhost} can be set to TRUE or FALSE to manually indicate
+whether \code{worker} is the same as the local host.}
 
 \item{master}{The hostname or IP number of the master / calling machine, as
 known to the workers.  If NULL (default), then the default is

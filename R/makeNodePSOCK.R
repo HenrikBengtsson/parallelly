@@ -1,5 +1,7 @@
 #' @param worker The hostname or IP number of the machine where the worker
 #' should run.
+#' Attribute `localhost` can be set to TRUE or FALSE to manually indicate
+#' whether `worker` is the same as the local host.
 #' 
 #' @param master The hostname or IP number of the master / calling machine, as
 #' known to the workers.  If NULL (default), then the default is
@@ -377,18 +379,23 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   }
 
   localhostHostname <- getOption2("parallelly.localhost.hostname", "localhost")
-  localMachine <- is.element(worker, c(localhostHostname, "localhost", "127.0.0.1"))
-
-  ## Could it be that the worker specifies the name of the localhost?
-  ## Note, this approach preserves worker == "127.0.0.1" if that is given.
-  if (!localMachine) {
-    localMachine <- is_localhost(worker)
-    if (localMachine) worker <- getOption2("parallelly.localhost.hostname", "localhost")
+  
+  localMachine <- attr(worker, "localhost")
+  if (is.logical(localMachine)) {
+    stop_if_not(length(localMachine) == 1L, !is.na(localMachine))
+  } else {
+    localMachine <- is.element(worker, c(localhostHostname, "localhost", "127.0.0.1"))
+    ## Could it be that the worker specifies the name of the localhost?
+    ## Note, this approach preserves worker == "127.0.0.1" if that is given.
+    if (!localMachine) {
+      localMachine <- is_localhost(worker)
+      if (localMachine) worker <- getOption2("parallelly.localhost.hostname", "localhost")
+    }
+    attr(worker, "localhost") <- localMachine
   }
-  attr(worker, "localhost") <- localMachine
 
   stop_if_not(is.character(rscript_sh), length(rscript_sh) >= 1L, !anyNA(rscript_sh))
-  rscript_sh <- rscript_sh[1]
+  rscript_sh <- rscript_sh[1]  ## Use the first by default
   if (rscript_sh == "auto") {
     if (localMachine) {
       rscript_sh <- if (.Platform$OS.type == "windows") "cmd" else "sh"

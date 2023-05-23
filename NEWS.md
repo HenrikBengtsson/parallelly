@@ -11,6 +11,10 @@
    typically SSH, and check if the process ID of the worker still
    exists.
 
+ * Argument `worker` for `makeNodePSOCK()` now takes the optional,
+   logical attribute `localhost` to manually specify that the worker
+   is a localhost worker.
+
 ## Bug Fixes
 
  * Calling `killNode()` on `RichSOCKnode` node could theoretically
