@@ -29,6 +29,8 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | shutdown of cluster by garbage collector             |   ✓  | N/A |
 | combining multiple, existing clusters                |   ✓  | N/A |
 | more informative printing of cluster objects         |   ✓  | N/A |
+| check if local and remote workers are alive          |   ✓  | N/A |
+| restart local and remote workers                     |   ✓  | N/A |
 | defaults via options & environment variables         |   ✓  | N/A |
 | respecting CPU resources allocated by cgroups, Linux containers, and HPC schedulers |   ✓  | N/A |
 | early error if requesting more workers than possible |   ✓  | N/A |
