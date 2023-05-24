@@ -22,7 +22,7 @@
    `print()` for `SOCKnode`.
 
  * Add `as.cluster()` for `RichSOCKnode`, which returns a
-   `RichSOCKcluster'.
+   `RichSOCKcluster`.
 
 ## Bug Fixes
 
