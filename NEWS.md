@@ -2,9 +2,6 @@
 
 ## New Features
 
- * Introduce R option `parallelly.supportsMulticore.disableOn` to
-   control where multicore processing is disabled by default.
-
  * `isNodeAlive()` can now query worker processes running on remote
    machines. It does this by connecting to the remote machine machine
    using the same method as was used to launch the worker, which is
@@ -21,8 +18,14 @@
  * Add `print()` for `RichSOCKnode`, which gives more details than
    `print()` for `SOCKnode`.
 
+ * `print()` for `RichSOCKnode` and `RichSOCKcluster` report on nodes
+   with broken connections.
+
  * Add `as.cluster()` for `RichSOCKnode`, which returns a
    `RichSOCKcluster`.
+
+ * Introduce R option `parallelly.supportsMulticore.disableOn` to
+   control where multicore processing is disabled by default.
 
 ## Bug Fixes
 
