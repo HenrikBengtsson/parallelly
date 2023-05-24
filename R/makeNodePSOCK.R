@@ -378,6 +378,38 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     return(launchNodePSOCK(options = worker, verbose = verbose))
   }
 
+  ## Record all the original arguments
+  args_org <- list(
+    worker = worker,
+    master = master,
+    port = port,
+    connectTimeout = connectTimeout,
+    timeout = timeout,
+    rscript = rscript,
+    homogeneous = homogeneous,
+    rscript_args = rscript_args,
+    rscript_envs = rscript_envs,
+    rscript_libs = rscript_libs,
+    rscript_startup = rscript_startup,
+    rscript_sh = rscript_sh,
+    default_packages = default_packages,
+    methods = methods,
+    socketOptions = socketOptions,
+    useXDR = useXDR,
+    outfile = outfile,
+    renice = renice,
+    rshcmd = rshcmd,
+    user = user,
+    revtunnel = revtunnel,
+    rshlogfile = rshlogfile,
+    rshopts = rshopts,
+    rank = rank,
+    manual = manual,
+    dryrun = dryrun,
+    quiet = quiet,
+    setup_strategy = setup_strategy
+  )
+
   localhostHostname <- getOption2("parallelly.localhost.hostname", "localhost")
   
   localMachine <- attr(worker, "localhost")
@@ -584,7 +616,8 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   ## Is rscript[1] referring to Rscript, or R/Rterm?
   name <- sub("[.]exe$", "", basename(bin))
   is_Rscript <- (tolower(name) == "rscript")
-
+  name <- bin <- NULL  ## not needed anymore
+  
   rscript_args <- as.character(rscript_args)
 
   if (length(rscript_startup) > 0L) {
@@ -793,6 +826,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   }
 
   ## Append or inject rscript_args_internal?
+  rscript_args_org <- rscript_args
   idx <- which(rscript_args == "*")
   if (length(idx) == 0L) {
     rscript_args <- c(rscript_args, rscript_args_internal)
@@ -868,27 +902,45 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
   stop_if_not(length(local_cmd) == 1L)
 
   options <- structure(list(
-    local_cmd = local_cmd,
     worker = worker,
-    rank = rank,
-    rshlogfile = rshlogfile,
+    master = master,
     port = port,
     connectTimeout = connectTimeout,
     timeout = timeout,
+    rscript = rscript,
+    homogeneous = homogeneous,
+    rscript_args = rscript_args,
+    rscript_envs = rscript_envs,
+    rscript_libs = rscript_libs,
+    rscript_startup = rscript_startup,
+    rscript_sh = rscript_sh,
+    default_packages = default_packages,
+    methods = methods,
+    socketOptions = socketOptions,
     useXDR = useXDR,
-    pidfile = pidfile,
-    setup_strategy = setup_strategy,
-    ## For messages, warnings, and errors:
     outfile = outfile,
+    renice = renice,
+    rshcmd = rshcmd,
+    user = user,
+    revtunnel = revtunnel,
+    rshlogfile = rshlogfile,
+    rshopts = rshopts,
+    rank = rank,
+    manual = manual,
+    dryrun = dryrun,
+    quiet = quiet,
+    setup_strategy = setup_strategy,
+    
+    local_cmd = local_cmd,
+    pidfile = pidfile,
+    ## For messages, warnings, and errors:
     rshcmd_label = rshcmd_label,
     rsh_call = rsh_call,
     cmd = cmd,
     localMachine = localMachine,
-    manual = manual,
-    dryrun = dryrun,
-    quiet = quiet,
-    rshcmd = rshcmd,
-    revtunnel = revtunnel
+
+    ## Arguments as they were when makeNodePSOCK() was called
+    arguments = args_org
   ), class = c("makeNodePSOCKOptions", "makeNodeOptions"))
 
   ## Return options?
