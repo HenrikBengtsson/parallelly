@@ -151,5 +151,5 @@ killNode.RichSOCKnode <- function(x, signal = tools::SIGTERM, ...) {
 
 #' @export
 killNode.cluster <- function(x, signal = tools::SIGTERM, ...) {
-  vapply(x, FUN = killNode, FUN.VALUE = NA, signal = signal, ...)
+  vapply(x, FUN = killNode, signal = signal, ..., FUN.VALUE = NA)
 }

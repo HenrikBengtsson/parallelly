@@ -8,8 +8,7 @@
 #' FALSE, TRUE, and NA.  If it can be established that the
 #' process for a cluster node is running, then TRUE is returned.
 #' If it does not run, then FALSE is returned.
-#' If neither can be inferred, for instance because the worker
-#' runs on a remote machine, then NA is returned.
+#' If neither can be inferred, or it times out, then NA is returned.
 #'
 #' @details
 #' This function works by checking whether the cluster node process is
@@ -43,12 +42,16 @@ isNodeAlive <- function(x, ...) UseMethod("isNodeAlive")
 isNodeAlive.default <- function(x, ...) NA
 
 #' @export
-isNodeAlive.RichSOCKnode <- function(x, ...) {
+isNodeAlive.RichSOCKnode <- function(x, timeout = 0.0, ...) {
   debug <- getOption2("parallelly.debug", FALSE)
   if (debug) {
     mdebugf("isNodeAlive() for RichSOCKnode ...")
     on.exit(mdebugf("isNodeAlive() for RichSOCKnode ... DONE"))
   }
+
+  timeout <- as.numeric(timeout)
+  stop_if_not(length(timeout) == 1L, !is.na(timeout), timeout >= 0)
+  debug && mdebugf("- Timeout: %g seconds", timeout)
   
   si <- x$session_info
 
@@ -69,7 +72,19 @@ isNodeAlive.RichSOCKnode <- function(x, ...) {
   ## Are we running on that host?
   if (identical(hostname, Sys.info()[["nodename"]])) {
     debug && mdebug("- The R worker is running on the current host")
-    return(pid_exists(pid))
+    if (timeout > 0) {
+      setTimeLimit(cpu = timeout, elapsed = timeout, transient = TRUE)
+      on.exit({
+        setTimeLimit(cpu = Inf, elapsed = Inf, transient = FALSE)
+      })
+    }
+    res <- tryCatch({
+      pid_exists(pid)
+    }, error = function(ex) {
+      warning(sprintf("Could not infer whether %s node is alive. Reason reported: %s", class(x)[1], conditionMessage(ex)))
+      NA
+    })
+    return(res)
   }
 
   debug && mdebug("- The R worker is running on another host")
@@ -98,10 +113,38 @@ isNodeAlive.RichSOCKnode <- function(x, ...) {
   local_cmd <- paste(rsh_call, shQuote(cmd, type = rscript_sh))
   debug && mdebugf("- System call: %s", local_cmd)
   stop_if_not(length(local_cmd) == 1L)
-  
-  res <- system(local_cmd, intern = TRUE, ignore.stderr = TRUE)
+
+  ## system() ignores fractions of seconds, so need to be at least 1 second
+  if (timeout > 0 && timeout < 1) timeout <- 1.0
+  debug && mdebugf("- Timeout: %g seconds", timeout)
+
+  reason <- NULL
+  res <- withCallingHandlers({
+    system(local_cmd, intern = TRUE, ignore.stderr = TRUE, timeout = timeout)
+  }, condition = function(w) {
+    reason <<- conditionMessage(w)
+    debug && mdebugf("- Caught condition: %s", reason)
+  })
   debug && mdebugf("- Results: %s", res)
+  status <- attr(res, "status")
   res <- as.logical(res)
+  if (length(res) != 1L || is.na(res)) {
+    res <- NA
+    attr(res, "status") <- status
+    
+    msg <- sprintf("Could not infer whether %s node is alive", sQuote(class(x)[1]))
+    if (!is.null(reason)) {
+      debug && mdebugf("- Reason: %s", reason)
+      msg <- sprintf("%s. Reason reported: %s", msg, reason)
+    }
+
+    if (!is.null(status)) {
+      debug && mdebugf("- Status: %s", status)
+      msg <- sprintf("%s [exit code: %d]", msg, status)
+    }
+
+    warning(msg)
+  }
   
   res
 }
@@ -109,5 +152,5 @@ isNodeAlive.RichSOCKnode <- function(x, ...) {
 
 #' @export
 isNodeAlive.cluster <- function(x, ...) {
-  vapply(x, FUN = isNodeAlive, FUN.VALUE = NA)
+  vapply(x, FUN = isNodeAlive, ..., FUN.VALUE = NA)
 }

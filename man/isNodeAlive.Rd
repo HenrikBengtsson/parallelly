@@ -16,8 +16,7 @@ A logical vector of length \code{length(x)} with values
 FALSE, TRUE, and NA.  If it can be established that the
 process for a cluster node is running, then TRUE is returned.
 If it does not run, then FALSE is returned.
-If neither can be inferred, for instance because the worker
-runs on a remote machine, then NA is returned.
+If neither can be inferred, or it times out, then NA is returned.
 }
 \description{
 Check whether or not the cluster nodes are alive
