@@ -8,7 +8,7 @@
    typically SSH, and check if the process ID of the worker still
    exists.
 
- * Add `cloneNode()`, which can be used to "restart" `RickhSOCKnode`
+ * Add `cloneNode()`, which can be used to "restart" `RichSOCKnode`
    cluster nodes.
 
  * Argument `worker` for `makeNodePSOCK()` now takes the optional,
