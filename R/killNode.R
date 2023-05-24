@@ -70,7 +70,7 @@ killNode <- function(x, signal = tools::SIGTERM, ...) {
 
 #' @export
 killNode.default <- function(x, signal = tools::SIGTERM, ...) {
-  warning(sprintf("killNode() is not supported for %s objects. Signal %d was not sent", sQuote(class(x)[1]), signal))
+  warning(sprintf("killNode() is not supported for this %s. Signal %d was not sent", sQuote(class(x)[1]), signal))
   NA
 }
 
@@ -87,14 +87,17 @@ killNode.RichSOCKnode <- function(x, signal = tools::SIGTERM, ...) {
   hostname <- si$system$nodename
   if (!is.character(hostname)) return(NextMethod())
 
-  ## Are we running on that host?
-  if (!identical(hostname, Sys.info()[["nodename"]])) return(NextMethod())
+  ## Are we calling this from that same host?
+  if (identical(hostname, Sys.info()[["nodename"]])) {
+    ## Try to signal the process
+    res <- pskill(pid, signal = signal)
+    if (getRversion() < "3.5.0") res <- NA
+    return(res)
+  }
 
-  ## Try to signal the process
-  res <- pskill(pid, signal = signal)
-  if (getRversion() < "3.5.0") res <- NA
+  warning(sprintf("killNode() is not implemented for non-localhost %s node running on %s. Signal %d was not sent", sQuote(class(x)[1]), sQuote(hostname), signal))
   
-  res
+  NA
 }
 
 #' @export
