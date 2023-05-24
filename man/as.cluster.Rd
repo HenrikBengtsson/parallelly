@@ -6,6 +6,7 @@
 \alias{as.cluster.list}
 \alias{as.cluster.SOCKnode}
 \alias{as.cluster.SOCK0node}
+\alias{as.cluster.RichSOCKnode}
 \alias{c.cluster}
 \title{Coerce an Object to a Cluster Object}
 \usage{
@@ -18,6 +19,8 @@ as.cluster(x, ...)
 \method{as.cluster}{SOCKnode}(x, ...)
 
 \method{as.cluster}{SOCK0node}(x, ...)
+
+\method{as.cluster}{RichSOCKnode}(x, ...)
 
 \method{c}{cluster}(..., recursive = FALSE)
 }

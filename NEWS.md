@@ -18,6 +18,9 @@
  * Add `print()` for `RichSOCKnode`, which gives more details than
    `print()` for `SOCKnode`.
 
+ * Add `as.cluster()` for `RichSOCKnode`, which returns a
+   `RichSOCKcluster'.
+
 ## Bug Fixes
 
  * Calling `killNode()` on `RichSOCKnode` node could theoretically

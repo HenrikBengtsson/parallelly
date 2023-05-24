@@ -36,6 +36,13 @@ as.cluster.SOCKnode <- function(x, ...) {
 as.cluster.SOCK0node <- as.cluster.SOCKnode
 
 
+#' @rdname as.cluster
+#' @export
+as.cluster.RichSOCKnode <- function(x, ...) {
+  cl <- structure(list(x), class = c("RichSOCKcluster", "SOCKcluster", "cluster"))
+}
+
+
 #' @param recursive Not used.
 #'
 #' @return `c(...)` combine multiple clusters and / or cluster nodes into one
