@@ -15,6 +15,9 @@
    logical attribute `localhost` to manually specify that the worker
    is a localhost worker.
 
+ * Add `print()` for `RichSOCKnode`, which gives more details than
+   `print()` for `SOCKnode`.
+
 ## Bug Fixes
 
  * Calling `killNode()` on `RichSOCKnode` node could theoretically

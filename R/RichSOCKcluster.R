@@ -1,13 +1,17 @@
 #' @export
 summary.RichSOCKnode <- function(object, ...) {
   res <- list(
-    host      = NA_character_,
-    r_version = NA_character_,
-    platform  = NA_character_,
-    pwd       = NA_character_,
-    pid       = NA_integer_
+    host       = NA_character_,
+    connection = NA_character_,
+    r_version  = NA_character_,
+    platform   = NA_character_,
+    pwd        = NA_character_,
+    pid        = NA_integer_
   )
   host <- object[["host"]]
+  if (!is.null(host)) res$host <- host
+  con <- object[["con"]]
+  if (!is.null(con)) res$connection <- summary(con)$description
   if (!is.null(host)) res$host <- host
   session_info <- object[["session_info"]]
   if (!is.null(session_info)) {
@@ -30,8 +34,20 @@ summary.RichSOCKcluster <- function(object, ...) {
   res
 }
 
+#' @importFrom utils capture.output
 #' @export
-print.RichSOCKcluster <- function (x, ...) {
+print.RichSOCKnode <- function(x, ...) {
+  info <- summary(x)
+  host <- info$host
+  localhost <- isTRUE(attr(host, "localhost"))
+  txt <- sprintf("%s of a socket cluster on %s host '%s' with pid %s (%s, %s) using socket connection #%d ('%s')\n", class(x)[1], if (localhost) "local" else "remote", host, info$pid, info$r_version, info$platform, as.integer(x$con), info$connection)
+  cat(txt)
+  invisible(x)
+}
+
+
+#' @export
+print.RichSOCKcluster <- function(x, ...) {
   info <- summary(x)
   txt <- sprintf("host %s", sQuote(info[["host"]]))
   specs <- sprintf("(%s, platform %s)", info[["r_version"]], info[["platform"]])
