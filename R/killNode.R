@@ -76,7 +76,7 @@ killNode.default <- function(x, signal = tools::SIGTERM, ...) {
 
 #' @importFrom tools pskill
 #' @export
-killNode.RichSOCKnode <- function(x, signal = tools::SIGTERM, ...) {
+killNode.RichSOCKnode <- function(x, signal = tools::SIGTERM, timeout = 0.0, ...) {
   debug <- getOption2("parallelly.debug", FALSE)
   if (debug) {
     mdebugf("killNode() for RichSOCKnode ...")
@@ -87,6 +87,10 @@ killNode.RichSOCKnode <- function(x, signal = tools::SIGTERM, ...) {
               all(signal > 0))
   signal <- as.integer(signal)
   stop_if_not(all(signal > 0))
+
+  timeout <- as.numeric(timeout)
+  stop_if_not(length(timeout) == 1L, !is.na(timeout), timeout >= 0)
+  debug && mdebugf("- Timeout: %g seconds", timeout)
   
   si <- x$session_info
 
@@ -141,10 +145,38 @@ killNode.RichSOCKnode <- function(x, signal = tools::SIGTERM, ...) {
   local_cmd <- paste(rsh_call, shQuote(cmd, type = rscript_sh))
   debug && mdebugf("- System call: %s", local_cmd)
   stop_if_not(length(local_cmd) == 1L)
-  
-  res <- system(local_cmd, intern = TRUE, ignore.stderr = TRUE)
+
+  ## system() ignores fractions of seconds, so need to be at least 1 second
+  if (timeout > 0 && timeout < 1) timeout <- 1.0
+  debug && mdebugf("- Timeout: %g seconds", timeout)
+
+  reason <- NULL
+  res <- withCallingHandlers({
+    system(local_cmd, intern = TRUE, ignore.stderr = TRUE, timeout = timeout)
+  }, condition = function(w) {
+    reason <<- conditionMessage(w)
+    debug && mdebugf("- Caught condition: %s", reason)
+  })
   debug && mdebugf("- Results: %s", res)
+  status <- attr(res, "status")
   res <- as.logical(res)
+  if (length(res) != 1L || is.na(res)) {
+    res <- NA
+    attr(res, "status") <- status
+    
+    msg <- sprintf("Could not kill %s node", sQuote(class(x)[1]))
+    if (!is.null(reason)) {
+      debug && mdebugf("- Reason: %s", reason)
+      msg <- sprintf("%s. Reason reported: %s", msg, reason)
+    }
+
+    if (!is.null(status)) {
+      debug && mdebugf("- Status: %s", status)
+      msg <- sprintf("%s [exit code: %d]", msg, status)
+    }
+
+    warning(msg)
+  }
 
   res
 }

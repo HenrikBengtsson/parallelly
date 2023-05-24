@@ -7,8 +7,9 @@
    remote machine using the same method used to launch the worker,
    which is typically SSH, and do their R calls that way.
 
- * `isNodeAlive()` gained argument `timeout` for controlling the
-   maximum time, in seconds, before giving up and returning NA.
+ * `isNodeAlive()` and `killNode()` gained argument `timeout` for
+   controlling the maximum time, in seconds, before giving up and
+   returning NA.
 
  * Add `cloneNode()`, which can be used to "restart" `RichSOCKnode`
    cluster nodes.
