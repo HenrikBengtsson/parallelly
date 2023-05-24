@@ -11,6 +11,9 @@
    typically SSH, and check if the process ID of the worker still
    exists.
 
+ * Add `cloneNode()`, which can be used to "restart" a `RickhSOCKnode`
+   cluster nodes.
+
  * Argument `worker` for `makeNodePSOCK()` now takes the optional,
    logical attribute `localhost` to manually specify that the worker
    is a localhost worker.

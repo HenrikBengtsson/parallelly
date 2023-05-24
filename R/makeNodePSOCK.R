@@ -939,7 +939,8 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     cmd = cmd,
     localMachine = localMachine,
 
-    ## Arguments as they were when makeNodePSOCK() was called
+    ## Function and original arguments used here
+    make_fcn = makeNodePSOCK,
     arguments = args_org
   ), class = c("makeNodePSOCKOptions", "makeNodeOptions"))
 
