@@ -28,6 +28,7 @@ parallel::stopCluster(cl[2])
 ## Show that cluster node #2 is no longer alive (wait a bit first)
 Sys.sleep(1.0)
 print(isNodeAlive(cl))
+print(cl)
 
 ## "Restart" it
 cl[2] <- cloneNode(cl[2])

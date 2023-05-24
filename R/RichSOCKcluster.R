@@ -75,10 +75,10 @@ print.RichSOCKcluster <- function(x, ...) {
   broken <- grep("ERROR:", info[["connection"]])
   nbroken <- length(broken)
   if (nbroken > 0) {
-    w <- ifelse(nbroken == 1L, "node (%s) has", "nodes (%s) have")
+    w <- ifelse(nbroken == 1L, "node (%s) has a broken connection", "nodes (%s) have broken connections")
     w <- sprintf(w, paste(sprintf("#%d", broken), collapse = ", "))
     reason <- unique(info[["connection"]][broken])
-    specs <- sprintf("%d %s broken connections (%s)", nbroken, w, paste(reason, collapse = "; "))
+    specs <- sprintf("%d %s (%s)", nbroken, w, paste(reason, collapse = "; "))
     txt <- paste(txt, ". ", specs, sep = "")
   }
 
