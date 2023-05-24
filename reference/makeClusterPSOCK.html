@@ -31,7 +31,7 @@ R workers, and how to connect to external machines."><meta property="og:image" c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.35.0-9007</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.35.0-9013</span>
       </span>
     </div>
 
@@ -247,7 +247,9 @@ which is saved in attribute <code>session_info</code> of each node.</p></dd>
 
 <dt>worker</dt>
 <dd><p>The hostname or IP number of the machine where the worker
-should run.</p></dd>
+should run.
+Attribute <code>localhost</code> can be set to TRUE or FALSE to manually indicate
+whether <code>worker</code> is the same as the local host.</p></dd>
 
 
 <dt>master</dt>
