@@ -103,7 +103,7 @@ isNodeAlive.RichSOCKnode <- function(x, ...) {
   debug && mdebugf("- Results: %s", res)
   res <- as.logical(res)
   
-  return(res)
+  res
 }
 
 

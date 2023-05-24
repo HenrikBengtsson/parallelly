@@ -2,11 +2,10 @@
 
 ## New Features
 
- * `isNodeAlive()` can now query worker processes running on remote
-   machines. It does this by connecting to the remote machine machine
-   using the same method as was used to launch the worker, which is
-   typically SSH, and check if the process ID of the worker still
-   exists.
+ * `isNodeAlive()` and `killNode()` now support also worker processes
+   that run on remote machines. They do this by connecting to the
+   remote machine using the same method used to launch the worker,
+   which is typically SSH, and do their R calls that way.
 
  * Add `cloneNode()`, which can be used to "restart" `RichSOCKnode`
    cluster nodes.
