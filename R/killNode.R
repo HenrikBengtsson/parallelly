@@ -150,6 +150,12 @@ killNode.RichSOCKnode <- function(x, signal = tools::SIGTERM, timeout = 0.0, ...
   if (timeout > 0 && timeout < 1) timeout <- 1.0
   debug && mdebugf("- Timeout: %g seconds", timeout)
 
+  ## system() does not support argument 'timeout' in R (<= 3.4.0)
+  if (getRversion() < "3.5.0") {
+    if (timeout > 0) warning("killNode() does not support argument 'timeout' in R (< 3.5.0) for cluster nodes running on a remote maching")
+    system <- function(..., timeout) base::system(...)
+  }
+  
   reason <- NULL
   res <- withCallingHandlers({
     system(local_cmd, intern = TRUE, ignore.stderr = TRUE, timeout = timeout)
