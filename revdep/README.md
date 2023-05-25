@@ -10,14 +10,14 @@
 |collate  |en_US.UTF-8                                               |
 |ctype    |en_US.UTF-8                                               |
 |tz       |America/Los_Angeles                                       |
-|date     |2023-05-19                                                |
+|date     |2023-05-24                                                |
 |pandoc   |3.1.2 @ /software/c4/cbi/software/pandoc-3.1.2/bin/pandoc |
 
 # Dependencies
 
 |package    |old    |new         |Δ  |
 |:----------|:------|:-----------|:--|
-|parallelly |1.35.0 |1.35.0-9007 |*  |
+|parallelly |1.35.0 |1.35.0-9020 |*  |
 
 # Revdeps
 
@@ -53,7 +53,7 @@
 |[qtl2pleio](problems.md#qtl2pleio)|1.4.3   |      |        |2    |
 |Rtapas            |1.1     |      |        |     |
 |specr             |1.0.0   |      |        |     |
-|targets           |1.0.0   |      |        |     |
+|targets           |1.1.3   |      |        |     |
 |TDApplied         |2.0.4   |      |        |     |
 |wildmeta          |0.3.2   |      |        |     |
 
