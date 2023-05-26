@@ -81,26 +81,30 @@ now <- function(x = Sys.time(), format = "[%H:%M:%OS3] ") {
 }
 
 mdebug <- function(..., debug = getOption2("parallelly.debug", FALSE)) {
-  if (!debug) return()
+  if (!debug) return(invisible(FALSE))
   message(now(), ...)
+  invisible(TRUE)
 }
 
 mdebugf <- function(..., appendLF = TRUE,
                     debug = getOption2("parallelly.debug", FALSE)) {
-  if (!debug) return()
+  if (!debug) return(invisible(FALSE))
   message(now(), sprintf(...), appendLF = appendLF)
+  invisible(TRUE)
 }
 
 #' @importFrom utils capture.output
 mprint <- function(..., appendLF = TRUE, debug = getOption2("parallelly.debug", FALSE)) {
-  if (!debug) return()
+  if (!debug) return(invisible(FALSE))
   message(paste(now(), capture.output(print(...)), sep = "", collapse = "\n"), appendLF = appendLF)
+  invisible(TRUE)
 }
 
 #' @importFrom utils capture.output str
 mstr <- function(..., appendLF = TRUE, debug = getOption2("parallelly.debug", FALSE)) {
-  if (!debug) return()
+  if (!debug) return(invisible(FALSE))
   message(paste(now(), capture.output(str(...)), sep = "", collapse = "\n"), appendLF = appendLF)
+  invisible(TRUE)
 }
 
 

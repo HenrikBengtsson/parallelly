@@ -219,6 +219,8 @@ add_cluster_session_info <- local({
   environment(get_session_info) <- getNamespace("utils")
   
   function(cl) {
+    is_node <- inherits(cl, c("SOCKnode", "SOCK0node"))
+    if (is_node) cl <- as.cluster(cl)
     stop_if_not(inherits(cl, "cluster"))
     
     for (ii in seq_along(cl)) {
@@ -233,7 +235,9 @@ add_cluster_session_info <- local({
       
       cl[[ii]] <- node
     }
-    
+
+    if (is_node) cl <- cl[[1]]
+
     cl
   }
 }) ## add_cluster_session_info()

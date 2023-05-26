@@ -273,7 +273,13 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
       if (canAccept) {
         attr(localhostHostname, "localhost") <- TRUE
         con <- socketAccept(socket = socket, blocking = TRUE, open = "a+b", timeout = timeout)
-        scon <- structure(list(con = con, host = localhostHostname, rank = ready), class = nodeClass)
+        options$rank <- ready
+        options$pidfile <- NULL
+        scon <- structure(
+          list(con = con, host = localhostHostname, rank = ready),
+          options = options,
+          class = nodeClass
+        )
         res <- tryCatch({
           sendCall(scon, eval, list(quote(Sys.getpid())))
         }, error = identity)

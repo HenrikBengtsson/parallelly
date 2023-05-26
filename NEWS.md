@@ -1,3 +1,50 @@
+# Version 1.36.0 [2023-05-26]
+
+## New Features
+
+ * `isNodeAlive()` and `killNode()` now support also worker processes
+   that run on remote machines. They do this by connecting to the
+   remote machine using the same method used to launch the worker,
+   which is typically SSH, and do their R calls that way.
+
+ * `isNodeAlive()` and `killNode()` gained argument `timeout` for
+   controlling the maximum time, in seconds, before giving up and
+   returning NA.
+
+ * Add `cloneNode()`, which can be used to "restart" `RichSOCKnode`
+   cluster nodes.
+
+ * Argument `worker` for `makeNodePSOCK()` now takes the optional,
+   logical attribute `localhost` to manually specify that the worker
+   is a localhost worker.
+
+ * Add `print()` for `RichSOCKnode`, which gives more details than
+   `print()` for `SOCKnode`.
+
+ * `print()` for `RichSOCKnode` and `RichSOCKcluster` report on nodes
+   with broken connections.
+
+ * Add `as.cluster()` for `RichSOCKnode`, which returns a
+   `RichSOCKcluster`.
+
+ * Introduce R option `parallelly.supportsMulticore.disableOn` to
+   control where multicore processing is disabled by default.
+
+## Bug Fixes
+
+ * Calling `killNode()` on `RichSOCKnode` node could theoretically
+   kill a process on the current machine with the same process ID
+   (PID), although the parallel worker (node) is running on another
+   machine.
+
+ * `isNodeAlive()` on `RichSOCKnode` node could theoretically
+   return TRUE because there was a process with the same process ID
+   (PID) on the current machine, although the parallel worker (node)
+   is running on another machine.
+
+ * `isLocalHost()` for `SOCK0node` was not declared an S3 method.
+
+
 # Version 1.35.0 [2023-03-22]
 
 ## New Features
