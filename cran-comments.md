@@ -1,8 +1,8 @@
-# CRAN submission parallelly 1.35.0
+# CRAN submission parallelly 1.36.0
 
-on 2023-03-22
+on 2023-05-26
 
-I've verified this submission has no negative impact on any of the 514 first- and second-generation reverse package dependencies available on CRAN (n = 486) and Bioconductor (n = 28).
+I've verified this submission has no negative impact on any of the 31 reverse package dependencies available on CRAN (n = 27) and Bioconductor (n = 4).
 
 Thank you
 
@@ -16,11 +16,11 @@ The package has been verified using `R CMD check --as-cran` on:
 | R version | GitHub | R-hub  | mac/win-builder |
 | --------- | ------ | ------ | --------------- |
 | 3.4.x     | L      |        |                 |
-| 3.6.x     | L      |        |                 |
 | 4.0.x     | L      |        |                 |
 | 4.1.x     | L M W  |   M    |                 |
-| 4.2.x     | L M W  | L   W  | M1 W            |
-| devel     | L M W  | L      | M1 W            |
+| 4.2.x     | L M W  | L   W  |                 |
+| 4.3.x     | L M W  | L   W  | M1 W            |
+| devel     | L M W  | L      |    W            |
 
 _Legend: OS: L = Linux, M = macOS, M1 = macOS M1, W = Windows_
 
@@ -32,7 +32,7 @@ res <- rhub::check(platforms = c(
   "debian-clang-devel", 
   "fedora-gcc-devel",
   "debian-gcc-patched", 
-  "macos-highsierra-release-cran",
+#  "macos-highsierra-release-cran",  ## not available on 2023-05-26
   "windows-x86_64-release"
 ))
 print(res)
@@ -41,46 +41,39 @@ print(res)
 gives
 
 ```
-── parallelly 1.35.0: OK
+── parallelly 1.36.0: OK
 
-  Build ID:   parallelly_1.35.0.tar.gz-ea4ebd7ba93740c4aee3c184ae4c64a6
+  Build ID:   parallelly_1.36.0.tar.gz-19cc2505cb2a46b793b861222ac0cbec
   Platform:   Debian Linux, R-devel, clang, ISO-8859-15 locale
-  Submitted:  45m 49.1s ago
-  Build time: 10m 9.8s
+  Submitted:  3m 2.6s ago
+  Build time: 2m 59.8s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-── parallelly 1.35.0: OK
+── parallelly 1.36.0: OK
 
-  Build ID:   parallelly_1.35.0.tar.gz-048b6fd01ed74f4a8359d2cc55118535
+  Build ID:   parallelly_1.36.0.tar.gz-e510b2481c7a4b6f9c1b6b67a514af1d
   Platform:   Fedora Linux, R-devel, GCC
-  Submitted:  45m 49.1s ago
-  Build time: 6m 47.4s
+  Submitted:  3m 2.6s ago
+  Build time: 2m 12.9s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-── parallelly 1.35.0: OK
+── parallelly 1.36.0: OK
 
-  Build ID:   parallelly_1.35.0.tar.gz-23ced0697b98488bbc59c82934e63957
+  Build ID:   parallelly_1.36.0.tar.gz-557eb9730c2c4f0581a3eaa1b960aac7
   Platform:   Debian Linux, R-patched, GCC
-  Submitted:  45m 49.1s ago
-  Build time: 6m 54.8s
-
-── parallelly 1.35.0: OK
-
-  Build ID:   parallelly_1.35.0.tar.gz-63ef51117c21479d8ea402c1ea69de88
-  Platform:   macOS 10.13.6 High Sierra, R-release, CRAN's setup
-  Submitted:  45m 49.1s ago
-  Build time: 2m 38s
+  Submitted:  3m 2.6s ago
+  Build time: 2m 57.8s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-── parallelly 1.35.0: OK
+── parallelly 1.36.0: OK
 
-  Build ID:   parallelly_1.35.0.tar.gz-1d7c86258de64d359ed42cd1ce4b89e8
+  Build ID:   parallelly_1.36.0.tar.gz-1c8712815a6a4d928d4782f018c132ae
   Platform:   Windows Server 2022, R-release, 32/64 bit
-  Submitted:  45m 49.1s ago
-  Build time: 2m 35.9s
+  Submitted:  3m 2.6s ago
+  Build time: 2m 54.1s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 ```
