@@ -43,6 +43,7 @@ jobs:
       _R_CHECK_LENGTH_1_LOGIC2_: true
       _R_CHECK_MATRIX_DATA_: true
       _R_CHECK_SUGGESTS_ONLY_: true
+      _R_CHECK_S3_METHODS_SHOW_POSSIBLE_ISSUES_: true
       
     steps:
       - uses: actions/checkout@v3
