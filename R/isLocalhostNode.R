@@ -15,11 +15,14 @@ isLocalhostNode <- function(node, ...) UseMethod("isLocalhostNode")
 isLocalhostNode.default <- function(node, ...) NA
 
 #' @export
-isLocalhostNode.SOCKnode <- isLocalhostNode.SOCK0node <- function(node, ...) {
+isLocalhostNode.SOCKnode <- function(node, ...) {
   host <- node$host
   if (!is.null(host)) return(is_localhost(host))
   NextMethod()
 }
+
+#' @export
+isLocalhostNode.SOCK0node <- isLocalhostNode.SOCKnode
 
 #' @export
 isLocalhostNode.forknode <- function(node, ...) {

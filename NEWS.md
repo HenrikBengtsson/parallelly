@@ -1,4 +1,4 @@
-# Version (development version)
+# Version 1.36.0 [2023-05-26]
 
 ## New Features
 
@@ -41,6 +41,8 @@
    return TRUE because there was a process with the same process ID
    (PID) on the current machine, although the parallel worker (node)
    is running on another machine.
+
+ * `isLocalHost()` for `SOCK0node` was not declared an S3 method.
 
 
 # Version 1.35.0 [2023-03-22]
