@@ -15,8 +15,15 @@
 #' \code{\link[=parallelly.options]{parallelly.availableConnections.tries}}.
 #'
 #' @section How to increase the limit:
-#' This limit of 128 connections can only be changed by rebuilding \R from
-#' source.  The limited is hardcoded as a
+#' In R (>= 4.4.0), it is possible to _increase_ the limit of 128 connections
+#' to a greater number via command-line option `--max-connections=N`, e.g.
+#'
+#' ```r
+#' $ R --max-connection=512
+#' ```
+#'
+#' For R (< 4.4.0), the limit can only be changed by rebuilding \R from
+#' source, because the limited is hardcoded as a
 #'
 #' ```c
 #' #define NCONNECTIONS 128

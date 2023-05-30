@@ -26,8 +26,14 @@ standard output via text connections (e.g. \code{\link[utils:capture.output]{uti
 }
 \section{How to increase the limit}{
 
-This limit of 128 connections can only be changed by rebuilding \R from
-source.  The limited is hardcoded as a
+In R (>= 4.4.0), it is possible to \emph{increase} the limit of 128 connections
+to a greater number via command-line option \code{--max-connections=N}, e.g.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{$ R --max-connection=512
+}\if{html}{\out{</div>}}
+
+For R (< 4.4.0), the limit can only be changed by rebuilding \R from
+source, because the limited is hardcoded as a
 
 \if{html}{\out{<div class="sourceCode c">}}\preformatted{#define NCONNECTIONS 128
 }\if{html}{\out{</div>}}
