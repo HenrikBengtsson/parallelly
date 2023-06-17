@@ -53,15 +53,15 @@ makeNodePSOCK(
 )
 }
 \arguments{
-\item{workers}{The hostnames of workers (as a character vector) or the number
-of localhost workers (as a positive integer).}
+\item{workers}{The hostnames of workers (as a character vector) or the
+number of localhost workers (as a positive integer).}
 
 \item{makeNode}{A function that creates a \code{"SOCKnode"} or
 \code{"SOCK0node"} object, which represents a connection to a worker.}
 
 \item{port}{The port number of the master used for communicating with all
-the workers (via socket connections).  If an integer vector of ports, then a
-random one among those is chosen.  If \code{"random"}, then a random port in
+the workers (via socket connections).  If an integer vector of ports, then
+a random one among those is chosen.  If \code{"random"}, then a random port in
 is chosen from \code{11000:11999}, or from the range specified by
 environment variable \env{R_PARALLELLY_RANDOM_PORTS}.
 If \code{"auto"} (default), then the default (single) port is taken from
@@ -84,11 +84,12 @@ garbage collected, unless already stopped.  See also \code{\link[=autoStopCluste
 with \code{makeNode()} and the delay (in seconds) in-between attempts.
 If argument \code{port} specifies more than one port, e.g. \code{port = "random"}
 then a random port will be drawn and validated at most \code{tries} times.
-Arguments \code{tries} and \code{delay} are used only when \verb{setup_strategy == "sequential}.}
+Arguments \code{tries} and \code{delay} are used only when
+\code{setup_strategy == "sequential"}.}
 
-\item{validate}{If TRUE (default), after the nodes have been created, they are all
-validated that they work by inquiring about their session information,
-which is saved in attribute \code{session_info} of each node.}
+\item{validate}{If TRUE (default), after the nodes have been created,
+they are all validated that they work by inquiring about their session
+information, which is saved in attribute \code{session_info} of each node.}
 
 \item{verbose}{If TRUE, informative messages are outputted.}
 
@@ -233,12 +234,12 @@ inherit from \code{RichSOCKnode}).
 The \code{makeClusterPSOCK()} function creates a cluster of \R workers
 for parallel processing.  These \R workers may be background \R sessions
 on the current machine, \R sessions on external machines (local or remote),
-or a mix of such. For external workers, the default is to use SSH to connect
-to those external machines.  This function works similarly to
+or a mix of such. For external workers, the default is to use SSH to
+connect to those external machines.  This function works similarly to
 \code{\link[parallel:makeCluster]{makePSOCKcluster}()} of the
-\pkg{parallel} package, but provides additional and more flexibility options
-for controlling the setup of the system calls that launch the background
-\R workers, and how to connect to external machines.
+\pkg{parallel} package, but provides additional and more flexibility
+options for controlling the setup of the system calls that launch the
+background \R workers, and how to connect to external machines.
 }
 \section{Definition of \emph{localhost}}{
 

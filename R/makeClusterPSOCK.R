@@ -3,22 +3,22 @@
 #' The `makeClusterPSOCK()` function creates a cluster of \R workers
 #' for parallel processing.  These \R workers may be background \R sessions
 #' on the current machine, \R sessions on external machines (local or remote),
-#' or a mix of such. For external workers, the default is to use SSH to connect
-#' to those external machines.  This function works similarly to
+#' or a mix of such. For external workers, the default is to use SSH to
+#' connect to those external machines.  This function works similarly to
 #' \code{\link[parallel:makeCluster]{makePSOCKcluster}()} of the
-#' \pkg{parallel} package, but provides additional and more flexibility options
-#' for controlling the setup of the system calls that launch the background
-#' \R workers, and how to connect to external machines.
+#' \pkg{parallel} package, but provides additional and more flexibility
+#' options for controlling the setup of the system calls that launch the
+#' background \R workers, and how to connect to external machines.
 #'
-#' @param workers The hostnames of workers (as a character vector) or the number
-#' of localhost workers (as a positive integer).
+#' @param workers The hostnames of workers (as a character vector) or the
+#' number of localhost workers (as a positive integer).
 #' 
 #' @param makeNode A function that creates a `"SOCKnode"` or
 #' `"SOCK0node"` object, which represents a connection to a worker.
 #' 
 #' @param port The port number of the master used for communicating with all
-#' the workers (via socket connections).  If an integer vector of ports, then a
-#' random one among those is chosen.  If `"random"`, then a random port in
+#' the workers (via socket connections).  If an integer vector of ports, then
+#' a random one among those is chosen.  If `"random"`, then a random port in
 #' is chosen from `11000:11999`, or from the range specified by
 #' environment variable \env{R_PARALLELLY_RANDOM_PORTS}.
 #' If `"auto"` (default), then the default (single) port is taken from
@@ -41,11 +41,12 @@
 #' with `makeNode()` and the delay (in seconds) in-between attempts.
 #' If argument `port` specifies more than one port, e.g. `port = "random"`
 #' then a random port will be drawn and validated at most `tries` times.
-#' Arguments `tries` and `delay` are used only when `setup_strategy == "sequential`.
+#' Arguments `tries` and `delay` are used only when
+#' `setup_strategy == "sequential"`.
 #'
-#' @param validate If TRUE (default), after the nodes have been created, they are all
-#' validated that they work by inquiring about their session information,
-#' which is saved in attribute `session_info` of each node.
+#' @param validate If TRUE (default), after the nodes have been created,
+#' they are all validated that they work by inquiring about their session
+#' information, which is saved in attribute `session_info` of each node.
 #'
 #' @param verbose If TRUE, informative messages are outputted.
 #'

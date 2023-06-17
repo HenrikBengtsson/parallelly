@@ -10,7 +10,7 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | set workers' library package path on startup         |   ✓  | N/A |
 | set workers' environment variables on startup        |   ✓  | N/A |
 | custom workers startup code                          |   ✓  | N/A |
-| fallback to RStudio' SSH and PuTTY's plink           |   ✓  | N/A |
+| fallback to RStudio's SSH and PuTTY's plink          |   ✓  | N/A |
 | faster, parallel setup of local workers (R >= 4.0.0) |   ✓  |  ✓  |
 | faster, little-endian protocol by default            |   ✓  | N/A |
 | faster, low-latency socket connections by default    |   ✓  | N/A |
@@ -80,7 +80,7 @@ The below table summarize the benefits:
 
 ## Backward compatibility with the future package
 
-The functions in this package originate from the **[future](https://cran.r-project.org/package=future)** package where we have used and validated them for several years.  I moved these functions to this separate package, because they are also useful outside of the future framework.  For backward-compatibility reasons of the future framework, the R options and environment variables that are prefixed with `parallelly.*` and `R_PARALLELLY_*` can for the time being also be set with `future.*` and `R_FUTURE_*` prefixes.
+The functions in this package originate from the **[future](https://cran.r-project.org/package=future)** package where we have used and validated them for several years.  I moved these functions to this separate package in 2020, because they are also useful outside of the future framework.  For backward-compatibility reasons of the future framework, the R options and environment variables that are prefixed with `parallelly.*` and `R_PARALLELLY_*` can for the time being also be set with `future.*` and `R_FUTURE_*` prefixes.
 
 
 ## Roadmap
