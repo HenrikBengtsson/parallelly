@@ -67,5 +67,5 @@ print(isNodeAlive(cl))  ## [1] FALSE FALSE
 
 }
 \seealso{
-Use \code{\link[=isNodeAlive]{isNodeAlive()}} to check whether one or mode cluster nodes are alive.
+Use \code{\link[=isNodeAlive]{isNodeAlive()}} to check whether one or more cluster nodes are alive.
 }
