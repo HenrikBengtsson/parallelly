@@ -1,21 +1,3 @@
-#' Gets an R Option or an Environment Variable
-#'
-#' @param name (character string) The name of the \R option.
-#'
-#' @param default (a single object) The value to be returned if neither
-#' the \R option nor the environment variable is set.  If the environment
-#' variable is set, its value is coerced to the same type as `default`.
-
-#' @param envvar (character string) The name of the environment variable.
-#' If not set, or NULL, then the name is automatically constructed from
-#' the upper-case version of argument `name` with periods (`.`) substituted
-#' by underscores (`_`) and prefixed with `R_`, e.g. with `"abc.debug"`
-#' becomes `R_ABC_DEBUG`.
-#'
-#' @return
-#' Returns an object.
-#'
-#' @keywords internal
 getOption2 <- local({
   re <- sprintf("^(future|%s)[.]", .packageName)
   prefixes <- paste(c(.packageName, "future"), ".", sep = "")
