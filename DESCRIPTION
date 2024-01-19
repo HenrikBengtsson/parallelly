@@ -15,5 +15,5 @@ LazyLoad: TRUE
 ByteCompile: TRUE
 URL: https://parallelly.futureverse.org, https://github.com/HenrikBengtsson/parallelly
 BugReports: https://github.com/HenrikBengtsson/parallelly/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
 Roxygen: list(markdown = TRUE)

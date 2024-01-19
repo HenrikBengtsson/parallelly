@@ -27,9 +27,9 @@ importParallel <- local({
     if (is.null(res)) {
       ns <<- getNamespace("parallel")
 
-      ## SPECIAL: parallel::getDefaultCluster() was added in R devel r73712
-      ## (to become 3.5.0) on 2017-11-11.  The fallback in R (< 3.5.0) is
-      ## to use parallel:::defaultCluster(). /HB 2017-11-11
+      ## SPECIAL: parallel::getDefaultCluster() was added in R 3.5.0.  The
+      ## fallback in R (< 3.5.0) is to use parallel:::defaultCluster().
+      ## /HB 2017-11-11
       if (name == "getDefaultCluster") {
         if (!exists(name, mode = "function", envir = ns, inherits = FALSE)) {
           name <- "defaultCluster"

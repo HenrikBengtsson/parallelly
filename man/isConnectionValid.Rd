@@ -49,8 +49,8 @@ to that 'connection' object.}  This identifier is based on the internal
 pointer address of the object.  The risk for two connections in the same
 \R session to end up with the same pointer address is very small.
 Thus, in case we ended up in a situation where two connections \code{con1} and
-\code{con2} share the same index - \code{as.integer(con1) == as.integer(con2)} -
-they will never share the same identifier -
+\code{con2} share the same index---\code{as.integer(con1) == as.integer(con2)}---
+they will never share the same identifier---
 \code{connectionId(con1) != connectionId(con2)}.
 Here, \code{isConnectionValid()} can be used to check which one of these
 connections, if any, are valid.

@@ -168,7 +168,7 @@
 #' client that is distributed with RStudio will also be considered.
 #' This client, which is from \href{https://osdn.net/projects/mingw/}{MinGW}
 #' MSYS, is searched for in the folder given by the \env{RSTUDIO_MSYS_SSH}
-#' environment variable - a variable that is (only) set when running RStudio.
+#' environment variable---a variable that is (only) set when running RStudio.
 #' To use this SSH client outside of RStudio, set \env{RSTUDIO_MSYS_SSH}
 #' accordingly.
 #'

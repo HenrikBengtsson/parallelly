@@ -38,8 +38,8 @@
 #' pointer address of the object.  The risk for two connections in the same
 #' \R session to end up with the same pointer address is very small.
 #' Thus, in case we ended up in a situation where two connections `con1` and
-#' `con2` share the same index - `as.integer(con1) == as.integer(con2)` -
-#' they will never share the same identifier -
+#' `con2` share the same index---`as.integer(con1) == as.integer(con2)`---
+#' they will never share the same identifier---
 #' `connectionId(con1) != connectionId(con2)`.
 #' Here, `isConnectionValid()` can be used to check which one of these
 #' connections, if any, are valid.
