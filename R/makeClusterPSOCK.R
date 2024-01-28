@@ -110,10 +110,14 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   if (length(port) == 0L) {
     stop("Argument 'port' must be of length one or more: 0")
   }
+  
+  port_org <- port
   port <- freePort(port)
   if (verbose) mdebugf("%sBase port: %d", verbose_prefix, port)
-
-
+  if (is.na(port)) {
+    stop("Argument 'port' specifies non-available port(s): ", paste(port_org, collapse = ", "))
+  }
+  
   n <- length(workers)
   nodeOptions <- vector("list", length = n)
   if (verbose) mdebugf("%sGetting setup options for %d cluster nodes ...", verbose_prefix, n)

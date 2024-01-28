@@ -1,6 +1,11 @@
 # Version (development version)
 
- * ...
+## Miscellaneous
+
+ * `makeClusterPSOCK()` could produce a confusing error `Invalid port:
+   NA` if a non-available port was requested.  Now the error message
+   is more informative, e.g.
+   `Argument 'port' specifies non-available port(s): 80`.
 
 
 # Version 1.36.0 [2023-05-26]
