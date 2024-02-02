@@ -72,7 +72,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     if (length(workers) != 1L) {
       stopf("When numeric, argument 'workers' must be a single value: %s", length(workers))
     }
-    workers <- as.integer(workers)
+    
+    workers <- structure(as.integer(workers), class = class(workers))
     if (is.na(workers) || workers < 1L) {
       stopf("Number of 'workers' must be one or greater: %s", workers)
     }

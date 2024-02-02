@@ -536,6 +536,8 @@ getNproc <- function(ignore = c("OMP_NUM_THREADS", "OMP_THREAD_LIMIT")) {
 
 
 checkNumberOfLocalWorkers <- function(workers) {
+  if (inherits(workers, "AsIs")) return()
+  
   rhos <- getOption("parallelly.maxWorkers.localhost", c(1.0, 2.0))
   if (length(rhos) == 0) return()
 
