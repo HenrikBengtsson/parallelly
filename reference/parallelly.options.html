@@ -28,7 +28,7 @@ further notice."><meta property="og:image" content="https://parallelly.futurever
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.36.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.36.0-9018</span>
       </span>
     </div>
 
@@ -235,7 +235,11 @@ running R in the RStudio Terminal.
 
 
 <p>The below <span style="R">R</span> options and environment variables control the default results of <code><a href="makeClusterPSOCK.html">makeClusterPSOCK()</a></code> and its helper function <code><a href="makeClusterPSOCK.html">makeNodePSOCK()</a></code> that creates the individual cluster nodes.</p>
-<dl><dt><code>parallelly.makeNodePSOCK.setup_strategy</code>:</dt>
+<dl><dt><code>parallelly.maxWorkers.localhost</code>:</dt>
+<dd><p>(two numerics) Maximum number of localhost workers, relative to <code><a href="availableCores.html">availableCores()</a></code>, accepted and allowed. The first element corresponds to the threshold where a warning is produced, the second where an error is produced. Thresholds may be <code>+Inf</code>. If only the first exist, no error is produced (defaults to <code>c(1.0, 3.0)</code> corresponding to a maximum 100% and 300% use).</p></dd>
+
+
+<dt><code>parallelly.makeNodePSOCK.setup_strategy</code>:</dt>
 <dd><p>(character) If <code>"parallel"</code> (default), the PSOCK cluster nodes are set up concurrently.  If <code>"sequential"</code>, they are set up sequentially.</p></dd>
 
 

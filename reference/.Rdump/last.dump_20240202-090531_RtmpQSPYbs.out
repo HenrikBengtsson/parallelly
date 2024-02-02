@@ -1,17 +1,17 @@
 ** System information:
 List of 12
  $ sysname       : chr "Linux"
- $ release       : chr "5.19.0-46-generic"
- $ version       : chr "#47~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Wed Jun 21 15:35:31 UTC 2"
+ $ release       : chr "6.5.0-14-generic"
+ $ version       : chr "#14~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Nov 20 18:15:30 UTC 2"
  $ nodename      : chr "hb-x1-2023"
  $ machine       : chr "x86_64"
  $ login         : chr "henrik"
  $ user          : chr "henrik"
  $ effective_user: chr "henrik"
- $ pid           : int 273520
- $ call          : chr [1:17] "/home/henrik/shared/software/CBI/R-4.3.1-gcc11/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/henrik/RtmpLyYda4/worker.rank=1.parallelly.parent=273048.42a9"| __truncated__ "-e" "options(socketOptions~+~=~+~\"no-delay\")" "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11828" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
- $ pwd           : chr "/tmp/henrik/RtmpTaEMtQ/parallelly/docs/reference"
- $ time          : POSIXct[1:1], format: "2023-07-31 15:15:25"
+ $ pid           : int 3556666
+ $ call          : chr [1:17] "/home/henrik/shared/software/CBI/_ubuntu22_04/R-4.3.2-gcc11/lib/R/bin/exec/R" "--no-echo" "--no-restore" "-e" "try(suppressWarnings(cat(Sys.getpid(),file=\"/tmp/henrik/RtmpsdTFhb/worker.rank=1.parallelly.parent=3556209.364"| __truncated__ "-e" "options(socketOptions~+~=~+~\"no-delay\")" "-e" "workRSOCK~+~<-~+~tryCatch(parallel:::.workRSOCK,~+~error=function(e)~+~parallel:::.slaveRSOCK);~+~workRSOCK()" "--args" "MASTER=localhost" "PORT=11878" "OUT=/dev/null" "TIMEOUT=2592000" "XDR=FALSE" "SETUPTIMEOUT=120" "SETUPSTRATEGY=parallel"
+ $ pwd           : chr "/tmp/henrik/RtmpLd9jfB/parallelly/docs/reference"
+ $ time          : POSIXct[1:1], format: "2024-02-02 09:05:31"
 
 ** Error:
 Error in unserialize(node$con) : error reading from connection
@@ -60,37 +60,37 @@ Calls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize
 
 ** Dumped frames:
 $`workRSOCK()`
-<environment: 0x55d053ef0c60>
+<environment: 0x5608ad87adc0>
 
 $`workLoop(makeSOCKmaster(master, port, setup_timeout, timeout, useXDR, setup`
-<environment: 0x55d053f13cb0>
+<environment: 0x5608ad89ffa0>
 
 $`workCommand(master)`
-<environment: 0x55d053f75380>
+<environment: 0x5608ad8f9390>
 
 $`tryCatch({\n    msg <- recvData(master)\n    if (msg$type == "DONE") {\n        c`
-<environment: 0x55d053f75188>
+<environment: 0x5608ad8f9198>
 
 $`tryCatchList(expr, classes, parentenv, handlers)`
-<environment: 0x55d053f74ac0>
+<environment: 0x5608ad8f8ad0>
 
 $`tryCatchOne(expr, names, parentenv, handlers[[1]])`
-<environment: 0x55d053f74778>
+<environment: 0x5608ad8fe848>
 
 $`doTryCatch(return(expr), name, parentenv, handler)`
-<environment: 0x55d053f74430>
+<environment: 0x5608ad8fe500>
 
 $`recvData(master)`
-<environment: 0x55d053f740e8>
+<environment: 0x5608ad8fe1b8>
 
 $`recvData.SOCK0node(master)`
-<environment: 0x55d053f73e48>
+<environment: 0x5608ad8fdf18>
 
 $`unserialize(node$con)`
-<environment: 0x55d053f73d30>
+<environment: 0x5608ad8fde00>
 
 $`(function () \n{\n    tb <- .traceback(NULL)\n    if (is.null(tb)) \n        tb <- `
-<environment: 0x55d053f79920>
+<environment: 0x5608ad8fd930>
 
 attr(,"error.message")
 [1] "Error in unserialize(node$con) : error reading from connection\nCalls: workRSOCK ... doTryCatch -> recvData -> recvData.SOCK0node -> unserialize\n"
@@ -98,12 +98,12 @@ attr(,"class")
 [1] "dump.frames"
 
 ** Session information:
-R version 4.3.1 (2023-06-16)
+R version 4.3.2 (2023-10-31)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 22.04.2 LTS
+Running under: Ubuntu 22.04.3 LTS
 
 Matrix products: default
-BLAS:   /home/henrik/shared/software/CBI/R-4.3.1-gcc11/lib/R/lib/libRblas.so 
+BLAS:   /home/henrik/shared/software/CBI/_ubuntu22_04/R-4.3.2-gcc11/lib/R/lib/libRblas.so 
 LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0
 
 locale:
@@ -114,11 +114,11 @@ locale:
  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
 [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
-time zone: Europe/Stockholm
+time zone: America/Los_Angeles
 tzcode source: system (glibc)
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 loaded via a namespace (and not attached):
-[1] compiler_4.3.1 parallel_4.3.1 tools_4.3.1    rappdirs_0.3.3
+[1] compiler_4.3.2 parallel_4.3.2 tools_4.3.2    rappdirs_0.3.3

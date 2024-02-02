@@ -48,7 +48,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.36.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.36.0-9018</span>
       </span>
     </div>
 
@@ -377,13 +377,13 @@
 <h2 id="roadmap">Roadmap<a class="anchor" aria-label="anchor" href="#roadmap"></a>
 </h2>
 <ul class="task-list">
-<li><p><input type="checkbox" checked>Submit <strong>parallelly</strong> to CRAN, with minimal changes compared to the corresponding functions in the <strong>future</strong> package (on CRAN as of 2020-10-20)</p></li>
-<li><p><input type="checkbox" checked>Update the <strong>future</strong> package to import and re-export the functions from the <strong>parallelly</strong> to maximize backward compatibility in the future framework (<strong>future</strong> 1.20.1 on CRAN as of 2020-11-03)</p></li>
-<li><p><input type="checkbox" checked>Switch to use 10-15% faster <code>useXDR=FALSE</code></p></li>
-<li><p><input type="checkbox" checked>Implement same fast parallel setup of parallel PSOCK workers as in <strong>parallel</strong> (&gt;= 4.0.0)</p></li>
-<li><p><input type="checkbox" checked>After having validated that there is no negative impact on the future framework, allow for changes in the <strong>parallelly</strong> package, e.g. renaming the R options and environment variable to be <code>parallelly.*</code> and <code>R_PARALLELLY_*</code> while falling back to <code>future.*</code> and <code>R_FUTURE_*</code></p></li>
-<li><p><input type="checkbox">Migrate, currently internal, UUID functions and export them, e.g. <code>uuid()</code>, <code>connectionUuid()</code>, and <code>sessionUuid()</code> (<a href="https://github.com/HenrikBengtsson/Wishlist-for-R/issues/96" class="external-link uri">https://github.com/HenrikBengtsson/Wishlist-for-R/issues/96</a>). Because <a href="https://github.com/HenrikBengtsson/Wishlist-for-R/issues/21" class="external-link">R does not have a built-in md5 checksum function that operates on object</a>, these functions require us adding a dependency on the <strong><a href="https://cran.r-project.org/package=digest" class="external-link">digest</a></strong> package.</p></li>
-<li><p><input type="checkbox">Add vignettes on how to set up cluster running on local or remote machines, including in Linux containers and on popular cloud services, and vignettes on common problems and how to troubleshoot them</p></li>
+<li><p><label><input type="checkbox" checked>Submit <strong>parallelly</strong> to CRAN, with minimal changes compared to the corresponding functions in the <strong>future</strong> package (on CRAN as of 2020-10-20)</label></p></li>
+<li><p><label><input type="checkbox" checked>Update the <strong>future</strong> package to import and re-export the functions from the <strong>parallelly</strong> to maximize backward compatibility in the future framework (<strong>future</strong> 1.20.1 on CRAN as of 2020-11-03)</label></p></li>
+<li><p><label><input type="checkbox" checked>Switch to use 10-15% faster <code>useXDR=FALSE</code></label></p></li>
+<li><p><label><input type="checkbox" checked>Implement same fast parallel setup of parallel PSOCK workers as in <strong>parallel</strong> (&gt;= 4.0.0)</label></p></li>
+<li><p><label><input type="checkbox" checked>After having validated that there is no negative impact on the future framework, allow for changes in the <strong>parallelly</strong> package, e.g. renaming the R options and environment variable to be <code>parallelly.*</code> and <code>R_PARALLELLY_*</code> while falling back to <code>future.*</code> and <code>R_FUTURE_*</code></label></p></li>
+<li><p><label><input type="checkbox">Migrate, currently internal, UUID functions and export them, e.g. <code>uuid()</code>, <code>connectionUuid()</code>, and <code>sessionUuid()</code> (<a href="https://github.com/HenrikBengtsson/Wishlist-for-R/issues/96" class="external-link uri">https://github.com/HenrikBengtsson/Wishlist-for-R/issues/96</a>). Because <a href="https://github.com/HenrikBengtsson/Wishlist-for-R/issues/21" class="external-link">R does not have a built-in md5 checksum function that operates on object</a>, these functions require us adding a dependency on the <strong><a href="https://cran.r-project.org/package=digest" class="external-link">digest</a></strong> package.</label></p></li>
+<li><p><label><input type="checkbox">Add vignettes on how to set up cluster running on local or remote machines, including in Linux containers and on popular cloud services, and vignettes on common problems and how to troubleshoot them</label></p></li>
 </ul>
 <p>Initially, backward compatibility for the <strong>future</strong> package is of top priority.</p>
 </div>
@@ -443,7 +443,7 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Henrik Bengtsson <br><small class="roles"> Author, maintainer, copyright holder </small>  </li>
+<li>Henrik Bengtsson <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0002-7579-5165" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 

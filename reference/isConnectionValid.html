@@ -24,7 +24,7 @@ and check whether or not the connection is still valid."><meta property="og:imag
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.36.0-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.36.0-9018</span>
       </span>
     </div>
 
@@ -183,8 +183,8 @@ to that 'connection' object.</strong>  This identifier is based on the internal
 pointer address of the object.  The risk for two connections in the same
 <span style="R">R</span> session to end up with the same pointer address is very small.
 Thus, in case we ended up in a situation where two connections <code>con1</code> and
-<code>con2</code> share the same index - <code>as.integer(con1) == as.integer(con2)</code> -
-they will never share the same identifier -
+<code>con2</code> share the same index---<code>as.integer(con1) == as.integer(con2)</code>---
+they will never share the same identifier---
 <code>connectionId(con1) != connectionId(con2)</code>.
 Here, <code>isConnectionValid()</code> can be used to check which one of these
 connections, if any, are valid.</p>
@@ -242,7 +242,7 @@ indices. To get a connection by its index, use <code><a href="https://rdrr.io/r/
 <span class="r-in"><span><span class="fu">isConnectionValid</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stdout</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>  <span class="co">## TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"reason")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Connection (connection: index=3, description=\"output\", class=\"textConnection\", mode=\"wr\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=NA) is no longer valid. It differ from the currently registered R connection with the same index 3 (connection: index=3, description=\"output\", class=\"textConnection\", mode=\"wr\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=1605, raw_id=\"&lt;pointer: 0x645&gt;\")"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Connection (connection: index=3, description=\"output\", class=\"textConnection\", mode=\"wr\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=NA) is no longer valid. It differ from the currently registered R connection with the same index 3 (connection: index=3, description=\"output\", class=\"textConnection\", mode=\"wr\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=1523, raw_id=\"&lt;pointer: 0x5f3&gt;\")"</span>
 <span class="r-in"><span><span class="fu">connectionId</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stdout</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>       <span class="co">## 1L</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
 <span class="r-in"><span><span class="fu">isConnectionValid</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stderr</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>  <span class="co">## TRUE</span></span></span>
@@ -261,7 +261,7 @@ indices. To get a connection by its index, use <code><a href="https://rdrr.io/r/
 <span class="r-in"><span><span class="fu">isConnectionValid</span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">con</span><span class="op">)</span>     <span class="co">## FALSE with attribute 'reason'</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"reason")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Connection (connection: index=4, description=\"/tmp/henrik/RtmpLyYda4/file42a9826ad8831\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=-1) is no longer valid. It differ from the currently registered R connection with the same index 4 (connection: index=4, description=\"/tmp/henrik/RtmpLyYda4/file42a9826ad8831\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=1611, raw_id=\"&lt;pointer: 0x64b&gt;\")"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Connection (connection: index=4, description=\"/tmp/henrik/RtmpsdTFhb/file364371344e8cf3\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=-1) is no longer valid. It differ from the currently registered R connection with the same index 4 (connection: index=4, description=\"/tmp/henrik/RtmpsdTFhb/file364371344e8cf3\", class=\"file\", mode=\"w\", text=\"text\", opened=\"opened\", can read=\"no\", can write=\"yes\", id=1529, raw_id=\"&lt;pointer: 0x5f9&gt;\")"</span>
 <span class="r-in"><span><span class="fu">connectionId</span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">con</span><span class="op">)</span>          <span class="co">## -1L</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/connections.html" class="external-link">close</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></span>
