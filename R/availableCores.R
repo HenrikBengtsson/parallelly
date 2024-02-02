@@ -538,7 +538,7 @@ getNproc <- function(ignore = c("OMP_NUM_THREADS", "OMP_THREAD_LIMIT")) {
 checkNumberOfLocalWorkers <- function(workers) {
   if (inherits(workers, "AsIs")) return()
   
-  rhos <- getOption("parallelly.maxWorkers.localhost", c(1.0, 2.0))
+  rhos <- getOption("parallelly.maxWorkers.localhost", c(1.0, 3.0))
   if (length(rhos) == 0) return()
 
   navail <- availableCores()
@@ -547,10 +547,8 @@ checkNumberOfLocalWorkers <- function(workers) {
   ## Produce an error?
   if (length(rhos) >= 2) {
     if (rho > rhos[2]) {
-      msg <- sprintf("Attempting to set up %d localhost parallel workers with only %d available CPU cores, which could result in a %.0f%% load", workers, navail, 100 * workers / navail)
-      if (rhos[2] != 1.0) {
-        msg <- sprintf("%s. The maximum load allowed is %.0f%%", msg, 100 * rhos[2])
-      }
+      msg <- sprintf("Attempting to set up %d localhost parallel workers with only %d CPU cores available for this process, which could result in a %.0f%% load", workers, navail, 100 * workers / navail)
+      msg <- sprintf("%s. The maximum is set to %.0f%%", msg, 100 * rhos[2])
       msg <- sprintf("%s. See help(\"parallelly.options\", package = \"parallelly\") for how to override this threshold", msg)
       stop(msg)
     }
@@ -558,10 +556,8 @@ checkNumberOfLocalWorkers <- function(workers) {
   
   ## Warn?
   if (rho > rhos[1]) {
-    msg <- sprintf("Careful, you are setting up %d localhost parallel workers with only %d available CPU cores, which may results in a %.0f%% load", workers, navail, 100 * workers / navail)
-    if (rhos[1] != 1.0) {
-      msg <- sprintf("%s. The maximum load accepted is %.0f%%", msg, 100 * rhos[1])
-    }
+    msg <- sprintf("Careful, you are setting up %d localhost parallel workers with only %d CPU cores available for this process, which risk resulting in a %.0f%% load", workers, navail, 100 * workers / navail)
+    msg <- sprintf("%s. The maximum is set to %.0f%%", msg, 100 * rhos[1])
     msg <- sprintf("%s. See help(\"parallelly.options\", package = \"parallelly\") for how to override this threshold", msg)
     warning(msg)
   }

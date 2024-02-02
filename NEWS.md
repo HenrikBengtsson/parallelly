@@ -5,10 +5,11 @@
  * `makeClusterPSOCK(nworkers)` gained protection against setting up
    too many localhost workers relative to number of available CPU
    cores. If `nworkers / availableCores()` greater than 1.0 (100%),
-   then a warning is produced. If greater than 2.0 (200%), an error is
+   then a warning is produced. If greater than 3.0 (300%), an error is
    produced.  These limits can be configured by R option
    `parallelly.maxWorkers.localhost`. These checks are skipped if
    `nworkers` inherits from `AsIs`, e.g. `makeClusterPSOCK(I(16))`.
+   The current 3.0 limit might be decreased in a future release.
 
  
 ## Miscellaneous
