@@ -57,3 +57,9 @@
     mdebug(paste(c("parallelly-specific environment variables:", envs), collapse = "\n"))
   }
 }
+
+
+#' @useDynLib "parallelly", .registration = TRUE, .fixes = "C_"
+.onUnload <- function(libpath) {
+  library.dynam.unload(.packageName, libpath)
+}

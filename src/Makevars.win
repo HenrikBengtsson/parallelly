@@ -1,0 +1,9 @@
+## 'ws2_32' is the library for the Winsock 2 API
+PKG_LIBS = -lws2_32
+
+all: clean
+
+clean:
+	rm -f $(SHLIB) $(OBJECTS)
+
+.PHONY: all clean

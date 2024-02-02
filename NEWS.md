@@ -7,6 +7,12 @@
    is more informative, e.g.
    `Argument 'port' specifies non-available port(s): 80`.
 
+## Bug Fixes
+
+ * The internal method for checking if a TCP port is available has
+   been improved.  Previously, it could incorrectly conclude a port
+   was available, when it was not.
+
 
 # Version 1.36.0 [2023-05-26]
 
