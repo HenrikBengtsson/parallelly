@@ -551,6 +551,7 @@ checkNumberOfLocalWorkers <- function(workers) {
       if (rhos[2] != 1.0) {
         msg <- sprintf("%s. The maximum load allowed is %.0f%%", msg, 100 * rhos[2])
       }
+      msg <- sprintf("%s. See help(\"parallelly.options\", package = \"parallelly\") for how to override this threshold", msg)
       stop(msg)
     }
   }
@@ -561,6 +562,7 @@ checkNumberOfLocalWorkers <- function(workers) {
     if (rhos[1] != 1.0) {
       msg <- sprintf("%s. The maximum load accepted is %.0f%%", msg, 100 * rhos[1])
     }
+    msg <- sprintf("%s. See help(\"parallelly.options\", package = \"parallelly\") for how to override this threshold", msg)
     warning(msg)
   }
 } ## checkNumberOfLocalWorkers()
