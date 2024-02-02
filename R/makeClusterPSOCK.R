@@ -76,6 +76,10 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     if (is.na(workers) || workers < 1L) {
       stopf("Number of 'workers' must be one or greater: %s", workers)
     }
+
+    ## Warn, or refuse to continue, if too many localhost workers are requests   
+    checkNumberOfLocalWorkers(workers)
+    
     workers <- rep(localhostHostname, times = workers)
   }
 

@@ -1,5 +1,15 @@
 # Version (development version)
 
+## New Features
+
+ * `makeClusterPSOCK(nworkers)` gained protection against setting up
+   too many localhost workers relative to number of available CPU
+   cores.  If `nworkers / availableCores()` greater than 1.0 (100%),
+   then a warning is produced.  If greater than 2.0 (200%), an error
+   is produced.  These limits can be configured by R option
+   `parallelly.maxWorkers.localhost`.
+
+ 
 ## Miscellaneous
 
  * `makeClusterPSOCK()` could produce a confusing error `Invalid port:

@@ -533,3 +533,32 @@ getNproc <- function(ignore = c("OMP_NUM_THREADS", "OMP_THREAD_LIMIT")) {
   
   NA_integer_
 }
+
+
+checkNumberOfLocalWorkers <- function(workers) {
+  rhos <- getOption("parallelly.maxWorkers.localhost", c(1.0, 2.0))
+  if (length(rhos) == 0) return()
+
+  navail <- availableCores()
+  rho <- workers / navail
+
+  ## Produce an error?
+  if (length(rhos) >= 2) {
+    if (rho > rhos[2]) {
+      msg <- sprintf("Attempting to set up %d localhost parallel workers with only %d available CPU cores, which could result in a %.0f%% load", workers, navail, 100 * workers / navail)
+      if (rhos[2] != 1.0) {
+        msg <- sprintf("%s. The maximum load allowed is %.0f%%", msg, 100 * rhos[2])
+      }
+      stop(msg)
+    }
+  }
+  
+  ## Warn?
+  if (rho > rhos[1]) {
+    msg <- sprintf("Careful, you are setting up %d localhost parallel workers with only %d available CPU cores, which may results in a %.0f%% load", workers, navail, 100 * workers / navail)
+    if (rhos[1] != 1.0) {
+      msg <- sprintf("%s. The maximum load accepted is %.0f%%", msg, 100 * rhos[1])
+    }
+    warning(msg)
+  }
+} ## checkNumberOfLocalWorkers()

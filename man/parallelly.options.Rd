@@ -136,6 +136,8 @@ running R in the RStudio Terminal.
 The below \R options and environment variables control the default results of \code{\link[=makeClusterPSOCK]{makeClusterPSOCK()}} and its helper function \code{\link[=makeNodePSOCK]{makeNodePSOCK()}} that creates the individual cluster nodes.
 
 \describe{
+\item{\code{parallelly.maxWorkers.localhost}:}{(two numerics) Maximum number of localhost workers, relative to \code{availableCores()}, accepted and allowed. The first element corresponds to the threshold where a warning is produced, the second where an error is produced. Thresholds may be \code{+Inf}. If only the first exist, no error is produced (defaults to \code{c(1.0, 2.0)}).}
+
 \item{\code{parallelly.makeNodePSOCK.setup_strategy}:}{(character) If \code{"parallel"} (default), the PSOCK cluster nodes are set up concurrently.  If \code{"sequential"}, they are set up sequentially.}
 
 \item{\code{parallelly.makeNodePSOCK.validate}:}{(logical) If TRUE (default), after the nodes have been created, they are all validated that they work by inquiring about their session information, which is saved in attribute \code{session_info} of each node.}
