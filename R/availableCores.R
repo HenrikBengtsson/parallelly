@@ -546,18 +546,20 @@ checkNumberOfLocalWorkers <- function(workers) {
 
   ## Produce an error?
   if (length(rhos) >= 2) {
-    if (rho > rhos[2]) {
+    limit <- rhos[2]
+    if (rho > limit) {
       msg <- sprintf("Attempting to set up %d localhost parallel workers with only %d CPU cores available for this process, which could result in a %.0f%% load", workers, navail, 100 * workers / navail)
-      msg <- sprintf("%s. The maximum is set to %.0f%%", msg, 100 * rhos[2])
+      msg <- sprintf("%s. The maximum is set to %.0f%%", msg, 100 * limit)
       msg <- sprintf("%s. See help(\"parallelly.options\", package = \"parallelly\") for how to override this threshold", msg)
       stop(msg)
     }
   }
   
   ## Warn?
-  if (rho > rhos[1]) {
-    msg <- sprintf("Careful, you are setting up %d localhost parallel workers with only %d CPU cores available for this process, which risk resulting in a %.0f%% load", workers, navail, 100 * workers / navail)
-    msg <- sprintf("%s. The maximum is set to %.0f%%", msg, 100 * rhos[1])
+  limit <- rhos[1]
+  if (rho > limit) {
+    msg <- sprintf("Careful, you are setting up %d localhost parallel workers with only %d CPU cores available for this process, which could result in a %.0f%% load", workers, navail, 100 * workers / navail)
+    msg <- sprintf("%s. The maximum is set to %.0f%%", msg, 100 * limit)
     msg <- sprintf("%s. See help(\"parallelly.options\", package = \"parallelly\") for how to override this threshold", msg)
     warning(msg)
   }
