@@ -293,6 +293,8 @@ processes of yours and others running on the same machine. See
 help("parallelly.options", package = "parallelly") for how to
 override this threshold
 }\if{html}{\out{</div>}}
+
+See \link{parallelly.options} for how to change the default thresholds.
 }
 
 \section{Definition of \emph{localhost}}{

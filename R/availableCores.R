@@ -587,6 +587,8 @@ getNproc <- function(ignore = c("OMP_NUM_THREADS", "OMP_THREAD_LIMIT")) {
 #' override this threshold
 #' ```
 #'
+#' See [parallelly.options] for how to change the default thresholds.
+#'
 #' @rdname makeClusterPSOCK
 checkNumberOfLocalWorkers <- function(workers) {
   if (inherits(workers, "AsIs")) return()
