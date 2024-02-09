@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.36.0-9019</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.36.0-9022</span>
       </span>
     </div>
 
@@ -130,7 +130,7 @@
 <div class="section level3">
 <h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
 <ul><li>
-<code>makeClusterPSOCK(nworkers)</code> gained protection against setting up too many localhost workers relative to number of available CPU cores. If <code>nworkers / availableCores()</code> greater than 1.0 (100%), then a warning is produced. If greater than 3.0 (300%), an error is produced. These limits can be configured by R option <code>parallelly.maxWorkers.localhost</code>. These checks are skipped if <code>nworkers</code> inherits from <code>AsIs</code>, e.g. <code>makeClusterPSOCK(I(16))</code>. The current 3.0 limit might be decreased in a future release.</li>
+<code>makeClusterPSOCK(nworkers)</code> gained protection against setting up too many localhost workers relative to number of available CPU cores. If <code>nworkers / availableCores()</code> is greater than 1.0 (100%), then a warning is produced. If greater than 3.0 (300%), an error is produced. These limits can be configured by R option <code>parallelly.maxWorkers.localhost</code>. These checks are skipped if <code>nworkers</code> inherits from <code>AsIs</code>, e.g. <code>makeClusterPSOCK(I(16))</code>. The current 3.0 (300%) limit is likely to be decreased in a future release. A few packages fail <code>R CMD check --as-cran</code> with this validation enabled. For example, one package uses 8 parallel workers in its examples, while <code>R CMD check --as-cran</code> only allows for two. To give such package time to be fixed, the CRAN enforced limits are ignored for now.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="miscellaneous-development-version">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-development-version"></a></h3>
