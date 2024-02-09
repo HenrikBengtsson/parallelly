@@ -593,36 +593,36 @@ getNproc <- function(ignore = c("OMP_NUM_THREADS", "OMP_THREAD_LIMIT")) {
 checkNumberOfLocalWorkers <- function(workers) {
   if (inherits(workers, "AsIs")) return()
   
-  rhos <- getOption("parallelly.maxWorkers.localhost", c(1.0, 3.0))
-  if (length(rhos) == 0) return()
+  limits <- getOption("parallelly.maxWorkers.localhost", c(1.0, 3.0))
+  if (length(limits) == 0) return()
 
   ## FIXME: Temporarily, ignore _R_CHECK_LIMIT_CORES_ limits
   ## This will give a few packages time to be fixed. /HB 2024-02-09
-  navail <- availableCores(which = "all")
-  navail <- navail[names(navail) != "_R_CHECK_LIMIT_CORES_"]
-  navail <- min(navail, na.rm = TRUE)
+  ncores <- availableCores(which = "all")
+  ncores <- ncores[names(ncores) != "_R_CHECK_LIMIT_CORES_"]
+  ncores <- ncores[which.min(ncores)] ## which.min() to preserve name
+  reason <- names(ncores)
+  if (is.null(reason)) reason <- "N/A"
   
-  rho <- workers / navail
+  rho <- workers / ncores
 
   ## Produce an error?
-  if (length(rhos) >= 2) {
-    limit <- rhos[2]
-    if (rho > limit) {
-      msg <- sprintf("Attempting to set up %d localhost parallel workers with only %d CPU cores available for this R process, which could result in a %.0f%% load", workers, navail, 100 * workers / navail)
-      msg <- sprintf("%s. The maximum is set to %.0f%%", msg, 100 * limit)
+  if (length(limits) >= 2) {
+    if (rho > limits[2]) {
+      msg <- sprintf("Attempting to set up %d localhost parallel workers with only %d CPU cores available for this R process (per %s), which could result in a %.0f%% load", workers, ncores, sQuote(reason), 100 * workers / ncores)
+      msg <- sprintf("%s. The hard limit is set to %.0f%%", msg, 100 * limits[2])
       msg <- sprintf("%s. Overusing the CPUs has negative impact on the current R process, but also on all other processes of yours and others running on the same machine", msg)
-      msg <- sprintf("%s. See help(\"parallelly.options\", package = \"parallelly\") for how to override this threshold", msg)
+      msg <- sprintf("%s. See help(\"parallelly.options\", package = \"parallelly\") for how to override the soft and hard limits", msg)
       stop(msg)
     }
   }
   
   ## Warn?
-  limit <- rhos[1]
-  if (rho > limit) {
-    msg <- sprintf("Careful, you are setting up %d localhost parallel workers with only %d CPU cores available for this R process, which could result in a %.0f%% load", workers, navail, 100 * workers / navail)
-    msg <- sprintf("%s. The maximum is set to %.0f%%", msg, 100 * limit)
+  if (rho > limits[1]) {
+    msg <- sprintf("Careful, you are setting up %d localhost parallel workers with only %d CPU cores available for this R process (per %s), which could result in a %.0f%% load", workers, ncores, sQuote(reason), 100 * workers / ncores)
+    msg <- sprintf("%s. The soft limit is set to %.0f%%", msg, 100 * limits[1])
     msg <- sprintf("%s. Overusing the CPUs has negative impact on the current R process, but also on all other processes of yours and others running on the same machine", msg)
-    msg <- sprintf("%s. See help(\"parallelly.options\", package = \"parallelly\") for how to override this threshold", msg)
+    msg <- sprintf("%s. See help(\"parallelly.options\", package = \"parallelly\") for how to override the soft and hard limits", msg)
     warning(msg)
   }
 } ## checkNumberOfLocalWorkers()
