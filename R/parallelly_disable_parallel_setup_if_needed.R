@@ -30,38 +30,22 @@ r_version_has_bug18119 <- local({
     if (!is.na(res)) return(res)
 
     r <- get_r_info()
-    
-    ## Too old version of R?
+
+    ## Bug has been fixed in R 4.1.1 (2021-08-10)
+    if (r$version >= "4.1.1") {
+      res <<- FALSE
+      return(FALSE)
+    }
+
+    ## Too old version of R? Just ignore.
     if (r$version < "4.0.0") {
       res <<- FALSE
       return(FALSE)
     }
 
-    ## All R 4.0.* versions have the bug
-    if (r$version < "4.1.0") {
-      res <<- TRUE
-      return(TRUE)
-    }
-
-    if (r$version == "4.1.0") {
-      if (r$revision >= 80532) {
-        ## Bug has been fixed in R 4.1.0 patched r80532
-        res <<- FALSE
-        return(FALSE)
-      }
-    } else if (r$version == "4.2.0") {
-      if (r$revision >= 80472) {
-        ## Bug has been fixed in R 4.2.0 devel r80472
-        res <<- FALSE
-        return(FALSE)
-      }
-    } else if (r$version >= "4.1.1") {
-      ## Bug has been fixed in R 4.1.1 (to be released Aug 2021)
-      res <<- FALSE
-      return(FALSE)
-    }
-
-    ## In all other cases, we'll assume the running R version has the bug
+    ## In all other cases, we'll assume the running R version has the bug.
+    ## Specifically, we know that all R (>= 4.0.0 && <= 4.1.0) versions
+    ## have the bug
     res <<- TRUE
     TRUE
   }
