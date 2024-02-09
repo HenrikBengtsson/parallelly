@@ -9,8 +9,12 @@
    produced.  These limits can be configured by R option
    `parallelly.maxWorkers.localhost`. These checks are skipped if
    `nworkers` inherits from `AsIs`, e.g. `makeClusterPSOCK(I(16))`.
-   The current 3.0 limit might be decreased in a future release.
-
+   The current 3.0 (300%) limit is likely to be decreased in a future
+   release.  A few packages fail `R CMD check --as-cran` with this
+   validation enabled. For example, one package uses 8 parallel
+   workers in its examples, while `R CMD check --as-cran` only allows
+   for two. To give such package time to be fixed, the CRAN enforced
+   limits are ignored for now.
  
 ## Miscellaneous
 

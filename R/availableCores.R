@@ -596,7 +596,12 @@ checkNumberOfLocalWorkers <- function(workers) {
   rhos <- getOption("parallelly.maxWorkers.localhost", c(1.0, 3.0))
   if (length(rhos) == 0) return()
 
-  navail <- availableCores()
+  ## FIXME: Temporarily, ignore _R_CHECK_LIMIT_CORES_ limits
+  ## This will give a few packages time to be fixed. /HB 2024-02-09
+  navail <- availableCores(which = "all")
+  navail <- navail[names(navail) != "_R_CHECK_LIMIT_CORES_"]
+  navail <- min(navail, na.rm = TRUE)
+  
   rho <- workers / navail
 
   ## Produce an error?
