@@ -13,7 +13,7 @@
    release.  A few packages fail `R CMD check --as-cran` with this
    validation enabled. For example, one package uses 8 parallel
    workers in its examples, while `R CMD check --as-cran` only allows
-   for two. To give such package time to be fixed, the CRAN enforced
+   for two. To give such packages time to be fixed, the CRAN-enforced
    limits are ignored for now.
  
 ## Miscellaneous

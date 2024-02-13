@@ -598,9 +598,9 @@ checkNumberOfLocalWorkers <- function(workers) {
 
   ## FIXME: Temporarily, ignore _R_CHECK_LIMIT_CORES_ limits
   ## This will give a few packages time to be fixed. /HB 2024-02-09
-  ncores <- availableCores(which = "all")
-  ncores <- ncores[names(ncores) != "_R_CHECK_LIMIT_CORES_"]
-  ncores <- ncores[which.min(ncores)] ## which.min() to preserve name
+  methods <- eval(formals(availableCores)$methods)
+  methods <- setdiff(methods, "_R_CHECK_LIMIT_CORES_")
+  ncores <- availableCores(methods = methods)
   reason <- names(ncores)
   if (is.null(reason)) reason <- "N/A"
   
