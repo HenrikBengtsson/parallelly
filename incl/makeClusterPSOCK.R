@@ -13,6 +13,10 @@ cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
 ## running on CPU Group #0 and half on CPU Group #1.  
 ## (https://lovickconsulting.com/2021/11/18/
 ##  running-r-clusters-on-an-amd-threadripper-3990x-in-windows-10-2/)
+
+## Temporarily disable CPU load protection for this example
+oopts <- options(parallelly.maxWorkers.localhost = Inf)
+
 ncores <- 124
 cpu_groups <- c(0, 1)
 cl <- lapply(cpu_groups, FUN = function(cpu_group) {
@@ -27,6 +31,9 @@ cl <- lapply(cpu_groups, FUN = function(cpu_group) {
 })
 ## merge the two 62-node clusters into one with 124 nodes
 cl <- do.call(c, cl)
+
+## Re-enable CPU load protection
+options(oopts)
 
 
 ## ---------------------------------------------------------------

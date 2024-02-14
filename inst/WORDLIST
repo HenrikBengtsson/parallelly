@@ -8,6 +8,7 @@ DNS
 finalizer
 FQDN
 hostname
+HOSTFILE
 hostnames
 hpc
 LibreSSL

@@ -32,7 +32,7 @@ jobs:
       R_FUTURE_RNG_ONMISUSE: error
       
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -95,7 +95,7 @@ jobs:
 
       - name: Upload check results
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-revdep${{ matrix.config.pkg }}-results
           path: check

@@ -54,7 +54,7 @@
 #' \dontshow{\}}
 #'
 #' @seealso
-#' Use [isNodeAlive()] to check whether one or mode cluster nodes are alive.
+#' Use [isNodeAlive()] to check whether one or more cluster nodes are alive.
 #'
 #' @export
 killNode <- function(x, signal = tools::SIGTERM, ...) {

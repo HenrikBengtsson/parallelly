@@ -4,11 +4,7 @@
 \alias{freePort}
 \title{Find a TCP port that can be opened}
 \usage{
-freePort(
-  ports = 1024:65535,
-  default = if (getRversion() >= "4.0.0") NA_integer_ else "random",
-  randomize = TRUE
-)
+freePort(ports = 1024:65535, default = "random", randomize = TRUE)
 }
 \arguments{
 \item{ports}{(integer vector, or character string)
@@ -28,8 +24,6 @@ before searched.  This shuffle does \emph{not} forward the RNG seed.}
 \value{
 Returns an integer representing the first port among \code{ports} that
 can be opened.  If none can be opened, then \code{default} is returned.
-If port querying is not supported, as in R (< 4.0.0), then
-\code{default} is returned.
 }
 \description{
 Find a TCP port that can be opened

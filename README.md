@@ -6,7 +6,7 @@
 
 # parallelly: Enhancing the 'parallel' Package <img border="0" src="man/figures/logo.png" alt="The 'parallelly' hexlogo" align="right"/>
 
-The **parallelly** package provides functions that enhance the **parallel** packages.  For example, `availableCores()` gives the number of CPU cores available to your R process as given by R options and environment variables, including those set by job schedulers on high-performance compute (HPC) clusters.  If R runs under 'cgroups' or a Linux container, then their settings are acknowledges too.  If nothing else is set, the it will fall back to `parallel::detectCores()`.  Another example is `makeClusterPSOCK()`, which is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up remote cluster workers without having to know your local public IP address and configuring the firewall to do port-forwarding to your local computer.  The functions and features added to this package are written to be backward compatible with the **parallel** package, such that they may be incorporated there later.  The **parallelly** package comes with an open invitation for the R Core Team to adopt all or parts of its code into the **parallel** package.
+The **parallelly** package provides functions that enhance the **parallel** packages.  For example, `availableCores()` gives the number of CPU cores available to your R process as given by R options and environment variables, including those set by job schedulers on high-performance compute (HPC) clusters.  If R runs under 'cgroups' or in a Linux container, then their settings are acknowledges too.  If nothing else is set, then it will fall back to `parallel::detectCores()`.  Another example is `makeClusterPSOCK()`, which is backward compatible with `parallel::makePSOCKcluster()` while doing a better job in setting up remote cluster workers without having to know your local public IP address and configuring the firewall to do port-forwarding to your local computer.  The functions and features added to this package are written to be backward compatible with the **parallel** package, such that they may be incorporated there later.  The **parallelly** package comes with an open invitation for the R Core Team to adopt all or parts of its code into the **parallel** package.
 
 ## Feature Comparison 'parallelly' vs 'parallel' 
 
@@ -18,7 +18,7 @@ The **parallelly** package provides functions that enhance the **parallel** pack
 | set workers' library package path on startup         |   ✓  | N/A |
 | set workers' environment variables on startup        |   ✓  | N/A |
 | custom workers startup code                          |   ✓  | N/A |
-| fallback to RStudio' SSH and PuTTY's plink           |   ✓  | N/A |
+| fallback to RStudio's SSH and PuTTY's plink          |   ✓  | N/A |
 | faster, parallel setup of local workers (R >= 4.0.0) |   ✓  |  ✓  |
 | faster, little-endian protocol by default            |   ✓  | N/A |
 | faster, low-latency socket connections by default    |   ✓  | N/A |
@@ -88,7 +88,7 @@ The below table summarize the benefits:
 
 ## Backward compatibility with the future package
 
-The functions in this package originate from the **[future](https://cran.r-project.org/package=future)** package where we have used and validated them for several years.  I moved these functions to this separate package, because they are also useful outside of the future framework.  For backward-compatibility reasons of the future framework, the R options and environment variables that are prefixed with `parallelly.*` and `R_PARALLELLY_*` can for the time being also be set with `future.*` and `R_FUTURE_*` prefixes.
+The functions in this package originate from the **[future](https://cran.r-project.org/package=future)** package where we have used and validated them for several years.  I moved these functions to this separate package in 2020, because they are also useful outside of the future framework.  For backward-compatibility reasons of the future framework, the R options and environment variables that are prefixed with `parallelly.*` and `R_PARALLELLY_*` can for the time being also be set with `future.*` and `R_FUTURE_*` prefixes.
 
 
 ## Roadmap

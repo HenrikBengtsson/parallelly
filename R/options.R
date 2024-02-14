@@ -78,6 +78,8 @@
 #' The below \R options and environment variables control the default results of [makeClusterPSOCK()] and its helper function [makeNodePSOCK()] that creates the individual cluster nodes.
 #'
 #' \describe{
+#'  \item{`parallelly.maxWorkers.localhost`:}{(two numerics) Maximum number of localhost workers, relative to `availableCores()`, accepted and allowed. The first element corresponds to the threshold where a warning is produced, the second where an error is produced. Thresholds may be `+Inf`. If only the first exist, no error is produced (defaults to `c(1.0, 3.0)` corresponding to a maximum 100% and 300% use).}
+#'  
 #'  \item{`parallelly.makeNodePSOCK.setup_strategy`:}{(character) If `"parallel"` (default), the PSOCK cluster nodes are set up concurrently.  If `"sequential"`, they are set up sequentially.}
 #'
 #'  \item{`parallelly.makeNodePSOCK.validate`:}{(logical) If TRUE (default), after the nodes have been created, they are all validated that they work by inquiring about their session information, which is saved in attribute `session_info` of each node.}
@@ -307,6 +309,9 @@ update_package_options <- function(debug = FALSE) {
   update_package_option("availableCores.omit", mode = "integer", debug = debug)
 
   update_package_option("availableWorkers.methods", mode = "character", split = ",", debug = debug)
+
+  update_package_option("maxWorkers.localhost", mode = "integer", split = ",", debug = debug)
+  update_package_option("maxWorkers.localhost.ignore", mode = "character", split = ",", debug = debug)
 
   update_package_option("fork.enable", mode = "logical", debug = debug)
 
