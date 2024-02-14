@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.36.0-9024</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.0-9000</span>
       </span>
     </div>
 
@@ -127,18 +127,22 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<ul><li>…</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.37.0" id="version-1370">Version 1.37.0<a class="anchor" aria-label="anchor" href="#version-1370"></a></h2>
 <div class="section level3">
-<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-1-37-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-37-0"></a></h3>
 <ul><li>
 <code>makeClusterPSOCK(nworkers)</code> gained protection against setting up too many localhost workers relative to number of available CPU cores. If <code>nworkers / availableCores()</code> is greater than 1.0 (100%), then a warning is produced. If greater than 3.0 (300%), an error is produced. These limits can be configured by R option <code>parallelly.maxWorkers.localhost</code>. These checks are skipped if <code>nworkers</code> inherits from <code>AsIs</code>, e.g. <code>makeClusterPSOCK(I(16))</code>. The current 3.0 (300%) limit is likely to be decreased in a future release. A few packages fail <code>R CMD check --as-cran</code> with this validation enabled. For example, one package uses 8 parallel workers in its examples, while <code>R CMD check --as-cran</code> only allows for two. To give such packages time to be fixed, the CRAN-enforced limits are ignored for now.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="miscellaneous-development-version">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-development-version"></a></h3>
+<h3 id="miscellaneous-1-37-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-1-37-0"></a></h3>
 <ul><li>
 <code><a href="../reference/makeClusterPSOCK.html">makeClusterPSOCK()</a></code> could produce a confusing error <code>Invalid port:    NA</code> if a non-available port was requested. Now the error message is more informative, e.g. <code>Argument 'port' specifies non-available port(s): 80</code>.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-1-37-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-37-0"></a></h3>
 <ul><li>The internal method for checking if a TCP port is available has been improved. Previously, it could incorrectly conclude a port was available, when it was not.</li>
 </ul></div>
 </div>
