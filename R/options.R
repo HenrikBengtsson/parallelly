@@ -311,6 +311,7 @@ update_package_options <- function(debug = FALSE) {
   update_package_option("availableWorkers.methods", mode = "character", split = ",", debug = debug)
 
   update_package_option("maxWorkers.localhost", mode = "integer", split = ",", debug = debug)
+  update_package_option("maxWorkers.localhost.ignore", mode = "character", split = ",", debug = debug)
 
   update_package_option("fork.enable", mode = "logical", debug = debug)
 
