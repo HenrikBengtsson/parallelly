@@ -1,6 +1,8 @@
 # Version (development version)
 
- * ...
+## Bug Fixes
+
+ * Version 1.37.0 would not install on FreeBSD.
 
 
 # Version 1.37.0 [2024-02-14]
