@@ -5,6 +5,7 @@
 #ifdef _WIN32
 #include <winsock2.h>
 #else
+#include <sys/socket.h>  /* socket(), listen(), bind(), AF_INET, ... */
 #include <netinet/in.h>
 #endif
 
