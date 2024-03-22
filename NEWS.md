@@ -1,6 +1,9 @@
 # Version (development version)
 
- * ...
+## Bug Fixes
+
+ * Environment variable `R_PARALLELLY_MAXWORKERS_LOCALHOST` was
+   interpreted as integers rather than doubles.
 
 
 # Version 1.37.1 [2024-02-29]
