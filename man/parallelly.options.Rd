@@ -12,6 +12,7 @@
 \alias{parallelly.availableWorkers.methods}
 \alias{parallelly.availableWorkers.custom}
 \alias{parallelly.fork.enable}
+\alias{parallelly.maxWorkers.localhost}
 \alias{parallelly.supportsMulticore.disableOn}
 \alias{parallelly.supportsMulticore.unstable}
 \alias{R_PARALLELLY_AVAILABLECORES_FALLBACK}

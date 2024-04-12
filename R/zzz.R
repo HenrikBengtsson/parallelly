@@ -56,6 +56,8 @@
     envs <- sprintf("- %s=%s", names(envs), sQuote(envs))
     mdebug(paste(c("parallelly-specific environment variables:", envs), collapse = "\n"))
   }
+
+  registerClusterTypes()
 }
 
 

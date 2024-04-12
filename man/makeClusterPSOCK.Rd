@@ -4,6 +4,7 @@
 \name{checkNumberOfLocalWorkers}
 \alias{checkNumberOfLocalWorkers}
 \alias{makeClusterPSOCK}
+\alias{PSOCK}
 \alias{makeNodePSOCK}
 \title{Create a PSOCK Cluster of R Workers for Parallel Processing}
 \usage{
@@ -295,6 +296,15 @@ override this threshold
 }\if{html}{\out{</div>}}
 
 See \link{parallelly.options} for how to change the default thresholds.
+}
+
+\section{Alternative usage}{
+
+In R (>= 4.4.0), an alternatively to using
+\code{cl <- parallelly::makeClusterPSOCK(workers)} is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{cl <- parallel::makeCluster(workers, type = parallelly::PSOCK)
+}\if{html}{\out{</div>}}
 }
 
 \section{Definition of \emph{localhost}}{

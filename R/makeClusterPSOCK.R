@@ -54,8 +54,17 @@
 #' consisting of a list of `"SOCKnode"` or `"SOCK0node"` workers (that also
 #' inherit from `RichSOCKnode`).
 #'
+#' @section Alternative usage:
+#' In R (>= 4.4.0), an alternatively to using
+#' `cl <- parallelly::makeClusterPSOCK(workers)` is:
+#'
+#' ```
+#' cl <- parallel::makeCluster(workers, type = parallelly::PSOCK)
+#' ```
+#'
 #' @example incl/makeClusterPSOCK.R
 #'
+#' @aliases PSOCK
 #' @importFrom parallel stopCluster
 #' @export
 makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), ..., autoStop = FALSE, tries = getOption2("parallelly.makeNodePSOCK.tries", 3L), delay = getOption2("parallelly.makeNodePSOCK.tries.delay", 15.0), validate = getOption2("parallelly.makeNodePSOCK.validate", TRUE), verbose = getOption2("parallelly.debug", FALSE)) {

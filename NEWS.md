@@ -1,5 +1,13 @@
 # Version (development version)
 
+## New Features
+
+ * Starting with R 4.4.0, one can use `parallel::makeCluster(n, type =
+   parallelly::PSOCK)` as an alternative to
+   `parallelly::makeClusterPSOCK(n)`.  Similarly, `type =
+   parallelly::MPI` creates a cluster using
+   `parallelly::makeClusterMPI()`.
+
 ## Bug Fixes
 
  * Environment variable `R_PARALLELLY_MAXWORKERS_LOCALHOST` was

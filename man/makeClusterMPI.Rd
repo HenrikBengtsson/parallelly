@@ -2,6 +2,7 @@
 % Please edit documentation in R/makeClusterMPI.R
 \name{makeClusterMPI}
 \alias{makeClusterMPI}
+\alias{MPI}
 \title{Create a Message Passing Interface (MPI) Cluster of R Workers for Parallel Processing}
 \usage{
 makeClusterMPI(
@@ -40,6 +41,16 @@ only be used if \code{parallel::makeCluster(..., type = "MPI")} fails.}
 \emph{Creating MPI clusters requires that the \pkg{Rmpi} and \pkg{snow}
 packages are installed.}
 }
+\section{Alternative usage}{
+
+
+In R (>= 4.4.0), an alternatively to using
+\code{cl <- parallelly::makeClusterMPI(workers)} is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{cl <- parallel::makeCluster(workers, type = parallelly::MPI)
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 \donttest{\dontrun{
 if (requireNamespace("Rmpi") && requireNamespace("snow")) {
