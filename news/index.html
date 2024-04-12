@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9002</span>
       </span>
     </div>
 
@@ -127,6 +127,10 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="development version" id="version-development-version">Version (development version)<a class="anchor" aria-label="anchor" href="#version-development-version"></a></h2>
+<div class="section level3">
+<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>Starting with R 4.4.0, one can use <code>parallel::makeCluster(n, type =    parallelly::PSOCK)</code> as an alternative to <code>parallelly::makeClusterPSOCK(n)</code>. Similarly, <code>type =    parallelly::MPI</code> creates a cluster using <code><a href="../reference/makeClusterMPI.html">parallelly::makeClusterMPI()</a></code>.</li>
+</ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
 <ul><li>Environment variable <code>R_PARALLELLY_MAXWORKERS_LOCALHOST</code> was interpreted as integers rather than doubles.</li>
