@@ -136,7 +136,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
   nodeOptions <- vector("list", length = n)
   if (verbose) mdebugf("%sGetting setup options for %d cluster nodes ...", verbose_prefix, n)
   for (ii in seq_len(n)) {
-    if (verbose) mdebugf("%s - Node %d of %d ...", verbose_prefix, ii, n)
+    if (verbose) mdebugf("%s - Node #%d of %d ...", verbose_prefix, ii, n)
     options <- makeNode(workers[[ii]], port = port, ..., rank = ii, action = "options", verbose = verbose)
     stop_if_not(inherits(options, "makeNodePSOCKOptions"))
     nodeOptions[[ii]] <- options
@@ -174,7 +174,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     setup_strategy <- "sequential"
 
     for (ii in which(is_parallel)) {
-      if (verbose) mdebugf("%s - Node %d of %d ...", verbose_prefix, ii, n)
+      if (verbose) mdebugf("%s - Node #%d of %d ...", verbose_prefix, ii, n)
       args <- list(workers[[ii]], port = port, ..., rank = ii, action = "options", verbose = verbose)
       args$setup_strategy <- "sequential"
       options <- do.call(makeNode, args = args)
@@ -183,6 +183,8 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     }
   }
 
+  stopifnot(length(nodeOptions) == n)
+
   ## Sanity check
   setup_strategy <- lapply(nodeOptions, FUN = function(options) {
     value <- options$setup_strategy
@@ -190,12 +192,14 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     stop_if_not(is.character(value), length(value) == 1L)
     value
   })
+  stopifnot(length(setup_strategy) == n)
   setup_strategy <- unlist(setup_strategy, use.names = FALSE)
   setup_strategy <- unique(setup_strategy)
   stop_if_not(length(setup_strategy) == 1L)
 
   cl <- vector("list", length = length(nodeOptions))
   class(cl) <- c("RichSOCKcluster", "SOCKcluster", "cluster")
+  stopifnot(length(cl) == length(nodeOptions))
   
   ## If an error occurred, make sure to clean up before exiting, i.e.
   ## stop each node
@@ -327,7 +331,7 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
     retryPort <- getOption2("parallelly.makeNodePSOCK.tries.port", "same")
     for (ii in seq_along(cl)) {
       if (verbose) {
-        mdebugf("%sCreating node %d of %d ...", verbose_prefix, ii, n)
+        mdebugf("%sCreating node #%d of %d ...", verbose_prefix, ii, n)
         mdebugf("%s- setting up node", verbose_prefix)
       }
 
@@ -372,42 +376,55 @@ makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto",
         }
         stop(ex)
       }
-      cl[[ii]] <- node
+
+      ## 'node' is NULL if dryrun = TRUE
+      if (!is.null(node)) cl[[ii]] <- node
+      stopifnot(length(cl) == n)
   
       if (verbose) {
-        mdebugf("%sCreating node %d of %d ... done", verbose_prefix, ii, n)
+        mdebugf("%sCreating node #%d of %d ... done", verbose_prefix, ii, n)
       }
     }
   }
 
-  if (verbose) mdebugf("%sLaunching of workers completed", verbose_prefix)
+  if (verbose) {
+    mdebugf("%sLaunching of %d workers completed", verbose_prefix, n)
+    mdebugf("%sNumber of nodes in cluster: %d", verbose_prefix, length(cl))
+  }
 
   ## Cleanup
   try(close(socket), silent = TRUE)
   socket <- NULL
+
+  ## Sanity check
+  stopifnot(length(cl) == n)
 
   if (validate) {
     ## Attaching session information for each worker.  This is done to assert
     ## that we have a working cluster already here.  It will also collect
     ## useful information otherwise not available, e.g. the PID.
     if (verbose) {
-      mdebugf("%sCollecting session information from workers", verbose_prefix)
+      mdebugf("%sCollecting session information from %d workers", verbose_prefix, length(cl))
     }
     for (ii in seq_along(cl)) {
       cl[ii] <- add_cluster_session_info(cl[ii])
       if (verbose) mdebugf("%s - Worker #%d of %d", verbose_prefix, ii, length(cl))
     }
+    stopifnot(length(cl) == n)
   }
 
   if (autoStop) {
     if (verbose) mdebugf("%sAdding automatic stop of cluster on garbage collection", verbose_prefix)
     cl <- autoStopCluster(cl)
+    stopifnot(length(cl) == n)
   }
 
   if (verbose) {
     options(oopts)
     mdebugf("%smakeClusterPSOCK() ... done", verbose_prefix)
   }
+
+  stopifnot(length(cl) == n)
 
   ## Success, remove automatic cleanup of nodes
   on.exit()
