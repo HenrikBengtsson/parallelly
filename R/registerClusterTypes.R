@@ -15,7 +15,7 @@ registerClusterTypes <- local({
     if (done) return()
     
     ns <- getNamespace("parallel")
-    ## Only available in R (>= 4.4.0)
+    ## Only available in R (>= 4.5.0)
     if (!exists("registerClusterType", envir = ns)) return()
     
     registerClusterType <- get("registerClusterType", envir = ns)

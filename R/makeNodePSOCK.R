@@ -890,7 +890,7 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
     }
     
     rshopts <- paste(rshopts, collapse = " ")
-    
+
     ## Local commands
     rsh_call <- paste(paste(shQuote(rshcmd), collapse = " "), rshopts, worker)
     local_cmd <- paste(rsh_call, shQuote(cmd, type = rscript_sh))
