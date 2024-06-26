@@ -34,7 +34,7 @@ makeNodePSOCK(
   rscript_envs = NULL,
   rscript_libs = NULL,
   rscript_startup = NULL,
-  rscript_sh = c("auto", "cmd", "sh"),
+  rscript_sh = c("auto", "cmd", "sh", "none"),
   default_packages = c("datasets", "utils", "grDevices", "graphics", "stats", if
     (methods) "methods"),
   methods = TRUE,
@@ -154,6 +154,7 @@ which should be \code{"sh"} is launched via a POSIX shell and \code{"cmd"} if
 launched via an MS Windows shell.  This controls how shell command-line
 options are quoted, via
 \code{\link[base:shQuote]{shQuote(..., type = rscript_sh)}}.
+If \code{"none"}, then no quoting is done.
 If \code{"auto"} (default), and the cluster node is launched locally, then it
 is set to \code{"sh"} or \code{"cmd"} according to the current platform.
 \emph{If launched remotely}, then it is set to \code{"sh"} based on the assumption

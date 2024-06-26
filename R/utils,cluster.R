@@ -368,3 +368,12 @@ readWorkerPID <- function(pidfile, wait = 0.5, maxTries = 8L, verbose = FALSE) {
   
   pid
 } ## readWorkerPID()
+
+
+# shQuote() that also accepts type = "none"
+shQuote <- function(string, type) {
+  type <- match.arg(type)
+  if (type == "none") return(string)
+  base::shQuote(string, type = type)
+}
+formals(shQuote) <- formals(base::shQuote)

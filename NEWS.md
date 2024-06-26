@@ -2,6 +2,15 @@
 
 ## New Features
 
+ * Now argument `rshcmd` of `makeNodePSOCK()` can be a function. It
+   must accept at least two arguments named `rshopts` and
+   `worker`. The `rshopts` argument is a character vector of length
+   zero or more. The `worker` argument is a string hostname. The
+   function must return a single string.
+
+ * Now `makeNodePSOCK()` accepts `rscript_sh = "none"`, which skips
+   quoting the Rscript call.
+ 
  * Starting with R 4.5.0 (currently R-devel), one can use
    `parallel::makeCluster(n, type = parallelly::PSOCK)` as an
    alternative to `parallelly::makeClusterPSOCK(n)`.  Similarly, `type
