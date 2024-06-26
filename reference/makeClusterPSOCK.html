@@ -31,7 +31,7 @@ background R workers, and how to connect to external machines."><meta property="
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9004</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9007</span>
       </span>
     </div>
 
@@ -173,7 +173,7 @@ background <span style="R">R</span> workers, and how to connect to external mach
 <span>  rscript_envs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rscript_libs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rscript_startup <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  rscript_sh <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"cmd"</span>, <span class="st">"sh"</span><span class="op">)</span>,</span>
+<span>  rscript_sh <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"cmd"</span>, <span class="st">"sh"</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
 <span>  default_packages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"datasets"</span>, <span class="st">"utils"</span>, <span class="st">"grDevices"</span>, <span class="st">"graphics"</span>, <span class="st">"stats"</span>, <span class="kw">if</span></span>
 <span>    <span class="op">(</span><span class="va">methods</span><span class="op">)</span> <span class="st">"methods"</span><span class="op">)</span>,</span>
 <span>  methods <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -330,6 +330,7 @@ which should be <code>"sh"</code> is launched via a POSIX shell and <code>"cmd"<
 launched via an MS Windows shell.  This controls how shell command-line
 options are quoted, via
 <code><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote(..., type = rscript_sh)</a></code>.
+If <code>"none"</code>, then no quoting is done.
 If <code>"auto"</code> (default), and the cluster node is launched locally, then it
 is set to <code>"sh"</code> or <code>"cmd"</code> according to the current platform.
 <em>If launched remotely</em>, then it is set to <code>"sh"</code> based on the assumption
@@ -780,6 +781,10 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span><span class="co">## running on CPU Group #0 and half on CPU Group #1.  </span></span></span>
 <span class="r-in"><span><span class="co">## (https://lovickconsulting.com/2021/11/18/</span></span></span>
 <span class="r-in"><span><span class="co">##  running-r-clusters-on-an-amd-threadripper-3990x-in-windows-10-2/)</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel workers are launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## "%COMSPEC%" /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE ...</span></span></span>
+<span class="r-in"><span><span class="co">## ...</span></span></span>
+<span class="r-in"><span><span class="co">## "%COMSPEC%" /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE ...</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Temporarily disable CPU load protection for this example</span></span></span>
 <span class="r-in"><span><span class="va">oopts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>parallelly.maxWorkers.localhost <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
@@ -809,6 +814,10 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span><span class="co">## ---------------------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## EXAMPLE: Three remote workers</span></span></span>
 <span class="r-in"><span><span class="co">## Setup of three R workers on two remote machines are set up</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel workers are launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## '/usr/bin/ssh' -R 11058:localhost:11058 n1.remote.org ...</span></span></span>
+<span class="r-in"><span><span class="co">## '/usr/bin/ssh' -R 11059:localhost:11058 n2.remote.org ...</span></span></span>
+<span class="r-in"><span><span class="co">## '/usr/bin/ssh' -R 11060:localhost:11058 n1.remote.org ...</span></span></span>
 <span class="r-in"><span><span class="va">workers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n1.remote.org"</span>, <span class="st">"n2.remote.org"</span>, <span class="st">"n1.remote.org"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span><span class="va">workers</span>, dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -816,6 +825,9 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span><span class="co">## EXAMPLE: Two remote workers running on MS Windows.  Because the</span></span></span>
 <span class="r-in"><span><span class="co">## remote workers are MS Windows machines, we need to use</span></span></span>
 <span class="r-in"><span><span class="co">## rscript_sh = "cmd".</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel workers are launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## '/usr/bin/ssh' -R 11912:localhost:11912 mswin1.remote.org ...</span></span></span>
+<span class="r-in"><span><span class="co">## '/usr/bin/ssh' -R 11913:localhost:11912 mswin2.remote.org ...</span></span></span>
 <span class="r-in"><span><span class="va">workers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mswin1.remote.org"</span>, <span class="st">"mswin2.remote.org"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span><span class="va">workers</span>, rscript_sh <span class="op">=</span> <span class="st">"cmd"</span>, dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -832,6 +844,10 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## EXAMPLE: Three remote workers 'n1', 'n2', and 'n3' that can only be</span></span></span>
 <span class="r-in"><span><span class="co">## accessed via jumphost 'login.remote.org'</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel workers are launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## '/usr/bin/ssh' -R 11226:localhost:11226 -J login.remote.org n1 ...</span></span></span>
+<span class="r-in"><span><span class="co">## '/usr/bin/ssh' -R 11227:localhost:11226 -J login.remote.org n2 ...</span></span></span>
+<span class="r-in"><span><span class="co">## '/usr/bin/ssh' -R 11228:localhost:11226 -J login.remote.org n1 ...</span></span></span>
 <span class="r-in"><span><span class="va">workers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n1"</span>, <span class="st">"n2"</span>, <span class="st">"n1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">workers</span>,</span></span>
@@ -847,6 +863,8 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span><span class="co">## Using the explicit special rshcmd = "&lt;putty-plink&gt;", will force</span></span></span>
 <span class="r-in"><span><span class="co">## makeClusterPSOCK() to search for and use the PuTTY plink software,</span></span></span>
 <span class="r-in"><span><span class="co">## preventing it from using other SSH clients on the system search PATH.</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel worker is launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## 'plink' -l bob -P 2200 -i C:/Users/bobby/.ssh/putty.ppk remote.server.org ...</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"remote.server.org"</span>, user <span class="op">=</span> <span class="st">"bob"</span>,</span></span>
 <span class="r-in"><span>  rshcmd <span class="op">=</span> <span class="st">"&lt;putty-plink&gt;"</span>,</span></span>
@@ -859,6 +877,9 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span><span class="co">## EXAMPLE: Remote workers with specific setup</span></span></span>
 <span class="r-in"><span><span class="co">## Setup of remote worker with more detailed control on</span></span></span>
 <span class="r-in"><span><span class="co">## authentication and reverse SSH tunneling</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel worker is launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## '/usr/bin/ssh' -l johnny -v -R 11000:gateway:11942 remote.server.org ...</span></span></span>
+<span class="r-in"><span><span class="co">## "R_DEFAULT_PACKAGES=... 'nice' '/path/to/Rscript' --no-init-file ...</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"remote.server.org"</span>, user <span class="op">=</span> <span class="st">"johnny"</span>,</span></span>
 <span class="r-in"><span>  <span class="co">## Manual configuration of reverse SSH tunneling</span></span></span>
@@ -878,6 +899,8 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span><span class="co">## Using the explicit special rshcmd = "&lt;rstudio-ssh&gt;", will force</span></span></span>
 <span class="r-in"><span><span class="co">## makeClusterPSOCK() to use the SSH client that comes with RStudio,</span></span></span>
 <span class="r-in"><span><span class="co">## preventing it from using other SSH clients on the system search PATH.</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel worker is launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## 'ssh' -l bob remote.server.org:2200 ...</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"remote.server.org:2200"</span>, user <span class="op">=</span> <span class="st">"bob"</span>, rshcmd <span class="op">=</span> <span class="st">"&lt;rstudio-ssh&gt;"</span>,</span></span>
 <span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
@@ -909,6 +932,13 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span><span class="co">## This example shows how to use the SGE command 'qrsh' to launch</span></span></span>
 <span class="r-in"><span><span class="co">## 18 parallel workers from R, which is assumed to have been launched</span></span></span>
 <span class="r-in"><span><span class="co">## by 'script.sh'.</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel workers are launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## 'qrsh' -inherit -nostdin -V comphost01 ...</span></span></span>
+<span class="r-in"><span><span class="co">## 'qrsh' -inherit -nostdin -V comphost01 ...</span></span></span>
+<span class="r-in"><span><span class="co">## 'qrsh' -inherit -nostdin -V comphost02 ...</span></span></span>
+<span class="r-in"><span><span class="co">## ...</span></span></span>
+<span class="r-in"><span><span class="co">## 'qrsh' -inherit -nostdin -V comphost06 ...</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="availableWorkers.html">availableWorkers</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  rshcmd <span class="op">=</span> <span class="st">"qrsh"</span>, rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"-inherit"</span>, <span class="st">"-nostdin"</span>, <span class="st">"-V"</span><span class="op">)</span>,</span></span>
@@ -927,6 +957,12 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span><span class="co">## availableWorkers() to return 3 * 18 workers. When the HPC environment</span></span></span>
 <span class="r-in"><span><span class="co">## does not support SSH between compute nodes, one can use the 'pjrsh'</span></span></span>
 <span class="r-in"><span><span class="co">## command to launch the parallel workers.</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel workers are launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## 'pjrsh' ...</span></span></span>
+<span class="r-in"><span><span class="co">## 'pjrsh' ...</span></span></span>
+<span class="r-in"><span><span class="co">## ...</span></span></span>
+<span class="r-in"><span><span class="co">## 'pjrsh' ...</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="availableWorkers.html">availableWorkers</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  rshcmd <span class="op">=</span> <span class="st">"pjrsh"</span>,</span></span>
@@ -942,6 +978,11 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span><span class="co">## Launching worker on Amazon AWS EC2 running one of the</span></span></span>
 <span class="r-in"><span><span class="co">## Amazon Machine Images (AMI) provided by RStudio</span></span></span>
 <span class="r-in"><span><span class="co">## (https://www.louisaslett.com/RStudio_AMI/)</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel worker is launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## '/usr/bin/ssh' -R 11153:localhost:11153 -l ubuntu ...</span></span></span>
+<span class="r-in"><span><span class="co">## -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ...</span></span></span>
+<span class="r-in"><span><span class="co">## -i ~/.ssh/my-private-aws-key.pem 1.2.3.4 ...</span></span></span>
 <span class="r-in"><span><span class="va">public_ip</span> <span class="op">&lt;-</span> <span class="st">"1.2.3.4"</span></span></span>
 <span class="r-in"><span><span class="va">ssh_private_key_file</span> <span class="op">&lt;-</span> <span class="st">"~/.ssh/my-private-aws-key.pem"</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
@@ -1000,6 +1041,10 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span><span class="co">## ---------------------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## EXAMPLE: Two workers running in Docker on the local machine</span></span></span>
 <span class="r-in"><span><span class="co">## Setup of 2 Docker workers running rocker/r-parallel</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel workers are launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## R_DEFAULT_PACKAGES=... '/usr/bin/docker' 'run' '--net=host' 'rocker/r-parallel' ...</span></span></span>
+<span class="r-in"><span><span class="co">## R_DEFAULT_PACKAGES=... '/usr/bin/docker' 'run' '--net=host' 'rocker/r-parallel' ...</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"localhost"</span>, times <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="co">## Launch Rscript inside Docker container</span></span></span>
@@ -1019,6 +1064,10 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## EXAMPLE: Two workers running via Linux container 'rocker/r-parallel' from</span></span></span>
 <span class="r-in"><span><span class="co">## DockerHub on the local machine using Apptainer (formerly Singularity)</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel workers are launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## R_DEFAULT_PACKAGES=... '/usr/bin/apptainer' 'exec' 'docker://rocker/r-parallel' ...</span></span></span>
+<span class="r-in"><span><span class="co">## R_DEFAULT_PACKAGES=... '/usr/bin/apptainer' 'exec' 'docker://rocker/r-parallel' ...</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"localhost"</span>, times <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="co">## Launch Rscript inside Linux container</span></span></span>
@@ -1032,6 +1081,9 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## EXAMPLE: One worker running in udocker on the local machine</span></span></span>
 <span class="r-in"><span><span class="co">## Setup of a single udocker.py worker running rocker/r-parallel</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel worker is launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## R_DEFAULT_PACKAGES=... 'udocker.py' 'run' 'rocker/r-parallel' ...</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"localhost"</span>,</span></span>
 <span class="r-in"><span>  <span class="co">## Launch Rscript inside Docker container (using udocker)</span></span></span>
@@ -1051,12 +1103,15 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span><span class="co">## EXAMPLE: One worker running in Wine for Linux on the local machine</span></span></span>
 <span class="r-in"><span><span class="co">## To install R for MS Windows in Wine, do something like:</span></span></span>
 <span class="r-in"><span><span class="co">##   winecfg  # In GUI, set 'Windows version' to 'Windows 10'</span></span></span>
-<span class="r-in"><span><span class="co">##   wget https://cran.r-project.org/bin/windows/base/R-4.2.3-win.exe</span></span></span>
-<span class="r-in"><span><span class="co">##   wine R-4.2.3-win.exe /SILENT</span></span></span>
+<span class="r-in"><span><span class="co">##   wget https://cran.r-project.org/bin/windows/base/R-4.4.1-win.exe</span></span></span>
+<span class="r-in"><span><span class="co">##   wine R-4.4.1-win.exe /SILENT</span></span></span>
 <span class="r-in"><span><span class="co">## Prevent packages from being installed to R's system library:</span></span></span>
-<span class="r-in"><span><span class="co">##   chmod ugo-w "$HOME/.wine/drive_c/Program Files/R/R-4.2.3/library/"</span></span></span>
+<span class="r-in"><span><span class="co">##   chmod ugo-w "$HOME/.wine/drive_c/Program Files/R/R-4.4.1/library/"</span></span></span>
 <span class="r-in"><span><span class="co">## Verify it works:</span></span></span>
-<span class="r-in"><span><span class="co">##   wine "C:/Program Files/R/R-4.2.3/bin/x64/Rscript.exe" --version</span></span></span>
+<span class="r-in"><span><span class="co">##   wine "C:/Program Files/R/R-4.4.1/bin/x64/Rscript.exe" --version</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## The parallel worker is launched as:</span></span></span>
+<span class="r-in"><span><span class="co">## R_DEFAULT_PACKAGES=... WINEDEBUG=fixme-all R_LIBS_SITE= R_LIBS_USER= 'wine' ...</span></span></span>
 <span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span><span class="fl">1L</span>,</span></span>
 <span class="r-in"><span>  rscript <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="co">## Silence Wine warnings</span></span></span>
@@ -1064,7 +1119,7 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span>    <span class="co">## Don't pass LC_* and R_LIBS* environments from host to Wine</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"%s="</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"^(LC_|R_LIBS)"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, value <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="st">"wine"</span>,</span></span>
-<span class="r-in"><span>    <span class="st">"C:/Program Files/R/R-4.2.3/bin/x64/Rscript.exe"</span></span></span>
+<span class="r-in"><span>    <span class="st">"C:/Program Files/R/R-4.4.1/bin/x64/Rscript.exe"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
