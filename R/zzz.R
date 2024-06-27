@@ -1,3 +1,5 @@
+.packageExclude <- c("MPI", "PSOCK")
+
 ## covr: skip=all
 .onLoad <- function(libname, pkgname) {
   debug <- isTRUE(as.logical(getEnvVar2("R_PARALLELLY_DEBUG", "FALSE")))

@@ -801,7 +801,7 @@ cl <- makeClusterPSOCK(
 ## running multiple cores. Here is an example:
 ##
 ##   ## Request 18 slots on one or more hosts
-##   squeue --ntasks=18 script.sh
+##   sbatch --ntasks=18 script.sh
 ##
 ## This will launch the job script 'script.sh' on one host, while have
 ## reserved in total 18 slots (CPU cores) on this host and possible
