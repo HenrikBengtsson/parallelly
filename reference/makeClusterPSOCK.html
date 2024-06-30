@@ -31,7 +31,7 @@ background R workers, and how to connect to external machines."><meta property="
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9008</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9009</span>
       </span>
     </div>
 
@@ -335,7 +335,12 @@ If <code>"auto"</code> (default), and the cluster node is launched locally, then
 is set to <code>"sh"</code> or <code>"cmd"</code> according to the current platform.
 <em>If launched remotely</em>, then it is set to <code>"sh"</code> based on the assumption
 remote machines typically launch commands via SSH in a POSIX shell.
-If the remote machines run MS Windows, use <code>rscript_sh = "cmd"</code>.</p></dd>
+If the remote machines run MS Windows, use <code>rscript_sh = "cmd"</code>.
+If <code>length(rscript_sh)</code> is two, then <code>rscript_sh[1]</code> is for the inner and
+<code>rscript_sh[2]</code> is for the outer shell quoting of the Rscript call.
+More precisely, <code>rscript_sh[1]</code> is for Rscript arguments that need shell
+quoting (e.g. <code>Rscript -e "&lt;expr&gt;"</code>), and <code>rscript_sh[2]</code> is for the whole
+<code>Rscript ...</code> call.</p></dd>
 
 
 <dt>default_packages</dt>
@@ -967,42 +972,6 @@ This was validated with R-devel revision 82991 (2022-10-02).</p>
 <span class="r-in"><span>  rshcmd <span class="op">=</span> <span class="st">"pjrsh"</span>,</span></span>
 <span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## EXAMPLE: 'Slurm' is a high-performance compute (HPC) job scheduler </span></span></span>
-<span class="r-in"><span><span class="co">## where one can request compute resources on multiple nodes, each</span></span></span>
-<span class="r-in"><span><span class="co">## running multiple cores. Here is an example:</span></span></span>
-<span class="r-in"><span><span class="co">##</span></span></span>
-<span class="r-in"><span><span class="co">##   ## Request 18 slots on one or more hosts</span></span></span>
-<span class="r-in"><span><span class="co">##   sbatch --ntasks=18 script.sh</span></span></span>
-<span class="r-in"><span><span class="co">##</span></span></span>
-<span class="r-in"><span><span class="co">## This will launch the job script 'script.sh' on one host, while have</span></span></span>
-<span class="r-in"><span><span class="co">## reserved in total 18 slots (CPU cores) on this host and possible</span></span></span>
-<span class="r-in"><span><span class="co">## another hosts.</span></span></span>
-<span class="r-in"><span><span class="co">##</span></span></span>
-<span class="r-in"><span><span class="co">## This example shows how to use the Slurm command 'srun' to launch</span></span></span>
-<span class="r-in"><span><span class="co">## 18 parallel workers from R, which is assumed to have been launched</span></span></span>
-<span class="r-in"><span><span class="co">## by 'script.sh'. The `srun` command does not take a hostname; instead</span></span></span>
-<span class="r-in"><span><span class="co">## it will automatically launch the work on the next allotted host.</span></span></span>
-<span class="r-in"><span><span class="co">## The number of workers we want to launch can be inferred from</span></span></span>
-<span class="r-in"><span><span class="co">## length(availableWorkers()). We will use a dummy hostname for the</span></span></span>
-<span class="r-in"><span><span class="co">## workers to avoid them being interpreted as a localhost worker.</span></span></span>
-<span class="r-in"><span><span class="co">##</span></span></span>
-<span class="r-in"><span><span class="co">## The parallel workers are launched as:</span></span></span>
-<span class="r-in"><span><span class="co">## 'srun' --ntasks=1 ...</span></span></span>
-<span class="r-in"><span><span class="co">## 'srun' --ntasks=1 ...</span></span></span>
-<span class="r-in"><span><span class="co">## ...</span></span></span>
-<span class="r-in"><span><span class="co">## 'srun' --ntasks=1 ...</span></span></span>
-<span class="r-in"><span><span class="va">workers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">sub</a></span><span class="op">(</span><span class="st">".*"</span>, <span class="st">"&lt;dummy&gt;"</span>, <span class="fu"><a href="availableWorkers.html">availableWorkers</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">rshcmd_fcn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">rshopts</span>, <span class="va">worker</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="st">"srun"</span><span class="op">)</span>, <span class="va">rshopts</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu">makeClusterPSOCK</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">workers</span>,</span></span>
-<span class="r-in"><span>  rshcmd <span class="op">=</span> <span class="va">rshcmd_fcn</span>, rshopts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"--ntasks=1"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  rscript_sh <span class="op">=</span> <span class="st">"none"</span>,</span></span>
-<span class="r-in"><span>  dryrun <span class="op">=</span> <span class="cn">TRUE</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
