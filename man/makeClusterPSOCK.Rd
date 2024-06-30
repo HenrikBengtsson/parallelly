@@ -164,7 +164,9 @@ If \code{length(rscript_sh)} is two, then \code{rscript_sh[1]} is for the inner 
 \code{rscript_sh[2]} is for the outer shell quoting of the Rscript call.
 More precisely, \code{rscript_sh[1]} is for Rscript arguments that need shell
 quoting (e.g. \verb{Rscript -e "<expr>"}), and \code{rscript_sh[2]} is for the whole
-\verb{Rscript ...} call.}
+\verb{Rscript ...} call.
+If \code{length(rscript_sh)} is one, then it is used for both the inner and the
+outer shell quoting.}
 
 \item{default_packages}{A character vector or NULL that controls which R
 packages are attached on each cluster node during startup.  An asterisk

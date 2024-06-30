@@ -66,6 +66,8 @@
 #' More precisely, `rscript_sh[1]` is for Rscript arguments that need shell
 #' quoting (e.g. `Rscript -e "<expr>"`), and `rscript_sh[2]` is for the whole
 #' `Rscript ...` call.
+#' If `length(rscript_sh)` is one, then it is used for both the inner and the
+#' outer shell quoting.
 #'
 #' @param default_packages A character vector or NULL that controls which R
 #' packages are attached on each cluster node during startup.  An asterisk
