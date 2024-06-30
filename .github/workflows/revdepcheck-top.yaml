@@ -65,6 +65,7 @@ jobs:
       - name: Check reverse dependency package
         run: |
           pkgname <- "${{ matrix.config.pkg }}"
+          install.packages(pkgname, dependencies = TRUE)
           url <- remotes:::download_version_url(pkgname, version=NULL, repos="https://cloud.r-project.org", type="source")
           tarball <- basename(url)
           utils::download.file(url, destfile = tarball, mode = "wb")

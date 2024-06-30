@@ -67,7 +67,7 @@ jobs:
           ##    https://app.codecov.io/gh/<org>/<repo>/settings
           ## 2. Set 'CODECOV_TOKEN' in GitHub Secrets:
           ##    https://github.com/<org>/<repo>/settings/environments/
-          coverage <- covr::package_coverage()
+          coverage <- covr::package_coverage(quiet = FALSE)
           print(coverage)
           covr::codecov(coverage = coverage, token="${{secrets.CODECOV_TOKEN}}")
         shell: Rscript {0}
