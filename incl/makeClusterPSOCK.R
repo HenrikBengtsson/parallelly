@@ -228,10 +228,9 @@ rshcmd_fcn <- function(rshopts, worker) paste(shQuote("srun"), rshopts)
 cl <- makeClusterPSOCK(
   workers,
   rshcmd = rshcmd_fcn, rshopts = c("--ntasks=1"),
-  rscript_sh = "none",
+  rscript_sh = c("auto", "none"),
   dryrun = TRUE, quiet = TRUE
 )
-
 
 
 
