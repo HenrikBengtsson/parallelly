@@ -340,7 +340,9 @@ If <code>length(rscript_sh)</code> is two, then <code>rscript_sh[1]</code> is fo
 <code>rscript_sh[2]</code> is for the outer shell quoting of the Rscript call.
 More precisely, <code>rscript_sh[1]</code> is for Rscript arguments that need shell
 quoting (e.g. <code>Rscript -e "&lt;expr&gt;"</code>), and <code>rscript_sh[2]</code> is for the whole
-<code>Rscript ...</code> call.</p></dd>
+<code>Rscript ...</code> call.
+If <code>length(rscript_sh)</code> is one, then it is used for both the inner and the
+outer shell quoting.</p></dd>
 
 
 <dt>default_packages</dt>
