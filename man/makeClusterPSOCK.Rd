@@ -159,7 +159,12 @@ If \code{"auto"} (default), and the cluster node is launched locally, then it
 is set to \code{"sh"} or \code{"cmd"} according to the current platform.
 \emph{If launched remotely}, then it is set to \code{"sh"} based on the assumption
 remote machines typically launch commands via SSH in a POSIX shell.
-If the remote machines run MS Windows, use \code{rscript_sh = "cmd"}.}
+If the remote machines run MS Windows, use \code{rscript_sh = "cmd"}.
+If \code{length(rscript_sh)} is two, then \code{rscript_sh[1]} is for the inner and
+\code{rscript_sh[2]} is for the outer shell quoting of the Rscript call.
+More precisely, \code{rscript_sh[1]} is for Rscript arguments that need shell
+quoting (e.g. \verb{Rscript -e "<expr>"}), and \code{rscript_sh[2]} is for the whole
+\verb{Rscript ...} call.}
 
 \item{default_packages}{A character vector or NULL that controls which R
 packages are attached on each cluster node during startup.  An asterisk
@@ -828,7 +833,6 @@ cl <- makeClusterPSOCK(
   rscript_sh = c("auto", "none"),
   dryrun = TRUE, quiet = TRUE
 )
-
 
 
 ## ---------------------------------------------------------------

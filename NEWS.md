@@ -10,6 +10,13 @@
 
  * Now `makeNodePSOCK()` accepts `rscript_sh = "none"`, which skips
    quoting the Rscript call.
+   
+ * Now `makeNodePSOCK()` accepts `rscript_sh` of length one or two.
+   If `length(rscript_sh) == 2`, then `rscript_sh[1]` is for the inner
+   and `rscript_sh[2]` is for the outer shell quoting of the Rscript
+   call.  More precisely, `rscript_sh[1]` is for Rscript arguments
+   that need shell quoting (e.g. `Rscript -e "<expr>"`), and
+   `rscript_sh[2]` is for the whole `Rscript ...` call.}
  
  * Starting with R 4.5.0 (currently R-devel), one can use
    `parallel::makeCluster(n, type = parallelly::PSOCK)` as an

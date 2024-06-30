@@ -61,6 +61,11 @@
 #' _If launched remotely_, then it is set to `"sh"` based on the assumption
 #' remote machines typically launch commands via SSH in a POSIX shell.
 #' If the remote machines run MS Windows, use `rscript_sh = "cmd"`.
+#' If `length(rscript_sh)` is two, then `rscript_sh[1]` is for the inner and
+#' `rscript_sh[2]` is for the outer shell quoting of the Rscript call.
+#' More precisely, `rscript_sh[1]` is for Rscript arguments that need shell
+#' quoting (e.g. `Rscript -e "<expr>"`), and `rscript_sh[2]` is for the whole
+#' `Rscript ...` call.
 #'
 #' @param default_packages A character vector or NULL that controls which R
 #' packages are attached on each cluster node during startup.  An asterisk
