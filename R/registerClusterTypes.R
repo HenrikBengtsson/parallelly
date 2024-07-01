@@ -8,6 +8,7 @@ MPI   <- "parallelly::MPI"
 #' @rawNamespace export(PSOCK)
 PSOCK <- "parallelly::PSOCK"
  
+#' @rawNamespace if (getRversion() >= "4.4") export(SEQ)
 SEQ <- "parallelly::SEQ"
 
 registerClusterTypes <- local({
@@ -25,8 +26,8 @@ registerClusterTypes <- local({
     ## WORKAROUND: 'R CMD build' somehow creates and calls this function
     ## twice, resulting in warnings from parallel::registerClusterType().
     suppressWarnings({
-      registerClusterType(MPI,   makeClusterMPI,   make.default = FALSE)
-      registerClusterType(PSOCK, makeClusterPSOCK, make.default = FALSE)
+      registerClusterType(MPI,   makeClusterMPI,        make.default = FALSE)
+      registerClusterType(PSOCK, makeClusterPSOCK,      make.default = FALSE)
       registerClusterType(SEQ,   makeClusterSequential, make.default = FALSE)
     })
     done <<- TRUE

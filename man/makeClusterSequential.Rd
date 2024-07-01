@@ -2,6 +2,7 @@
 % Please edit documentation in R/makeClusterSequential.R
 \name{makeClusterSequential}
 \alias{makeClusterSequential}
+\alias{SEQ}
 \title{Create a "parallel" cluster running sequentially in the current session}
 \usage{
 makeClusterSequential()

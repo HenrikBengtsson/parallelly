@@ -22,6 +22,7 @@
 #' This function is only defined for R (>= 4.4.0).
 #'
 #' @rawNamespace if (getRversion() >= "4.4") export(makeClusterSequential)
+#' @aliases SEQ
 makeClusterSequential <- function() {
   node <- makeNodeSequential()
   cl <- list(node)
@@ -29,7 +30,7 @@ makeClusterSequential <- function() {
   cl
 }
 
-#' @rawNamespace if (getRversion() >= "4.4") S3method(print,sequential_node)
+#' @rawNamespace if (getRversion() >= "4.4") S3method(print,sequential_cluster)
 print.sequential_cluster <- function(x, ...) {
   cat(sprintf("A %s cluster with %d node\n", sQuote(class(x)[1]), length(x)))
 }
@@ -42,7 +43,7 @@ makeNodeSequential <- function() {
   node
 }
 
-#' @export
+#' @rawNamespace if (getRversion() >= "4.4") S3method(print,sequential_node)
 print.sequential_node <- function(x, ...) {
   cat(sprintf("A %s node\n", sQuote(class(x))))
 }
