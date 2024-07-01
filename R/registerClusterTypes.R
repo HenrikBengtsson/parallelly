@@ -7,6 +7,8 @@ MPI   <- "parallelly::MPI"
 
 #' @rawNamespace export(PSOCK)
 PSOCK <- "parallelly::PSOCK"
+ 
+SEQ <- "parallelly::SEQ"
 
 registerClusterTypes <- local({
   done <- FALSE
@@ -25,6 +27,7 @@ registerClusterTypes <- local({
     suppressWarnings({
       registerClusterType(MPI,   makeClusterMPI,   make.default = FALSE)
       registerClusterType(PSOCK, makeClusterPSOCK, make.default = FALSE)
+      registerClusterType(SEQ,   makeClusterSequential, make.default = FALSE)
     })
     done <<- TRUE
   }

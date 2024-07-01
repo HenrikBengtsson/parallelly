@@ -17,13 +17,16 @@
    call.  More precisely, `rscript_sh[1]` is for Rscript arguments
    that need shell quoting (e.g. `Rscript -e "<expr>"`), and
    `rscript_sh[2]` is for the whole `Rscript ...` call.}
- 
+
+ * Add `makeClusterSequential()` available for R (>= 4.4.0).
+
  * Starting with R 4.5.0 (currently R-devel), one can use
    `parallel::makeCluster(n, type = parallelly::PSOCK)` as an
    alternative to `parallelly::makeClusterPSOCK(n)`.  Similarly, `type
    = parallelly::MPI` creates a cluster using
-   `parallelly::makeClusterMPI()`.
-
+   `parallelly::makeClusterMPI()`, and `type = parallelly::SEQ`
+   creates a cluster using `parallelly::makeClusterSequential()`.
+ 
 ## Bug Fixes
 
  * Environment variable `R_PARALLELLY_MAXWORKERS_LOCALHOST` was
