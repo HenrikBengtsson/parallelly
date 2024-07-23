@@ -23,10 +23,13 @@
 ## ...
 ## 'srun' --ntasks=1 ...
 workers <- sub(".*", "<dummy>", availableWorkers())
+
+workers <- c("<dummy>")
 rshcmd_fcn <- function(rshopts, worker) paste(shQuote("srun"), rshopts)
 cl <- makeClusterPSOCK(
   workers,
-  rshcmd = rshcmd_fcn, rshopts = c("--ntasks=1"),
+  rshcmd = rshcmd_fcn, rshopts = c("--nodes=1", "--ntasks=1"),
   rscript_sh = c("auto", "none"),
-  dryrun = TRUE, quiet = TRUE
+  verbose = TRUE,
+  dryrun = TRUE, quiet = FALSE
 )

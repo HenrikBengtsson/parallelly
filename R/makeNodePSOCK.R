@@ -113,7 +113,7 @@
 #' 
 #' @param revtunnel If TRUE, a reverse SSH tunnel is set up for each worker such
 #' that the worker \R process sets up a socket connection to its local port
-#' `(port - rank + 1)` which then reaches the master on port `port`.
+#' `(port + rank - 1)` which then reaches the master on port `port`.
 #' If FALSE, then the worker will try to connect directly to port `port` on
 #' `master`.
 #' If NA, then TRUE or FALSE is inferred from inspection of `rshcmd[1]`.
@@ -752,9 +752,9 @@ makeNodePSOCK <- function(worker = getOption2("parallelly.localhost.hostname", "
 
   ## Port that the Rscript should use to connect back to the master
   if (!localMachine && revtunnel && getOption2("parallelly.makeNodePSOCK.port.increment", TRUE)) {
-    rscript_port <- assertPort(port + (rank - 1L))
+    rscript_port <- assertPort(port + rank - 1L)
     if (verbose) {
-      mdebugf("%sRscript port: %d + %d = %d\n", verbose_prefix, port, rank-1L, rscript_port)
+      mdebugf("%sRscript port: %d + %d = %d\n", verbose_prefix, port, rank - 1L, rscript_port)
     }
   } else {
     rscript_port <- port

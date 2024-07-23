@@ -201,7 +201,7 @@ another host.}
 
 \item{revtunnel}{If TRUE, a reverse SSH tunnel is set up for each worker such
 that the worker \R process sets up a socket connection to its local port
-\code{(port - rank + 1)} which then reaches the master on port \code{port}.
+\code{(port + rank - 1)} which then reaches the master on port \code{port}.
 If FALSE, then the worker will try to connect directly to port \code{port} on
 \code{master}.
 If NA, then TRUE or FALSE is inferred from inspection of \code{rshcmd[1]}.
