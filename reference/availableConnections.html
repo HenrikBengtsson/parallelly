@@ -30,7 +30,7 @@ standard output via text connections (e.g. utils::capture.output())."><meta prop
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9011</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9012</span>
       </span>
     </div>
 
@@ -164,7 +164,11 @@ is greater than 16384, which is a limit be set via option
 
 <p>In R (&gt;= 4.4.0), it is possible to <em>increase</em> the limit of 128 connections
 to a greater number via command-line option <code>--max-connections=N</code>, e.g.</p>
-<p></p><div class="sourceCode r"><pre><code>$ R --max-connection=512
+<p></p><div class="sourceCode r"><pre><code>$ Rscript -e "parallelly::availableConnections()"
+[1] 128
+
+$ Rscript --max-connections=512 -e "parallelly::availableConnections()"
+[1] 512
 </code></pre><p></p></div>
 <p>For R (&lt; 4.4.0), the limit can only be changed by rebuilding <span style="R">R</span> from
 source, because the limited is hardcoded as a</p>
