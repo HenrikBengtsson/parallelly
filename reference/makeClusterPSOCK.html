@@ -31,7 +31,7 @@ background R workers, and how to connect to external machines."><meta property="
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9014</span>
       </span>
     </div>
 
@@ -395,7 +395,7 @@ another host.</p></dd>
 <dt>revtunnel</dt>
 <dd><p>If TRUE, a reverse SSH tunnel is set up for each worker such
 that the worker <span style="R">R</span> process sets up a socket connection to its local port
-<code>(port - rank + 1)</code> which then reaches the master on port <code>port</code>.
+<code>(port + rank - 1)</code> which then reaches the master on port <code>port</code>.
 If FALSE, then the worker will try to connect directly to port <code>port</code> on
 <code>master</code>.
 If NA, then TRUE or FALSE is inferred from inspection of <code>rshcmd[1]</code>.
