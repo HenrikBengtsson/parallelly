@@ -26,6 +26,9 @@
    = parallelly::MPI` creates a cluster using
    `parallelly::makeClusterMPI()`, and `type = parallelly::SEQ`
    creates a cluster using `parallelly::makeClusterSequential()`.
+
+ * Add `serializedSize()` for calculating the size of an object by
+   counting the number of bytes required to serialize it.
  
 ## Bug Fixes
 
