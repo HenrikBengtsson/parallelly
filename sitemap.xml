@@ -85,6 +85,9 @@
     <loc>https://parallelly.futureverse.org/reference/pid_exists.html</loc>
   </url>
   <url>
+    <loc>https://parallelly.futureverse.org/reference/serializedSize.html</loc>
+  </url>
+  <url>
     <loc>https://parallelly.futureverse.org/reference/supportsMulticore.html</loc>
   </url>
 </urlset>

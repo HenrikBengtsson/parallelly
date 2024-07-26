@@ -2,7 +2,7 @@ pandoc: 3.1.12.3
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles: {}
-last_built: 2024-07-23T21:20Z
+last_built: 2024-07-26T15:19Z
 urls:
   reference: https://parallelly.futureverse.org/reference
   article: https://parallelly.futureverse.org/articles
