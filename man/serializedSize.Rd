@@ -2,7 +2,7 @@
 % Please edit documentation in R/serializedSize.R
 \name{serializedSize}
 \alias{serializedSize}
-\title{Calculate the size of the R object when it is serialized}
+\title{Calculate the size of an R object when it is serialized}
 \usage{
 serializedSize(obj)
 }
