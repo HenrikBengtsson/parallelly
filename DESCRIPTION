@@ -1,5 +1,5 @@
 Package: parallelly
-Version: 1.37.1-9016
+Version: 1.37.1-9017
 Title: Enhancing the 'parallel' Package
 Imports:
     parallel,
@@ -10,7 +10,7 @@ Authors@R: c(
                role = c("aut", "cre", "cph"),
                email = "henrikb@braju.com",
                comment = c(ORCID = "0000-0002-7579-5165")),
-        person("Mike", "FC",
+        person("Mike", "Cheng",
                role = c("ctb"),
                email = "mikefc@coolbutuseless.com")
     )
