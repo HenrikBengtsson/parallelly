@@ -24,7 +24,7 @@ does nothing with the bytes other than to tally the total length."><meta propert
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9015</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9016</span>
       </span>
     </div>
 
@@ -133,12 +133,12 @@ does nothing with the bytes other than to tally the total length.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">serializedSize</span><span class="op">(</span><span class="va">robj</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">serializedSize</span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>robj</dt>
+    <dl><dt>obj</dt>
 <dd><p>An R object.</p></dd>
 
 </dl></div>
@@ -155,7 +155,9 @@ does nothing with the bytes other than to tally the total length.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">serializedSize</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7208 bytes</span>
+<span class="r-in"><span><span class="fu">serializedSize</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3807</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
