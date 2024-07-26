@@ -3,9 +3,9 @@
 #' This function goes through all the motions of serializing an object, but
 #' does nothing with the bytes other than to tally the total length.
 #'
-#' @param robj R object
+#' @param robj An R object.
 #'
-#' @return Number of bytes needed to serialize this object
+#' @return (integer or double) Number of bytes needed to serialize this object.
 #'
 #' @examples
 #' serializedSize(mtcars)

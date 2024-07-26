@@ -7,10 +7,10 @@
 serializedSize(robj)
 }
 \arguments{
-\item{robj}{R object}
+\item{robj}{An R object.}
 }
 \value{
-Number of bytes needed to serialize this object
+(integer or double) Number of bytes needed to serialize this object.
 }
 \description{
 This function goes through all the motions of serializing an object, but
