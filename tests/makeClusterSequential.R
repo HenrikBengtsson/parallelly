@@ -23,4 +23,10 @@ if (getRversion() >= "4.4.0") {
 
   stopCluster(cl)
   print(cl)
+
+  res <- tryCatch({
+    y <- clusterEvalQ(cl, { 42 })
+  }, error = identity)
+  print(res)
+  stopifnot(inherits(res, "error"))
 } ## if (getRversion() >= "4.4.0")

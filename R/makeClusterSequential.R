@@ -48,6 +48,8 @@ print.sequential_cluster <- function(x, ...) {
 
 makeNodeSequential <- function() {
   envir <- new.env(parent = globalenv())
+  envir[["...parallelly.valid..."]] <- TRUE
+  
   node <- list(envir = envir)
   class(node) <- c("sequential_node")
   node
@@ -64,6 +66,11 @@ print.sequential_node <- function(x, ...) {
 sendData.sequential_node <- function(node, data) {
   envir <- node[["envir"]]
 
+  ## Has the cluster been stopped?
+  if (!isTRUE(envir[["...parallelly.valid..."]])) {
+    stop(sprintf("The %s node is no longer valid, which suggests the cluster it belongs to has been stopped", sQuote(class(node)[1])))
+  }
+  
   type <- data[["type"]]
   if (type == "EXEC") {
     data <- data[["data"]]  ## sic!
@@ -97,6 +104,8 @@ sendData.sequential_node <- function(node, data) {
     ## "Send" to internal buffer of current node
     envir[["value"]] <- value
   } else if (type == "DONE") {
+    ## Invalidate the local environment
+    envir[["...parallelly.valid..."]] <- FALSE
   } else {
     stop(sprintf("sendData(): type = %s not yet implemented", sQuote(type)))
   }
@@ -107,8 +116,8 @@ sendData.sequential_node <- function(node, data) {
 #' @rawNamespace if (getRversion() >= "4.4") S3method(recvData,sequential_node)
 recvData.sequential_node <- function(node) {
   envir <- node[["envir"]]
-  
-  ## "Recieve" from internal buffer of current node
+
+  ## "Receive" from internal buffer of current node
   value <- envir[["value"]]
   if (is.null(value) || !is.list(value) || !identical(value[["type"]], "VALUE")) {
     stop("INTERNAL ERROR: recvData() for sequential_node expected a value")
