@@ -40,9 +40,9 @@ Run `revdepcheck::revdep_details(, "bootUR")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 13.5Mb
+      installed size is  6.6Mb
       sub-directories of 1Mb or more:
-        libs  13.0Mb
+        libs   6.2Mb
     ```
 
 *   checking for GNU extensions in Makefiles ... NOTE
@@ -241,29 +241,6 @@ Run `revdepcheck::revdep_details(, "desla")` for more info
         libs  13.0Mb
     ```
 
-# fmeffects
-
-<details>
-
-* Version: 0.1.3
-* GitHub: https://github.com/holgstr/fmeffects
-* Source code: https://github.com/cran/fmeffects
-* Date/Publication: 2024-06-07 23:50:02 UTC
-* Number of recursive dependencies: 182
-
-Run `revdepcheck::revdep_details(, "fmeffects")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.5Mb
-      sub-directories of 1Mb or more:
-        help   4.1Mb
-    ```
-
 # InPAS
 
 <details>
@@ -372,6 +349,33 @@ Run `revdepcheck::revdep_details(, "mice")` for more info
 
 </details>
 
+## Newly fixed
+
+*   checking tests ...
+    ```
+      Running ‘testthat.R’
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 50 lines of output:
+       1. ├─testthat::expect_warning(A <- parlmice(nhanes, m = 2, seed = 123)) at test-parlmice.R:5:3
+       2. │ └─testthat:::quasi_capture(...)
+       3. │   ├─testthat (local) .capture(...)
+       4. │   │ └─base::withCallingHandlers(...)
+       5. │   └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
+       6. └─mice::parlmice(nhanes, m = 2, seed = 123)
+    ...
+       4. │   │ └─base::withCallingHandlers(...)
+       5. │   └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
+       6. └─mice::parlmice(nhanes, n.core = 2, m = 7)
+       7.   └─parallel::makeCluster(n.core, type = cl.type)
+       8.     └─parallel::makePSOCKcluster(names = spec, ...)
+       9.       └─base::serverSocket(port = port)
+      
+      [ FAIL 4 | WARN 0 | SKIP 0 | PASS 357 ]
+      Error: Test failures
+      Execution halted
+    ```
+
 ## In both
 
 *   checking package dependencies ... NOTE
@@ -401,27 +405,6 @@ Run `revdepcheck::revdep_details(, "mice")` for more info
 *   checking Rd cross-references ... NOTE
     ```
     Package unavailable to check Rd xrefs: ‘miceadds’
-    ```
-
-# mlr3
-
-<details>
-
-* Version: 0.20.0
-* GitHub: https://github.com/mlr-org/mlr3
-* Source code: https://github.com/cran/mlr3
-* Date/Publication: 2024-06-28 08:30:02 UTC
-* Number of recursive dependencies: 56
-
-Run `revdepcheck::revdep_details(, "mlr3")` for more info
-
-</details>
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Packages unavailable to check Rd xrefs: ‘mlr3tuning’, ‘mlr3batchmark’, ‘mlr3pipelines’
     ```
 
 # mmrm
@@ -579,11 +562,56 @@ Run `revdepcheck::revdep_details(, "pgxRpi")` for more info
 
 ## In both
 
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘pgxRpi-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: pgxLoader
+    > ### Title: Load data from Progenetix database
+    > ### Aliases: pgxLoader
+    > 
+    > ### ** Examples
+    > 
+    > ## query metadata
+    > biosamples <- pgxLoader(type="biosample", filters = "NCIT:C3512")
+    > ## query segment variants
+    > seg <- pgxLoader(type="variant", output = "pgxseg", biosample_id = "pgxbs-kftvgx4y")
+    Error in `[.data.frame`(result, , col) : undefined columns selected
+    Calls: pgxLoader ... <Anonymous> -> lapply -> FUN -> read_variant_pgxseg
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... ERROR
+    ```
+    Error(s) in re-building vignettes:
+    --- re-building ‘Introduction_1_loadmetadata.Rmd’ using rmarkdown
+    The magick package is required to crop "/c4/home/henrik/repositories/parallelly/revdep/checks/pgxRpi/new/pgxRpi.Rcheck/vign_test/pgxRpi/vignettes/Introduction_1_loadmetadata_files/figure-html/unnamed-chunk-12-1.png" but not available.
+    --- finished re-building ‘Introduction_1_loadmetadata.Rmd’
+    
+    --- re-building ‘Introduction_2_loadvariants.Rmd’ using rmarkdown
+    
+    Quitting from lines 189-191 [unnamed-chunk-13] (Introduction_2_loadvariants.Rmd)
+    Error: processing vignette 'Introduction_2_loadvariants.Rmd' failed with diagnostics:
+    undefined columns selected
+    ...
+    The magick package is required to crop "/c4/home/henrik/repositories/parallelly/revdep/checks/pgxRpi/new/pgxRpi.Rcheck/vign_test/pgxRpi/vignettes/Introduction_4_process_pgxseg_files/figure-html/unnamed-chunk-14-1.png" but not available.
+    The magick package is required to crop "/c4/home/henrik/repositories/parallelly/revdep/checks/pgxRpi/new/pgxRpi.Rcheck/vign_test/pgxRpi/vignettes/Introduction_4_process_pgxseg_files/figure-html/unnamed-chunk-15-1.png" but not available.
+    The magick package is required to crop "/c4/home/henrik/repositories/parallelly/revdep/checks/pgxRpi/new/pgxRpi.Rcheck/vign_test/pgxRpi/vignettes/Introduction_4_process_pgxseg_files/figure-html/unnamed-chunk-16-1.png" but not available.
+    --- finished re-building ‘Introduction_4_process_pgxseg.Rmd’
+    
+    SUMMARY: processing the following files failed:
+      ‘Introduction_2_loadvariants.Rmd’ ‘Introduction_3_loadfrequency.Rmd’
+    
+    Error: Vignette re-building failed.
+    Execution halted
+    ```
+
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.5Mb
+      installed size is  6.2Mb
       sub-directories of 1Mb or more:
-        doc   7.2Mb
+        doc   5.9Mb
     ```
 
 # pmartR
@@ -653,12 +681,6 @@ Run `revdepcheck::revdep_details(, "QDNAseq")` for more info
     
     Error: Vignette re-building failed.
     Execution halted
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Packages suggested but not available for checking:
-      'QDNAseq.hg19', 'QDNAseq.mm10'
     ```
 
 *   checking Rd files ... NOTE
@@ -834,9 +856,9 @@ Run `revdepcheck::revdep_details(, "TDApplied")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 12.4Mb
+      installed size is 13.3Mb
       sub-directories of 1Mb or more:
-        doc    7.5Mb
+        doc    8.6Mb
         libs   4.4Mb
     ```
 
