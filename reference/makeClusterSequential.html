@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">parallelly</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.37.1-9017</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.38.0</span>
       </span>
     </div>
 
@@ -134,6 +134,11 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">makeClusterSequential</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
+    <div id="details">
+    <h2>Details</h2>
+    <p>Expression and function calls are evaluated in a local environment,
+inheriting the global environment.</p>
+    </div>
     <div id="requirements">
     <h2>Requirements</h2>
     
@@ -156,15 +161,23 @@
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pid</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/clusterApply.html" class="external-link">clusterEvalQ</a></span><span class="op">(</span><span class="va">cl</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.getpid.html" class="external-link">Sys.getpid</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">abc</span> <span class="op">&lt;-</span> <span class="fl">3.14</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/clusterApply.html" class="external-link">clusterEvalQ</a></span><span class="op">(</span><span class="va">cl</span>, <span class="op">{</span> <span class="va">abc</span> <span class="op">&lt;-</span> <span class="fl">42</span>; <span class="va">abc</span> <span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="va">abc</span> <span class="op">==</span> <span class="fl">3.14</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A ‘sequential_cluster’ cluster with 1 node</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ : num 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ : num 1.41</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ : num 1.73</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 44581</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 115949</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ : int 44581</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ : int 115949</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ : num 42</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
