@@ -17,15 +17,15 @@
 #' y <- clusterEvalQ(cl, Sys.getpid())
 #' str(y)
 #'
-#' stopifnot(!exists("abc", inherits = FALSE))
+#' abc <- 3.14
 #' y <- clusterEvalQ(cl, { abc <- 42; abc })
 #' str(y)
-#' stopifnot(!exists("abc", inherits = FALSE))
+#' stopifnot(abc == 3.14)
 #' 
 #' \dontshow{\}}
 #'
 #' @details
-#' Expression and function calls are done in a local environment,
+#' Expression and function calls are evaluated in a local environment,
 #' inheriting the global environment.
 #'
 #' @section Requirements:
