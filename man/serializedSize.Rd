@@ -2,12 +2,12 @@
 % Please edit documentation in R/serializedSize.R
 \name{serializedSize}
 \alias{serializedSize}
-\title{Calculate the size of the R object when it is serialized}
+\title{Calculate the size of an R object when it is serialized}
 \usage{
-serializedSize(robj)
+serializedSize(obj)
 }
 \arguments{
-\item{robj}{An R object.}
+\item{obj}{An R object.}
 }
 \value{
 (integer or double) Number of bytes needed to serialize this object.
@@ -17,6 +17,7 @@ This function goes through all the motions of serializing an object, but
 does nothing with the bytes other than to tally the total length.
 }
 \examples{
+object.size(mtcars)
 serializedSize(mtcars)
 
 }
