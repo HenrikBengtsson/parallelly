@@ -16,7 +16,17 @@
 #' print(pid)
 #' y <- clusterEvalQ(cl, Sys.getpid())
 #' str(y)
+#'
+#' stopifnot(!exists("abc", inherits = FALSE))
+#' y <- clusterEvalQ(cl, { abc <- 42; abc })
+#' str(y)
+#' stopifnot(!exists("abc", inherits = FALSE))
+#' 
 #' \dontshow{\}}
+#'
+#' @details
+#' Expression and function calls are done in a local environment,
+#' inheriting the global environment.
 #'
 #' @section Requirements:
 #' This function is only defined for R (>= 4.4.0).
@@ -61,6 +71,11 @@ sendData.sequential_node <- function(node, data) {
     args <- data[["args"]]
     ret <- data[["return"]]
 
+    ## Don't evaluate in the global environment, which is the default
+    if (identical(args[["envir"]], globalenv())) {
+      args[["envir"]] <- envir
+    }
+    
     success <- TRUE
     t1 <- proc.time()
     value <- tryCatch({

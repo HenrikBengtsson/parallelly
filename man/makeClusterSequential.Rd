@@ -10,6 +10,10 @@ makeClusterSequential()
 \description{
 The created cluster has only one node.
 }
+\details{
+Expression and function calls are done in a local environment,
+inheriting the global environment.
+}
 \section{Requirements}{
 
 This function is only defined for R (>= 4.4.0).
@@ -29,6 +33,12 @@ pid <- Sys.getpid()
 print(pid)
 y <- clusterEvalQ(cl, Sys.getpid())
 str(y)
+
+stopifnot(!exists("abc", inherits = FALSE))
+y <- clusterEvalQ(cl, { abc <- 42; abc })
+str(y)
+stopifnot(!exists("abc", inherits = FALSE))
+
 \dontshow{\}}
 
 }
