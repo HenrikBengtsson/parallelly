@@ -21,7 +21,7 @@
    and `rscript_sh[2]` is for the outer shell quoting of the Rscript
    call.  More precisely, `rscript_sh[1]` is for Rscript arguments
    that need shell quoting (e.g. `Rscript -e "<expr>"`), and
-   `rscript_sh[2]` is for the whole `Rscript ...` call.}
+   `rscript_sh[2]` is for the whole `Rscript ...` call.
 
  * Add `makeClusterSequential()` available for R (>= 4.4.0).
 
