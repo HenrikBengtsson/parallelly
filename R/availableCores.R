@@ -603,7 +603,7 @@ checkNumberOfLocalWorkers <- function(workers) {
   if (length(ignore) > 0) {
     methods <- eval(formals(availableCores)$methods)
     methods <- setdiff(methods, ignore)
-        ncores <- availableCores(methods = methods)
+    ncores <- availableCores(methods = methods)
   } else {
     ncores <- availableCores()
   }

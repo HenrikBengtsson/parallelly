@@ -19,7 +19,11 @@
 #' to a greater number via command-line option `--max-connections=N`, e.g.
 #'
 #' ```r
-#' $ R --max-connection=512
+#' $ Rscript -e "parallelly::availableConnections()"
+#' [1] 128
+#'
+#' $ Rscript --max-connections=512 -e "parallelly::availableConnections()"
+#' [1] 512
 #' ```
 #'
 #' For R (< 4.4.0), the limit can only be changed by rebuilding \R from

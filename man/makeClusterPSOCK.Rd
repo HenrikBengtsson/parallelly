@@ -4,6 +4,7 @@
 \name{checkNumberOfLocalWorkers}
 \alias{checkNumberOfLocalWorkers}
 \alias{makeClusterPSOCK}
+\alias{PSOCK}
 \alias{makeNodePSOCK}
 \title{Create a PSOCK Cluster of R Workers for Parallel Processing}
 \usage{
@@ -33,7 +34,7 @@ makeNodePSOCK(
   rscript_envs = NULL,
   rscript_libs = NULL,
   rscript_startup = NULL,
-  rscript_sh = c("auto", "cmd", "sh"),
+  rscript_sh = c("auto", "cmd", "sh", "none"),
   default_packages = c("datasets", "utils", "grDevices", "graphics", "stats", if
     (methods) "methods"),
   methods = TRUE,
@@ -153,11 +154,19 @@ which should be \code{"sh"} is launched via a POSIX shell and \code{"cmd"} if
 launched via an MS Windows shell.  This controls how shell command-line
 options are quoted, via
 \code{\link[base:shQuote]{shQuote(..., type = rscript_sh)}}.
+If \code{"none"}, then no quoting is done.
 If \code{"auto"} (default), and the cluster node is launched locally, then it
 is set to \code{"sh"} or \code{"cmd"} according to the current platform.
 \emph{If launched remotely}, then it is set to \code{"sh"} based on the assumption
 remote machines typically launch commands via SSH in a POSIX shell.
-If the remote machines run MS Windows, use \code{rscript_sh = "cmd"}.}
+If the remote machines run MS Windows, use \code{rscript_sh = "cmd"}.
+If \code{length(rscript_sh)} is two, then \code{rscript_sh[1]} is for the inner and
+\code{rscript_sh[2]} is for the outer shell quoting of the Rscript call.
+More precisely, \code{rscript_sh[1]} is for Rscript arguments that need shell
+quoting (e.g. \verb{Rscript -e "<expr>"}), and \code{rscript_sh[2]} is for the whole
+\verb{Rscript ...} call.
+If \code{length(rscript_sh)} is one, then it is used for both the inner and the
+outer shell quoting.}
 
 \item{default_packages}{A character vector or NULL that controls which R
 packages are attached on each cluster node during startup.  An asterisk
@@ -192,7 +201,7 @@ another host.}
 
 \item{revtunnel}{If TRUE, a reverse SSH tunnel is set up for each worker such
 that the worker \R process sets up a socket connection to its local port
-\code{(port - rank + 1)} which then reaches the master on port \code{port}.
+\code{(port + rank - 1)} which then reaches the master on port \code{port}.
 If FALSE, then the worker will try to connect directly to port \code{port} on
 \code{master}.
 If NA, then TRUE or FALSE is inferred from inspection of \code{rshcmd[1]}.
@@ -295,6 +304,15 @@ override this threshold
 }\if{html}{\out{</div>}}
 
 See \link{parallelly.options} for how to change the default thresholds.
+}
+
+\section{Alternative usage}{
+
+In R (>= 4.4.0), an alternatively to using
+\code{cl <- parallelly::makeClusterPSOCK(workers)} is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{cl <- parallel::makeCluster(workers, type = parallelly::PSOCK)
+}\if{html}{\out{</div>}}
 }
 
 \section{Definition of \emph{localhost}}{
@@ -599,6 +617,10 @@ cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
 ## running on CPU Group #0 and half on CPU Group #1.  
 ## (https://lovickconsulting.com/2021/11/18/
 ##  running-r-clusters-on-an-amd-threadripper-3990x-in-windows-10-2/)
+## The parallel workers are launched as:
+## "\%COMSPEC\%" /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE ...
+## ...
+## "\%COMSPEC\%" /c start /B /NODE 1 /AFFINITY 0xFFFFFFFFFFFFFFFE ...
 
 ## Temporarily disable CPU load protection for this example
 oopts <- options(parallelly.maxWorkers.localhost = Inf)
@@ -627,6 +649,10 @@ options(oopts)
 ## ---------------------------------------------------------------
 ## EXAMPLE: Three remote workers
 ## Setup of three R workers on two remote machines are set up
+## The parallel workers are launched as:
+## '/usr/bin/ssh' -R 11058:localhost:11058 n1.remote.org ...
+## '/usr/bin/ssh' -R 11059:localhost:11058 n2.remote.org ...
+## '/usr/bin/ssh' -R 11060:localhost:11058 n1.remote.org ...
 workers <- c("n1.remote.org", "n2.remote.org", "n1.remote.org")
 cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
 
@@ -634,6 +660,9 @@ cl <- makeClusterPSOCK(workers, dryrun = TRUE, quiet = TRUE)
 ## EXAMPLE: Two remote workers running on MS Windows.  Because the
 ## remote workers are MS Windows machines, we need to use
 ## rscript_sh = "cmd".
+## The parallel workers are launched as:
+## '/usr/bin/ssh' -R 11912:localhost:11912 mswin1.remote.org ...
+## '/usr/bin/ssh' -R 11913:localhost:11912 mswin2.remote.org ...
 workers <- c("mswin1.remote.org", "mswin2.remote.org")
 cl <- makeClusterPSOCK(workers, rscript_sh = "cmd", dryrun = TRUE, quiet = TRUE)
 
@@ -650,6 +679,10 @@ cl <- makeClusterPSOCK(
 
 ## EXAMPLE: Three remote workers 'n1', 'n2', and 'n3' that can only be
 ## accessed via jumphost 'login.remote.org'
+## The parallel workers are launched as:
+## '/usr/bin/ssh' -R 11226:localhost:11226 -J login.remote.org n1 ...
+## '/usr/bin/ssh' -R 11227:localhost:11226 -J login.remote.org n2 ...
+## '/usr/bin/ssh' -R 11228:localhost:11226 -J login.remote.org n1 ...
 workers <- c("n1", "n2", "n1")
 cl <- makeClusterPSOCK(
   workers,
@@ -665,6 +698,8 @@ cl <- makeClusterPSOCK(
 ## Using the explicit special rshcmd = "<putty-plink>", will force
 ## makeClusterPSOCK() to search for and use the PuTTY plink software,
 ## preventing it from using other SSH clients on the system search PATH.
+## The parallel worker is launched as:
+## 'plink' -l bob -P 2200 -i C:/Users/bobby/.ssh/putty.ppk remote.server.org ...
 cl <- makeClusterPSOCK(
   "remote.server.org", user = "bob",
   rshcmd = "<putty-plink>",
@@ -676,6 +711,9 @@ cl <- makeClusterPSOCK(
 ## EXAMPLE: Remote workers with specific setup
 ## Setup of remote worker with more detailed control on
 ## authentication and reverse SSH tunneling
+## The parallel worker is launched as:
+## '/usr/bin/ssh' -l johnny -v -R 11000:gateway:11942 remote.server.org ...
+## "R_DEFAULT_PACKAGES=... 'nice' '/path/to/Rscript' --no-init-file ...
 cl <- makeClusterPSOCK(
   "remote.server.org", user = "johnny",
   ## Manual configuration of reverse SSH tunneling
@@ -695,6 +733,8 @@ cl <- makeClusterPSOCK(
 ## Using the explicit special rshcmd = "<rstudio-ssh>", will force
 ## makeClusterPSOCK() to use the SSH client that comes with RStudio,
 ## preventing it from using other SSH clients on the system search PATH.
+## The parallel worker is launched as:
+## 'ssh' -l bob remote.server.org:2200 ...
 cl <- makeClusterPSOCK(
   "remote.server.org:2200", user = "bob", rshcmd = "<rstudio-ssh>",
   dryrun = TRUE, quiet = TRUE
@@ -725,6 +765,12 @@ cl <- makeClusterPSOCK(
 ## This example shows how to use the SGE command 'qrsh' to launch
 ## 18 parallel workers from R, which is assumed to have been launched
 ## by 'script.sh'.
+##
+## The parallel workers are launched as:
+## 'qrsh' -inherit -nostdin -V comphost01 ...
+## 'qrsh' -inherit -nostdin -V comphost01 ...
+## ...
+## 'qrsh' -inherit -nostdin -V comphost06 ...
 cl <- makeClusterPSOCK(
   availableWorkers(),
   rshcmd = "qrsh", rshopts = c("-inherit", "-nostdin", "-V"),
@@ -743,6 +789,12 @@ cl <- makeClusterPSOCK(
 ## availableWorkers() to return 3 * 18 workers. When the HPC environment
 ## does not support SSH between compute nodes, one can use the 'pjrsh'
 ## command to launch the parallel workers.
+##
+## The parallel workers are launched as:
+## 'pjrsh' comphost01 ...
+## 'pjrsh' comphost01 ...
+## ...
+## 'pjrsh' comphost06 ...
 cl <- makeClusterPSOCK(
   availableWorkers(),
   rshcmd = "pjrsh",
@@ -758,6 +810,11 @@ cl <- makeClusterPSOCK(
 ## Launching worker on Amazon AWS EC2 running one of the
 ## Amazon Machine Images (AMI) provided by RStudio
 ## (https://www.louisaslett.com/RStudio_AMI/)
+##
+## The parallel worker is launched as:
+## '/usr/bin/ssh' -R 11153:localhost:11153 -l ubuntu ...
+## -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ...
+## -i ~/.ssh/my-private-aws-key.pem 1.2.3.4 ...
 public_ip <- "1.2.3.4"
 ssh_private_key_file <- "~/.ssh/my-private-aws-key.pem"
 cl <- makeClusterPSOCK(
@@ -816,6 +873,10 @@ cl <- makeClusterPSOCK(
 ## ---------------------------------------------------------------
 ## EXAMPLE: Two workers running in Docker on the local machine
 ## Setup of 2 Docker workers running rocker/r-parallel
+##
+## The parallel workers are launched as:
+## R_DEFAULT_PACKAGES=... '/usr/bin/docker' 'run' '--net=host' 'rocker/r-parallel' ...
+## R_DEFAULT_PACKAGES=... '/usr/bin/docker' 'run' '--net=host' 'rocker/r-parallel' ...
 cl <- makeClusterPSOCK(
   rep("localhost", times = 2L),
   ## Launch Rscript inside Docker container
@@ -835,6 +896,10 @@ cl <- makeClusterPSOCK(
 
 ## EXAMPLE: Two workers running via Linux container 'rocker/r-parallel' from
 ## DockerHub on the local machine using Apptainer (formerly Singularity)
+##
+## The parallel workers are launched as:
+## R_DEFAULT_PACKAGES=... '/usr/bin/apptainer' 'exec' 'docker://rocker/r-parallel' ...
+## R_DEFAULT_PACKAGES=... '/usr/bin/apptainer' 'exec' 'docker://rocker/r-parallel' ...
 cl <- makeClusterPSOCK(
   rep("localhost", times = 2L),
   ## Launch Rscript inside Linux container
@@ -848,6 +913,9 @@ cl <- makeClusterPSOCK(
 
 ## EXAMPLE: One worker running in udocker on the local machine
 ## Setup of a single udocker.py worker running rocker/r-parallel
+##
+## The parallel worker is launched as:
+## R_DEFAULT_PACKAGES=... 'udocker.py' 'run' 'rocker/r-parallel' ...
 cl <- makeClusterPSOCK(
   "localhost",
   ## Launch Rscript inside Docker container (using udocker)
@@ -867,12 +935,15 @@ cl <- makeClusterPSOCK(
 ## EXAMPLE: One worker running in Wine for Linux on the local machine
 ## To install R for MS Windows in Wine, do something like:
 ##   winecfg  # In GUI, set 'Windows version' to 'Windows 10'
-##   wget https://cran.r-project.org/bin/windows/base/R-4.2.3-win.exe
-##   wine R-4.2.3-win.exe /SILENT
+##   wget https://cran.r-project.org/bin/windows/base/R-4.4.1-win.exe
+##   wine R-4.4.1-win.exe /SILENT
 ## Prevent packages from being installed to R's system library:
-##   chmod ugo-w "$HOME/.wine/drive_c/Program Files/R/R-4.2.3/library/"
+##   chmod ugo-w "$HOME/.wine/drive_c/Program Files/R/R-4.4.1/library/"
 ## Verify it works:
-##   wine "C:/Program Files/R/R-4.2.3/bin/x64/Rscript.exe" --version
+##   wine "C:/Program Files/R/R-4.4.1/bin/x64/Rscript.exe" --version
+##
+## The parallel worker is launched as:
+## R_DEFAULT_PACKAGES=... WINEDEBUG=fixme-all R_LIBS_SITE= R_LIBS_USER= 'wine' ...
 cl <- makeClusterPSOCK(1L,
   rscript = c(
     ## Silence Wine warnings
@@ -880,7 +951,7 @@ cl <- makeClusterPSOCK(1L,
     ## Don't pass LC_* and R_LIBS* environments from host to Wine
     sprintf("\%s=", grep("^(LC_|R_LIBS)", names(Sys.getenv()), value = TRUE)),
     "wine",
-    "C:/Program Files/R/R-4.2.3/bin/x64/Rscript.exe"
+    "C:/Program Files/R/R-4.4.1/bin/x64/Rscript.exe"
   ),
   dryrun = TRUE, quiet = TRUE
 )

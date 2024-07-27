@@ -21,6 +21,15 @@
 #' @return An object of class `c("RichMPIcluster", "MPIcluster", "cluster")` consisting
 #' of a list of `"MPInode"` workers.
 #'
+#' @section Alternative usage:
+#'
+#' In R (>= 4.4.0), an alternatively to using
+#' `cl <- parallelly::makeClusterMPI(workers)` is:
+#'
+#' ```
+#' cl <- parallel::makeCluster(workers, type = parallelly::MPI)
+#' ```
+#'
 #' @examples
 #' \donttest{\dontrun{
 #' if (requireNamespace("Rmpi") && requireNamespace("snow")) {
@@ -38,6 +47,7 @@
 #' @seealso
 #' [makeClusterPSOCK()] and [parallel::makeCluster()].
 #'
+#' @aliases MPI
 #' @importFrom parallel makeCluster
 #' @export
 makeClusterMPI <- function(workers, ..., autoStop = FALSE, verbose = getOption2("parallelly.debug", FALSE)) {

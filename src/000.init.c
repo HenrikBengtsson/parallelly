@@ -6,6 +6,7 @@
 
 static R_CallMethodDef callMethods[]  = {
   CALLDEF(R_test_tcp_port, 1),
+  CALLDEF(R_calc_serialized_size, 1),
   {NULL, NULL, 0}
 };
 

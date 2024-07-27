@@ -113,10 +113,10 @@
 #' All of the above \R `parallelly.*` options can be set by
 #' corresponding environment variables \env{R_PARALLELLY_*} _when the
 #' \pkg{parallelly} package is loaded_.
-#' For example, if `R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY = "sequential"`,
+#' For example, if `R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY="sequential"`,
 #' then option `parallelly.makeNodePSOCK.setup_strategy` is set to
 #' `"sequential"` (character).
-#' Similarly, if `R_PARALLELLY_AVAILABLECORES_FALLBACK = "1"`, then option
+#' Similarly, if `R_PARALLELLY_AVAILABLECORES_FALLBACK="1"`, then option
 #' `parallelly.availableCores.fallback` is set to `1` (integer).
 #'
 #'
@@ -140,6 +140,7 @@
 #' parallelly.availableWorkers.methods
 #' parallelly.availableWorkers.custom
 #' parallelly.fork.enable
+#' parallelly.maxWorkers.localhost
 #' parallelly.supportsMulticore.disableOn
 #' parallelly.supportsMulticore.unstable
 #' R_PARALLELLY_AVAILABLECORES_FALLBACK
@@ -310,7 +311,7 @@ update_package_options <- function(debug = FALSE) {
 
   update_package_option("availableWorkers.methods", mode = "character", split = ",", debug = debug)
 
-  update_package_option("maxWorkers.localhost", mode = "integer", split = ",", debug = debug)
+  update_package_option("maxWorkers.localhost", mode = "double", split = ",", debug = debug)
   update_package_option("maxWorkers.localhost.ignore", mode = "character", split = ",", debug = debug)
 
   update_package_option("fork.enable", mode = "logical", debug = debug)

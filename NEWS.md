@@ -1,3 +1,41 @@
+# Version 1.38.0 [2024-07-27]
+
+## New Features
+
+ * Now argument `rshcmd` of `makeNodePSOCK()` can be a function. It
+   must accept at least two arguments named `rshopts` and
+   `worker`. The `rshopts` argument is a character vector of length
+   zero or more. The `worker` argument is a string hostname. The
+   function must return a single string.
+
+ * Now `makeNodePSOCK()` accepts `rscript_sh = "none"`, which skips
+   quoting the Rscript call.
+   
+ * Now `makeNodePSOCK()` accepts `rscript_sh` of length one or two.
+   If `length(rscript_sh) == 2`, then `rscript_sh[1]` is for the inner
+   and `rscript_sh[2]` is for the outer shell quoting of the Rscript
+   call.  More precisely, `rscript_sh[1]` is for Rscript arguments
+   that need shell quoting (e.g. `Rscript -e "<expr>"`), and
+   `rscript_sh[2]` is for the whole `Rscript ...` call.}
+
+ * Add `makeClusterSequential()` available for R (>= 4.4.0).
+
+ * Starting with R 4.5.0 (currently R-devel), one can use
+   `parallel::makeCluster(n, type = parallelly::PSOCK)` as an
+   alternative to `parallelly::makeClusterPSOCK(n)`.  Similarly, `type
+   = parallelly::MPI` creates a cluster using
+   `parallelly::makeClusterMPI()`, and `type = parallelly::SEQ`
+   creates a cluster using `parallelly::makeClusterSequential()`.
+
+ * Add `serializedSize()` for calculating the size of an object by
+   counting the number of bytes required to serialize it.
+ 
+## Bug Fixes
+
+ * Environment variable `R_PARALLELLY_MAXWORKERS_LOCALHOST` was
+   interpreted as integers rather than doubles.
+
+
 # Version 1.37.1 [2024-02-29]
 
 ## Bug Fixes

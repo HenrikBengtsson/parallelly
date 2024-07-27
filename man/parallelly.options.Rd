@@ -12,6 +12,7 @@
 \alias{parallelly.availableWorkers.methods}
 \alias{parallelly.availableWorkers.custom}
 \alias{parallelly.fork.enable}
+\alias{parallelly.maxWorkers.localhost}
 \alias{parallelly.supportsMulticore.disableOn}
 \alias{parallelly.supportsMulticore.unstable}
 \alias{R_PARALLELLY_AVAILABLECORES_FALLBACK}
@@ -173,10 +174,10 @@ The below \R options and environment variables control the default results of \c
 All of the above \R \verb{parallelly.*} options can be set by
 corresponding environment variables \env{R_PARALLELLY_*} \emph{when the
 \pkg{parallelly} package is loaded}.
-For example, if \code{R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY = "sequential"},
+For example, if \code{R_PARALLELLY_MAKENODEPSOCK_SETUP_STRATEGY="sequential"},
 then option \code{parallelly.makeNodePSOCK.setup_strategy} is set to
 \code{"sequential"} (character).
-Similarly, if \code{R_PARALLELLY_AVAILABLECORES_FALLBACK = "1"}, then option
+Similarly, if \code{R_PARALLELLY_AVAILABLECORES_FALLBACK="1"}, then option
 \code{parallelly.availableCores.fallback} is set to \code{1} (integer).
 }
 
