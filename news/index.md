@@ -2,7 +2,12 @@
 
 ## Version (development version)
 
-- …
+### Deprecated and Defunct
+
+- Calling `future::availableCores()`, `future::availableWorkers()`,
+  `future::makeClusterPSOCK()`, and `future::supportsMulticore()` now
+  produces a deprecation warning alerting the user to use the
+  corresponding and identical `parallelly::*()` functions instead.
 
 ## Version 1.48.0
 
@@ -1491,8 +1496,7 @@ CRAN release: 2020-10-20
 - Not all CRAN servers have `_R_CHECK_LIMIT_CORES_` set. To better
   emulate CRAN submission checks, the **future** package will, when
   loaded, set this environment variable to TRUE if unset and if
-  `R CMD check` is running. Note that
-  [`future::availableCores()`](https://parallelly.futureverse.org/reference/availableCores.html)
+  `R CMD check` is running. Note that `future::availableCores()`
   respects `_R_CHECK_LIMIT_CORES_` and returns at most `2L` (two cores)
   if detected.
 

@@ -270,6 +270,15 @@ option `parallelly.availableCores.fallback=1`, and setting environment
 variable `R_FUTURE_AVAILABLECORES_FALLBACK=1` is the same as setting
 `R_PARALLELLY_AVAILABLECORES_FALLBACK=1`.
 
+- `parallelly.future.reexports`::
+
+  (character string) Controls whether a deprecation warning should be
+  produced when `future::availableCores()`,
+  `future::availableWorkers()`, `future::makeClusterPSOCK()`, or
+  `future::supportsMulticore()` are called. If `"deprecated"` (default),
+  a warning is produced. If `"defunct"`, an error is produced. If
+  `"ignore"`, no warning or error is produced.
+
 ## See also
 
 To set R options when R starts (even before the parallelly package is

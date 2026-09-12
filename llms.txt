@@ -336,6 +336,8 @@ installed.
   [`parallelly.maxWorkers.localhost.ignore`](https://parallelly.futureverse.org/reference/zzz-parallelly.options.md)
   [`parallelly.supportsMulticore.disableOn`](https://parallelly.futureverse.org/reference/zzz-parallelly.options.md)
   [`parallelly.supportsMulticore.unstable`](https://parallelly.futureverse.org/reference/zzz-parallelly.options.md)
+  [`parallelly.future.reexports`](https://parallelly.futureverse.org/reference/zzz-parallelly.options.md)
+  [`R_PARALLELLY_FUTURE_REEXPORTS`](https://parallelly.futureverse.org/reference/zzz-parallelly.options.md)
   [`R_PARALLELLY_AVAILABLECORES_FALLBACK`](https://parallelly.futureverse.org/reference/zzz-parallelly.options.md)
   [`R_PARALLELLY_AVAILABLECORES_FRACTION`](https://parallelly.futureverse.org/reference/zzz-parallelly.options.md)
   [`R_PARALLELLY_AVAILABLECORES_LOGICAL`](https://parallelly.futureverse.org/reference/zzz-parallelly.options.md)
