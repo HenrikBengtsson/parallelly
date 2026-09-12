@@ -145,6 +145,7 @@
 #' @importFrom parallel stopCluster
 #' @export
 makeClusterPSOCK <- function(workers, makeNode = makeNodePSOCK, port = c("auto", "random"), user = NULL, ..., autoStop = FALSE, tries = getOption2("parallelly.makeNodePSOCK.tries", 3L), delay = getOption2("parallelly.makeNodePSOCK.tries.delay", 15.0), validate = getOption2("parallelly.makeNodePSOCK.validate", TRUE), verbose = isTRUE(getOption("parallelly.debug"))) {
+  warn_future_reexport_deprecation("makeClusterPSOCK")
   if (verbose) {
     verbose_prefix <- "[local output] "
     oopts <- options(parallelly.debug = verbose)

@@ -1,6 +1,11 @@
 # Version (development version)
 
- * ...
+## Deprecated and Defunct
+
+ * Calling `future::availableCores()`, `future::availableWorkers()`,
+   `future::makeClusterPSOCK()`, and `future::supportsMulticore()` now
+   produces a deprecation warning alerting the user to use the
+   corresponding and identical `parallelly::*()` functions instead.
 
 
 # Version 1.48.0 [2026-06-29]

@@ -22,6 +22,8 @@
 \alias{parallelly.maxWorkers.localhost.ignore}
 \alias{parallelly.supportsMulticore.disableOn}
 \alias{parallelly.supportsMulticore.unstable}
+\alias{parallelly.future.reexports}
+\alias{R_PARALLELLY_FUTURE_REEXPORTS}
 \alias{R_PARALLELLY_AVAILABLECORES_FALLBACK}
 \alias{R_PARALLELLY_AVAILABLECORES_FRACTION}
 \alias{R_PARALLELLY_AVAILABLECORES_LOGICAL}
@@ -219,6 +221,10 @@ by options and environment variables with prefixes \code{future.} and
 \code{parallelly.availableCores.fallback=1}, and setting environment
 variable \env{R_FUTURE_AVAILABLECORES_FALLBACK=1} is the same as setting
 \env{R_PARALLELLY_AVAILABLECORES_FALLBACK=1}.
+
+\describe{
+\item{\code{parallelly.future.reexports}:}{(character string) Controls whether a deprecation warning should be produced when \code{future::availableCores()}, \code{future::availableWorkers()}, \code{future::makeClusterPSOCK()}, or \code{future::supportsMulticore()} are called. If \code{"deprecated"} (default), a warning is produced. If \code{"defunct"}, an error is produced. If \code{"ignore"}, no warning or error is produced.}
+}
 }
 
 \examples{

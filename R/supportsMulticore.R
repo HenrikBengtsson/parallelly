@@ -67,6 +67,7 @@ supportsMulticore <- local({
   supportedByOS <- NA
   
   function(...) {
+    warn_future_reexport_deprecation("supportsMulticore")
     if (is.na(supportedByOS)) {
       ns <- getNamespace("parallel")
       supportedByOS <<- exists("mcparallel", mode = "function", envir = ns,

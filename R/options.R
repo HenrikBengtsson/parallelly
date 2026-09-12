@@ -138,6 +138,10 @@
 #' variable \env{R_FUTURE_AVAILABLECORES_FALLBACK=1} is the same as setting
 #' \env{R_PARALLELLY_AVAILABLECORES_FALLBACK=1}.
 #'
+#' \describe{
+#'  \item{`parallelly.future.reexports`:}{(character string) Controls whether a deprecation warning should be produced when `future::availableCores()`, `future::availableWorkers()`, `future::makeClusterPSOCK()`, or `future::supportsMulticore()` are called. If `"deprecated"` (default), a warning is produced. If `"defunct"`, an error is produced. If `"ignore"`, no warning or error is produced.}
+#' }
+#'
 #'
 #' @examples
 #' # Set an R option:
@@ -167,6 +171,8 @@
 #' @aliases parallelly.maxWorkers.localhost.ignore
 #' @aliases parallelly.supportsMulticore.disableOn
 #' @aliases parallelly.supportsMulticore.unstable
+#' @aliases parallelly.future.reexports
+#' @aliases R_PARALLELLY_FUTURE_REEXPORTS
 #' @aliases R_PARALLELLY_AVAILABLECORES_FALLBACK
 #' @aliases R_PARALLELLY_AVAILABLECORES_FRACTION
 #' @aliases R_PARALLELLY_AVAILABLECORES_LOGICAL
@@ -385,4 +391,11 @@ update_package_options <- function(debug = FALSE) {
   update_package_option("makeNodePSOCK.master.localhost.hostname", mode = "character", debug = debug)
   update_package_option("makeNodePSOCK.port.increment", mode = "logical", debug = debug)
   update_package_option("makeNodePSOCK.calls", mode = "logical", debug = debug)
+
+  ## parallelly (>= 1.49.0)
+  update_package_option("future.reexports", mode = "character", debug = debug)
+  update_package_option("future.reexports.availableCores", mode = "character", debug = debug)
+  update_package_option("future.reexports.availableWorkers", mode = "character", debug = debug)  
+  update_package_option("future.reexports.makeClusterPSOCK", mode = "character", debug = debug)  
+  update_package_option("future.reexports.supportsMulticore", mode = "character", debug = debug)  
 }
